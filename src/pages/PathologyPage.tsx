@@ -1,5 +1,5 @@
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { Download, Clock, Users, AlertTriangle, Printer, ChevronRight, Calendar, Target, Utensils, BookOpen, Flame } from 'lucide-react';
+import { Download, Clock, Users, AlertTriangle, Printer, ChevronRight, Calendar, Target, Utensils, BookOpen, Flame, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
@@ -24,12 +24,13 @@ const PathologyPage = () => {
     window.print();
   };
 
+  const selectedDailyPlan = pathology.dailyPlans?.find(p => p.level === selectedLevel) || pathology.dailyPlans?.[0];
   const selectedSevenDayPlan = pathology.sevenDayPlans?.find(p => p.level === selectedLevel);
   const selectedEightWeekProgram = pathology.eightWeekPrograms?.find(p => p.level === selectedLevel);
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-6 lg:py-8 print:py-2">
+      <div className="container mx-auto px-4 py-6 lg:py-8 print:py-2 print:px-2">
         <div className="no-print">
           <Breadcrumb
             items={[
@@ -59,47 +60,51 @@ const PathologyPage = () => {
             </span>
           </div>
 
-          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 print:text-2xl">
+          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 print:text-2xl print:mb-2">
             {pathology.name}
           </h1>
           
-          <p className="text-lg text-muted-foreground max-w-3xl print:text-base">
+          <p className="text-lg text-muted-foreground max-w-3xl print:text-sm">
             {pathology.shortDescription}
           </p>
 
           <div className="flex flex-wrap gap-3 mt-6 no-print">
-            <Button onClick={handleDownloadPDF} variant="pdf" size="lg">
-              <Download className="w-5 h-5" />
-              Télécharger le PDF
-            </Button>
-            <Button onClick={handlePrint} variant="outline" size="lg">
+            <Button onClick={handlePrint} variant="pdf" size="lg">
               <Printer className="w-5 h-5" />
-              Imprimer
+              Imprimer cette fiche
+            </Button>
+            <Button onClick={handleDownloadPDF} variant="outline" size="lg">
+              <Download className="w-5 h-5" />
+              Télécharger PDF
             </Button>
           </div>
         </header>
 
-        {/* Print header */}
-        <div className="hidden print:block mb-4 pb-4 border-b">
-          <p className="text-sm text-gray-600">
-            Dr Audric Bugnard — Médecin thermaliste — Aix-les-Bains | Mise à jour : {pathology.lastUpdated}
-          </p>
+        {/* Print header - Version compacte 1 page */}
+        <div className="hidden print:block mb-4 pb-2 border-b-2 border-primary">
+          <div className="flex justify-between items-start">
+            <div>
+              <h1 className="text-xl font-bold text-primary">{pathology.name}</h1>
+              <p className="text-xs text-muted-foreground">Dr Audric Bugnard — Médecin thermaliste — Aix-les-Bains</p>
+            </div>
+            <p className="text-xs text-muted-foreground text-right">Mise à jour : {pathology.lastUpdated}</p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 print:block">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 print:block print:space-y-4">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-10 print:space-y-6">
+          <div className="lg:col-span-2 space-y-10 print:space-y-4">
             
             {/* Section 1: En 2 minutes */}
             <section className="print:break-inside-avoid">
-              <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3 print:text-xl">
-                <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-lg print:w-8 print:h-8">
+              <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3 print:text-lg print:mb-2">
+                <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-lg print:w-6 print:h-6 print:text-sm">
                   ⏱️
                 </span>
                 En 2 minutes
               </h2>
-              <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 print:p-4 print:bg-gray-50">
-                <p className="text-foreground leading-relaxed print:text-sm">
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 print:p-3 print:bg-gray-50">
+                <p className="text-foreground leading-relaxed whitespace-pre-line print:text-xs print:leading-tight">
                   {pathology.quickSummary}
                 </p>
               </div>
@@ -107,36 +112,36 @@ const PathologyPage = () => {
 
             {/* Section 2: Physiopathologie */}
             <section className="print:break-inside-avoid">
-              <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3 print:text-xl">
-                <span className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary text-lg print:w-8 print:h-8">
+              <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3 print:text-lg print:mb-2">
+                <span className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary text-lg print:w-6 print:h-6 print:text-sm">
                   🔬
                 </span>
-                Ce qui se passe dans le corps
+                Ce qui se passe dans votre corps
               </h2>
-              <p className="text-foreground leading-relaxed print:text-sm">
+              <p className="text-foreground leading-relaxed whitespace-pre-line print:text-xs print:leading-tight">
                 {pathology.physiopathology}
               </p>
             </section>
 
             {/* Section 3: Top 5 non médicamenteux */}
             <section className="print:break-inside-avoid">
-              <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3 print:text-xl print:mb-4">
-                <span className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary text-lg print:w-8 print:h-8">
+              <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3 print:text-lg print:mb-2">
+                <span className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary text-lg print:w-6 print:h-6 print:text-sm">
                   ✨
                 </span>
                 Ce qui aide vraiment (Top 5)
               </h2>
-              <div className="space-y-4 print:space-y-2">
+              <div className="space-y-4 print:space-y-1 print:grid print:grid-cols-1 print:gap-1">
                 {pathology.top5NonMedical?.map((item, index) => (
-                  <div key={index} className="flex items-start gap-4 bg-card border border-border rounded-xl p-5 print:p-3 print:bg-white">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-2xl shrink-0 print:w-8 print:h-8 print:text-lg">
+                  <div key={index} className="flex items-start gap-4 bg-card border border-border rounded-xl p-5 print:p-2 print:bg-white print:border-none print:shadow-none">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-2xl shrink-0 print:w-6 print:h-6 print:text-sm print:rounded">
                       {item.icon}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1 print:text-sm">
+                      <h3 className="font-semibold text-foreground mb-1 print:text-xs print:mb-0 print:font-bold">
                         {index + 1}. {item.title}
                       </h3>
-                      <p className="text-muted-foreground text-sm print:text-xs">
+                      <p className="text-muted-foreground text-sm print:text-xs print:leading-tight">
                         {item.description}
                       </p>
                     </div>
@@ -148,7 +153,7 @@ const PathologyPage = () => {
             {/* Level Selector */}
             <section className="no-print bg-muted/50 rounded-xl p-6 border border-border">
               <h3 className="font-serif text-lg font-bold text-foreground mb-4">
-                Choisissez votre niveau de mobilité
+                Choisissez votre niveau
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                 {([0, 1, 2, 3] as MobilityLevel[]).map((level) => (
@@ -161,7 +166,7 @@ const PathologyPage = () => {
                         : 'bg-background border border-border hover:border-primary/50'
                     }`}
                   >
-                    Niveau {level}
+                    {level === 0 ? 'Très facile' : level === 1 ? 'Facile' : level === 2 ? 'Normal' : 'Actif'}
                   </button>
                 ))}
               </div>
@@ -170,25 +175,55 @@ const PathologyPage = () => {
               </p>
             </section>
 
-            {/* Section 4: Plan 7 jours */}
+            {/* Section 4: Plan du jour (NOUVEAU) */}
+            {selectedDailyPlan && (
+              <section className="print:break-inside-avoid">
+                <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3 print:text-lg print:mb-2">
+                  <span className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center text-accent text-lg print:w-6 print:h-6 print:text-sm">
+                    📋
+                  </span>
+                  Plan du jour — {selectedDailyPlan.levelName}
+                </h2>
+                <div className="bg-accent/5 border-2 border-accent/30 rounded-xl p-6 print:p-3">
+                  <p className="text-sm text-muted-foreground mb-4 print:text-xs print:mb-2">
+                    Aujourd'hui, faites ces 3 choses :
+                  </p>
+                  <ul className="space-y-3 print:space-y-1">
+                    {selectedDailyPlan.actions.map((action, index) => (
+                      <li key={index} className="flex items-start gap-3 print:gap-2">
+                        <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-sm shrink-0 print:w-4 print:h-4 print:text-xs">
+                          {index + 1}
+                        </div>
+                        <span className="text-foreground print:text-xs">{action}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-4 text-sm text-muted-foreground italic print:text-xs print:mt-2">
+                    Si vous avez un doute, on en parle en consultation.
+                  </p>
+                </div>
+              </section>
+            )}
+
+            {/* Section 5: Plan 7 jours */}
             {selectedSevenDayPlan && (
-              <section className="print:break-before-page">
-                <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3 print:text-xl print:mb-4">
-                  <span className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center text-accent text-lg print:w-8 print:h-8">
+              <section className="no-print">
+                <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                  <span className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center text-accent text-lg">
                     <Calendar className="w-5 h-5" />
                   </span>
                   Plan 7 jours — {selectedSevenDayPlan.levelName}
                 </h2>
-                <div className="space-y-3 print:space-y-2">
+                <div className="space-y-3">
                   {selectedSevenDayPlan.days.map((day, index) => (
-                    <div key={index} className="bg-card border border-border rounded-xl p-4 print:p-3 print:bg-white">
-                      <h4 className="font-semibold text-foreground mb-2 print:text-sm">
+                    <div key={index} className="bg-card border border-border rounded-xl p-4">
+                      <h4 className="font-semibold text-foreground mb-2">
                         {day.day}
                       </h4>
                       <ul className="space-y-1">
                         {day.actions.map((action, actionIndex) => (
-                          <li key={actionIndex} className="flex items-start gap-2 text-sm text-muted-foreground print:text-xs">
-                            <ChevronRight className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                          <li key={actionIndex} className="flex items-start gap-2 text-sm text-muted-foreground">
+                            <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                             {action}
                           </li>
                         ))}
@@ -199,32 +234,32 @@ const PathologyPage = () => {
               </section>
             )}
 
-            {/* Section 5: Programme 8 semaines */}
+            {/* Section 6: Programme 8 semaines */}
             {selectedEightWeekProgram && (
-              <section className="print:break-before-page">
-                <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3 print:text-xl print:mb-4">
-                  <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-lg print:w-8 print:h-8">
+              <section className="no-print">
+                <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                  <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-lg">
                     <Target className="w-5 h-5" />
                   </span>
                   Programme 8 semaines — {selectedEightWeekProgram.levelName}
                 </h2>
-                <div className="space-y-4 print:space-y-2">
+                <div className="space-y-4">
                   {selectedEightWeekProgram.weeks.map((week, index) => (
-                    <div key={index} className="bg-card border border-border rounded-xl p-5 print:p-3 print:bg-white">
+                    <div key={index} className="bg-card border border-border rounded-xl p-5">
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-sm print:w-6 print:h-6">
+                        <span className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-sm">
                           {index + 1}
                         </span>
-                        <h4 className="font-semibold text-foreground print:text-sm">
+                        <h4 className="font-semibold text-foreground">
                           {week.week}
                         </h4>
                       </div>
-                      <p className="text-sm text-primary font-medium mb-2 print:text-xs">
+                      <p className="text-sm text-primary font-medium mb-2">
                         Focus : {week.focus}
                       </p>
                       <ul className="space-y-1">
                         {week.exercises.map((exercise, exIndex) => (
-                          <li key={exIndex} className="flex items-start gap-2 text-sm text-muted-foreground print:text-xs">
+                          <li key={exIndex} className="flex items-start gap-2 text-sm text-muted-foreground">
                             <span className="text-secondary">•</span>
                             {exercise}
                           </li>
@@ -236,23 +271,23 @@ const PathologyPage = () => {
               </section>
             )}
 
-            {/* Section 6: Nutrition */}
+            {/* Section 7: Nutrition - Version compacte print */}
             <section className="print:break-inside-avoid">
-              <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3 print:text-xl print:mb-4">
-                <span className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary text-lg print:w-8 print:h-8">
-                  <Utensils className="w-5 h-5" />
+              <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3 print:text-lg print:mb-2">
+                <span className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary text-lg print:w-6 print:h-6 print:text-sm">
+                  <Utensils className="w-5 h-5 print:w-3 print:h-3" />
                 </span>
                 Nutrition facile
               </h2>
               
-              <div className="space-y-4 print:space-y-3">
-                <div className="bg-secondary/5 border border-secondary/20 rounded-xl p-5 print:p-3">
-                  <h4 className="font-semibold text-foreground mb-3 print:text-sm">
+              <div className="space-y-4 print:space-y-2 print:grid print:grid-cols-2 print:gap-2">
+                <div className="bg-secondary/5 border border-secondary/20 rounded-xl p-5 print:p-2">
+                  <h4 className="font-semibold text-foreground mb-3 print:text-xs print:mb-1">
                     🍽️ L'assiette idéale
                   </h4>
-                  <ul className="space-y-2 print:space-y-1">
+                  <ul className="space-y-2 print:space-y-0">
                     {pathology.nutrition?.idealPlate.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm text-foreground print:text-xs">
+                      <li key={index} className="flex items-start gap-2 text-sm text-foreground print:text-xs print:leading-tight">
                         <span className="text-secondary">✓</span>
                         {item}
                       </li>
@@ -260,56 +295,40 @@ const PathologyPage = () => {
                   </ul>
                 </div>
 
-                <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-5 print:p-3">
-                  <h4 className="font-semibold text-foreground mb-3 print:text-sm">
-                    ❌ Erreurs courantes
+                <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-5 print:p-2">
+                  <h4 className="font-semibold text-foreground mb-3 print:text-xs print:mb-1">
+                    ❌ Erreurs fréquentes
                   </h4>
-                  <ul className="space-y-2 print:space-y-1">
+                  <ul className="space-y-2 print:space-y-0">
                     {pathology.nutrition?.commonMistakes.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm text-foreground print:text-xs">
+                      <li key={index} className="flex items-start gap-2 text-sm text-foreground print:text-xs print:leading-tight">
                         <span className="text-destructive">✗</span>
                         {item}
                       </li>
                     ))}
                   </ul>
                 </div>
-
-                {pathology.nutrition?.tips && pathology.nutrition.tips.length > 0 && (
-                  <div className="bg-muted/50 rounded-xl p-5 print:p-3">
-                    <h4 className="font-semibold text-foreground mb-3 print:text-sm">
-                      💡 Astuces
-                    </h4>
-                    <ul className="space-y-2 print:space-y-1">
-                      {pathology.nutrition.tips.map((tip, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm text-foreground print:text-xs">
-                          <span className="text-primary">→</span>
-                          {tip}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
               </div>
             </section>
 
-            {/* Section 7: Plan poussée 48h */}
+            {/* Section 8: Plan poussée 48h */}
             {pathology.flareProtocol && (
               <section className="print:break-inside-avoid">
-                <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3 print:text-xl print:mb-4">
-                  <span className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center text-accent text-lg print:w-8 print:h-8">
-                    <Flame className="w-5 h-5" />
+                <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3 print:text-lg print:mb-2">
+                  <span className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center text-accent text-lg print:w-6 print:h-6 print:text-sm">
+                    <Flame className="w-5 h-5 print:w-3 print:h-3" />
                   </span>
                   {pathology.flareProtocol.title}
                 </h2>
                 
-                <div className="space-y-4 print:space-y-3">
-                  <div className="bg-accent/5 border border-accent/20 rounded-xl p-5 print:p-3">
-                    <h4 className="font-semibold text-foreground mb-3 print:text-sm">
+                <div className="space-y-4 print:space-y-2 print:grid print:grid-cols-2 print:gap-2">
+                  <div className="bg-accent/5 border border-accent/20 rounded-xl p-5 print:p-2">
+                    <h4 className="font-semibold text-foreground mb-3 print:text-xs print:mb-1">
                       🕐 0 à 24 heures
                     </h4>
-                    <ul className="space-y-2 print:space-y-1">
-                      {pathology.flareProtocol.hours0to24.map((item, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm text-foreground print:text-xs">
+                    <ul className="space-y-2 print:space-y-0">
+                      {pathology.flareProtocol.hours0to24.slice(0, 4).map((item, index) => (
+                        <li key={index} className="flex items-start gap-2 text-sm text-foreground print:text-xs print:leading-tight">
                           <span className="text-accent font-bold">{index + 1}.</span>
                           {item}
                         </li>
@@ -317,68 +336,68 @@ const PathologyPage = () => {
                     </ul>
                   </div>
 
-                  <div className="bg-secondary/5 border border-secondary/20 rounded-xl p-5 print:p-3">
-                    <h4 className="font-semibold text-foreground mb-3 print:text-sm">
+                  <div className="bg-secondary/5 border border-secondary/20 rounded-xl p-5 print:p-2">
+                    <h4 className="font-semibold text-foreground mb-3 print:text-xs print:mb-1">
                       🕐 24 à 48 heures
                     </h4>
-                    <ul className="space-y-2 print:space-y-1">
-                      {pathology.flareProtocol.hours24to48.map((item, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm text-foreground print:text-xs">
+                    <ul className="space-y-2 print:space-y-0">
+                      {pathology.flareProtocol.hours24to48.slice(0, 4).map((item, index) => (
+                        <li key={index} className="flex items-start gap-2 text-sm text-foreground print:text-xs print:leading-tight">
                           <span className="text-secondary font-bold">{index + 1}.</span>
                           {item}
                         </li>
                       ))}
                     </ul>
                   </div>
+                </div>
 
-                  <div className="bg-primary/5 border border-primary/20 rounded-xl p-5 print:p-3">
-                    <h4 className="font-semibold text-foreground mb-2 print:text-sm">
-                      ▶️ Reprise d'activité
-                    </h4>
-                    <p className="text-sm text-foreground print:text-xs">
-                      {pathology.flareProtocol.resumeActivity}
-                    </p>
-                  </div>
+                <div className="bg-primary/5 border border-primary/20 rounded-xl p-5 mt-4 print:p-2 print:mt-2">
+                  <h4 className="font-semibold text-foreground mb-2 print:text-xs print:mb-1">
+                    ▶️ Reprise d'activité
+                  </h4>
+                  <p className="text-sm text-foreground print:text-xs">
+                    {pathology.flareProtocol.resumeActivity}
+                  </p>
                 </div>
               </section>
             )}
 
-            {/* Section 8: Red flags */}
+            {/* Section 9: Red flags */}
             <section className="print:break-inside-avoid">
-              <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-6 lg:p-8 print:p-4">
-                <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3 print:text-xl print:mb-3">
-                  <AlertTriangle className="w-6 h-6 text-destructive" />
-                  Quand consulter rapidement
+              <div className="bg-destructive/5 border-2 border-destructive/30 rounded-xl p-6 lg:p-8 print:p-3">
+                <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3 print:text-lg print:mb-2">
+                  <AlertTriangle className="w-6 h-6 text-destructive print:w-4 print:h-4" />
+                  Quand consulter rapidement ?
                 </h2>
-                <p className="text-muted-foreground mb-4 print:text-sm print:mb-3">
-                  Consultez un médecin en urgence si vous présentez :
+                <p className="text-muted-foreground mb-4 print:text-xs print:mb-2">
+                  Consultez un médecin en urgence si :
                 </p>
-                <ul className="space-y-2 print:space-y-1">
+                <ul className="space-y-2 print:space-y-1 print:grid print:grid-cols-2 print:gap-x-4">
                   {pathology.alertSigns.map((sign, index) => (
-                    <li key={index} className="flex items-start gap-3 print:gap-2">
-                      <span className="text-destructive font-bold">!</span>
-                      <span className="text-foreground font-medium print:text-sm">{sign}</span>
+                    <li key={index} className="flex items-start gap-3 print:gap-1">
+                      <span className="text-destructive font-bold print:text-xs">⚠️</span>
+                      <span className="text-foreground font-medium print:text-xs">{sign}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             </section>
 
-            {/* Section 9: Sources */}
+            {/* Section 10: Sources */}
             <section className="print:break-inside-avoid">
-              <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3 print:text-xl print:mb-3">
-                <span className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground text-lg print:w-8 print:h-8">
-                  <BookOpen className="w-5 h-5" />
+              <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3 print:text-lg print:mb-2">
+                <span className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground text-lg print:w-6 print:h-6 print:text-sm">
+                  <BookOpen className="w-5 h-5 print:w-3 print:h-3" />
                 </span>
                 Sources & mise à jour
               </h2>
-              <div className="bg-muted/50 rounded-xl p-5 print:p-3">
-                <p className="text-sm text-muted-foreground mb-3 print:text-xs">
+              <div className="bg-muted/50 rounded-xl p-5 print:p-2">
+                <p className="text-sm text-muted-foreground mb-3 print:text-xs print:mb-1">
                   <strong>Dernière mise à jour :</strong> {pathology.lastUpdated}
                 </p>
-                <ul className="space-y-1">
+                <ul className="space-y-1 print:space-y-0">
                   {pathology.sources?.map((source, index) => (
-                    <li key={index} className="text-sm text-muted-foreground print:text-xs">
+                    <li key={index} className="text-sm text-muted-foreground print:text-xs print:inline print:mr-2">
                       • {source.name} ({source.year})
                     </li>
                   ))}
@@ -392,19 +411,19 @@ const PathologyPage = () => {
             {/* Download Card */}
             <div className="card-medical sticky top-24">
               <h3 className="font-serif text-lg font-bold text-foreground mb-4">
-                📄 Fiche PDF
+                📄 Fiche imprimable
               </h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Téléchargez la fiche complète avec tous les programmes et conseils. Format A4, imprimable.
+                Imprimez cette fiche pour l'avoir sous les yeux. Format optimisé pour tenir sur 1 page A4.
               </p>
               <div className="space-y-2">
-                <Button onClick={handleDownloadPDF} variant="pdf" className="w-full">
-                  <Download className="w-4 h-4" />
-                  Télécharger le PDF
-                </Button>
-                <Button onClick={handlePrint} variant="outline" className="w-full">
+                <Button onClick={handlePrint} variant="pdf" className="w-full">
                   <Printer className="w-4 h-4" />
-                  Imprimer cette page
+                  Imprimer (1 page)
+                </Button>
+                <Button onClick={handleDownloadPDF} variant="outline" className="w-full">
+                  <Download className="w-4 h-4" />
+                  Télécharger PDF
                 </Button>
               </div>
             </div>
@@ -442,7 +461,7 @@ const PathologyPage = () => {
                 Besoin d'un accompagnement ?
               </h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Le Dr Bugnard vous accompagne dans la prise en charge de votre pathologie.
+                Je vous accompagne dans la prise en charge de votre pathologie.
               </p>
               <Button asChild className="w-full">
                 <a href="https://www.doctolib.fr" target="_blank" rel="noopener noreferrer">
@@ -456,14 +475,10 @@ const PathologyPage = () => {
           </aside>
         </div>
 
-        {/* Print footer */}
-        <div className="hidden print:block mt-8 pt-4 border-t text-center">
-          <p className="text-xs text-gray-500">
-            Ce document est fourni à titre informatif. Il ne remplace pas une consultation médicale. 
-            En cas d'urgence : 15 ou 112.
-          </p>
-          <p className="text-xs text-gray-500 mt-1">
-            © Dr Audric Bugnard — Médecin thermaliste — Aix-les-Bains
+        {/* Print footer - Compact */}
+        <div className="hidden print:block mt-4 pt-2 border-t text-center">
+          <p className="text-[10px] text-gray-500">
+            Document informatif — Ne remplace pas une consultation. Urgence : 15 / 112 | © Dr Audric Bugnard — Médecin thermaliste — Aix-les-Bains
           </p>
         </div>
       </div>
