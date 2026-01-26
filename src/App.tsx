@@ -20,6 +20,7 @@ import MentionsLegales from "./pages/MentionsLegales";
 import Confidentialite from "./pages/Confidentialite";
 import NotFound from "./pages/NotFound";
 import ReponsesRapides from "./pages/ReponsesRapides";
+import Telechargements from "./pages/Telechargements";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/programmes" element={<Programs />} />
             <Route path="/guides" element={<Guides />} />
             <Route path="/parents" element={<Parents />} />
+            <Route path="/telechargements" element={<Telechargements />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/qui-suis-je" element={<QuiSuisJe />} />
             <Route path="/contact" element={<Contact />} />

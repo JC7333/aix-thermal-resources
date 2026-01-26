@@ -61,8 +61,8 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/ressources" className="text-white/80 hover:text-white transition-colors">
-                  Ressources & PDF
+                <Link to="/telechargements" className="text-white/80 hover:text-white transition-colors">
+                  Téléchargements PDF
                 </Link>
               </li>
               <li>
