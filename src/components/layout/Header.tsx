@@ -1,20 +1,17 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, ZoomIn, Eye, FileText, Home, BookOpen, HelpCircle, Building2, Baby, Compass, Map, Layers, Zap } from 'lucide-react';
+import { Menu, X, ZoomIn, Eye, Compass, Zap, BookOpen, Layers, Map, Baby, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
 
 const navigation = [
-  { name: 'Accueil', href: '/', icon: Home },
-  { name: 'Réponses rapides', href: '/reponses-rapides', icon: Zap },
   { name: 'Parcours guidé', href: '/parcours', icon: Compass },
+  { name: 'Réponses rapides', href: '/reponses-rapides', icon: Zap },
   { name: 'Ressources', href: '/ressources', icon: BookOpen },
   { name: 'Pathologies', href: '/pathologies', icon: Layers },
-  { name: 'Programmes', href: '/programmes', icon: FileText },
   { name: 'Guides', href: '/guides', icon: Map },
   { name: 'Parents', href: '/parents', icon: Baby },
-  { name: 'FAQ', href: '/faq', icon: HelpCircle },
-  { name: 'Cabinet', href: '/cabinet', icon: Building2 },
+  { name: 'Qui suis-je', href: '/qui-suis-je', icon: User },
 ];
 
 export const Header = () => {
@@ -31,18 +28,15 @@ export const Header = () => {
         </a>
 
         <div className="flex items-center justify-between h-18 lg:h-20">
-          {/* Logo */}
+          {/* Logo - Brand COOLANCE */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-serif text-lg lg:text-xl font-bold shadow-sm group-hover:shadow-md transition-shadow">
-              AB
-            </div>
-            <div className="hidden sm:block">
-              <p className="font-serif text-lg lg:text-xl font-bold text-foreground">
-                Dr Audric Bugnard
-              </p>
-              <p className="text-xs lg:text-sm text-muted-foreground -mt-0.5">
-                Médecin Thermaliste — Aix-les-Bains
-              </p>
+            <div className="flex flex-col">
+              <span className="font-serif text-2xl lg:text-3xl font-bold text-primary tracking-tight">
+                COOLANCE
+              </span>
+              <span className="text-[10px] lg:text-xs text-muted-foreground -mt-1">
+                par le Dr Audric Bugnard
+              </span>
             </div>
           </Link>
 
@@ -55,7 +49,7 @@ export const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-base font-medium transition-colors ${
+                  className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                     isActive
                       ? 'bg-primary/10 text-primary'
                       : 'text-muted-foreground hover:bg-muted hover:text-foreground'
@@ -70,38 +64,16 @@ export const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-2 lg:gap-3">
-            {/* Senior Mode Toggle */}
+            {/* Senior Mode Toggle - Prominent */}
             <Button
-              variant={seniorMode ? 'default' : 'ghost'}
+              variant={seniorMode ? 'default' : 'outline'}
               size="sm"
               onClick={toggleSeniorMode}
-              className={`hidden md:flex items-center gap-2 h-10 lg:h-11 ${seniorMode ? 'bg-primary text-primary-foreground' : ''}`}
+              className={`flex items-center gap-2 h-10 lg:h-11 font-semibold ${seniorMode ? 'bg-primary text-primary-foreground' : 'border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground'}`}
               aria-label={seniorMode ? 'Désactiver le mode Senior' : 'Activer le mode Senior'}
             >
               {seniorMode ? <Eye className="h-4 w-4" /> : <ZoomIn className="h-4 w-4" />}
-              <span className="hidden lg:inline">{seniorMode ? 'Mode Senior ✓' : 'Mode Senior'}</span>
-            </Button>
-
-            {/* Phone Button - Desktop */}
-            <Button
-              asChild
-              variant="outline"
-              className="hidden lg:flex items-center gap-2 h-11"
-            >
-              <a href="tel:+33479000000">
-                <Phone className="h-4 w-4" />
-                04 79 00 00 00
-              </a>
-            </Button>
-
-            {/* RDV Button */}
-            <Button
-              asChild
-              className="hidden sm:flex h-10 lg:h-11 px-4 lg:px-6"
-            >
-              <a href="https://www.doctolib.fr" target="_blank" rel="noopener noreferrer">
-                Prendre RDV
-              </a>
+              <span className="hidden sm:inline">{seniorMode ? 'Mode Senior ✓' : 'Mode Senior'}</span>
             </Button>
 
             {/* Mobile Menu Button */}
@@ -145,20 +117,6 @@ export const Header = () => {
                   </Link>
                 );
               })}
-              
-              <div className="mt-4 pt-4 border-t border-border flex flex-col gap-3">
-                <Button asChild variant="outline" className="w-full h-12 text-lg">
-                  <a href="tel:+33479000000" className="flex items-center justify-center gap-2">
-                    <Phone className="h-5 w-5" />
-                    04 79 00 00 00
-                  </a>
-                </Button>
-                <Button asChild className="w-full h-12 text-lg">
-                  <a href="https://www.doctolib.fr" target="_blank" rel="noopener noreferrer">
-                    Prendre RDV
-                  </a>
-                </Button>
-              </div>
             </div>
           </div>
         )}
