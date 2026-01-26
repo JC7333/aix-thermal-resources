@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, ZoomIn, Eye, FileText, Home, BookOpen, HelpCircle, Building2, Navigation, Baby, Compass, Map, Layers } from 'lucide-react';
+import { Menu, X, Phone, ZoomIn, Eye, FileText, Home, BookOpen, HelpCircle, Building2, Baby, Compass, Map, Layers, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
 
 const navigation = [
   { name: 'Accueil', href: '/', icon: Home },
+  { name: 'Réponses rapides', href: '/reponses-rapides', icon: Zap },
   { name: 'Parcours guidé', href: '/parcours', icon: Compass },
   { name: 'Ressources', href: '/ressources', icon: BookOpen },
   { name: 'Pathologies', href: '/pathologies', icon: Layers },

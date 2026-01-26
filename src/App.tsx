@@ -17,6 +17,7 @@ import Cabinet from "./pages/Cabinet";
 import MentionsLegales from "./pages/MentionsLegales";
 import Confidentialite from "./pages/Confidentialite";
 import NotFound from "./pages/NotFound";
+import ReponsesRapides from "./pages/ReponsesRapides";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,8 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/reponses-rapides" element={<ReponsesRapides />} />
+            <Route path="/reponses-rapides/:slug" element={<ReponsesRapides />} />
             <Route path="/parcours" element={<Parcours />} />
             <Route path="/ressources" element={<Resources />} />
             <Route path="/pathologies" element={<Pathologies />} />
