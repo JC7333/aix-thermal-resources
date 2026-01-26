@@ -1,6 +1,7 @@
 export type PathologyCategory = 'rhumatologie' | 'veino-lymphatique' | 'orl-respiratoire' | 'muqueuses-buccales';
 export type ResourceType = 'comprendre' | 'bouger' | 'nutrition' | 'hygiene' | 'auto-soins' | 'consulter' | 'exercices';
 export type AudienceType = 'senior' | 'enfant' | 'adulte';
+export type MobilityLevel = 0 | 1 | 2 | 3;
 
 export interface Exercise {
   id: string;
@@ -10,6 +11,41 @@ export interface Exercise {
   frequency: string;
   icon: string;
   steps: string[];
+  level: MobilityLevel;
+}
+
+export interface DayPlan {
+  day: string;
+  actions: string[];
+}
+
+export interface WeeklyProgram {
+  level: MobilityLevel;
+  levelName: string;
+  weeks: {
+    week: string;
+    focus: string;
+    exercises: string[];
+  }[];
+}
+
+export interface NutritionPlan {
+  idealPlate: string[];
+  commonMistakes: string[];
+  tips: string[];
+}
+
+export interface FlareProtocol {
+  title: string;
+  hours0to24: string[];
+  hours24to48: string[];
+  resumeActivity: string;
+}
+
+export interface Source {
+  name: string;
+  year: number;
+  url?: string;
 }
 
 export interface Pathology {
@@ -18,12 +54,53 @@ export interface Pathology {
   name: string;
   category: PathologyCategory;
   shortDescription: string;
-  definition: string;
+  
+  // En 2 minutes
+  quickSummary: string;
+  
+  // Physiopathologie vulgarisée
   physiopathology: string;
-  symptoms: string[];
-  aggravatingFactors: string[];
-  helpfulFactors: string[];
-  nonMedicinalTreatments: {
+  
+  // Top 5 non médicamenteux
+  top5NonMedical: {
+    title: string;
+    description: string;
+    icon: string;
+  }[];
+  
+  // Plan 7 jours par niveau
+  sevenDayPlans: {
+    level: MobilityLevel;
+    levelName: string;
+    days: DayPlan[];
+  }[];
+  
+  // Programme 8 semaines par niveau
+  eightWeekPrograms: WeeklyProgram[];
+  
+  // Nutrition facile
+  nutrition: NutritionPlan;
+  
+  // Plan poussée 48h (optionnel)
+  flareProtocol?: FlareProtocol;
+  
+  // Red flags
+  alertSigns: string[];
+  
+  // Sources
+  sources: Source[];
+  lastUpdated: string;
+  
+  // Métadonnées
+  audience: AudienceType;
+  readingTime: number;
+  
+  // Legacy (pour compatibilité)
+  definition?: string;
+  symptoms?: string[];
+  aggravatingFactors?: string[];
+  helpfulFactors?: string[];
+  nonMedicinalTreatments?: {
     physicalActivity: string;
     posturalAdvice: string;
     lifestyle: string;
@@ -31,11 +108,8 @@ export interface Pathology {
     stressManagement: string;
     thermalism: string;
   };
-  exercises: Exercise[];
-  nutritionAdvice: string[];
-  alertSigns: string[];
-  audience: AudienceType;
-  readingTime: number;
+  exercises?: Exercise[];
+  nutritionAdvice?: string[];
   pdfUrl?: string;
 }
 
@@ -87,1247 +161,1009 @@ export const audienceLabels: Record<AudienceType, string> = {
   'adulte': 'Adultes',
 };
 
-// Pathologies complètes
+export const levelLabels: Record<MobilityLevel, string> = {
+  0: 'Niveau 0 — Mobilité très limitée',
+  1: 'Niveau 1 — Mobilité limitée',
+  2: 'Niveau 2 — Mobilité correcte',
+  3: 'Niveau 3 — Bonne mobilité',
+};
+
+// ============================================
+// PATHOLOGIES MVP COMPLÈTES
+// ============================================
+
 export const pathologies: Pathology[] = [
+  // ========== ARTHROSE ==========
   {
     id: 'arthrose',
     slug: 'arthrose',
     name: 'Arthrose',
     category: 'rhumatologie',
     shortDescription: 'Usure progressive du cartilage articulaire, source de douleurs et de raideur.',
-    definition: "L'arthrose est une maladie articulaire caractérisée par la dégradation progressive du cartilage. Elle touche principalement les genoux, hanches, mains et colonne vertébrale. C'est la maladie articulaire la plus fréquente.",
-    physiopathology: "Le cartilage, normalement lisse et élastique, s'amincit progressivement. L'os sous-jacent réagit en formant des excroissances (ostéophytes). L'articulation devient douloureuse et raide, surtout après l'immobilité.",
-    symptoms: [
-      'Douleur mécanique (à l\'effort, diminuée au repos)',
-      'Raideur matinale de moins de 30 minutes',
-      'Craquements articulaires',
-      'Gonflement occasionnel',
-      'Perte progressive de mobilité',
-    ],
-    aggravatingFactors: [
-      'Surpoids',
-      'Sédentarité prolongée',
-      'Traumatismes articulaires répétés',
-      'Efforts excessifs',
-      'Temps froid et humide (ressenti)',
-    ],
-    helpfulFactors: [
-      'Activité physique régulière et adaptée',
-      'Maintien d\'un poids santé',
-      'Chaleur locale',
-      'Mouvements doux réguliers',
-      'Cure thermale',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'Marche quotidienne 30 minutes, natation, vélo d\'appartement. Éviter les sports à impact. L\'activité entretient le cartilage et renforce les muscles protecteurs.',
-      posturalAdvice: 'Éviter les positions prolongées (assis ou debout). Alterner les positions. Utiliser une canne côté opposé si besoin.',
-      lifestyle: 'Adapter son domicile (rehausseur WC, poignées). Porter des chaussures confortables à semelles souples.',
-      sleep: 'Matelas ferme mais confortable. Coussin entre les genoux en position latérale. Éviter le décubitus ventral.',
-      stressManagement: 'Le stress augmente la perception de la douleur. Relaxation, respiration abdominale, activités plaisantes.',
-      thermalism: 'Les cures thermales à orientation rhumatologique (3 semaines) peuvent améliorer les douleurs et la mobilité pendant plusieurs mois. Les soins (bains, boue, douches) combinent chaleur, apesanteur et massages.',
-    },
-    exercises: [
-      {
-        id: 'ex-arthrose-1',
-        title: 'Flexion-extension du genou',
-        description: 'Renforce le quadriceps et améliore la mobilité',
-        duration: '5 minutes',
-        frequency: '2 fois par jour',
-        icon: '🦵',
-        steps: [
-          'Assis sur une chaise, dos droit',
-          'Tendez lentement la jambe devant vous',
-          'Maintenez 5 secondes',
-          'Redescendez doucement',
-          '10 répétitions par jambe',
-        ],
-      },
-      {
-        id: 'ex-arthrose-2',
-        title: 'Renforcement des fessiers',
-        description: 'Stabilise la hanche et soulage le genou',
-        duration: '5 minutes',
-        frequency: '1 fois par jour',
-        icon: '🏃',
-        steps: [
-          'Debout, tenez-vous au dossier d\'une chaise',
-          'Levez la jambe en arrière, genou tendu',
-          'Ne cambrez pas le dos',
-          'Maintenez 3 secondes',
-          '10 répétitions par côté',
-        ],
-      },
-      {
-        id: 'ex-arthrose-3',
-        title: 'Mobilisation douce de la hanche',
-        description: 'Entretient la souplesse articulaire',
-        duration: '3 minutes',
-        frequency: '2 fois par jour',
-        icon: '🔄',
-        steps: [
-          'Couché sur le dos',
-          'Ramenez un genou vers la poitrine',
-          'Faites de petits cercles avec le genou',
-          'Changez de sens',
-          '30 secondes par jambe',
-        ],
-      },
-    ],
-    nutritionAdvice: [
-      'Privilégier les aliments anti-inflammatoires : poissons gras (saumon, sardines), huile d\'olive, noix',
-      'Consommer fruits et légumes colorés (antioxydants)',
-      'Maintenir un apport protéique suffisant (1g/kg/jour) pour préserver la masse musculaire',
-      'Hydratation : 1,5L d\'eau par jour minimum',
-      'Limiter sucres rapides et aliments ultra-transformés',
-      'Éviter les régimes restrictifs sans avis médical',
-    ],
-    alertSigns: [
-      'Douleur brutale et intense inhabituelle',
-      'Articulation très gonflée, rouge et chaude',
-      'Fièvre associée',
-      'Blocage articulaire complet',
-      'Perte de force brutale d\'un membre',
-    ],
     audience: 'senior',
     readingTime: 8,
+    lastUpdated: '2024-01',
+
+    // En 2 minutes
+    quickSummary: `L'arthrose est une usure du cartilage qui recouvre vos articulations. Ce n'est pas une fatalité liée à l'âge. Le cartilage a besoin de mouvement pour se nourrir. Rester immobile l'abîme davantage. Bouger régulièrement, même doucement, est le meilleur traitement. La douleur peut diminuer significativement avec une activité adaptée et quelques ajustements du quotidien.`,
+
+    // Physiopathologie vulgarisée
+    physiopathology: `Imaginez le cartilage comme une éponge. Quand vous bougez, l'éponge se comprime et absorbe le liquide articulaire riche en nutriments. Quand vous vous arrêtez, elle se regonfle. Sans mouvement, l'éponge s'assèche et s'use. L'os sous le cartilage réagit en formant des petites excroissances (ostéophytes). L'articulation devient raide et douloureuse, surtout après l'immobilité prolongée.`,
+
+    // Top 5 non médicamenteux
+    top5NonMedical: [
+      {
+        title: 'Bouger tous les jours',
+        description: 'Marche, vélo, natation : 30 min/jour. Le mouvement nourrit le cartilage et renforce les muscles qui protègent l\'articulation.',
+        icon: '🚶',
+      },
+      {
+        title: 'Appliquer de la chaleur',
+        description: 'Bouillotte, compresse chaude ou bain chaud pendant 15-20 min. La chaleur détend les muscles et diminue la raideur.',
+        icon: '🔥',
+      },
+      {
+        title: 'Renforcer les muscles',
+        description: 'Quadriceps pour le genou, fessiers pour la hanche. Des muscles forts = moins de pression sur l\'articulation.',
+        icon: '💪',
+      },
+      {
+        title: 'Gérer le poids',
+        description: 'Chaque kilo en moins = 4 kilos de pression en moins sur les genoux. Même une perte modeste aide.',
+        icon: '⚖️',
+      },
+      {
+        title: 'Alterner positions',
+        description: 'Ne restez jamais plus d\'1h dans la même position. Levez-vous, faites quelques pas, étirez-vous.',
+        icon: '🔄',
+      },
+    ],
+
+    // Plan 7 jours par niveau
+    sevenDayPlans: [
+      {
+        level: 0,
+        levelName: 'Mobilité très limitée',
+        days: [
+          { day: 'Jour 1', actions: ['5 min de mouvements doux sur chaise (flexion-extension chevilles, genoux)', 'Appliquer chaleur 15 min sur zone douloureuse'] },
+          { day: 'Jour 2', actions: ['5 min mouvements sur chaise', 'Marcher dans l\'appartement 2x3 min', 'Chaleur 15 min'] },
+          { day: 'Jour 3', actions: ['7 min mouvements sur chaise', 'Marcher 2x5 min', 'S\'hydrater : 6 verres d\'eau'] },
+          { day: 'Jour 4', actions: ['7 min mouvements + 1 exercice couché (pont fessier 5x)', 'Marcher 2x5 min'] },
+          { day: 'Jour 5', actions: ['10 min mouvements variés', 'Marcher 10 min en 1 ou 2 fois'] },
+          { day: 'Jour 6', actions: ['10 min mouvements', 'Marcher 10-15 min', 'Chaleur le soir 15 min'] },
+          { day: 'Jour 7', actions: ['Jour de repos actif : quelques mouvements doux uniquement', 'Notez vos progrès'] },
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Mobilité limitée',
+        days: [
+          { day: 'Jour 1', actions: ['10 min exercices doux (chaise + sol)', 'Marcher 10 min à allure lente', 'Chaleur 15 min'] },
+          { day: 'Jour 2', actions: ['10 min exercices', 'Marcher 15 min', 'Boire 1,5L d\'eau'] },
+          { day: 'Jour 3', actions: ['12 min exercices avec renforcement léger', 'Marcher 15 min', 'Étirer les jambes 5 min le soir'] },
+          { day: 'Jour 4', actions: ['12 min exercices', 'Marcher 20 min (pauses si besoin)', 'Chaleur le soir'] },
+          { day: 'Jour 5', actions: ['15 min exercices variés', 'Marcher 20 min'] },
+          { day: 'Jour 6', actions: ['15 min exercices', 'Marcher 20-25 min', 'Étirements soir'] },
+          { day: 'Jour 7', actions: ['Repos actif : marche légère 10 min + mouvements doux', 'Bilan de la semaine'] },
+        ],
+      },
+      {
+        level: 2,
+        levelName: 'Mobilité correcte',
+        days: [
+          { day: 'Jour 1', actions: ['15 min exercices (renforcement + mobilité)', 'Marcher 25-30 min', 'Chaleur si raideur'] },
+          { day: 'Jour 2', actions: ['15 min exercices', 'Marcher 30 min ou vélo 20 min'] },
+          { day: 'Jour 3', actions: ['20 min exercices complets', 'Marcher 30 min', 'Étirements 10 min soir'] },
+          { day: 'Jour 4', actions: ['15 min exercices', 'Activité au choix 30 min (marche, vélo, piscine)'] },
+          { day: 'Jour 5', actions: ['20 min exercices', 'Marcher 30-40 min'] },
+          { day: 'Jour 6', actions: ['20 min exercices', 'Activité plaisir 30-40 min', 'Étirements'] },
+          { day: 'Jour 7', actions: ['Repos actif : marche légère 20 min', 'Évaluer les progrès'] },
+        ],
+      },
+      {
+        level: 3,
+        levelName: 'Bonne mobilité',
+        days: [
+          { day: 'Jour 1', actions: ['20 min renforcement musculaire', 'Cardio 30-40 min (marche rapide, vélo, natation)'] },
+          { day: 'Jour 2', actions: ['20 min exercices mobilité + équilibre', 'Marcher 40 min'] },
+          { day: 'Jour 3', actions: ['25 min renforcement', 'Cardio 30-40 min', 'Étirements 10 min'] },
+          { day: 'Jour 4', actions: ['20 min exercices', 'Activité plaisir 45 min'] },
+          { day: 'Jour 5', actions: ['25 min renforcement complet', 'Cardio 40 min'] },
+          { day: 'Jour 6', actions: ['20 min exercices', 'Activité extérieure 45-60 min', 'Étirements'] },
+          { day: 'Jour 7', actions: ['Repos actif : marche tranquille, yoga doux'] },
+        ],
+      },
+    ],
+
+    // Programme 8 semaines
+    eightWeekPrograms: [
+      {
+        level: 0,
+        levelName: 'Niveau 0 — Je peux à peine bouger',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Réveiller le corps', exercises: ['Mouvements sur chaise 5-10 min/jour', 'Marche intérieure 5 min 2x/jour', 'Chaleur quotidienne 15 min'] },
+          { week: 'Semaines 3-4', focus: 'Gagner en amplitude', exercises: ['Mouvements sur chaise 10 min', 'Ajouter 1 exercice couché (pont)', 'Marche 10 min 1-2x/jour'] },
+          { week: 'Semaines 5-6', focus: 'Premiers renforcements', exercises: ['Exercices assis + couchés 15 min', 'Marche 15-20 min/jour', 'Commencer montées sur pointes debout'] },
+          { week: 'Semaines 7-8', focus: 'Consolider', exercises: ['Routine complète 15-20 min', 'Marche 20-30 min/jour', 'Objectif : passer au niveau 1'] },
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Niveau 1 — Je me fatigue vite',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Base solide', exercises: ['Exercices 15 min/jour (mobilité + léger renforcement)', 'Marche 15-20 min/jour'] },
+          { week: 'Semaines 3-4', focus: 'Augmenter progressivement', exercises: ['Exercices 20 min/jour', 'Marche 25-30 min/jour', 'Ajouter étirements soir'] },
+          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Exercices 20 min', 'Alterner marche/vélo d\'appartement 30 min', 'Renforcement 3x/semaine'] },
+          { week: 'Semaines 7-8', focus: 'Prêt pour niveau 2', exercises: ['Routine complète 25 min', 'Cardio léger 30-35 min/jour', 'Évaluation et ajustement'] },
+        ],
+      },
+      {
+        level: 2,
+        levelName: 'Niveau 2 — Je peux marcher 30 min',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Renforcement structuré', exercises: ['Renforcement 20 min 4x/semaine', 'Cardio 30-35 min/jour (marche, vélo, piscine)'] },
+          { week: 'Semaines 3-4', focus: 'Intensifier doucement', exercises: ['Renforcement 25 min', 'Cardio 35-40 min', 'Ajouter équilibre 5 min'] },
+          { week: 'Semaines 5-6', focus: 'Endurance', exercises: ['Renforcement complet 25 min', 'Cardio 40-45 min', 'Exercices proprioception'] },
+          { week: 'Semaines 7-8', focus: 'Autonomie', exercises: ['Programme personnel 30 min 5x/semaine', 'Cardio 45 min', 'Objectif maintien long terme'] },
+        ],
+      },
+      {
+        level: 3,
+        levelName: 'Niveau 3 — Je suis actif',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Renforcement ciblé 30 min 4-5x/semaine', 'Cardio varié 45 min/jour'] },
+          { week: 'Semaines 3-4', focus: 'Performance douce', exercises: ['Circuits complets 30-35 min', 'Cardio 45-50 min', 'Stretching quotidien'] },
+          { week: 'Semaines 5-6', focus: 'Sport plaisir', exercises: ['Intégrer une activité sportive régulière', 'Maintenir renforcement 3x/semaine'] },
+          { week: 'Semaines 7-8', focus: 'Maintien vie active', exercises: ['Routine personnalisée durable', 'Activité physique quotidienne intégrée', 'Réévaluation tous les 3 mois'] },
+        ],
+      },
+    ],
+
+    // Nutrition
+    nutrition: {
+      idealPlate: [
+        '½ assiette de légumes colorés (anti-inflammatoires naturels)',
+        '¼ assiette de protéines (poisson 2-3x/semaine, œufs, volaille, légumineuses)',
+        '¼ assiette de féculents complets (riz complet, quinoa, patate douce)',
+        'Huile d\'olive en assaisonnement (1-2 cuillères à soupe)',
+        'Fruits en dessert ou collation (fruits rouges, agrumes)',
+      ],
+      commonMistakes: [
+        'Régimes restrictifs qui affaiblissent les muscles',
+        'Trop de sucres rapides (gâteaux, sodas) qui favorisent l\'inflammation',
+        'Pas assez de protéines (les muscles fondent)',
+        'Oublier l\'hydratation (le cartilage a besoin d\'eau)',
+        'Croire aux « aliments miracles » (curcuma seul ne suffit pas)',
+      ],
+      tips: [
+        'Mangez du poisson gras 2-3x/semaine (saumon, sardines, maquereau)',
+        'Buvez au moins 1,5L d\'eau par jour',
+        'Limitez l\'alcool (inflammatoire)',
+        'Si surpoids : visez -5% du poids actuel, pas plus',
+      ],
+    },
+
+    // Plan poussée 48h
+    flareProtocol: {
+      title: 'Plan crise arthrosique 48h',
+      hours0to24: [
+        'Repos relatif : réduisez les activités mais ne restez pas immobile',
+        'Appliquez du chaud (bouillotte, bain) 20 min 3-4x/jour',
+        'Faites des mouvements très doux pour éviter l\'enraidissement',
+        'Hydratez-vous bien (1,5-2L)',
+        'Position confortable : coussin sous les genoux si couché',
+      ],
+      hours24to48: [
+        'Reprenez progressivement les mouvements habituels',
+        'Continuez la chaleur si ça soulage',
+        'Marche courte (5-10 min) plusieurs fois par jour',
+        'Étirements doux le soir',
+        'Maintenez une alimentation anti-inflammatoire',
+      ],
+      resumeActivity: 'Si la douleur diminue de moitié, reprenez votre programme au niveau précédent. Si la douleur persiste après 48h ou s\'aggrave : consultez.',
+    },
+
+    // Red flags
+    alertSigns: [
+      'Douleur brutale et intense apparue sans raison',
+      'Articulation très gonflée, rouge et chaude (possible infection ou goutte)',
+      'Fièvre associée aux douleurs articulaires',
+      'Blocage articulaire complet (impossible de bouger)',
+      'Perte de force brutale d\'un membre',
+      'Douleur qui réveille la nuit systématiquement',
+    ],
+
+    // Sources
+    sources: [
+      { name: 'OARSI Guidelines for the Non-Surgical Management of Knee Osteoarthritis', year: 2019 },
+      { name: 'EULAR Recommendations for the Management of OA', year: 2019 },
+      { name: 'HAS - Prise en charge de l\'arthrose', year: 2023 },
+      { name: 'Cochrane Review: Exercise for osteoarthritis of the knee', year: 2015 },
+    ],
   },
+
+  // ========== LOMBALGIE CHRONIQUE ==========
   {
     id: 'lombalgie-chronique',
     slug: 'lombalgie-chronique',
     name: 'Lombalgie chronique',
     category: 'rhumatologie',
     shortDescription: 'Douleur du bas du dos persistant plus de 3 mois, souvent liée au mode de vie.',
-    definition: "La lombalgie chronique est une douleur du bas du dos (lombaires) qui persiste plus de 3 mois. Dans la grande majorité des cas, elle est dite 'commune' (sans cause grave identifiée) et répond bien aux mesures non médicamenteuses.",
-    physiopathology: "Les muscles, ligaments et disques de la région lombaire sont sollicités en permanence. Une sédentarité excessive, des contraintes répétées ou le stress peuvent créer des tensions et contractures. Le repos prolongé aggrave souvent la situation en affaiblissant les muscles stabilisateurs.",
-    symptoms: [
-      'Douleur lombaire (bas du dos)',
-      'Raideur au réveil',
-      'Difficulté à rester longtemps assis ou debout',
-      'Irradiation possible vers les fesses ou cuisses',
-      'Aggravation par certains mouvements',
-    ],
-    aggravatingFactors: [
-      'Position assise prolongée',
-      'Port de charges lourdes mal réalisé',
-      'Stress et tensions psychologiques',
-      'Inactivité physique',
-      'Surpoids',
-    ],
-    helpfulFactors: [
-      'Activité physique régulière',
-      'Renforcement musculaire du tronc (gainage)',
-      'Gestion du stress',
-      'Mobilité régulière',
-      'Cure thermale',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'La reprise d\'activité est le traitement principal. Marche, natation, yoga doux, vélo. Le mouvement nourrit les disques et renforce les muscles.',
-      posturalAdvice: 'Lever les charges jambes fléchies. Éviter de rester assis plus d\'1h sans bouger. Bureau : écran à hauteur des yeux, pieds à plat.',
-      lifestyle: 'Alterner les positions. Se lever régulièrement. Matelas ni trop dur ni trop mou. Éviter le port de talons hauts.',
-      sleep: 'Position sur le côté avec coussin entre les genoux. Ou sur le dos avec coussin sous les genoux. Éviter le ventre.',
-      stressManagement: 'Le stress contracte les muscles du dos. Techniques de relaxation, cohérence cardiaque, activités plaisantes essentielles.',
-      thermalism: 'Les cures thermales permettent une prise en charge globale : soins locaux (boue, bains), rééducation en piscine, éducation thérapeutique. Efficacité démontrée sur la douleur et la qualité de vie.',
-    },
-    exercises: [
-      {
-        id: 'ex-lombalgie-1',
-        title: 'Chat-vache (mobilisation)',
-        description: 'Assouplit la colonne vertébrale en douceur',
-        duration: '3 minutes',
-        frequency: '2 fois par jour',
-        icon: '🐱',
-        steps: [
-          'À quatre pattes, dos plat',
-          'Inspirez en creusant le dos (tête vers le haut)',
-          'Expirez en arrondissant le dos (tête vers le bas)',
-          'Mouvements lents et fluides',
-          '10 répétitions',
-        ],
-      },
-      {
-        id: 'ex-lombalgie-2',
-        title: 'Gainage ventral adapté',
-        description: 'Renforce les muscles profonds du tronc',
-        duration: '5 minutes',
-        frequency: '1 fois par jour',
-        icon: '💪',
-        steps: [
-          'Sur les avant-bras et les genoux (débutant) ou pieds (confirmé)',
-          'Corps aligné, nombril rentré',
-          'Ne creusez pas le dos',
-          'Maintenez 20-30 secondes',
-          'Repos, puis 3 répétitions',
-        ],
-      },
-      {
-        id: 'ex-lombalgie-3',
-        title: 'Étirement du psoas',
-        description: 'Relâche les tensions de la hanche',
-        duration: '3 minutes',
-        frequency: '1 fois par jour',
-        icon: '🧘',
-        steps: [
-          'Un genou au sol, l\'autre pied devant',
-          'Avancez doucement le bassin',
-          'Gardez le dos droit',
-          'Maintenez 30 secondes',
-          'Changez de côté',
-        ],
-      },
-      {
-        id: 'ex-lombalgie-4',
-        title: 'Pont fessier',
-        description: 'Renforce fessiers et stabilise le bassin',
-        duration: '5 minutes',
-        frequency: '1 fois par jour',
-        icon: '🌉',
-        steps: [
-          'Couché sur le dos, genoux fléchis',
-          'Soulevez les fesses du sol',
-          'Alignez genoux-bassin-épaules',
-          'Maintenez 5 secondes',
-          '10 répétitions',
-        ],
-      },
-    ],
-    nutritionAdvice: [
-      'Alimentation anti-inflammatoire : légumes verts, fruits rouges, poissons gras',
-      'Protéines suffisantes pour la masse musculaire',
-      'Calcium et vitamine D pour la santé osseuse',
-      'Hydratation importante (disques intervertébraux)',
-      'Éviter l\'excès de poids qui surcharge les lombaires',
-    ],
-    alertSigns: [
-      'Douleur brutale après un effort violent',
-      'Perte de contrôle des urines ou selles',
-      'Perte de sensibilité de la zone périnéale',
-      'Faiblesse progressive des jambes',
-      'Douleur nocturne intense qui réveille',
-      'Fièvre associée',
-    ],
     audience: 'adulte',
     readingTime: 8,
+    lastUpdated: '2024-01',
+
+    quickSummary: `Votre dos vous fait mal depuis plus de 3 mois ? C'est une lombalgie chronique. Bonne nouvelle : dans plus de 90% des cas, ce n'est pas grave. Le repos prolongé aggrave les choses. Bouger est le meilleur remède. Les muscles du dos ont besoin d'être sollicités pour rester forts et protéger la colonne. Avec les bons exercices et quelques ajustements du quotidien, la plupart des lombalgies s'améliorent nettement.`,
+
+    physiopathology: `Votre colonne lombaire supporte le poids du corps et permet de nombreux mouvements. Quand on reste trop assis ou immobile, les muscles du dos s'affaiblissent. Les disques entre les vertèbres, privés de mouvement, s'hydratent moins bien. Les tensions s'accumulent. Contrairement à ce qu'on croit, le problème vient rarement d'une « vertèbre déplacée ». C'est plutôt un déséquilibre musculaire et postural, souvent aggravé par le stress qui contracte les muscles.`,
+
+    top5NonMedical: [
+      {
+        title: 'Bouger malgré la douleur',
+        description: 'Le mouvement est le meilleur traitement. Marche, natation, vélo : reprenez progressivement. La douleur ne signifie pas forcément lésion.',
+        icon: '🚶',
+      },
+      {
+        title: 'Renforcer le gainage',
+        description: 'Des abdominaux et muscles du dos forts = une colonne stable et protégée. 10 min/jour de gainage suffit.',
+        icon: '💪',
+      },
+      {
+        title: 'Changer de position souvent',
+        description: 'Ne restez jamais plus d\'1h assis. Levez-vous, étirez-vous, faites quelques pas. C\'est plus important que d\'avoir la « parfaite » posture.',
+        icon: '🔄',
+      },
+      {
+        title: 'Gérer le stress',
+        description: 'Le stress contracte les muscles du dos et amplifie la douleur. Respiration, relaxation, activités plaisantes sont essentiels.',
+        icon: '🧘',
+      },
+      {
+        title: 'Bien dormir',
+        description: 'Matelas ni trop mou ni trop dur. Coussin entre les genoux si couché sur le côté. Le sommeil répare les muscles.',
+        icon: '😴',
+      },
+    ],
+
+    sevenDayPlans: [
+      {
+        level: 0,
+        levelName: 'Douleur forte, bouge à peine',
+        days: [
+          { day: 'Jour 1', actions: ['Marcher 5 min dans l\'appartement (même lentement)', 'Position allongée : genoux fléchis, pieds au sol, 10 min', 'Respiration abdominale 3x3 min'] },
+          { day: 'Jour 2', actions: ['Marcher 5-10 min', '3 exercices doux au sol (chat-vache, genoux poitrine)', 'Chaleur 15 min si spasme'] },
+          { day: 'Jour 3', actions: ['Marcher 10 min', 'Exercices 10 min', 'Détente/respiration le soir'] },
+          { day: 'Jour 4', actions: ['Marcher 10-15 min en 2 fois', 'Exercices 10 min', 'Éviter la position assise prolongée'] },
+          { day: 'Jour 5', actions: ['Marcher 15 min', 'Exercices 15 min avec 1er gainage (sur genoux)'] },
+          { day: 'Jour 6', actions: ['Marcher 15-20 min', 'Exercices + gainage 15 min', 'Étirements soir'] },
+          { day: 'Jour 7', actions: ['Repos actif : marche légère + mouvements doux', 'Bilan de la semaine'] },
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Douleur modérée, mobilité limitée',
+        days: [
+          { day: 'Jour 1', actions: ['Marcher 15 min', 'Exercices mobilité + gainage 15 min', 'Étirements soir 5 min'] },
+          { day: 'Jour 2', actions: ['Marcher 20 min', 'Exercices 15 min', 'Pause toutes les 45 min si assis'] },
+          { day: 'Jour 3', actions: ['Marcher 20-25 min', 'Exercices complets 20 min'] },
+          { day: 'Jour 4', actions: ['Marcher ou vélo 25 min', 'Exercices 20 min', 'Gestion stress 10 min'] },
+          { day: 'Jour 5', actions: ['Marcher 25-30 min', 'Exercices 20 min'] },
+          { day: 'Jour 6', actions: ['Activité au choix 30 min', 'Exercices complets', 'Étirements profonds'] },
+          { day: 'Jour 7', actions: ['Repos actif', 'Évaluer les progrès'] },
+        ],
+      },
+      {
+        level: 2,
+        levelName: 'Douleur légère, mobilité correcte',
+        days: [
+          { day: 'Jour 1', actions: ['Cardio 30 min (marche rapide, vélo, natation)', 'Renforcement dos/abdos 20 min'] },
+          { day: 'Jour 2', actions: ['Marche 30-40 min', 'Exercices 20 min', 'Étirements 10 min'] },
+          { day: 'Jour 3', actions: ['Cardio 35 min', 'Renforcement complet 25 min'] },
+          { day: 'Jour 4', actions: ['Activité plaisir 40 min', 'Gainage 15 min'] },
+          { day: 'Jour 5', actions: ['Cardio 40 min', 'Renforcement 25 min'] },
+          { day: 'Jour 6', actions: ['Activité sportive ou longue marche', 'Exercices + étirements'] },
+          { day: 'Jour 7', actions: ['Repos actif : yoga doux, marche tranquille'] },
+        ],
+      },
+      {
+        level: 3,
+        levelName: 'Quasi plus de douleur, actif',
+        days: [
+          { day: 'Jour 1', actions: ['Cardio 45 min', 'Renforcement complet 30 min'] },
+          { day: 'Jour 2', actions: ['Activité sportive 45-60 min', 'Gainage 15 min'] },
+          { day: 'Jour 3', actions: ['Cardio varié 45 min', 'Renforcement + équilibre 30 min'] },
+          { day: 'Jour 4', actions: ['Sport plaisir 1h', 'Stretching 15 min'] },
+          { day: 'Jour 5', actions: ['Cardio 45-50 min', 'Renforcement 30 min'] },
+          { day: 'Jour 6', actions: ['Activité longue durée (rando, vélo)', 'Récupération soir'] },
+          { day: 'Jour 7', actions: ['Repos actif : yoga, natation douce'] },
+        ],
+      },
+    ],
+
+    eightWeekPrograms: [
+      {
+        level: 0,
+        levelName: 'Niveau 0 — Douleur forte',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Reprendre le mouvement', exercises: ['Marche 5-10 min 2x/jour', 'Exercices au sol 10 min (chat-vache, respiration)', 'Éviter position assise > 30 min'] },
+          { week: 'Semaines 3-4', focus: 'Progresser doucement', exercises: ['Marche 15-20 min/jour', 'Exercices 15 min avec gainage débutant', 'Ajouter étirements'] },
+          { week: 'Semaines 5-6', focus: 'Renforcer', exercises: ['Marche 20-25 min', 'Exercices + gainage 20 min', 'Commencer activité douce (vélo, piscine)'] },
+          { week: 'Semaines 7-8', focus: 'Stabiliser', exercises: ['Marche 30 min/jour', 'Routine complète 25 min', 'Objectif niveau 1'] },
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Niveau 1 — Douleur modérée',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Renforcer la base', exercises: ['Cardio léger 20-25 min/jour', 'Exercices dos/abdos 20 min'] },
+          { week: 'Semaines 3-4', focus: 'Augmenter', exercises: ['Cardio 30 min', 'Renforcement 25 min', 'Étirements quotidiens'] },
+          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Alterner marche/vélo/natation 30-35 min', 'Renforcement complet', 'Gestion du stress'] },
+          { week: 'Semaines 7-8', focus: 'Vers l\'autonomie', exercises: ['Cardio 35-40 min', 'Programme personnalisé', 'Objectif niveau 2'] },
+        ],
+      },
+      {
+        level: 2,
+        levelName: 'Niveau 2 — Douleur légère',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Structurer l\'entraînement', exercises: ['Cardio 35-40 min 5x/semaine', 'Renforcement 25 min 4x/semaine'] },
+          { week: 'Semaines 3-4', focus: 'Intensifier', exercises: ['Cardio 40-45 min', 'Renforcement + proprioception 30 min'] },
+          { week: 'Semaines 5-6', focus: 'Performance douce', exercises: ['Cardio varié 45 min', 'Circuits complets', 'Sport plaisir 1x/semaine'] },
+          { week: 'Semaines 7-8', focus: 'Maintien', exercises: ['Programme autonome', 'Activité quotidienne', 'Prévention long terme'] },
+        ],
+      },
+      {
+        level: 3,
+        levelName: 'Niveau 3 — Actif',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Cardio intensité modérée 45-50 min', 'Renforcement avancé 30 min'] },
+          { week: 'Semaines 3-4', focus: 'Sport régulier', exercises: ['Intégrer 2-3 séances sport/semaine', 'Maintenir gainage quotidien'] },
+          { week: 'Semaines 5-6', focus: 'Équilibre vie active', exercises: ['Sport plaisir régulier', 'Renforcement d\'entretien', 'Étirements quotidiens'] },
+          { week: 'Semaines 7-8', focus: 'Maintien long terme', exercises: ['Routine personnelle durable', 'Activité physique comme habitude de vie'] },
+        ],
+      },
+    ],
+
+    nutrition: {
+      idealPlate: [
+        '½ assiette de légumes (tous types, variez les couleurs)',
+        '¼ assiette de protéines (poisson, volaille, œufs, légumineuses)',
+        '¼ assiette de féculents complets (pain complet, riz complet)',
+        'Huile d\'olive ou colza (oméga-3 anti-inflammatoires)',
+        'Fruits frais en dessert',
+      ],
+      commonMistakes: [
+        'Trop de sucre et aliments ultra-transformés (inflammatoires)',
+        'Pas assez de protéines (les muscles du dos en ont besoin)',
+        'Oublier l\'hydratation (les disques sont composés d\'eau)',
+        'Trop de café (peut augmenter les tensions)',
+        'Alcool excessif (inflammatoire et mauvais pour le sommeil)',
+      ],
+      tips: [
+        'Hydratez-vous : 1,5 à 2L d\'eau par jour',
+        'Mangez anti-inflammatoire : poissons gras, légumes verts, fruits rouges',
+        'Si surpoids : perdre 5% réduit la charge sur le dos',
+        'Évitez les grignotages sucrés qui favorisent l\'inflammation',
+      ],
+    },
+
+    flareProtocol: {
+      title: 'Plan crise lombaire 48h',
+      hours0to24: [
+        'Ne vous allongez pas toute la journée : bougez régulièrement, même 5 min',
+        'Position de délordose : couché, genoux fléchis sur un coussin, 15-20 min',
+        'Chaleur sur les lombaires si contractures (bouillotte 20 min)',
+        'Respiration abdominale 5 min 3-4x dans la journée',
+        'Marche lente dans la maison régulièrement',
+      ],
+      hours24to48: [
+        'Augmentez progressivement les périodes de marche',
+        'Reprenez les exercices très doux (chat-vache, genoux-poitrine)',
+        'Alternez debout/assis/couché pour éviter les raideurs',
+        'Continuez la chaleur si ça soulage',
+        'Dormez avec coussin entre les genoux',
+      ],
+      resumeActivity: 'Si la douleur baisse de moitié après 48h, reprenez votre programme à un niveau en dessous. Si la douleur reste intense, si vous avez des fourmillements dans les jambes ou des difficultés urinaires : consultez rapidement.',
+    },
+
+    alertSigns: [
+      'Perte de contrôle des urines ou des selles',
+      'Engourdissement de la zone périnéale (selle de cheval)',
+      'Faiblesse progressive des deux jambes',
+      'Douleur intense qui réveille chaque nuit',
+      'Fièvre associée aux douleurs du dos',
+      'Perte de poids inexpliquée avec douleur dorsale',
+      'Antécédent de cancer et nouvelle douleur dorsale',
+    ],
+
+    sources: [
+      { name: 'NICE Guidelines: Low back pain and sciatica', year: 2020 },
+      { name: 'HAS - Prise en charge du patient présentant une lombalgie commune', year: 2019 },
+      { name: 'Lancet Series on Low Back Pain', year: 2018 },
+      { name: 'Cochrane: Exercise therapy for chronic low back pain', year: 2021 },
+    ],
   },
+
+  // ========== INSUFFISANCE VEINEUSE CHRONIQUE ==========
   {
     id: 'insuffisance-veineuse',
     slug: 'insuffisance-veineuse',
-    name: 'Insuffisance veineuse',
+    name: 'Insuffisance veineuse chronique',
     category: 'veino-lymphatique',
     shortDescription: 'Mauvais retour veineux des jambes, source de lourdeur et gonflement.',
-    definition: "L'insuffisance veineuse chronique désigne un mauvais fonctionnement des veines des jambes qui peinent à ramener le sang vers le cœur. Elle se manifeste par une sensation de jambes lourdes, des gonflements et parfois des varices.",
-    physiopathology: "Les veines des jambes contiennent des valvules qui empêchent le sang de redescendre. Quand ces valvules fonctionnent mal, le sang stagne dans les veines, les dilate, et provoque les symptômes. La position debout prolongée et le manque d'activité aggravent le phénomène.",
-    symptoms: [
-      'Jambes lourdes, surtout en fin de journée',
-      'Gonflements des chevilles',
-      'Varices visibles',
-      'Impatiences, picotements',
-      'Crampes nocturnes',
-      'Peau sèche, eczéma veineux (stades avancés)',
-    ],
-    aggravatingFactors: [
-      'Station debout ou assise prolongée',
-      'Chaleur (été, bains chauds)',
-      'Surpoids',
-      'Sédentarité',
-      'Vêtements trop serrés',
-      'Grossesse',
-    ],
-    helpfulFactors: [
-      'Marche régulière',
-      'Surélévation des jambes',
-      'Bas de contention',
-      'Eau fraîche sur les jambes',
-      'Cure thermale',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'La marche est le meilleur traitement. À chaque pas, les muscles du mollet propulsent le sang vers le haut. 30 minutes de marche quotidienne minimum. Natation et vélo également bénéfiques.',
-      posturalAdvice: 'Éviter de croiser les jambes. Se lever et marcher toutes les heures si assis. Surélever les pieds du lit de 10-15 cm.',
-      lifestyle: 'Éviter les vêtements serrés à la taille ou aux cuisses. Préférer les chaussures à petits talons (3-4 cm). Terminer la douche par un jet d\'eau fraîche sur les jambes.',
-      sleep: 'Surélever les pieds du lit (cales de 10-15 cm). Éviter les couettes trop chaudes.',
-      stressManagement: 'Le stress peut aggraver les symptômes par tension musculaire. Relaxation bénéfique.',
-      thermalism: 'Les cures à orientation phlébologique proposent des soins spécifiques : bains frais, massages sous l\'eau, parcours de marche. Amélioration durable de la circulation veineuse.',
-    },
-    exercises: [
+    audience: 'senior',
+    readingTime: 7,
+    lastUpdated: '2024-01',
+
+    quickSummary: `Vos jambes sont lourdes, gonflent en fin de journée, vous avez des varices ? C'est l'insuffisance veineuse. Le sang a du mal à remonter vers le cœur et stagne dans vos jambes. La bonne nouvelle : marcher active la « pompe » musculaire du mollet qui propulse le sang vers le haut. Porter des bas de contention, surélever les jambes et éviter la chaleur font aussi partie des solutions simples et efficaces.`,
+
+    physiopathology: `Les veines de vos jambes contiennent des petites valves qui empêchent le sang de redescendre. Avec le temps, ces valves peuvent s'affaiblir. Le sang stagne, les veines se dilatent (varices), et le liquide s'accumule dans les tissus (œdème). La pompe musculaire du mollet est votre meilleure alliée : à chaque pas, les muscles compriment les veines et propulsent le sang vers le haut. C'est pourquoi la sédentarité aggrave le problème et la marche l'améliore.`,
+
+    top5NonMedical: [
       {
-        id: 'ex-veines-1',
-        title: 'Flexion-extension des pieds',
-        description: 'Active la pompe musculaire du mollet',
-        duration: '2 minutes',
-        frequency: '5 fois par jour',
+        title: 'Marcher tous les jours',
+        description: '30 min de marche active la pompe du mollet. C\'est le traitement n°1. Prenez les escaliers, descendez un arrêt plus tôt.',
+        icon: '🚶',
+      },
+      {
+        title: 'Porter des bas de contention',
+        description: 'Ils compriment les veines et aident le retour veineux. Prescrit par le médecin, remboursés. Mettez-les le matin.',
+        icon: '🧦',
+      },
+      {
+        title: 'Surélever les jambes',
+        description: '15-20 min 2x/jour. Surélevez les pieds du lit de 10-15 cm. Ça draine passivement le sang vers le cœur.',
         icon: '🦶',
-        steps: [
-          'Assis ou couché',
-          'Pointes de pieds vers vous, puis vers le sol',
-          'Mouvements amples et lents',
-          '20 répétitions',
+      },
+      {
+        title: 'Éviter la chaleur',
+        description: 'Pas de bains chauds, sauna, exposition prolongée au soleil. La chaleur dilate les veines et aggrave la stagnation.',
+        icon: '❄️',
+      },
+      {
+        title: 'Faire des exercices de mollets',
+        description: 'Flexion-extension des pieds, montées sur pointes. À faire assis, debout, ou même couché, plusieurs fois par jour.',
+        icon: '💪',
+      },
+    ],
+
+    sevenDayPlans: [
+      {
+        level: 0,
+        levelName: 'Mobilité très limitée',
+        days: [
+          { day: 'Jour 1', actions: ['Surélever les jambes 15 min 2x', 'Flexion-extension des pieds assis 20x 3 fois', 'Marcher 5 min dans la maison'] },
+          { day: 'Jour 2', actions: ['Surélévation 15 min 2x', 'Exercices pieds 3x', 'Marcher 2x5 min', 'Jet d\'eau fraîche sur jambes'] },
+          { day: 'Jour 3', actions: ['Surélévation', 'Exercices pieds + pédalage couché 2 min', 'Marcher 10 min'] },
+          { day: 'Jour 4', actions: ['Surélévation', 'Exercices 3x', 'Marcher 10-15 min'] },
+          { day: 'Jour 5', actions: ['Surélévation', 'Tous exercices', 'Marcher 15 min'] },
+          { day: 'Jour 6', actions: ['Surélévation', 'Exercices complets', 'Marcher 15-20 min'] },
+          { day: 'Jour 7', actions: ['Repos actif : mouvements doux, surélévation', 'Bilan de la semaine'] },
         ],
       },
       {
-        id: 'ex-veines-2',
-        title: 'Montées sur pointes',
-        description: 'Renforce les mollets et stimule le retour veineux',
-        duration: '3 minutes',
-        frequency: '2 fois par jour',
-        icon: '⬆️',
-        steps: [
-          'Debout, tenez-vous au mur',
-          'Montez sur la pointe des pieds',
-          'Maintenez 3 secondes',
-          'Redescendez doucement',
-          '15 répétitions',
+        level: 1,
+        levelName: 'Mobilité limitée',
+        days: [
+          { day: 'Jour 1', actions: ['Surélévation 15 min 2x', 'Exercices complets 10 min', 'Marcher 15 min'] },
+          { day: 'Jour 2', actions: ['Surélévation', 'Exercices 10 min + montées sur pointes 15x', 'Marcher 20 min'] },
+          { day: 'Jour 3', actions: ['Surélévation', 'Exercices 15 min', 'Marcher 20 min', 'Douche fraîche jambes'] },
+          { day: 'Jour 4', actions: ['Surélévation', 'Exercices + marche sur pointes 1 min', 'Marcher 20-25 min'] },
+          { day: 'Jour 5', actions: ['Surélévation', 'Exercices complets 15 min', 'Marcher 25 min'] },
+          { day: 'Jour 6', actions: ['Surélévation', 'Exercices', 'Marcher ou vélo 25-30 min'] },
+          { day: 'Jour 7', actions: ['Repos actif, surélévation, exercices doux'] },
         ],
       },
       {
-        id: 'ex-veines-3',
-        title: 'Pédalage en l\'air',
-        description: 'Draine les jambes et active la circulation',
-        duration: '3 minutes',
-        frequency: '1 fois par jour (le soir)',
-        icon: '🚴',
-        steps: [
-          'Couché sur le dos',
-          'Jambes en l\'air',
-          'Pédalez comme à vélo',
-          '30 secondes, repos, répéter 3 fois',
+        level: 2,
+        levelName: 'Mobilité correcte',
+        days: [
+          { day: 'Jour 1', actions: ['Surélévation soir', 'Marcher 30 min', 'Exercices 15 min'] },
+          { day: 'Jour 2', actions: ['Marcher 35 min ou natation 20 min', 'Exercices + escaliers'] },
+          { day: 'Jour 3', actions: ['Cardio 30-35 min', 'Renforcement mollets', 'Surélévation soir'] },
+          { day: 'Jour 4', actions: ['Marcher ou vélo 35 min', 'Exercices complets'] },
+          { day: 'Jour 5', actions: ['Cardio 40 min', 'Exercices 15 min'] },
+          { day: 'Jour 6', actions: ['Activité plaisir 40 min (marche, piscine)', 'Étirements et surélévation'] },
+          { day: 'Jour 7', actions: ['Repos actif : marche légère, surélévation'] },
+        ],
+      },
+      {
+        level: 3,
+        levelName: 'Bonne mobilité',
+        days: [
+          { day: 'Jour 1', actions: ['Cardio 40-45 min (marche rapide, natation)', 'Renforcement 20 min'] },
+          { day: 'Jour 2', actions: ['Marche rapide ou vélo 45 min', 'Exercices mollets intensifs'] },
+          { day: 'Jour 3', actions: ['Cardio 45 min', 'Renforcement jambes complet'] },
+          { day: 'Jour 4', actions: ['Natation ou aquagym 45 min', 'Étirements'] },
+          { day: 'Jour 5', actions: ['Cardio 50 min', 'Exercices proprioception'] },
+          { day: 'Jour 6', actions: ['Sport plaisir 1h', 'Surélévation récupération'] },
+          { day: 'Jour 7', actions: ['Repos actif : natation douce, marche'] },
         ],
       },
     ],
-    nutritionAdvice: [
-      'Fruits rouges (myrtilles, cassis) : renforcent les parois veineuses',
-      'Vitamine C (agrumes, kiwi) : synthèse du collagène',
-      'Limiter le sel : réduit la rétention d\'eau',
-      'Hydratation suffisante : 1,5L d\'eau par jour',
-      'Fibres : évitent la constipation qui gêne le retour veineux',
+
+    eightWeekPrograms: [
+      {
+        level: 0,
+        levelName: 'Niveau 0 — Très peu mobile',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Activer la pompe', exercises: ['Surélévation 2x15 min/jour', 'Flexion pieds 3x20/jour', 'Marche 5-10 min 2x/jour'] },
+          { week: 'Semaines 3-4', focus: 'Augmenter la marche', exercises: ['Surélévation quotidienne', 'Exercices complets 10 min', 'Marche 15-20 min/jour'] },
+          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Marche 20-25 min', 'Ajouter montées sur pointes', 'Douche fraîche quotidienne'] },
+          { week: 'Semaines 7-8', focus: 'Consolider', exercises: ['Marche 30 min/jour', 'Routine d\'exercices établie', 'Port contention si prescrit'] },
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Niveau 1 — Mobilité limitée',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Base solide', exercises: ['Marche 20-25 min/jour', 'Exercices 15 min', 'Surélévation 2x/jour'] },
+          { week: 'Semaines 3-4', focus: 'Progression', exercises: ['Marche 30 min ou vélo 20 min', 'Exercices + renforcement mollets'] },
+          { week: 'Semaines 5-6', focus: 'Endurance', exercises: ['Cardio 30-35 min', 'Exercices complets', 'Escaliers régulièrement'] },
+          { week: 'Semaines 7-8', focus: 'Autonomie', exercises: ['Cardio 35-40 min', 'Programme personnel', 'Objectif niveau 2'] },
+        ],
+      },
+      {
+        level: 2,
+        levelName: 'Niveau 2 — Mobilité correcte',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Structurer', exercises: ['Cardio 35-40 min 5x/semaine', 'Renforcement 20 min'] },
+          { week: 'Semaines 3-4', focus: 'Intensifier', exercises: ['Cardio 40-45 min', 'Renforcement + proprioception'] },
+          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Alterner marche/vélo/natation 45 min', 'Circuits jambes'] },
+          { week: 'Semaines 7-8', focus: 'Maintien', exercises: ['Programme autonome', 'Sport 2-3x/semaine', 'Prévention long terme'] },
+        ],
+      },
+      {
+        level: 3,
+        levelName: 'Niveau 3 — Actif',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Cardio 45-50 min', 'Renforcement avancé'] },
+          { week: 'Semaines 3-4', focus: 'Sport régulier', exercises: ['Sport 3-4x/semaine', 'Natation ou aquagym 1x/semaine'] },
+          { week: 'Semaines 5-6', focus: 'Performance', exercises: ['Entraînement varié', 'Compétition amicale si souhaité'] },
+          { week: 'Semaines 7-8', focus: 'Vie active', exercises: ['Activité quotidienne intégrée', 'Maintien long terme'] },
+        ],
+      },
     ],
+
+    nutrition: {
+      idealPlate: [
+        'Fruits rouges (myrtilles, cassis, framboises) : renforcent les parois veineuses',
+        'Légumes verts à chaque repas (antioxydants)',
+        'Poisson 2-3x/semaine (oméga-3)',
+        'Peu de sel (limite la rétention d\'eau)',
+        'Beaucoup d\'eau et tisanes (1,5-2L/jour)',
+      ],
+      commonMistakes: [
+        'Trop de sel (plats préparés, charcuterie) : favorise les œdèmes',
+        'Pas assez d\'eau : le sang s\'épaissit',
+        'Trop d\'alcool : dilate les veines et déshydrate',
+        'Pas assez de fibres (constipation gêne le retour veineux)',
+        'Repas trop copieux le soir',
+      ],
+      tips: [
+        'Buvez avant d\'avoir soif, surtout quand il fait chaud',
+        'Mangez des agrumes (vitamine C pour le collagène des veines)',
+        'Limitez les plats industriels (sel caché)',
+        'Fibres : légumes, fruits, céréales complètes',
+      ],
+    },
+
     alertSigns: [
-      'Mollet rouge, chaud, douloureux et gonflé (phlébite)',
-      'Douleur thoracique ou essoufflement brutal',
+      'Mollet rouge, chaud, dur et douloureux (suspicion de phlébite)',
+      'Gonflement brutal d\'une seule jambe',
+      'Douleur thoracique ou essoufflement brutal (embolie possible)',
       'Ulcère de jambe qui ne cicatrise pas',
       'Saignement d\'une varice',
-      'Durcissement douloureux sur le trajet d\'une veine',
+      'Changement de couleur de la peau (brune, rouge) avec durcissement',
     ],
-    audience: 'senior',
-    readingTime: 7,
+
+    sources: [
+      { name: 'European Society for Vascular Surgery Guidelines', year: 2022 },
+      { name: 'HAS - Insuffisance veineuse chronique des membres inférieurs', year: 2021 },
+      { name: 'International Union of Phlebology Guidelines', year: 2020 },
+      { name: 'Cochrane: Compression stockings for treating venous leg ulcers', year: 2018 },
+    ],
   },
-  {
-    id: 'angines-repetition-enfant',
-    slug: 'angines-repetition-enfant',
-    name: 'Angines à répétition (enfant)',
-    category: 'orl-respiratoire',
-    shortDescription: 'Infections répétées de la gorge chez l\'enfant, souvent virales.',
-    definition: "Les angines à répétition désignent la survenue fréquente (plus de 3 à 5 par an) d'infections de la gorge (pharynx et amygdales) chez l'enfant. La plupart sont d'origine virale, mais certaines sont bactériennes et nécessitent un traitement adapté.",
-    physiopathology: "Les amygdales sont des organes de défense immunitaire très sollicités chez l'enfant. Leur inflammation répétée traduit souvent un système immunitaire en maturation. La collectivité (crèche, école) favorise la transmission des virus.",
-    symptoms: [
-      'Mal de gorge, difficulté à avaler',
-      'Fièvre',
-      'Fatigue',
-      'Ganglions du cou gonflés',
-      'Parfois : maux de tête, douleurs abdominales',
-    ],
-    aggravatingFactors: [
-      'Collectivité (crèche, école)',
-      'Tabagisme passif',
-      'Pollution intérieure',
-      'Reflux gastro-œsophagien',
-      'Déficit en fer ou vitamines',
-    ],
-    helpfulFactors: [
-      'Aération régulière des pièces',
-      'Lavage des mains fréquent',
-      'Humidification de l\'air en hiver',
-      'Alimentation équilibrée',
-      'Cure thermale ORL',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'L\'activité physique modérée renforce l\'immunité. Éviter le sport en phase aiguë de l\'angine. Reprendre progressivement après guérison.',
-      posturalAdvice: 'Surélever légèrement la tête du lit si reflux. Éviter de forcer sur la voix en phase d\'angine.',
-      lifestyle: 'Aérer la chambre 10 min/jour. Éviter la surchauffe (19°C). Ne pas exposer l\'enfant au tabagisme passif. Lavage de nez au sérum physiologique régulier.',
-      sleep: 'Repos important pendant l\'épisode aigu. Veiller à une bonne qualité de sommeil habituelle (10-12h selon l\'âge).',
-      stressManagement: 'Rythme de vie régulier. Temps de jeu et de détente. Éviter la surcharge d\'activités.',
-      thermalism: 'Les cures thermales ORL peuvent réduire la fréquence des épisodes infectieux. Soins locaux (gargarismes, aérosols) et eau thermale ont un effet apaisant et anti-infectieux modéré.',
-    },
-    exercises: [
-      {
-        id: 'ex-angine-1',
-        title: 'Lavage de nez au sérum physiologique',
-        description: 'Nettoie les voies respiratoires supérieures',
-        duration: '2 minutes',
-        frequency: '1 à 2 fois par jour',
-        icon: '💧',
-        steps: [
-          'Incliner la tête de l\'enfant sur le côté',
-          'Injecter doucement le sérum dans la narine supérieure',
-          'Le liquide ressort par l\'autre narine',
-          'Moucher doucement',
-          'Répéter de l\'autre côté',
-        ],
-      },
-      {
-        id: 'ex-angine-2',
-        title: 'Gargarismes à l\'eau salée (enfants > 6 ans)',
-        description: 'Apaise la gorge et limite l\'infection',
-        duration: '1 minute',
-        frequency: '2 à 3 fois par jour en épisode',
-        icon: '🧂',
-        steps: [
-          'Mélanger 1/2 cuillère à café de sel dans un verre d\'eau tiède',
-          'L\'enfant prend une gorgée',
-          'Tête en arrière, gargariser 10-15 secondes',
-          'Cracher (ne pas avaler)',
-          'Répéter 2-3 fois',
-        ],
-      },
-    ],
-    nutritionAdvice: [
-      'Alimentation équilibrée et variée',
-      'Fruits et légumes riches en vitamine C (agrumes, kiwi)',
-      'Aliments mous et tièdes en cas d\'angine (compotes, soupes)',
-      'Hydratation importante',
-      'Miel (> 1 an) peut apaiser la gorge',
-      'Éviter les boissons acides irritantes',
-    ],
-    alertSigns: [
-      'Fièvre très élevée (> 39°C) persistante',
-      'Difficulté importante à avaler (bave)',
-      'Difficultés respiratoires',
-      'Abcès visible près de l\'amygdale',
-      'Raideur de nuque',
-      'Éruption cutanée associée',
-    ],
-    audience: 'enfant',
-    readingTime: 6,
-  },
-  {
-    id: 'sciatique-chronique',
-    slug: 'sciatique-chronique',
-    name: 'Sciatique chronique',
-    category: 'rhumatologie',
-    shortDescription: 'Douleur irradiant dans la jambe, souvent liée à une irritation du nerf sciatique.',
-    definition: "La sciatique chronique est une douleur qui suit le trajet du nerf sciatique, partant du bas du dos et irradiant dans la fesse et la jambe. On parle de chronicité au-delà de 3 mois. Elle est souvent liée à une hernie discale ou une arthrose lombaire.",
-    physiopathology: "Le nerf sciatique peut être comprimé ou irrité au niveau lombaire (hernie discale, arthrose, sténose du canal). L'inflammation locale provoque la douleur qui suit le trajet du nerf. Les tensions musculaires peuvent aggraver la compression.",
-    symptoms: [
-      'Douleur lombaire irradiant dans la fesse et la jambe',
-      'Trajet précis (arrière ou côté de la cuisse/mollet)',
-      'Sensations de fourmillements ou engourdissements',
-      'Douleur aggravée par la toux, l\'effort',
-      'Parfois faiblesse musculaire du pied ou de la jambe',
-    ],
-    aggravatingFactors: [
-      'Position assise prolongée',
-      'Port de charges lourdes',
-      'Mouvements de torsion du dos',
-      'Sédentarité',
-      'Surpoids',
-    ],
-    helpfulFactors: [
-      'Activité physique adaptée',
-      'Étirements doux',
-      'Maintien de la mobilité',
-      'Éviter le repos strict au lit',
-      'Cure thermale',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'Marche quotidienne (commencer par 10 min, augmenter progressivement). Natation sur le dos. Éviter les sports à impact.',
-      posturalAdvice: 'Éviter de soulever des charges. Si nécessaire : fléchir les genoux, garder la charge près du corps. Varier les positions.',
-      lifestyle: 'Éviter les longues périodes assises. Se lever régulièrement. Siège adapté avec soutien lombaire.',
-      sleep: 'Position fœtale (sur le côté, genoux fléchis) souvent la plus confortable. Matelas ferme mais pas dur.',
-      stressManagement: 'Le stress contracte les muscles et augmente la douleur. Relaxation et activités plaisantes importantes.',
-      thermalism: 'Cures à orientation rhumatologique. Soins en piscine (mobilisation sans gravité), boue chaude, massages. Amélioration de la douleur et de la fonction.',
-    },
-    exercises: [
-      {
-        id: 'ex-sciatique-1',
-        title: 'Étirement du piriforme',
-        description: 'Relâche un muscle souvent impliqué dans la sciatique',
-        duration: '3 minutes',
-        frequency: '2 fois par jour',
-        icon: '🧘',
-        steps: [
-          'Couché sur le dos',
-          'Croisez la cheville droite sur le genou gauche',
-          'Tirez le genou gauche vers la poitrine',
-          'Maintenez 30 secondes, respirez',
-          'Changez de côté',
-        ],
-      },
-      {
-        id: 'ex-sciatique-2',
-        title: 'Genoux-poitrine',
-        description: 'Étire doucement la région lombaire',
-        duration: '2 minutes',
-        frequency: '2 fois par jour',
-        icon: '🔄',
-        steps: [
-          'Couché sur le dos',
-          'Ramenez les deux genoux vers la poitrine',
-          'Entourez-les de vos bras',
-          'Balancez doucement de droite à gauche',
-          'Maintenez 30 secondes',
-        ],
-      },
-      {
-        id: 'ex-sciatique-3',
-        title: 'Extension lombaire (McKenzie)',
-        description: 'Peut soulager certaines sciatiques discales',
-        duration: '5 minutes',
-        frequency: '3-4 fois par jour',
-        icon: '⬆️',
-        steps: [
-          'Couché sur le ventre',
-          'Placez les mains sous les épaules',
-          'Relevez lentement le buste en gardant le bassin au sol',
-          'Maintenez 10 secondes',
-          'Redescendez. 10 répétitions',
-        ],
-      },
-    ],
-    nutritionAdvice: [
-      'Alimentation anti-inflammatoire',
-      'Oméga-3 (poissons gras, noix)',
-      'Curcuma et gingembre (anti-inflammatoires naturels modérés)',
-      'Éviter le surpoids',
-      'Hydratation importante',
-    ],
-    alertSigns: [
-      'Paralysie du pied ("pied qui tombe")',
-      'Perte de sensibilité importante',
-      'Troubles urinaires ou du contrôle des selles',
-      'Perte de sensibilité de la région périnéale',
-      'Douleur nocturne insomniante intense',
-    ],
-    audience: 'adulte',
-    readingTime: 7,
-  },
-  {
-    id: 'insuffisance-lymphatique',
-    slug: 'insuffisance-lymphatique',
-    name: 'Insuffisance lymphatique',
-    category: 'veino-lymphatique',
-    shortDescription: 'Gonflement par accumulation de lymphe, souvent aux membres inférieurs.',
-    definition: "L'insuffisance lymphatique (ou lymphœdème) se caractérise par une accumulation de lymphe dans les tissus, provoquant un gonflement persistant. Elle touche souvent les jambes, parfois les bras (notamment après chirurgie du cancer du sein).",
-    physiopathology: "Le système lymphatique draine les liquides des tissus vers le sang. Lorsqu'il fonctionne mal (malformation, obstruction, séquelles chirurgicales), la lymphe stagne et provoque un œdème particulier, ferme et peu douloureux.",
-    symptoms: [
-      'Gonflement persistant d\'un membre',
-      'Sensation de lourdeur et tension',
-      'Peau épaissie, moins souple',
-      'Plis cutanés moins marqués',
-      'Signe du godet (marque persistante après pression)',
-    ],
-    aggravatingFactors: [
-      'Chaleur',
-      'Position debout ou assise prolongée',
-      'Infections cutanées (érysipèle)',
-      'Voyages en avion prolongés',
-      'Traumatismes',
-    ],
-    helpfulFactors: [
-      'Drainage lymphatique manuel',
-      'Compression (bandages, bas)',
-      'Surélévation du membre',
-      'Activité physique adaptée',
-      'Cure thermale',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'Marche, natation, vélo (muscles propulsent la lymphe). Éviter les efforts violents et les traumatismes du membre atteint.',
-      posturalAdvice: 'Surélévation du membre atteint au repos. Éviter les positions immobiles prolongées.',
-      lifestyle: 'Soins cutanés rigoureux pour éviter les infections. Éviter les prises de sang et la tension sur le membre atteint.',
-      sleep: 'Surélever le membre pendant la nuit (coussin, cale).',
-      stressManagement: 'Le stress peut aggraver l\'inflammation. Relaxation bénéfique.',
-      thermalism: 'Cures spécialisées en lymphologie. Soins d\'eau (bains, douches), drainage, éducation. Amélioration du volume et de la qualité de vie.',
-    },
-    exercises: [
-      {
-        id: 'ex-lymph-1',
-        title: 'Respiration abdominale',
-        description: 'Active le pompage lymphatique central',
-        duration: '5 minutes',
-        frequency: '2 fois par jour',
-        icon: '🌬️',
-        steps: [
-          'Couché sur le dos, genoux fléchis',
-          'Main sur le ventre',
-          'Inspirez en gonflant le ventre',
-          'Expirez en rentrant le ventre',
-          'Lentement, 10 cycles',
-        ],
-      },
-      {
-        id: 'ex-lymph-2',
-        title: 'Auto-drainage simplifié',
-        description: 'Stimule la circulation lymphatique',
-        duration: '5 minutes',
-        frequency: '1 fois par jour',
-        icon: '✋',
-        steps: [
-          'Effleurages légers du membre gonflé',
-          'Toujours vers la racine du membre (cuisse vers aine)',
-          'Mouvements doux et lents',
-          'Pas de pression forte',
-          'Terminer par respiration abdominale',
-        ],
-      },
-    ],
-    nutritionAdvice: [
-      'Limiter le sel (réduit la rétention d\'eau)',
-      'Protéines suffisantes (réparation tissulaire)',
-      'Éviter les régimes trop restrictifs',
-      'Hydratation normale (ne pas restreindre)',
-      'Fruits et légumes pour les antioxydants',
-    ],
-    alertSigns: [
-      'Rougeur, chaleur, fièvre (érysipèle)',
-      'Douleur intense inhabituelle',
-      'Modification brutale du volume',
-      'Plaie qui ne cicatrise pas',
-      'Écoulement de lymphe par la peau',
-    ],
-    audience: 'senior',
-    readingTime: 6,
-  },
-  {
-    id: 'asthme',
-    slug: 'asthme',
-    name: 'Asthme',
-    category: 'orl-respiratoire',
-    shortDescription: 'Maladie respiratoire chronique avec crises d\'essoufflement.',
-    definition: "L'asthme est une maladie inflammatoire chronique des bronches. Elle se manifeste par des crises d'essoufflement, de toux et de sifflements. Entre les crises, les poumons fonctionnent normalement. L'asthme est une maladie contrôlable.",
-    physiopathology: "Les bronches des asthmatiques sont hypersensibles. Sous l'effet de divers stimuli (allergènes, effort, froid), elles se contractent, s'enflamment et produisent du mucus, réduisant le passage de l'air.",
-    symptoms: [
-      'Essoufflement par crises',
-      'Sifflements respiratoires',
-      'Toux, surtout la nuit',
-      'Oppression thoracique',
-      'Symptômes soulagés par le bronchodilatateur',
-    ],
-    aggravatingFactors: [
-      'Allergènes (acariens, pollens, animaux)',
-      'Infections respiratoires',
-      'Tabac (actif ou passif)',
-      'Pollution',
-      'Effort physique intense non préparé',
-      'Émotions fortes',
-    ],
-    helpfulFactors: [
-      'Traitement de fond bien suivi',
-      'Éviction des allergènes identifiés',
-      'Activité physique régulière adaptée',
-      'Cure thermale respiratoire',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'L\'activité physique régulière améliore le contrôle de l\'asthme. Échauffement progressif. Natation particulièrement recommandée (air chaud et humide). Avoir son bronchodilatateur à portée.',
-      posturalAdvice: 'Position assise légèrement penchée en avant en cas de gêne. Éviter les pièces enfumées ou poussiéreuses.',
-      lifestyle: 'Aérer le logement. Literie anti-acariens. Éviter les moquettes. Pas de tabac ni de fumée.',
-      sleep: 'Chambre à 18-19°C, aérée. Literie anti-acariens. Traitement de fond pris régulièrement.',
-      stressManagement: 'Le stress peut déclencher des crises. Techniques de relaxation, respiration contrôlée.',
-      thermalism: 'Cures à orientation respiratoire. Aérosols, inhalations, exercices respiratoires. Amélioration de la qualité de vie et réduction des crises.',
-    },
-    exercises: [
-      {
-        id: 'ex-asthme-1',
-        title: 'Respiration à lèvres pincées',
-        description: 'Ralentit l\'expiration et réduit l\'essoufflement',
-        duration: '3 minutes',
-        frequency: 'En cas de gêne',
-        icon: '💨',
-        steps: [
-          'Inspirez calmement par le nez',
-          'Pincez les lèvres comme pour siffler',
-          'Expirez lentement (2x plus long que l\'inspiration)',
-          'Répétez jusqu\'à soulagement',
-        ],
-      },
-      {
-        id: 'ex-asthme-2',
-        title: 'Respiration abdominale',
-        description: 'Renforce le diaphragme et améliore la ventilation',
-        duration: '5 minutes',
-        frequency: '2 fois par jour',
-        icon: '🫁',
-        steps: [
-          'Assis ou couché, main sur le ventre',
-          'Inspirez par le nez en gonflant le ventre',
-          'Expirez lentement en rentrant le ventre',
-          '10 cycles, lentement',
-        ],
-      },
-    ],
-    nutritionAdvice: [
-      'Alimentation équilibrée, riche en fruits et légumes',
-      'Oméga-3 (poissons gras) : effet anti-inflammatoire modéré',
-      'Éviter les aliments auxquels vous êtes allergique',
-      'Vitamine D (poissons, œufs, soleil modéré)',
-      'Maintenir un poids santé',
-    ],
-    alertSigns: [
-      'Crise intense ne cédant pas au bronchodilatateur',
-      'Essoufflement majeur empêchant de parler',
-      'Lèvres ou ongles bleutés',
-      'Aggravation malgré le traitement de fond',
-      'Appeler le 15 (SAMU) en cas de crise grave',
-    ],
-    audience: 'adulte',
-    readingTime: 7,
-  },
+
+  // ========== BPCO ==========
   {
     id: 'bpco',
     slug: 'bpco',
     name: 'BPCO',
     category: 'orl-respiratoire',
-    shortDescription: 'Maladie pulmonaire chronique obstructive, souvent liée au tabac.',
-    definition: "La Bronchopneumopathie Chronique Obstructive (BPCO) est une maladie respiratoire chronique caractérisée par un rétrécissement progressif et irréversible des bronches. Elle est principalement causée par le tabagisme. L'arrêt du tabac est le traitement essentiel.",
-    physiopathology: "L'inhalation chronique de fumée de tabac provoque une inflammation et une destruction progressive des bronches et des alvéoles pulmonaires. L'air a du mal à sortir des poumons (obstruction), provoquant essoufflement et limitation à l'effort.",
-    symptoms: [
-      'Essoufflement progressif, d\'abord à l\'effort',
-      'Toux chronique avec crachats',
-      'Fatigue',
-      'Infections bronchiques fréquentes',
-      'Sifflements respiratoires',
-    ],
-    aggravatingFactors: [
-      'Tabagisme (même passif)',
-      'Pollution atmosphérique',
-      'Infections respiratoires',
-      'Inactivité physique',
-      'Air froid et sec',
-    ],
-    helpfulFactors: [
-      'Arrêt du tabac (essentiel)',
-      'Réhabilitation respiratoire',
-      'Activité physique adaptée',
-      'Vaccinations (grippe, pneumocoque)',
-      'Cure thermale',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'Essentielle malgré l\'essoufflement. Programme adapté : marche progressive, vélo, exercices respiratoires. La réhabilitation respiratoire est le traitement le plus efficace après l\'arrêt du tabac.',
-      posturalAdvice: 'Position légèrement penchée en avant en cas d\'essoufflement (appui sur les cuisses ou une table).',
-      lifestyle: 'Arrêt du tabac impératif. Éviter la fumée et la pollution. Se protéger du froid (masque, écharpe).',
-      sleep: 'Tête légèrement surélevée. Éviter les somnifères qui dépriment la respiration.',
-      stressManagement: 'Techniques de relaxation. Gestion de l\'anxiété liée à l\'essoufflement.',
-      thermalism: 'Cures à orientation respiratoire. Aérosols, drainage bronchique, exercices. Amélioration de la tolérance à l\'effort et de la qualité de vie.',
-    },
-    exercises: [
-      {
-        id: 'ex-bpco-1',
-        title: 'Respiration à lèvres pincées',
-        description: 'Vide mieux les poumons et réduit l\'essoufflement',
-        duration: '5 minutes',
-        frequency: 'Plusieurs fois par jour',
-        icon: '💨',
-        steps: [
-          'Inspirez par le nez (2 secondes)',
-          'Pincez les lèvres',
-          'Expirez lentement (4-6 secondes)',
-          'À utiliser pendant l\'effort aussi',
-        ],
-      },
-      {
-        id: 'ex-bpco-2',
-        title: 'Marche adaptée',
-        description: 'Améliore l\'endurance et l\'essoufflement',
-        duration: '20-30 minutes',
-        frequency: 'Tous les jours',
-        icon: '🚶',
-        steps: [
-          'Commencez par 5-10 minutes',
-          'Augmentez progressivement',
-          'Marchez à un rythme où vous pouvez parler',
-          'Utilisez la respiration à lèvres pincées si besoin',
-          'Faites des pauses si nécessaire',
-        ],
-      },
-    ],
-    nutritionAdvice: [
-      'Protéines suffisantes (les muscles respiratoires en ont besoin)',
-      'Fractionnez les repas si l\'estomac plein gêne la respiration',
-      'Éviter le surpoids (gêne la respiration)',
-      'Éviter la dénutrition (fréquente dans la BPCO avancée)',
-      'Hydratation suffisante (fluidifie les sécrétions)',
-    ],
-    alertSigns: [
-      'Essoufflement brutal aggravé',
-      'Crachats purulents (verdâtres)',
-      'Fièvre',
-      'Confusion',
-      'Œdèmes des chevilles',
-      'Lèvres ou ongles bleutés',
-    ],
-    audience: 'senior',
-    readingTime: 8,
-  },
-  {
-    id: 'rhinite-chronique',
-    slug: 'rhinite-chronique',
-    name: 'Rhinite chronique',
-    category: 'orl-respiratoire',
-    shortDescription: 'Inflammation persistante du nez, allergique ou non.',
-    definition: "La rhinite chronique est une inflammation durable de la muqueuse nasale. Elle peut être allergique (rhume des foins, acariens) ou non allergique (irritative, vasomotrice). Elle altère la qualité de vie par ses symptômes gênants.",
-    physiopathology: "La muqueuse nasale est en permanence enflammée et hypersensible. Elle réagit excessivement à des stimuli (allergènes, changements de température, polluants), produisant mucus, congestion et éternuements.",
-    symptoms: [
-      'Nez bouché (obstruction nasale)',
-      'Écoulement nasal (clair ou épais)',
-      'Éternuements',
-      'Démangeaisons du nez et du palais',
-      'Perte d\'odorat',
-    ],
-    aggravatingFactors: [
-      'Allergènes (pollens, acariens, moisissures)',
-      'Pollution, tabac',
-      'Air sec (chauffage)',
-      'Certains médicaments',
-      'Changements de température',
-    ],
-    helpfulFactors: [
-      'Éviction des allergènes',
-      'Lavages de nez réguliers',
-      'Air humidifié',
-      'Cure thermale ORL',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'L\'exercice peut temporairement décongestionner le nez. Préférer l\'intérieur lors des pics polliniques.',
-      posturalAdvice: 'Dormir tête légèrement surélevée si nez bouché la nuit.',
-      lifestyle: 'Lavages de nez au sérum physiologique quotidiens. Aérer mais éviter les périodes de forte pollinisation. Housses anti-acariens.',
-      sleep: 'Chambre bien aérée mais protégée des pollens. Humidificateur si air trop sec.',
-      stressManagement: 'Le stress peut aggraver les symptômes. Relaxation utile.',
-      thermalism: 'Cures ORL : irrigations nasales, aérosols, eaux thermales. Amélioration des symptômes et réduction du recours aux médicaments.',
-    },
-    exercises: [
-      {
-        id: 'ex-rhinite-1',
-        title: 'Lavage de nez complet',
-        description: 'Nettoie et apaise la muqueuse nasale',
-        duration: '3 minutes',
-        frequency: '1 à 2 fois par jour',
-        icon: '💧',
-        steps: [
-          'Utilisez du sérum physiologique ou une solution saline',
-          'Penchez-vous au-dessus du lavabo',
-          'Inclinez la tête sur le côté',
-          'Injectez la solution dans la narine supérieure',
-          'Laissez couler par l\'autre narine',
-          'Mouchez doucement, changez de côté',
-        ],
-      },
-    ],
-    nutritionAdvice: [
-      'Alimentation anti-inflammatoire',
-      'Oméga-3 (poissons gras)',
-      'Éviter les aliments auxquels vous êtes allergique',
-      'Probiotiques (yaourts) : effet possible sur l\'immunité',
-      'Hydratation suffisante',
-    ],
-    alertSigns: [
-      'Douleur faciale importante (sinusite)',
-      'Écoulement nasal unilatéral sanglant',
-      'Perte complète de l\'odorat persistante',
-      'Obstruction nasale totale ne cédant pas',
-      'Saignements de nez fréquents',
-    ],
+    shortDescription: 'Maladie respiratoire chronique avec essoufflement progressif, souvent liée au tabac.',
     audience: 'adulte',
-    readingTime: 6,
+    readingTime: 9,
+    lastUpdated: '2024-01',
+
+    quickSummary: `La BPCO (broncho-pneumopathie chronique obstructive) rend la respiration difficile. Les bronches sont rétrécies et inflammées, souvent à cause du tabac. L'essoufflement fait peur et pousse à moins bouger. Mais c'est le contraire qu'il faut faire : l'activité physique adaptée améliore le souffle, la qualité de vie et réduit les exacerbations. Arrêter le tabac est essentiel. La rééducation respiratoire et les exercices quotidiens font partie intégrante du traitement.`,
+
+    physiopathology: `Vos bronches sont comme des tubes qui amènent l'air jusqu'aux poumons. Dans la BPCO, ces tubes sont rétrécis par l'inflammation chronique et encombrés de mucus. Les petits sacs d'air (alvéoles) sont abîmés et perdent leur élasticité. Résultat : l'air entre mal et surtout sort mal. Vous vous essoufflez. Le cercle vicieux s'installe : essoufflement → peur de bouger → muscles qui fondent → essoufflement plus rapide. La solution : réentraîner progressivement votre corps à l'effort.`,
+
+    top5NonMedical: [
+      {
+        title: 'Arrêter le tabac',
+        description: 'C\'est LA priorité absolue. Même après des années, l\'arrêt ralentit l\'évolution de la maladie. Demandez de l\'aide (substituts, suivi).',
+        icon: '🚭',
+      },
+      {
+        title: 'Faire de l\'activité physique',
+        description: 'Marche, vélo, natation : 30 min/jour améliore le souffle et la qualité de vie. Commencez très progressivement.',
+        icon: '🚶',
+      },
+      {
+        title: 'Pratiquer les exercices respiratoires',
+        description: 'Respiration à lèvres pincées, respiration abdominale : 5-10 min 2-3x/jour. Ça améliore le contrôle du souffle.',
+        icon: '🌬️',
+      },
+      {
+        title: 'Faire la réhabilitation respiratoire',
+        description: 'Programme supervisé par des professionnels. Très efficace pour améliorer la capacité d\'effort. Demandez une prescription.',
+        icon: '🏥',
+      },
+      {
+        title: 'Éviter les infections',
+        description: 'Vaccins (grippe, pneumocoque, COVID), lavage des mains, éviter les personnes malades. Les infections aggravent la BPCO.',
+        icon: '💉',
+      },
+    ],
+
+    sevenDayPlans: [
+      {
+        level: 0,
+        levelName: 'Essoufflement au moindre effort',
+        days: [
+          { day: 'Jour 1', actions: ['Respiration lèvres pincées 5 min 3x', 'Marcher dans l\'appartement 2x3 min', 'Respiration abdominale 5 min'] },
+          { day: 'Jour 2', actions: ['Exercices respiratoires 3x', 'Marcher 2x5 min', 'Exercices assis (bras) 5 min'] },
+          { day: 'Jour 3', actions: ['Respirations 3x', 'Marcher 3x5 min', 'Exercices assis 7 min'] },
+          { day: 'Jour 4', actions: ['Respirations', 'Marcher 2x7 min', 'Exercices 10 min'] },
+          { day: 'Jour 5', actions: ['Respirations', 'Marcher 15 min (pauses si besoin)', 'Exercices 10 min'] },
+          { day: 'Jour 6', actions: ['Respirations', 'Marcher 15-20 min', 'Exercices complets'] },
+          { day: 'Jour 7', actions: ['Repos actif : exercices respiratoires + mouvements doux'] },
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Essoufflement à l\'effort modéré',
+        days: [
+          { day: 'Jour 1', actions: ['Exercices respiratoires 10 min', 'Marcher 15 min', 'Renforcement léger 10 min'] },
+          { day: 'Jour 2', actions: ['Respirations', 'Marcher 20 min', 'Exercices 15 min'] },
+          { day: 'Jour 3', actions: ['Respirations', 'Marcher ou vélo 20 min', 'Renforcement 15 min'] },
+          { day: 'Jour 4', actions: ['Respirations', 'Cardio 25 min', 'Exercices'] },
+          { day: 'Jour 5', actions: ['Respirations', 'Marcher 25-30 min', 'Renforcement'] },
+          { day: 'Jour 6', actions: ['Respirations', 'Activité au choix 30 min', 'Étirements'] },
+          { day: 'Jour 7', actions: ['Repos actif, exercices respiratoires'] },
+        ],
+      },
+      {
+        level: 2,
+        levelName: 'Essoufflement à l\'effort soutenu',
+        days: [
+          { day: 'Jour 1', actions: ['Exercices respiratoires', 'Cardio 30 min', 'Renforcement 20 min'] },
+          { day: 'Jour 2', actions: ['Respirations', 'Marche rapide ou vélo 35 min', 'Exercices'] },
+          { day: 'Jour 3', actions: ['Respirations', 'Cardio 35 min', 'Renforcement complet'] },
+          { day: 'Jour 4', actions: ['Respirations', 'Activité plaisir 40 min'] },
+          { day: 'Jour 5', actions: ['Respirations', 'Cardio 40 min', 'Renforcement'] },
+          { day: 'Jour 6', actions: ['Activité longue 45 min', 'Étirements'] },
+          { day: 'Jour 7', actions: ['Repos actif'] },
+        ],
+      },
+      {
+        level: 3,
+        levelName: 'Bonne tolérance à l\'effort',
+        days: [
+          { day: 'Jour 1', actions: ['Exercices respiratoires', 'Cardio 45 min', 'Renforcement 25 min'] },
+          { day: 'Jour 2', actions: ['Respirations', 'Sport 45-60 min'] },
+          { day: 'Jour 3', actions: ['Respirations', 'Cardio varié 45 min', 'Renforcement'] },
+          { day: 'Jour 4', actions: ['Activité plaisir 1h'] },
+          { day: 'Jour 5', actions: ['Cardio 50 min', 'Renforcement'] },
+          { day: 'Jour 6', actions: ['Sport ou activité longue', 'Récupération'] },
+          { day: 'Jour 7', actions: ['Repos actif'] },
+        ],
+      },
+    ],
+
+    eightWeekPrograms: [
+      {
+        level: 0,
+        levelName: 'Niveau 0 — Très essoufflé',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Retrouver le souffle', exercises: ['Exercices respiratoires 3x10 min/jour', 'Marche intérieure 5 min 2-3x/jour', 'Exercices assis 10 min'] },
+          { week: 'Semaines 3-4', focus: 'Augmenter doucement', exercises: ['Respirations', 'Marche 10-15 min/jour', 'Exercices 15 min'] },
+          { week: 'Semaines 5-6', focus: 'Renforcer', exercises: ['Respirations', 'Marche 20 min', 'Exercices + renforcement léger'] },
+          { week: 'Semaines 7-8', focus: 'Stabiliser', exercises: ['Marche 25-30 min', 'Programme complet', 'Objectif niveau 1'] },
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Niveau 1 — Essoufflé à l\'effort',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Base cardio', exercises: ['Respirations quotidiennes', 'Marche 20-25 min', 'Renforcement 15 min'] },
+          { week: 'Semaines 3-4', focus: 'Progression', exercises: ['Cardio 30 min', 'Renforcement 20 min', 'Étirements'] },
+          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Alterner marche/vélo 35 min', 'Renforcement complet'] },
+          { week: 'Semaines 7-8', focus: 'Endurance', exercises: ['Cardio 40 min', 'Programme autonome'] },
+        ],
+      },
+      {
+        level: 2,
+        levelName: 'Niveau 2 — Essoufflement modéré',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Structurer', exercises: ['Cardio 35-40 min 5x/semaine', 'Renforcement 20 min'] },
+          { week: 'Semaines 3-4', focus: 'Intensifier', exercises: ['Cardio 40-45 min', 'Renforcement + endurance'] },
+          { week: 'Semaines 5-6', focus: 'Performance', exercises: ['Cardio varié 45 min', 'Circuits complets'] },
+          { week: 'Semaines 7-8', focus: 'Maintien', exercises: ['Programme autonome', 'Sport 2-3x/semaine'] },
+        ],
+      },
+      {
+        level: 3,
+        levelName: 'Niveau 3 — Actif',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Cardio 45-50 min', 'Renforcement avancé'] },
+          { week: 'Semaines 3-4', focus: 'Sport régulier', exercises: ['Sport 3-4x/semaine', 'Maintenir exercices respiratoires'] },
+          { week: 'Semaines 5-6', focus: 'Équilibre', exercises: ['Activité physique quotidienne', 'Prévention exacerbations'] },
+          { week: 'Semaines 7-8', focus: 'Long terme', exercises: ['Mode de vie actif', 'Surveillance régulière'] },
+        ],
+      },
+    ],
+
+    nutrition: {
+      idealPlate: [
+        'Protéines à chaque repas (viande, poisson, œufs, légumineuses) : les muscles respiratoires en ont besoin',
+        'Légumes variés (antioxydants)',
+        'Féculents en quantité modérée (éviter le surpoids qui gêne la respiration)',
+        'Produits laitiers (calcium + vitamine D)',
+        'Hydratation suffisante (fluidifie le mucus)',
+      ],
+      commonMistakes: [
+        'Manger trop en une fois (l\'estomac plein comprime le diaphragme)',
+        'Pas assez de protéines (fonte musculaire)',
+        'Sauter des repas (faiblesse, fatigue)',
+        'Trop de sel (rétention d\'eau)',
+        'Continuer à fumer',
+      ],
+      tips: [
+        'Mangez plus le matin et midi, léger le soir',
+        'Fractionnez en 5-6 petits repas si essoufflé en mangeant',
+        'Repos 30 min après les repas',
+        'Hydratez-vous bien (1,5L eau + tisanes)',
+        'Limitez les boissons gazeuses (ballonnements)',
+      ],
+    },
+
+    flareProtocol: {
+      title: 'Plan exacerbation BPCO 48h',
+      hours0to24: [
+        'Repos relatif mais pas alitement total',
+        'Augmentez les exercices respiratoires (lèvres pincées)',
+        'Hydratez-vous abondamment (fluidifie le mucus)',
+        'Prenez vos traitements habituels comme prescrits',
+        'Surveillez : fièvre, changement de couleur des crachats, essoufflement aggravé',
+        'Si aggravation franche : contactez votre médecin',
+      ],
+      hours24to48: [
+        'Si amélioration : reprenez très doucement les activités',
+        'Continuez hydratation et exercices respiratoires',
+        'Marche très courte (5 min) si supportée',
+        'Repos supplémentaire la nuit',
+        'Si pas d\'amélioration ou aggravation : consultez',
+      ],
+      resumeActivity: 'Attendez 2-3 jours après la fin des symptômes aigus pour reprendre l\'activité. Recommencez à un niveau en dessous. Si exacerbations fréquentes : parlez-en à votre médecin.',
+    },
+
+    alertSigns: [
+      'Essoufflement brutal et intense, pire qu\'habitude',
+      'Lèvres ou ongles bleutés (cyanose)',
+      'Confusion, somnolence anormale',
+      'Fièvre élevée avec crachats purulents',
+      'Douleur thoracique',
+      'Toux sanglante',
+      'Impossibilité de parler',
+    ],
+
+    sources: [
+      { name: 'GOLD Guidelines (Global Initiative for Chronic Obstructive Lung Disease)', year: 2024 },
+      { name: 'HAS - Guide parcours de soins BPCO', year: 2022 },
+      { name: 'Cochrane: Pulmonary rehabilitation for COPD', year: 2021 },
+      { name: 'European Respiratory Society Guidelines', year: 2023 },
+    ],
   },
+
+  // ========== OTITES À RÉPÉTITION (ENFANT) ==========
   {
     id: 'otites-repetition-enfant',
     slug: 'otites-repetition-enfant',
     name: 'Otites à répétition (enfant)',
     category: 'orl-respiratoire',
-    shortDescription: 'Infections répétées de l\'oreille moyenne chez le jeune enfant.',
-    definition: "Les otites moyennes à répétition (plus de 3 à 4 par an) sont fréquentes chez le jeune enfant. Elles sont liées à l'immaturité de la trompe d'Eustache et à l'exposition aux virus en collectivité. La grande majorité guérissent sans complication.",
-    physiopathology: "La trompe d'Eustache relie l'oreille moyenne au fond du nez. Chez le jeune enfant, elle est courte et horizontale, favorisant le passage des germes. Le rhume précède souvent l'otite.",
-    symptoms: [
-      'Douleur d\'oreille (l\'enfant se touche l\'oreille)',
-      'Fièvre',
-      'Irritabilité, pleurs',
-      'Difficultés à dormir',
-      'Parfois écoulement par l\'oreille',
-    ],
-    aggravatingFactors: [
-      'Collectivité (crèche, nourrice)',
-      'Tabagisme passif',
-      'Usage prolongé de la tétine ou du biberon couché',
-      'Reflux gastro-œsophagien',
-      'Allergies respiratoires',
-    ],
-    helpfulFactors: [
-      'Lavages de nez réguliers',
-      'Éviction du tabac',
-      'Allaitement maternel (effet protecteur)',
-      'Cure thermale ORL',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'Activité normale entre les épisodes. Éviter la piscine en phase aiguë.',
-      posturalAdvice: 'Ne pas donner le biberon couché. Surélever légèrement la tête du lit si reflux.',
-      lifestyle: 'Lavages de nez au sérum physiologique réguliers. Aérer la maison. Pas de tabagisme passif.',
-      sleep: 'Tête légèrement surélevée peut aider en cas de congestion.',
-      stressManagement: 'Rythme de vie régulier. Éviter la fatigue excessive.',
-      thermalism: 'Cures ORL pédiatriques : soins locaux, aérosols, eau thermale. Réduction de la fréquence des otites démontrée.',
-    },
-    exercises: [
-      {
-        id: 'ex-otite-1',
-        title: 'Lavage de nez quotidien',
-        description: 'Prévient l\'accumulation de sécrétions',
-        duration: '2 minutes',
-        frequency: '1 à 2 fois par jour',
-        icon: '💧',
-        steps: [
-          'Allonger l\'enfant sur le côté',
-          'Injecter doucement le sérum dans la narine supérieure',
-          'Laisser couler par l\'autre narine',
-          'Moucher ou aspirer doucement',
-          'Répéter de l\'autre côté',
-        ],
-      },
-      {
-        id: 'ex-otite-2',
-        title: 'Manœuvre de Valsalva douce (enfant > 4 ans)',
-        description: 'Aide à équilibrer la pression dans l\'oreille',
-        duration: '30 secondes',
-        frequency: 'En cas de sensation d\'oreille bouchée',
-        icon: '👂',
-        steps: [
-          'Se pincer le nez',
-          'Bouche fermée, souffler doucement par le nez',
-          'Comme pour se déboucher les oreilles en avion',
-          'Ne pas forcer si douleur',
-        ],
-      },
-    ],
-    nutritionAdvice: [
-      'Allaitement maternel si possible (effet protecteur)',
-      'Alimentation équilibrée et variée',
-      'Vitamine D selon les recommandations',
-      'Éviter les biberons couchés',
-      'Hydratation suffisante',
-    ],
-    alertSigns: [
-      'Fièvre très élevée ou persistante',
-      'Gonflement derrière l\'oreille',
-      'Raideur de nuque',
-      'Troubles de l\'équilibre',
-      'Écoulement persistant',
-      'Baisse d\'audition durable',
-    ],
+    shortDescription: 'Infections récurrentes de l\'oreille chez l\'enfant, souvent virales.',
     audience: 'enfant',
-    readingTime: 6,
-  },
-  {
-    id: 'lichen-plan-buccal',
-    slug: 'lichen-plan-buccal',
-    name: 'Lichen plan buccal',
-    category: 'muqueuses-buccales',
-    shortDescription: 'Maladie inflammatoire chronique de la muqueuse de la bouche.',
-    definition: "Le lichen plan buccal est une maladie inflammatoire chronique qui touche la muqueuse de la bouche. Il se manifeste par des lésions blanchâtres en réseau ou des zones rouges et érosives. Ce n'est pas une maladie contagieuse.",
-    physiopathology: "C'est une réaction auto-immune : le système immunitaire attaque par erreur les cellules de la muqueuse buccale. Les facteurs déclenchants exacts sont mal connus, mais le stress et certains médicaments peuvent jouer un rôle.",
-    symptoms: [
-      'Lésions blanches en réseau (stries de Wickham)',
-      'Zones rouges ou érosives douloureuses',
-      'Brûlures, picotements',
-      'Gêne à l\'alimentation (épices, acides)',
-      'Localisation fréquente : joues, gencives, langue',
-    ],
-    aggravatingFactors: [
-      'Stress',
-      'Aliments acides ou épicés',
-      'Certains médicaments',
-      'Amalgames dentaires (débattu)',
-      'Traumatismes locaux',
-    ],
-    helpfulFactors: [
-      'Hygiène buccale douce',
-      'Éviction des irritants alimentaires',
-      'Gestion du stress',
-      'Cure thermale',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'Pas de contre-indication. L\'exercice peut aider à réduire le stress.',
-      posturalAdvice: 'Non applicable.',
-      lifestyle: 'Hygiène buccale rigoureuse mais douce. Brosse à dents souple. Dentifrice sans sodium lauryl sulfate.',
-      sleep: 'Sommeil réparateur important pour le système immunitaire.',
-      stressManagement: 'Le stress est un facteur déclenchant majeur. Relaxation, sophrologie, activités plaisantes essentielles.',
-      thermalism: 'Cures à orientation dermatologique ou affections des muqueuses. Soins locaux à l\'eau thermale, gargarismes. Amélioration des symptômes.',
-    },
-    exercises: [
+    readingTime: 7,
+    lastUpdated: '2024-01',
+
+    quickSummary: `Votre enfant a souvent mal aux oreilles ? Les otites à répétition (plus de 3-4 par an) sont fréquentes chez les petits. La trompe d'Eustache, qui relie l'oreille au nez, est courte et horizontale chez l'enfant : les microbes y passent facilement. La bonne nouvelle : la plupart des otites guérissent spontanément. Les lavages de nez, l'aération des pièces et quelques gestes simples réduisent les récidives. Avec la croissance, ça s'améliore généralement.`,
+
+    physiopathology: `L'oreille moyenne (derrière le tympan) est reliée au nez par un petit tube appelé trompe d'Eustache. Chez l'enfant, ce tube est court, horizontal et immature : les microbes du nez y montent facilement. Quand l'enfant a un rhume, la trompe se bouche, du liquide s'accumule derrière le tympan et s'infecte. Les facteurs favorisants : collectivité (crèche), tabagisme passif, tétine après 6 mois, reflux, allergies. L'allaitement maternel protège.`,
+
+    top5NonMedical: [
       {
-        id: 'ex-lichen-1',
-        title: 'Bains de bouche apaisants',
-        description: 'Calme l\'inflammation et nettoie en douceur',
-        duration: '2 minutes',
-        frequency: '2 à 3 fois par jour',
+        title: 'Laver le nez régulièrement',
+        description: 'Sérum physiologique ou spray eau de mer, plusieurs fois par jour surtout quand le nez coule. Ça dégage la trompe d\'Eustache.',
         icon: '💧',
-        steps: [
-          'Utilisez de l\'eau bicarbonatée tiède',
-          '(1/2 cuillère à café de bicarbonate dans un verre d\'eau)',
-          'Faites circuler en bouche 30 secondes',
-          'Crachez (ne pas avaler)',
-          'Ne pas rincer après',
+      },
+      {
+        title: 'Aérer et dépoussiérer',
+        description: '10-15 min d\'aération quotidienne. Évitez la poussière, les acariens, la fumée de cigarette.',
+        icon: '🌬️',
+      },
+      {
+        title: 'Moucher correctement',
+        description: 'Une narine après l\'autre, doucement. Apprenez à l\'enfant dès que possible. Mouchoirs jetables.',
+        icon: '🤧',
+      },
+      {
+        title: 'Limiter la tétine',
+        description: 'Après 6 mois, la tétine favorise les otites. Essayez de la limiter à l\'endormissement.',
+        icon: '👶',
+      },
+      {
+        title: 'Éviter le tabagisme passif',
+        description: 'La fumée irrite les voies respiratoires et favorise les infections. Jamais de tabac à la maison.',
+        icon: '🚭',
+      },
+    ],
+
+    sevenDayPlans: [
+      {
+        level: 0,
+        levelName: 'Prévention quotidienne',
+        days: [
+          { day: 'Jour 1', actions: ['Lavage de nez matin et soir', 'Aérer la chambre 10 min', 'Vérifier l\'humidité de l\'air'] },
+          { day: 'Jour 2', actions: ['Lavages de nez 2-3x', 'Aérer', 'Nettoyer les jouets et doudous'] },
+          { day: 'Jour 3', actions: ['Lavages', 'Aérer', 'Proposer à boire régulièrement'] },
+          { day: 'Jour 4', actions: ['Lavages', 'Aérer', 'Vérifier qu\'il n\'y a pas de tabagisme passif'] },
+          { day: 'Jour 5', actions: ['Lavages', 'Aérer', 'Limiter la tétine'] },
+          { day: 'Jour 6', actions: ['Lavages', 'Aérer', 'Sortie au grand air si possible'] },
+          { day: 'Jour 7', actions: ['Bilan de la semaine : les gestes sont-ils devenus une habitude ?'] },
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Pendant un rhume (prévenir l\'otite)',
+        days: [
+          { day: 'Jour 1', actions: ['Lavages de nez 4-5x/jour', 'Surélever légèrement la tête du lit', 'Hydrater++'] },
+          { day: 'Jour 2', actions: ['Lavages fréquents', 'Moucher régulièrement', 'Repos calme'] },
+          { day: 'Jour 3', actions: ['Lavages', 'Surveiller fièvre et comportement', 'Aérer malgré le rhume'] },
+          { day: 'Jour 4', actions: ['Lavages', 'Si fièvre persiste ou douleur oreille : voir médecin'] },
+          { day: 'Jour 5', actions: ['Lavages', 'Normalement amélioration du rhume'] },
+          { day: 'Jour 6', actions: ['Lavages', 'Reprendre activités normales si mieux'] },
+          { day: 'Jour 7', actions: ['Maintenir les lavages encore quelques jours'] },
+        ],
+      },
+      {
+        level: 2,
+        levelName: 'Après une otite (éviter la récidive)',
+        days: [
+          { day: 'Jour 1', actions: ['Continuer les lavages de nez', 'Repos', 'Hydratation'] },
+          { day: 'Jour 2', actions: ['Lavages', 'Reprise progressive des activités'] },
+          { day: 'Jour 3', actions: ['Lavages', 'Aérer la chambre++', 'Laver les doudous à 60°C'] },
+          { day: 'Jour 4', actions: ['Lavages', 'Éviter les lieux très fréquentés si possible'] },
+          { day: 'Jour 5', actions: ['Lavages', 'Retour en collectivité si plus de fièvre depuis 24h'] },
+          { day: 'Jour 6', actions: ['Maintenir les bonnes habitudes'] },
+          { day: 'Jour 7', actions: ['Continuer la prévention quotidienne'] },
         ],
       },
     ],
-    nutritionAdvice: [
-      'Éviter les aliments acides (agrumes, tomates) en phase douloureuse',
-      'Éviter les épices et l\'alcool',
-      'Aliments tièdes plutôt que chauds',
-      'Alimentation molle si lésions douloureuses',
-      'Hydratation suffisante',
+
+    eightWeekPrograms: [
+      {
+        level: 0,
+        levelName: 'Programme prévention long terme',
+        weeks: [
+          { week: 'Semaines 1-2', focus: 'Installer les routines', exercises: ['Lavages de nez matin/soir', 'Aération quotidienne', 'Vérifier humidité (40-60%)'] },
+          { week: 'Semaines 3-4', focus: 'Hygiène environnement', exercises: ['Nettoyage approfondi chambre', 'Lavage doudous/peluches', 'Éliminer sources de poussière'] },
+          { week: 'Semaines 5-6', focus: 'Renforcer les défenses', exercises: ['Alimentation variée et équilibrée', 'Sorties quotidiennes au grand air', 'Sommeil suffisant (10-12h)'] },
+          { week: 'Semaines 7-8', focus: 'Bilan et ajustements', exercises: ['Moins d\'otites ce mois-ci ?', 'Maintenir les routines', 'Consulter ORL si toujours fréquentes'] },
+        ],
+      },
     ],
-    alertSigns: [
-      'Lésion qui change d\'aspect ou grossit',
-      'Ulcération persistante qui ne guérit pas',
-      'Difficultés croissantes à s\'alimenter',
-      'Saignements spontanés',
-      'Un suivi régulier est recommandé (risque rare de transformation)',
-    ],
-    audience: 'adulte',
-    readingTime: 6,
-  },
-  {
-    id: 'glossodynie',
-    slug: 'glossodynie',
-    name: 'Glossodynie',
-    category: 'muqueuses-buccales',
-    shortDescription: 'Sensations de brûlure de la langue sans lésion visible.',
-    definition: "La glossodynie (ou syndrome de la bouche brûlante) est caractérisée par des sensations de brûlure, picotements ou sécheresse de la langue et parfois des lèvres, sans lésion visible. C'est un trouble fréquent, souvent lié au stress et à l'anxiété.",
-    physiopathology: "Les causes exactes sont mal comprises. Il s'agit probablement d'un dysfonctionnement des fibres nerveuses sensorielles. Les facteurs psychologiques (anxiété, dépression) jouent un rôle important.",
-    symptoms: [
-      'Brûlure de la langue (pointe, bords)',
-      'Sensation de sécheresse',
-      'Goût métallique ou altéré',
-      'Symptômes s\'aggravant dans la journée',
-      'Amélioration pendant les repas',
-    ],
-    aggravatingFactors: [
-      'Stress et anxiété',
-      'Bouche sèche (médicaments)',
-      'Carences (fer, B12, acide folique)',
-      'Reflux gastro-œsophagien',
-      'Prothèses dentaires mal ajustées',
-    ],
-    helpfulFactors: [
-      'Gestion du stress',
-      'Correction des carences',
-      'Hydratation régulière',
-      'Cure thermale',
-    ],
-    nonMedicinalTreatments: {
-      physicalActivity: 'Activité physique régulière : aide à réduire le stress et l\'anxiété.',
-      posturalAdvice: 'Non applicable.',
-      lifestyle: 'Éviter les bains de bouche alcoolisés. Hygiène buccale douce. Boire régulièrement.',
-      sleep: 'Sommeil suffisant essentiel. La fatigue aggrave les symptômes.',
-      stressManagement: 'Pilier du traitement. Relaxation, thérapie cognitive-comportementale, activités plaisantes.',
-      thermalism: 'Cures à orientation affections des muqueuses. Soins apaisants, prise en charge globale du stress. Amélioration de la qualité de vie.',
+
+    nutrition: {
+      idealPlate: [
+        'Légumes et fruits variés (vitamines C et A)',
+        'Poisson 2x/semaine (oméga-3)',
+        'Produits laitiers (pour l\'immunité)',
+        'Céréales complètes',
+        'Beaucoup d\'eau et bouillons',
+      ],
+      commonMistakes: [
+        'Trop de sucre (affaiblit les défenses)',
+        'Pas assez de légumes',
+        'Grignotages (perturbent l\'appétit aux repas)',
+        'Lait en excès (peut favoriser le mucus chez certains enfants)',
+        'Oublier l\'hydratation',
+      ],
+      tips: [
+        'Vitamine D en supplémentation l\'hiver (demandez au pédiatre)',
+        'Évitez le biberon couché (reflux → otites)',
+        'Allaitez si possible les premiers mois (protecteur)',
+        'Pas de miel avant 1 an',
+      ],
     },
-    exercises: [
-      {
-        id: 'ex-glosso-1',
-        title: 'Gorgées d\'eau régulières',
-        description: 'Hydrate la bouche et calme la sensation de brûlure',
-        duration: 'Toute la journée',
-        frequency: 'Toutes les 30-60 minutes',
-        icon: '💧',
-        steps: [
-          'Gardez une bouteille d\'eau à portée',
-          'Buvez de petites gorgées régulièrement',
-          'Laissez l\'eau en bouche quelques secondes',
-          'Évitez les boissons acides ou chaudes',
-        ],
-      },
-      {
-        id: 'ex-glosso-2',
-        title: 'Relaxation et respiration',
-        description: 'Réduit le stress qui aggrave les symptômes',
-        duration: '10 minutes',
-        frequency: '2 fois par jour',
-        icon: '🧘',
-        steps: [
-          'Installez-vous confortablement',
-          'Fermez les yeux',
-          'Inspirez lentement par le nez (4 secondes)',
-          'Expirez lentement par la bouche (6 secondes)',
-          'Répétez 10 cycles',
-        ],
-      },
-    ],
-    nutritionAdvice: [
-      'Vérifier les carences (fer, vitamine B12, acide folique)',
-      'Alimentation variée et équilibrée',
-      'Éviter les aliments acides ou épicés',
-      'Hydratation régulière',
-      'Limiter le café',
-    ],
+
     alertSigns: [
-      'Apparition de lésions visibles',
-      'Symptômes unilatéraux',
-      'Perte de sensibilité',
-      'Difficultés à avaler',
-      'Perte de poids inexpliquée',
+      'Fièvre élevée (> 39°C) qui persiste plus de 48h',
+      'Écoulement de l\'oreille (liquide ou pus)',
+      'Enfant très fatigué, difficile à réveiller',
+      'Refus de boire ou de manger',
+      'Douleur intense non calmée par le paracétamol',
+      'Gonflement ou rougeur derrière l\'oreille',
+      'Problèmes d\'équilibre, vertiges',
     ],
+
+    sources: [
+      { name: 'AAP Guidelines: Otitis Media with Effusion', year: 2016 },
+      { name: 'HAS - Antibiothérapie par voie générale en pratique courante dans les infections respiratoires hautes', year: 2021 },
+      { name: 'Société Française de Pédiatrie - Recommandations', year: 2022 },
+      { name: 'Cochrane: Antibiotics for acute otitis media in children', year: 2015 },
+    ],
+  },
+];
+
+// ============================================
+// RESOURCES
+// ============================================
+
+export const resources: Resource[] = [
+  {
+    id: 'res-arthrose-comprendre',
+    pathologyId: 'arthrose',
+    title: 'Comprendre l\'arthrose en 5 minutes',
+    summary: 'Qu\'est-ce que l\'arthrose ? Pourquoi ça fait mal ? Les réponses simples.',
+    type: 'comprendre',
     audience: 'senior',
     readingTime: 5,
   },
-];
-
-// Ressources
-export const resources: Resource[] = [
-  // Arthrose
-  { id: 'res-arthrose-comprendre', pathologyId: 'arthrose', title: 'Comprendre l\'arthrose', summary: 'Définition, mécanismes et évolution de la maladie arthrosique.', type: 'comprendre', audience: 'senior', readingTime: 5 },
-  { id: 'res-arthrose-exercices', pathologyId: 'arthrose', title: 'Exercices pour l\'arthrose', summary: 'Programme d\'exercices doux pour préserver la mobilité articulaire.', type: 'exercices', audience: 'senior', readingTime: 8 },
-  { id: 'res-arthrose-nutrition', pathologyId: 'arthrose', title: 'Alimentation anti-inflammatoire', summary: 'Conseils nutritionnels pour limiter l\'inflammation articulaire.', type: 'nutrition', audience: 'senior', readingTime: 6 },
-  
-  // Lombalgie
-  { id: 'res-lombalgie-comprendre', pathologyId: 'lombalgie-chronique', title: 'Comprendre la lombalgie', summary: 'Pourquoi le dos fait mal et comment y remédier.', type: 'comprendre', audience: 'adulte', readingTime: 5 },
-  { id: 'res-lombalgie-bouger', pathologyId: 'lombalgie-chronique', title: 'Bouger malgré le mal de dos', summary: 'Le mouvement comme traitement de la lombalgie chronique.', type: 'bouger', audience: 'adulte', readingTime: 6 },
-  { id: 'res-lombalgie-exercices', pathologyId: 'lombalgie-chronique', title: 'Exercices de gainage doux', summary: 'Renforcer les muscles du dos sans se faire mal.', type: 'exercices', audience: 'adulte', readingTime: 7 },
-
-  // Sciatique
-  { id: 'res-sciatique-comprendre', pathologyId: 'sciatique-chronique', title: 'Comprendre la sciatique', summary: 'Mécanismes de la douleur sciatique et solutions.', type: 'comprendre', audience: 'adulte', readingTime: 5 },
-  { id: 'res-sciatique-exercices', pathologyId: 'sciatique-chronique', title: 'Étirements pour la sciatique', summary: 'Programme d\'étirements pour soulager le nerf sciatique.', type: 'exercices', audience: 'adulte', readingTime: 6 },
-  
-  // Insuffisance veineuse
-  { id: 'res-veines-comprendre', pathologyId: 'insuffisance-veineuse', title: 'Comprendre l\'insuffisance veineuse', summary: 'Fonctionnement des veines et problèmes de retour veineux.', type: 'comprendre', audience: 'senior', readingTime: 5 },
-  { id: 'res-veines-hygiene', pathologyId: 'insuffisance-veineuse', title: 'Hygiène de vie veineuse', summary: 'Conseils pratiques quotidiens pour soulager les jambes lourdes.', type: 'hygiene', audience: 'senior', readingTime: 5 },
-  { id: 'res-veines-exercices', pathologyId: 'insuffisance-veineuse', title: 'Exercices pour les jambes', summary: 'Mouvements simples pour activer la circulation veineuse.', type: 'exercices', audience: 'senior', readingTime: 5 },
-  
-  // Insuffisance lymphatique
-  { id: 'res-lymph-comprendre', pathologyId: 'insuffisance-lymphatique', title: 'Comprendre le lymphœdème', summary: 'Le système lymphatique et ses dysfonctionnements.', type: 'comprendre', audience: 'senior', readingTime: 6 },
-  { id: 'res-lymph-autosoins', pathologyId: 'insuffisance-lymphatique', title: 'Auto-soins du lymphœdème', summary: 'Techniques de drainage et précautions au quotidien.', type: 'auto-soins', audience: 'senior', readingTime: 7 },
-  
-  // Asthme
-  { id: 'res-asthme-comprendre', pathologyId: 'asthme', title: 'Comprendre l\'asthme', summary: 'Mécanismes de l\'asthme et facteurs déclenchants.', type: 'comprendre', audience: 'adulte', readingTime: 5 },
-  { id: 'res-asthme-bouger', pathologyId: 'asthme', title: 'Sport et asthme', summary: 'Comment pratiquer une activité physique avec un asthme.', type: 'bouger', audience: 'adulte', readingTime: 5 },
-  
-  // BPCO
-  { id: 'res-bpco-comprendre', pathologyId: 'bpco', title: 'Comprendre la BPCO', summary: 'Maladie, évolution et importance de l\'arrêt du tabac.', type: 'comprendre', audience: 'senior', readingTime: 6 },
-  { id: 'res-bpco-bouger', pathologyId: 'bpco', title: 'Activité physique et BPCO', summary: 'Comment reprendre l\'activité malgré l\'essoufflement.', type: 'bouger', audience: 'senior', readingTime: 6 },
-  
-  // Rhinite
-  { id: 'res-rhinite-comprendre', pathologyId: 'rhinite-chronique', title: 'Comprendre la rhinite chronique', summary: 'Allergique ou non : causes et solutions.', type: 'comprendre', audience: 'adulte', readingTime: 5 },
-  { id: 'res-rhinite-hygiene', pathologyId: 'rhinite-chronique', title: 'Hygiène nasale quotidienne', summary: 'Lavages de nez et prévention des symptômes.', type: 'hygiene', audience: 'adulte', readingTime: 4 },
-  
-  // Angines enfant
-  { id: 'res-angine-comprendre', pathologyId: 'angines-repetition-enfant', title: 'Comprendre les angines de l\'enfant', summary: 'Pourquoi les enfants font des angines à répétition.', type: 'comprendre', audience: 'enfant', readingTime: 4 },
-  { id: 'res-angine-consulter', pathologyId: 'angines-repetition-enfant', title: 'Quand consulter pour une angine', summary: 'Signaux d\'alerte et conduite à tenir.', type: 'consulter', audience: 'enfant', readingTime: 4 },
-  
-  // Otites enfant
-  { id: 'res-otite-comprendre', pathologyId: 'otites-repetition-enfant', title: 'Comprendre les otites de l\'enfant', summary: 'Mécanismes et prévention des otites répétées.', type: 'comprendre', audience: 'enfant', readingTime: 4 },
-  { id: 'res-otite-hygiene', pathologyId: 'otites-repetition-enfant', title: 'Prévenir les otites', summary: 'Mesures d\'hygiène pour réduire les infections.', type: 'hygiene', audience: 'enfant', readingTime: 4 },
-  
-  // Lichen plan
-  { id: 'res-lichen-comprendre', pathologyId: 'lichen-plan-buccal', title: 'Comprendre le lichen plan buccal', summary: 'Maladie auto-immune de la bouche et prise en charge.', type: 'comprendre', audience: 'adulte', readingTime: 5 },
-  { id: 'res-lichen-autosoins', pathologyId: 'lichen-plan-buccal', title: 'Vivre avec le lichen buccal', summary: 'Conseils d\'hygiène buccale et gestion des poussées.', type: 'auto-soins', audience: 'adulte', readingTime: 5 },
-  
-  // Glossodynie
-  { id: 'res-glosso-comprendre', pathologyId: 'glossodynie', title: 'Comprendre la glossodynie', summary: 'Syndrome de la bouche brûlante : causes et solutions.', type: 'comprendre', audience: 'senior', readingTime: 5 },
-  { id: 'res-glosso-hygiene', pathologyId: 'glossodynie', title: 'Gestion quotidienne de la glossodynie', summary: 'Conseils pratiques pour réduire les symptômes.', type: 'hygiene', audience: 'senior', readingTime: 4 },
-];
-
-// Programmes
-export interface Program {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;
-  pathologyId: string;
-  level: 'debutant' | 'confirme';
-  duration: string;
-  sessions: {
-    day: string;
-    activities: string[];
-  }[];
-  pdfUrl?: string;
-}
-
-export const programs: Program[] = [
   {
-    id: 'prog-arthrose-genou-deb',
-    slug: 'arthrose-genou-debutant',
-    title: 'Programme arthrose genou/hanche - Débutant',
-    description: 'Reprise progressive de la marche et renforcement musculaire adapté.',
+    id: 'res-arthrose-exercices',
     pathologyId: 'arthrose',
-    level: 'debutant',
-    duration: '4 semaines',
-    sessions: [
-      { day: 'Semaine 1-2', activities: ['Marche 10 min/jour', 'Flexion-extension genou assis (2x10)', 'Étirements doux'] },
-      { day: 'Semaine 3-4', activities: ['Marche 15-20 min/jour', 'Renforcement quadriceps (2x15)', 'Pont fessier (2x10)'] },
-    ],
+    title: 'Exercices pour le genou arthrosique',
+    summary: '5 exercices simples à faire chez soi pour soulager l\'arthrose du genou.',
+    type: 'exercices',
+    audience: 'senior',
+    readingTime: 10,
   },
   {
-    id: 'prog-lombalgie-deb',
-    slug: 'lombalgie-debutant',
-    title: 'Programme lombalgie - Débutant',
-    description: 'Mobilisation douce et gainage progressif pour le dos.',
+    id: 'res-lombalgie-bouger',
     pathologyId: 'lombalgie-chronique',
-    level: 'debutant',
-    duration: '4 semaines',
-    sessions: [
-      { day: 'Semaine 1-2', activities: ['Chat-vache (10 répétitions)', 'Genoux-poitrine (30 sec)', 'Marche 10 min'] },
-      { day: 'Semaine 3-4', activities: ['Gainage ventral 3x20 sec', 'Pont fessier (2x10)', 'Marche 20 min'] },
-    ],
+    title: 'Mal de dos : bouger plutôt que se reposer',
+    summary: 'Pourquoi le repos aggrave le mal de dos et comment reprendre l\'activité.',
+    type: 'bouger',
+    audience: 'adulte',
+    readingTime: 7,
   },
   {
-    id: 'prog-veines-deb',
-    slug: 'insuffisance-veineuse-debutant',
-    title: 'Programme veines - Débutant',
-    description: 'Activation de la circulation veineuse par le mouvement.',
+    id: 'res-veines-contention',
     pathologyId: 'insuffisance-veineuse',
-    level: 'debutant',
-    duration: '4 semaines',
-    sessions: [
-      { day: 'Quotidien', activities: ['Marche 15-20 min', 'Flexion-extension pieds (5x20)', 'Surélévation jambes 15 min'] },
-      { day: 'Soir', activities: ['Pédalage en l\'air (3x30 sec)', 'Montées sur pointes (2x15)', 'Jet d\'eau fraîche'] },
-    ],
+    title: 'Bien porter ses bas de contention',
+    summary: 'Comment choisir, mettre et entretenir ses bas de contention.',
+    type: 'hygiene',
+    audience: 'senior',
+    readingTime: 5,
   },
   {
-    id: 'prog-asthme-deb',
-    slug: 'asthme-debutant',
-    title: 'Programme asthme/BPCO - Débutant',
-    description: 'Reprise d\'activité aérobie et exercices respiratoires.',
-    pathologyId: 'asthme',
-    level: 'debutant',
-    duration: '6 semaines',
-    sessions: [
-      { day: 'Semaine 1-2', activities: ['Marche 10 min', 'Respiration abdominale (5 min)', 'Lèvres pincées si essoufflement'] },
-      { day: 'Semaine 3-6', activities: ['Marche 15-30 min progressive', 'Exercices respiratoires quotidiens', 'Activité au rythme de la parole'] },
-    ],
-  },
-];
-
-// FAQ
-export interface FAQItem {
-  id: string;
-  question: string;
-  answer: string;
-  category: string;
-}
-
-export const faqItems: FAQItem[] = [
-  {
-    id: 'faq-cure-thermale',
-    question: 'Cure thermale : à quoi ça sert ?',
-    answer: 'La cure thermale est un traitement médical de 3 semaines utilisant les propriétés des eaux thermales. Elle peut être prescrite pour les affections rhumatologiques, respiratoires, veineuses et dermatologiques. Les soins (bains, boue, aérosols, rééducation) apportent un soulagement durable et complémentaire aux traitements habituels. Une cure peut être prise en charge partiellement par l\'Assurance Maladie sur prescription médicale.',
-    category: 'thermalisme',
+    id: 'res-bpco-respiration',
+    pathologyId: 'bpco',
+    title: 'Exercices respiratoires pour la BPCO',
+    summary: 'Techniques de respiration pour mieux gérer l\'essoufflement au quotidien.',
+    type: 'exercices',
+    audience: 'adulte',
+    readingTime: 8,
   },
   {
-    id: 'faq-exercices-douleur',
-    question: 'Quels exercices quand on a mal ?',
-    answer: 'Contrairement aux idées reçues, le mouvement est souvent bénéfique même en cas de douleur chronique. Il faut adapter l\'intensité : mouvements doux, sans forcer, en deçà du seuil douloureux. La règle des 2 heures est utile : si la douleur est augmentée plus de 2 heures après l\'exercice, c\'était trop intense. Commencez progressivement et augmentez très lentement.',
-    category: 'activite',
-  },
-  {
-    id: 'faq-angine-otite',
-    question: 'Que faire en cas d\'angine ou otite à répétition chez l\'enfant ?',
-    answer: 'Les infections ORL répétées sont fréquentes chez l\'enfant et généralement bénignes. Mesures préventives : lavages de nez réguliers au sérum physiologique, aération du logement, éviction du tabagisme passif, hydratation suffisante. Consultez si : fièvre élevée persistante, difficultés respiratoires, gonflement du cou ou derrière l\'oreille, troubles de l\'équilibre. Une cure thermale ORL peut être envisagée après 3-4 épisodes annuels.',
-    category: 'orl',
-  },
-  {
-    id: 'faq-insuffisance-veineuse',
-    question: 'Comment gérer l\'insuffisance veineuse au quotidien ?',
-    answer: 'Points clés : marcher au moins 30 minutes par jour (la contraction des mollets propulse le sang), éviter la station debout ou assise prolongée, surélever les jambes le soir, porter des bas de contention adaptés (sur conseil médical), terminer la douche par un jet d\'eau fraîche sur les jambes, éviter la chaleur excessive. En été, les symptômes s\'aggravent : vigilance accrue.',
-    category: 'veines',
-  },
-  {
-    id: 'faq-pdf-utilisation',
-    question: 'Comment utiliser les fiches PDF ?',
-    answer: 'Nos fiches PDF sont des synthèses pédagogiques à imprimer ou conserver sur votre téléphone. Elles ne remplacent pas une consultation médicale mais vous aident à mieux comprendre votre pathologie et à mettre en place les mesures d\'hygiène de vie recommandées. N\'hésitez pas à les montrer à votre médecin pour en discuter.',
-    category: 'ressources',
+    id: 'res-otites-prevention',
+    pathologyId: 'otites-repetition-enfant',
+    title: 'Prévenir les otites chez l\'enfant',
+    summary: 'Les gestes simples pour réduire les otites à répétition.',
+    type: 'hygiene',
+    audience: 'enfant',
+    readingTime: 6,
   },
 ];
