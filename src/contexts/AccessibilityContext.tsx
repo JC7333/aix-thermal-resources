@@ -2,7 +2,9 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 interface AccessibilityContextType {
   easyReading: boolean;
+  seniorMode: boolean;
   toggleEasyReading: () => void;
+  toggleSeniorMode: () => void;
 }
 
 const AccessibilityContext = createContext<AccessibilityContextType | undefined>(undefined);
@@ -10,6 +12,11 @@ const AccessibilityContext = createContext<AccessibilityContextType | undefined>
 export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [easyReading, setEasyReading] = useState(() => {
     const saved = localStorage.getItem('easyReading');
+    return saved === 'true';
+  });
+
+  const [seniorMode, setSeniorMode] = useState(() => {
+    const saved = localStorage.getItem('seniorMode');
     return saved === 'true';
   });
 
@@ -22,10 +29,33 @@ export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ child
     }
   }, [easyReading]);
 
-  const toggleEasyReading = () => setEasyReading(!easyReading);
+  useEffect(() => {
+    localStorage.setItem('seniorMode', String(seniorMode));
+    if (seniorMode) {
+      document.documentElement.classList.add('senior-mode');
+      // Si senior mode, on désactive easy-reading pour éviter le cumul
+      document.documentElement.classList.remove('easy-reading');
+    } else {
+      document.documentElement.classList.remove('senior-mode');
+    }
+  }, [seniorMode]);
+
+  const toggleEasyReading = () => {
+    if (seniorMode) {
+      setSeniorMode(false);
+    }
+    setEasyReading(!easyReading);
+  };
+
+  const toggleSeniorMode = () => {
+    if (easyReading) {
+      setEasyReading(false);
+    }
+    setSeniorMode(!seniorMode);
+  };
 
   return (
-    <AccessibilityContext.Provider value={{ easyReading, toggleEasyReading }}>
+    <AccessibilityContext.Provider value={{ easyReading, seniorMode, toggleEasyReading, toggleSeniorMode }}>
       {children}
     </AccessibilityContext.Provider>
   );

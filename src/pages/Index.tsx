@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Download, BookOpen, Heart, Stethoscope } from 'lucide-react';
+import { ArrowRight, Download, BookOpen, Heart, Stethoscope, Compass, Baby, ZoomIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CategoryCard } from '@/components/shared/CategoryCard';
 import { Layout } from '@/components/layout/Layout';
+import { useAccessibility } from '@/contexts/AccessibilityContext';
 import { pathologies, categoryLabels, PathologyCategory } from '@/data/pathologies';
 
 const categoryDescriptions: Record<PathologyCategory, string> = {
@@ -13,6 +14,8 @@ const categoryDescriptions: Record<PathologyCategory, string> = {
 };
 
 const Index = () => {
+  const { seniorMode, toggleSeniorMode } = useAccessibility();
+
   // Count pathologies by category
   const categoryCounts = pathologies.reduce((acc, p) => {
     acc[p.category] = (acc[p.category] || 0) + 1;
@@ -26,17 +29,33 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-              Médecin thermaliste à Aix-les-Bains
+              Dr Audric Bugnard
             </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-              Ressources pratiques pour mieux vivre avec votre pathologie au quotidien. 
-              Fiches conseils, exercices et programmes adaptés.
+            <p className="text-xl md:text-2xl text-white/95 mb-2 font-medium">
+              Médecin généraliste & thermaliste à Aix-les-Bains
             </p>
+            <p className="text-lg md:text-xl text-white/85 mb-8 leading-relaxed">
+              Je vous propose des ressources pratiques pour mieux vivre avec votre pathologie au quotidien.
+            </p>
+            
+            {/* Senior Mode CTA */}
+            {!seniorMode && (
+              <div className="mb-8 p-4 bg-white/10 rounded-xl backdrop-blur-sm">
+                <p className="text-white/90 text-sm mb-3">
+                  Vous avez des difficultés à lire ? Activez le mode Senior.
+                </p>
+                <Button onClick={toggleSeniorMode} variant="heroOutline" size="lg" className="gap-2">
+                  <ZoomIn className="w-5 h-5" />
+                  Activer le mode Senior
+                </Button>
+              </div>
+            )}
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild variant="hero" size="xl">
-                <Link to="/ressources">
-                  <BookOpen className="w-5 h-5" />
-                  Accéder aux ressources
+                <Link to="/parcours">
+                  <Compass className="w-5 h-5" />
+                  Trouver mon plan d'action
                 </Link>
               </Button>
               <Button asChild variant="heroOutline" size="xl">
@@ -47,6 +66,29 @@ const Index = () => {
               </Button>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Quick Access for Parents */}
+      <section className="py-8 bg-secondary/5 border-b border-border">
+        <div className="container mx-auto px-4">
+          <Link 
+            to="/parents"
+            className="flex items-center justify-center gap-4 group"
+          >
+            <div className="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center">
+              <Baby className="w-6 h-6 text-secondary" />
+            </div>
+            <div>
+              <p className="font-semibold text-foreground group-hover:text-secondary transition-colors">
+                Espace Parents — ORL enfant
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Angines, otites, rhino-pharyngites à répétition
+              </p>
+            </div>
+            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-secondary transition-colors" />
+          </Link>
         </div>
       </section>
 
@@ -156,17 +198,6 @@ const Index = () => {
               </Button>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Important Notice */}
-      <section className="py-8 bg-muted/50 border-t border-border">
-        <div className="container mx-auto px-4">
-          <p className="text-center text-sm text-muted-foreground max-w-3xl mx-auto">
-            <strong>Information importante :</strong> Ce site a un objectif purement informatif et éducatif. 
-            Les informations fournies ne remplacent en aucun cas une consultation médicale. 
-            En cas de symptômes ou de doute, consultez votre médecin traitant.
-          </p>
         </div>
       </section>
     </Layout>
