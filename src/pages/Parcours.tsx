@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, Printer, Check, Activity, Scale, Cigarette, Wind, Heart, Baby, Smile } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import { logEvent } from '@/services/analytics';
 
 type Objective = 'douleur' | 'poids' | 'tabac' | 'souffle' | 'jambes' | 'orl-enfant' | 'bouche';
 type Level = 0 | 1 | 2 | 3;
@@ -148,7 +149,23 @@ const Parcours = () => {
   const [selectedObjective, setSelectedObjective] = useState<Objective | null>(null);
   const [selectedLevel, setSelectedLevel] = useState<Level | null>(null);
 
+  // Track wizard start on mount
+  useEffect(() => {
+    logEvent('wizard_start', '/parcours');
+  }, []);
+
+  // Track wizard complete when reaching step 3
+  useEffect(() => {
+    if (step === 3 && selectedObjective && selectedLevel !== null) {
+      logEvent('wizard_complete', '/parcours', { 
+        objective: selectedObjective, 
+        level: String(selectedLevel) 
+      });
+    }
+  }, [step, selectedObjective, selectedLevel]);
+
   const handlePrint = () => {
+    logEvent('print_click', '/parcours', { objective: selectedObjective || undefined });
     window.print();
   };
 
@@ -156,6 +173,7 @@ const Parcours = () => {
     setStep(1);
     setSelectedObjective(null);
     setSelectedLevel(null);
+    logEvent('wizard_start', '/parcours');
   };
 
   const selectedObjectiveData = objectives.find(o => o.id === selectedObjective);

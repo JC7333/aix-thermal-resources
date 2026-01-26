@@ -15,6 +15,7 @@ import {
   ContentCategory 
 } from '@/content/content';
 import { generateOnePage, generateFourPages, downloadPdf } from '@/services/pdfGenerator';
+import { logEvent } from '@/services/analytics';
 
 type CategoryFilter = 'all' | ContentCategory;
 
@@ -43,6 +44,10 @@ const Telechargements = () => {
 
   const handleDownload1Page = async (pathology: PathologyContent) => {
     setDownloading({ pathology, type: '1page' });
+    logEvent('pdf_download', `/telechargements/${pathology.slug}`, { 
+      name: `${pathology.title} - 1 page`, 
+      type: '1page' 
+    });
     setTimeout(() => {
       const doc = generateOnePage(pathology);
       downloadPdf(doc, `COOLANCE_${pathology.slug}_fiche-1-page.pdf`);
@@ -52,6 +57,10 @@ const Telechargements = () => {
 
   const handleDownload4Pages = async (pathology: PathologyContent) => {
     setDownloading({ pathology, type: '4pages' });
+    logEvent('pdf_download', `/telechargements/${pathology.slug}`, { 
+      name: `${pathology.title} - 4 pages`, 
+      type: '4pages' 
+    });
     setTimeout(() => {
       const doc = generateFourPages(pathology);
       downloadPdf(doc, `COOLANCE_${pathology.slug}_guide-complet.pdf`);

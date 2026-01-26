@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Printer, CheckCircle, AlertTriangle, ChevronRight, Clock, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,6 +6,7 @@ import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
 import { fullQuickAnswers, getQuickAnswerBySlug, FullQuickAnswer } from '@/data/quick-answers';
+import { logEvent } from '@/services/analytics';
 
 // Card component for the list view
 const QuickAnswerCard = ({ answer }: { answer: FullQuickAnswer }) => {
@@ -19,6 +20,7 @@ const QuickAnswerCard = ({ answer }: { answer: FullQuickAnswer }) => {
   return (
     <Link 
       to={`/reponses-rapides/${answer.slug}`}
+      onClick={() => logEvent('quick_answer_click', `/reponses-rapides/${answer.slug}`, { title: answer.title })}
       className={`flex items-center gap-4 p-6 rounded-2xl border-2 transition-all ${colorClasses[answer.color]} group`}
     >
       <span className="text-4xl">{answer.icon}</span>
@@ -85,6 +87,7 @@ const QuickAnswersList = () => {
 // Detail view component
 const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
   const handlePrint = () => {
+    logEvent('print_click', `/reponses-rapides/${answer.slug}`, { title: answer.title });
     window.print();
   };
 
