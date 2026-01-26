@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
 import { fullQuickAnswers } from '@/data/quick-answers';
+import { pathologies } from '@/data/pathologies';
+import { generateOnePage, downloadPdf } from '@/services/pdfGenerator';
 
 const themeButtons = [
   { 
@@ -57,11 +59,11 @@ const themeButtons = [
 ];
 
 const topPDFs = [
-  { title: 'Plan arthrose 7 jours', category: 'Rhumatologie', href: '/pathologies/arthrose' },
-  { title: 'Plan lombalgie 7 jours', category: 'Rhumatologie', href: '/pathologies/lombalgie-chronique' },
-  { title: 'Jambes légères - 5 actions', category: 'Veino-lymphatique', href: '/pathologies/insuffisance-veineuse-chronique' },
-  { title: 'BPCO - Respirer mieux', category: 'Respiratoire', href: '/pathologies/bpco' },
-  { title: 'Otites enfant - Prévention', category: 'Parents', href: '/pathologies/otites-repetition' },
+  { title: 'Plan arthrose 7 jours', category: 'Rhumatologie', slug: 'arthrose' },
+  { title: 'Plan lombalgie 7 jours', category: 'Rhumatologie', slug: 'lombalgie-chronique' },
+  { title: 'Jambes légères - 5 actions', category: 'Veino-lymphatique', slug: 'insuffisance-veineuse' },
+  { title: 'BPCO - Respirer mieux', category: 'Respiratoire', slug: 'bpco' },
+  { title: 'Otites enfant - Prévention', category: 'Parents', slug: 'otites-repetition-enfant' },
 ];
 
 const Index = () => {
@@ -206,37 +208,52 @@ const Index = () => {
                 <p className="text-muted-foreground mt-1">Mes 5 fiches les plus téléchargées</p>
               </div>
               <Button asChild variant="outline">
-                <Link to="/ressources" className="gap-2">
+                <Link to="/telechargements" className="gap-2">
                   <Download className="w-4 h-4" />
-                  Bibliothèque
+                  Tous les PDF
                 </Link>
               </Button>
             </div>
 
             <div className="space-y-3">
-              {topPDFs.map((pdf, index) => (
-                <Link
-                  key={index}
-                  to={pdf.href}
-                  className="flex items-center gap-4 p-4 bg-card rounded-xl border border-border hover:border-primary/30 hover:shadow-sm transition-all group"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <FileText className="w-5 h-5 text-primary" />
+              {topPDFs.map((pdf, index) => {
+                const pathology = pathologies.find(p => p.slug === pdf.slug);
+                return (
+                  <div
+                    key={index}
+                    className="flex items-center gap-4 p-4 bg-card rounded-xl border border-border hover:border-primary/30 hover:shadow-sm transition-all group"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <FileText className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <Link 
+                        to={`/pathologies/${pdf.slug}`}
+                        className="font-medium text-foreground group-hover:text-primary transition-colors"
+                      >
+                        {pdf.title}
+                      </Link>
+                      <p className="text-sm text-muted-foreground">{pdf.category}</p>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="gap-1 text-muted-foreground hover:text-primary"
+                        onClick={() => {
+                          if (pathology) {
+                            const doc = generateOnePage(pathology);
+                            downloadPdf(doc, `COOLANCE_${pdf.slug}_fiche-1-page.pdf`);
+                          }
+                        }}
+                      >
+                        <Download className="w-4 h-4" />
+                        <span className="hidden sm:inline">PDF</span>
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
-                      {pdf.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">{pdf.category}</p>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground">
-                      <Printer className="w-4 h-4" />
-                      <span className="hidden sm:inline">Imprimer</span>
-                    </Button>
-                  </div>
-                </Link>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
