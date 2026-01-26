@@ -21,6 +21,7 @@ import Confidentialite from "./pages/Confidentialite";
 import NotFound from "./pages/NotFound";
 import ReponsesRapides from "./pages/ReponsesRapides";
 import Telechargements from "./pages/Telechargements";
+import Stats from "./pages/Stats";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
             <Route path="/social" element={<Social />} />
             <Route path="/mentions-legales" element={<MentionsLegales />} />
             <Route path="/confidentialite" element={<Confidentialite />} />
+            <Route path="/stats" element={<Stats />} />
             {/* Legacy routes */}
             <Route path="/pathologie/:slug" element={<PathologyPage />} />
             <Route path="/cabinet" element={<QuiSuisJe />} />
