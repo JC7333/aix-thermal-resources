@@ -13,7 +13,9 @@ import Parcours from "./pages/Parcours";
 import Guides from "./pages/Guides";
 import Parents from "./pages/Parents";
 import FAQ from "./pages/FAQ";
-import Cabinet from "./pages/Cabinet";
+import QuiSuisJe from "./pages/QuiSuisJe";
+import Contact from "./pages/Contact";
+import Social from "./pages/Social";
 import MentionsLegales from "./pages/MentionsLegales";
 import Confidentialite from "./pages/Confidentialite";
 import NotFound from "./pages/NotFound";
@@ -40,11 +42,14 @@ const App = () => (
             <Route path="/guides" element={<Guides />} />
             <Route path="/parents" element={<Parents />} />
             <Route path="/faq" element={<FAQ />} />
-            <Route path="/cabinet" element={<Cabinet />} />
+            <Route path="/qui-suis-je" element={<QuiSuisJe />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/social" element={<Social />} />
             <Route path="/mentions-legales" element={<MentionsLegales />} />
             <Route path="/confidentialite" element={<Confidentialite />} />
-            {/* Legacy route */}
+            {/* Legacy routes */}
             <Route path="/pathologie/:slug" element={<PathologyPage />} />
+            <Route path="/cabinet" element={<QuiSuisJe />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
