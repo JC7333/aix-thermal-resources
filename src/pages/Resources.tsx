@@ -1,80 +1,207 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Filter, X } from 'lucide-react';
+import { Search, Filter, X, Clock, Download, Printer, BookOpen, ChevronRight, Sparkles, ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
-import { ResourceCard } from '@/components/shared/ResourceCard';
 import {
-  resources,
-  pathologies,
-  categoryLabels,
-  resourceTypeLabels,
-  audienceLabels,
-  PathologyCategory,
-  ResourceType,
-  AudienceType,
-} from '@/data/pathologies';
+  libraryResources,
+  quickAnswers,
+  categoryLabelsLibrary,
+  categoryIconsLibrary,
+  tagLabels,
+  tagColors,
+  audienceLabelsLibrary,
+  audienceIconsLibrary,
+  sortLabels,
+  sortResources,
+  LibraryCategory,
+  LibraryTag,
+  SortOption,
+  LibraryResource,
+} from '@/data/library-resources';
+
+// Resource Card Component
+const LibraryCard = ({ resource }: { resource: LibraryResource }) => {
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleDownloadPDF = () => {
+    alert('Téléchargement PDF - Fonctionnalité à venir');
+  };
+
+  const linkTo = resource.pathologySlug 
+    ? `/pathologie/${resource.pathologySlug}` 
+    : `/guides`;
+
+  return (
+    <article className="card-medical flex flex-col h-full group">
+      {/* Header with badges */}
+      <div className="flex items-start justify-between gap-2 mb-3">
+        <div className="flex flex-wrap gap-1.5">
+          {resource.tags.slice(0, 2).map((tag) => (
+            <span 
+              key={tag}
+              className={`px-2 py-0.5 text-xs font-medium rounded-full ${tagColors[tag]}`}
+            >
+              {tagLabels[tag]}
+            </span>
+          ))}
+        </div>
+        <div className="flex items-center gap-1.5 shrink-0">
+          {resource.isNew && (
+            <span className="px-2 py-0.5 text-xs font-bold rounded-full bg-accent text-accent-foreground">
+              Nouveau
+            </span>
+          )}
+          {resource.isFeatured && (
+            <Sparkles className="w-4 h-4 text-accent" />
+          )}
+        </div>
+      </div>
+
+      {/* Title */}
+      <h3 className="font-serif text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+        <Link to={linkTo}>
+          {resource.title}
+        </Link>
+      </h3>
+
+      {/* Summary */}
+      <p className="text-muted-foreground text-sm flex-1 mb-4 line-clamp-2">
+        {resource.summary}
+      </p>
+
+      {/* Meta info */}
+      <div className="flex items-center gap-3 mb-4 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1">
+          {audienceIconsLibrary[resource.audience]}
+          {audienceLabelsLibrary[resource.audience]}
+        </span>
+        <span className="flex items-center gap-1">
+          <Clock className="w-3.5 h-3.5" />
+          {resource.readingTime} min
+        </span>
+      </div>
+
+      {/* Actions */}
+      <div className="flex items-center gap-2 pt-3 border-t border-border">
+        <Button asChild variant="default" size="sm" className="flex-1">
+          <Link to={linkTo}>
+            <BookOpen className="w-4 h-4" />
+            Lire
+          </Link>
+        </Button>
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={handlePrint}
+          className="px-3"
+        >
+          <Printer className="w-4 h-4" />
+        </Button>
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={handleDownloadPDF}
+          className="px-3"
+        >
+          <Download className="w-4 h-4" />
+        </Button>
+      </div>
+    </article>
+  );
+};
+
+// Quick Answer Card
+const QuickAnswerCard = ({ answer }: { answer: typeof quickAnswers[0] }) => {
+  const colorClasses = {
+    primary: 'bg-primary/10 border-primary/30 hover:bg-primary/20',
+    secondary: 'bg-secondary/10 border-secondary/30 hover:bg-secondary/20',
+    accent: 'bg-accent/10 border-accent/30 hover:bg-accent/20',
+  };
+
+  const linkTo = answer.pathologySlug 
+    ? `/pathologie/${answer.pathologySlug}` 
+    : answer.link || '/guides';
+
+  return (
+    <Link 
+      to={linkTo}
+      className={`flex items-center gap-4 p-5 rounded-xl border-2 transition-all ${colorClasses[answer.color]} group`}
+    >
+      <span className="text-3xl">{answer.icon}</span>
+      <div className="flex-1 min-w-0">
+        <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+          {answer.title}
+        </h3>
+        <p className="text-sm text-muted-foreground">{answer.subtitle}</p>
+      </div>
+      <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+    </Link>
+  );
+};
 
 const Resources = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<PathologyCategory | ''>('');
-  const [selectedType, setSelectedType] = useState<ResourceType | ''>('');
-  const [selectedAudience, setSelectedAudience] = useState<AudienceType | ''>('');
+  const [selectedCategory, setSelectedCategory] = useState<LibraryCategory | ''>('');
+  const [selectedTags, setSelectedTags] = useState<LibraryTag[]>([]);
+  const [sortBy, setSortBy] = useState<SortOption>('popular');
   const [showFilters, setShowFilters] = useState(false);
 
-  // Get pathology map for quick lookup
-  const pathologyMap = useMemo(() => {
-    return pathologies.reduce((acc, p) => {
-      acc[p.id] = p;
-      return acc;
-    }, {} as Record<string, typeof pathologies[0]>);
-  }, []);
-
-  // Filter resources
+  // Filter and sort resources
   const filteredResources = useMemo(() => {
-    return resources.filter((resource) => {
-      const pathology = pathologyMap[resource.pathologyId];
-      
+    let results = libraryResources.filter((resource) => {
       // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         const matchesTitle = resource.title.toLowerCase().includes(query);
         const matchesSummary = resource.summary.toLowerCase().includes(query);
-        const matchesPathology = pathology?.name.toLowerCase().includes(query);
-        if (!matchesTitle && !matchesSummary && !matchesPathology) {
+        if (!matchesTitle && !matchesSummary) {
           return false;
         }
       }
 
       // Category filter
-      if (selectedCategory && pathology?.category !== selectedCategory) {
+      if (selectedCategory && resource.category !== selectedCategory) {
         return false;
       }
 
-      // Type filter
-      if (selectedType && resource.type !== selectedType) {
-        return false;
-      }
-
-      // Audience filter
-      if (selectedAudience && resource.audience !== selectedAudience) {
-        return false;
+      // Tags filter (OR logic - matches if any selected tag is present)
+      if (selectedTags.length > 0) {
+        const hasMatchingTag = selectedTags.some(tag => resource.tags.includes(tag));
+        if (!hasMatchingTag) {
+          return false;
+        }
       }
 
       return true;
     });
-  }, [searchQuery, selectedCategory, selectedType, selectedAudience, pathologyMap]);
 
-  const hasActiveFilters = selectedCategory || selectedType || selectedAudience;
+    // Sort
+    return sortResources(results, sortBy);
+  }, [searchQuery, selectedCategory, selectedTags, sortBy]);
+
+  const toggleTag = (tag: LibraryTag) => {
+    setSelectedTags(prev => 
+      prev.includes(tag) 
+        ? prev.filter(t => t !== tag)
+        : [...prev, tag]
+    );
+  };
+
+  const hasActiveFilters = selectedCategory || selectedTags.length > 0;
 
   const clearFilters = () => {
     setSelectedCategory('');
-    setSelectedType('');
-    setSelectedAudience('');
+    setSelectedTags([]);
     setSearchQuery('');
   };
+
+  const categories = Object.keys(categoryLabelsLibrary) as LibraryCategory[];
+  const tags = Object.keys(tagLabels) as LibraryTag[];
 
   return (
     <Layout>
@@ -83,138 +210,169 @@ const Resources = () => {
 
         {/* Header */}
         <div className="mb-8">
-          <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-3">
+          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3">
             Bibliothèque de ressources
           </h1>
           <p className="text-lg text-muted-foreground max-w-3xl">
-            Retrouvez toutes nos fiches conseils, exercices et informations pratiques. 
-            Utilisez les filtres pour trouver les ressources adaptées à votre pathologie.
+            Toutes mes fiches conseils, programmes et informations pratiques. 
+            Trouvez rapidement ce dont vous avez besoin.
           </p>
         </div>
+
+        {/* Quick Answers Section */}
+        <section className="mb-10">
+          <h2 className="font-serif text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-accent" />
+            Réponses rapides
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {quickAnswers.map((answer) => (
+              <QuickAnswerCard key={answer.id} answer={answer} />
+            ))}
+          </div>
+        </section>
 
         {/* Search and Filters */}
         <div className="mb-8 space-y-4">
           {/* Search Bar */}
           <div className="flex gap-3">
-            <div className="relative flex-1 max-w-xl">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Rechercher une ressource..."
+                placeholder="Rechercher une ressource, un sujet..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-12 text-base"
+                className="pl-12 h-14 text-base rounded-xl border-2 focus:border-primary"
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
             </div>
             <Button
               variant="outline"
               size="lg"
               onClick={() => setShowFilters(!showFilters)}
-              className={showFilters ? 'bg-primary/10' : ''}
+              className={`h-14 px-5 rounded-xl ${showFilters ? 'bg-primary/10 border-primary' : ''}`}
             >
               <Filter className="w-5 h-5" />
-              <span className="hidden sm:inline">Filtres</span>
+              <span className="hidden sm:inline ml-2">Filtres</span>
               {hasActiveFilters && (
-                <span className="w-2 h-2 rounded-full bg-primary" />
+                <span className="ml-2 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
+                  {(selectedCategory ? 1 : 0) + selectedTags.length}
+                </span>
               )}
             </Button>
           </div>
 
-          {/* Filters */}
+          {/* Filters Panel */}
           {showFilters && (
-            <div className="bg-muted/50 rounded-xl p-4 lg:p-6 animate-fade-in">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-medium text-foreground">Filtrer les ressources</h3>
+            <div className="bg-muted/50 rounded-2xl p-6 animate-fade-in border border-border">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="font-semibold text-foreground">Filtrer les ressources</h3>
                 {hasActiveFilters && (
                   <Button variant="ghost" size="sm" onClick={clearFilters}>
                     <X className="w-4 h-4 mr-1" />
-                    Effacer les filtres
+                    Tout effacer
                   </Button>
                 )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Category Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">
-                    Spécialité
-                  </label>
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value as PathologyCategory | '')}
-                    className="w-full h-10 px-3 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              {/* Categories */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-muted-foreground mb-3">
+                  Catégories
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setSelectedCategory('')}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      !selectedCategory 
+                        ? 'bg-primary text-primary-foreground' 
+                        : 'bg-background border border-border hover:border-primary/50'
+                    }`}
                   >
-                    <option value="">Toutes les spécialités</option>
-                    {(Object.keys(categoryLabels) as PathologyCategory[]).map((cat) => (
-                      <option key={cat} value={cat}>
-                        {categoryLabels[cat]}
-                      </option>
-                    ))}
-                  </select>
+                    Toutes
+                  </button>
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                        selectedCategory === cat 
+                          ? 'bg-primary text-primary-foreground' 
+                          : 'bg-background border border-border hover:border-primary/50'
+                      }`}
+                    >
+                      <span>{categoryIconsLibrary[cat]}</span>
+                      {categoryLabelsLibrary[cat]}
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                {/* Type Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">
-                    Type de contenu
-                  </label>
-                  <select
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value as ResourceType | '')}
-                    className="w-full h-10 px-3 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                  >
-                    <option value="">Tous les types</option>
-                    {(Object.keys(resourceTypeLabels) as ResourceType[]).map((type) => (
-                      <option key={type} value={type}>
-                        {resourceTypeLabels[type]}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Audience Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-muted-foreground mb-2">
-                    Public cible
-                  </label>
-                  <select
-                    value={selectedAudience}
-                    onChange={(e) => setSelectedAudience(e.target.value as AudienceType | '')}
-                    className="w-full h-10 px-3 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                  >
-                    <option value="">Tous les publics</option>
-                    {(Object.keys(audienceLabels) as AudienceType[]).map((aud) => (
-                      <option key={aud} value={aud}>
-                        {audienceLabels[aud]}
-                      </option>
-                    ))}
-                  </select>
+              {/* Tags */}
+              <div>
+                <label className="block text-sm font-medium text-muted-foreground mb-3">
+                  Type de contenu
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {tags.map((tag) => (
+                    <button
+                      key={tag}
+                      onClick={() => toggleTag(tag)}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        selectedTags.includes(tag)
+                          ? `${tagColors[tag]} ring-2 ring-offset-2 ring-current`
+                          : 'bg-background border border-border hover:border-primary/50'
+                      }`}
+                    >
+                      {tagLabels[tag]}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
           )}
-        </div>
 
-        {/* Results */}
-        <div className="mb-6">
-          <p className="text-muted-foreground">
-            {filteredResources.length} ressource{filteredResources.length > 1 ? 's' : ''} trouvée{filteredResources.length > 1 ? 's' : ''}
-          </p>
+          {/* Sort and Results Count */}
+          <div className="flex items-center justify-between">
+            <p className="text-muted-foreground">
+              <span className="font-semibold text-foreground">{filteredResources.length}</span> ressource{filteredResources.length > 1 ? 's' : ''}
+            </p>
+            
+            <div className="flex items-center gap-2">
+              <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                className="h-10 px-3 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              >
+                {(Object.keys(sortLabels) as SortOption[]).map((option) => (
+                  <option key={option} value={option}>
+                    {sortLabels[option]}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
 
         {/* Resources Grid */}
         {filteredResources.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredResources.map((resource) => (
-              <ResourceCard
-                key={resource.id}
-                resource={resource}
-                pathology={pathologyMap[resource.pathologyId]}
-              />
+              <LibraryCard key={resource.id} resource={resource} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-16">
+          <div className="text-center py-16 bg-muted/30 rounded-2xl">
+            <div className="text-5xl mb-4">🔍</div>
             <p className="text-lg text-muted-foreground mb-4">
               Aucune ressource ne correspond à votre recherche.
             </p>
@@ -224,22 +382,45 @@ const Resources = () => {
           </div>
         )}
 
-        {/* Pathologies Quick Access */}
+        {/* Categories Quick Access */}
         <section className="mt-16 pt-12 border-t border-border">
           <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6">
-            Accès par pathologie
+            Explorer par catégorie
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {pathologies.map((pathology) => (
-              <Link
-                key={pathology.id}
-                to={`/pathologie/${pathology.slug}`}
-                className="px-4 py-3 rounded-lg border border-border bg-card hover:bg-muted hover:border-primary/30 transition-colors text-sm font-medium text-foreground"
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => {
+                  setSelectedCategory(category);
+                  setShowFilters(true);
+                  window.scrollTo({ top: 300, behavior: 'smooth' });
+                }}
+                className="flex flex-col items-center gap-3 p-6 rounded-xl border border-border bg-card hover:bg-muted hover:border-primary/30 transition-all group"
               >
-                {pathology.name}
-              </Link>
+                <span className="text-3xl">{categoryIconsLibrary[category]}</span>
+                <span className="text-sm font-medium text-center text-foreground group-hover:text-primary transition-colors">
+                  {categoryLabelsLibrary[category]}
+                </span>
+              </button>
             ))}
           </div>
+        </section>
+
+        {/* CTA */}
+        <section className="mt-16 bg-primary/5 border border-primary/20 rounded-2xl p-8 text-center">
+          <h2 className="font-serif text-2xl font-bold text-foreground mb-3">
+            Vous ne trouvez pas ce que vous cherchez ?
+          </h2>
+          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+            Utilisez le parcours guidé pour obtenir des recommandations personnalisées en 30 secondes.
+          </p>
+          <Button asChild size="lg">
+            <Link to="/parcours">
+              Démarrer le parcours guidé
+              <ChevronRight className="w-5 h-5" />
+            </Link>
+          </Button>
         </section>
       </div>
     </Layout>
