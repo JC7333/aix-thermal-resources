@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf';
-import { Pathology } from '@/data/pathologies';
+import { PathologyContent } from '@/content/content';
 
 // ============================================
 // CONFIGURATION PDF — OPTIMISÉ A4 LISIBLE
@@ -33,7 +33,6 @@ const addBrandHeader = (doc: jsPDF, title: string, pageNum?: number, totalPages?
     doc.text(`${pageNum}/${totalPages}`, PAGE_WIDTH - MARGIN - 5, 8);
   }
   
-  // Ligne séparatrice fine
   doc.setDrawColor(200, 200, 200);
   doc.setLineWidth(0.2);
   doc.line(MARGIN, 10, PAGE_WIDTH - MARGIN, 10);
@@ -74,17 +73,17 @@ const addBox = (doc: jsPDF, x: number, y: number, width: number, height: number,
 // PDF 1 PAGE — CHECKLIST COMPACTE
 // ============================================
 
-export const generateOnePage = (pathology: Pathology): jsPDF => {
+export const generateOnePage = (pathology: PathologyContent): jsPDF => {
   const doc = new jsPDF('p', 'mm', 'a4');
   let y = 16;
 
-  addBrandHeader(doc, pathology.name);
+  addBrandHeader(doc, pathology.title);
 
   // === TITRE ===
   doc.setFontSize(16);
   doc.setTextColor(...PRIMARY);
   doc.setFont('helvetica', 'bold');
-  doc.text(pathology.name.toUpperCase(), MARGIN, y);
+  doc.text(pathology.title.toUpperCase(), MARGIN, y);
   y += 5;
   
   doc.setFontSize(9);
@@ -95,7 +94,7 @@ export const generateOnePage = (pathology: Pathology): jsPDF => {
 
   // === ENCADRÉ NIVEAU 0 ===
   const level0Box = pathology.dailyPlans?.find(p => p.level === 0);
-  if (level0Box) {
+  if (level0Box && level0Box.actions) {
     addBox(doc, MARGIN, y, CONTENT_WIDTH, 24, LEVEL0_BG);
     
     doc.setFontSize(10);
@@ -119,7 +118,7 @@ export const generateOnePage = (pathology: Pathology): jsPDF => {
 
   // === 3 ACTIONS AUJOURD'HUI (Version normale) ===
   const normalPlan = pathology.dailyPlans?.find(p => p.level === 1) || pathology.dailyPlans?.[0];
-  if (normalPlan && normalPlan.level !== 0) {
+  if (normalPlan && normalPlan.level !== 0 && normalPlan.actions) {
     y = addSection(doc, "3 actions aujourd'hui", y, '📋');
     
     doc.setFontSize(9);
@@ -137,14 +136,13 @@ export const generateOnePage = (pathology: Pathology): jsPDF => {
 
   // === PLAN 7 JOURS COMPACT ===
   const weekPlan = pathology.sevenDayPlans?.[0];
-  if (weekPlan) {
+  if (weekPlan && weekPlan.days) {
     y = addSection(doc, 'Plan 7 jours — ' + weekPlan.levelName.split('—')[0].trim(), y, '📅');
     
     doc.setFontSize(8);
     doc.setTextColor(...TEXT);
     doc.setFont('helvetica', 'normal');
 
-    // 2 colonnes pour gagner de la place
     const colWidth = (CONTENT_WIDTH - 4) / 2;
     let col1Y = y;
     let col2Y = y;
@@ -159,24 +157,21 @@ export const generateOnePage = (pathology: Pathology): jsPDF => {
       const lines = doc.splitTextToSize(dayText, colWidth - 6);
       doc.text(lines[0], MARGIN + xOffset + 4, currentY);
       
-      if (isCol1) {
-        col1Y += 5;
-      } else {
-        col2Y += 5;
-      }
+      if (isCol1) col1Y += 5;
+      else col2Y += 5;
     });
     
     y = Math.max(col1Y, col2Y) + 3;
   }
 
-  // === TOP 5 CONSEILS (très compact) ===
+  // === TOP 5 CONSEILS ===
   y = addSection(doc, 'Mes 5 conseils', y, '💡');
   
   doc.setFontSize(8);
   doc.setTextColor(...TEXT);
   doc.setFont('helvetica', 'normal');
 
-  pathology.top5NonMedical.slice(0, 5).forEach((tip) => {
+  pathology.top5Tips.slice(0, 5).forEach((tip) => {
     doc.text(`${tip.icon} ${tip.title}`, MARGIN, y);
     y += 4;
   });
@@ -210,18 +205,17 @@ export const generateOnePage = (pathology: Pathology): jsPDF => {
 // PDF 4 PAGES — GUIDE COMPLET STRUCTURÉ
 // ============================================
 
-export const generateFourPages = (pathology: Pathology): jsPDF => {
+export const generateFourPages = (pathology: PathologyContent): jsPDF => {
   const doc = new jsPDF('p', 'mm', 'a4');
   let y = 16;
 
-  // ========== PAGE 1: COMPRENDRE + CONSEILS ==========
-  addBrandHeader(doc, pathology.name, 1, 4);
+  // ========== PAGE 1 ==========
+  addBrandHeader(doc, pathology.title, 1, 4);
 
-  // Titre principal
   doc.setFontSize(18);
   doc.setTextColor(...PRIMARY);
   doc.setFont('helvetica', 'bold');
-  doc.text(pathology.name.toUpperCase(), MARGIN, y);
+  doc.text(pathology.title.toUpperCase(), MARGIN, y);
   y += 5;
   
   doc.setFontSize(10);
@@ -230,9 +224,9 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
   doc.text(`Guide complet — ${pathology.lastUpdated}`, MARGIN, y);
   y += 10;
 
-  // === ENCADRÉ NIVEAU 0 ===
+  // Encadré Niveau 0
   const level0Plan = pathology.dailyPlans?.find(p => p.level === 0);
-  if (level0Plan) {
+  if (level0Plan && level0Plan.actions) {
     addBox(doc, MARGIN, y, CONTENT_WIDTH, 30, LEVEL0_BG);
     
     doc.setFontSize(11);
@@ -256,36 +250,31 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
     y += 34;
   }
 
-  // === EN RÉSUMÉ ===
+  // En résumé
   y = addSection(doc, 'En résumé', y, '📖');
-  
   doc.setFontSize(10);
   doc.setTextColor(...TEXT);
   doc.setFont('helvetica', 'normal');
-  
   const summaryClean = pathology.quickSummary.replace(/\n\n/g, ' ').replace(/\n/g, ' ');
   const summaryLines = doc.splitTextToSize(summaryClean, CONTENT_WIDTH);
   doc.text(summaryLines.slice(0, 6), MARGIN, y);
   y += Math.min(summaryLines.length, 6) * 4.5 + 6;
 
-  // === CE QUI SE PASSE ===
+  // Ce qui se passe
   y = addSection(doc, 'Ce qui se passe dans votre corps', y, '🔍');
-  
   const physioClean = pathology.physiopathology.replace(/\n\n/g, ' ').replace(/\n/g, ' ');
   const physioLines = doc.splitTextToSize(physioClean, CONTENT_WIDTH);
   doc.text(physioLines.slice(0, 5), MARGIN, y);
   y += Math.min(physioLines.length, 5) * 4.5 + 6;
 
-  // === TOP 5 CONSEILS ===
+  // Top 5 conseils
   y = addSection(doc, 'Mes 5 conseils essentiels', y, '💡');
-  
-  pathology.top5NonMedical.forEach((tip) => {
+  pathology.top5Tips.forEach((tip) => {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(...TEXT);
     doc.text(`${tip.icon} ${tip.title}`, MARGIN, y);
     y += 4;
-    
     doc.setFontSize(9);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(...MUTED);
@@ -296,10 +285,10 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
 
   addFooter(doc);
 
-  // ========== PAGE 2: PLAN 7 JOURS (Niveaux 0 & 1) ==========
+  // ========== PAGE 2 ==========
   doc.addPage();
   y = 16;
-  addBrandHeader(doc, pathology.name, 2, 4);
+  addBrandHeader(doc, pathology.title, 2, 4);
 
   doc.setFontSize(14);
   doc.setTextColor(...PRIMARY);
@@ -309,18 +298,15 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
 
   // Niveau 0
   const week0 = pathology.sevenDayPlans.find(p => p.level === 0);
-  if (week0) {
+  if (week0 && week0.days) {
     addBox(doc, MARGIN, y, CONTENT_WIDTH, 50, LEVEL0_BG);
-    
     doc.setFontSize(11);
     doc.setTextColor(...SUCCESS);
     doc.setFont('helvetica', 'bold');
-    doc.text('NIVEAU 0 — ' + week0.levelName.split('—')[1]?.trim() || 'Très facile', MARGIN + 4, y + 6);
-    
+    doc.text('NIVEAU 0 — ' + (week0.levelName.split('—')[1]?.trim() || 'Très facile'), MARGIN + 4, y + 6);
     doc.setFontSize(9);
     doc.setTextColor(...TEXT);
     doc.setFont('helvetica', 'normal');
-    
     let dayY = y + 12;
     week0.days.forEach((day) => {
       addCheckbox(doc, MARGIN + 4, dayY, 3);
@@ -337,17 +323,15 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
 
   // Niveau 1
   const week1 = pathology.sevenDayPlans.find(p => p.level === 1);
-  if (week1) {
+  if (week1 && week1.days) {
     doc.setFontSize(11);
     doc.setTextColor(...PRIMARY);
     doc.setFont('helvetica', 'bold');
     doc.text('NIVEAU 1 — ' + (week1.levelName.split('—')[1]?.trim() || 'Facile'), MARGIN, y);
     y += 6;
-    
     doc.setFontSize(9);
     doc.setTextColor(...TEXT);
     doc.setFont('helvetica', 'normal');
-    
     week1.days.forEach((day) => {
       addCheckbox(doc, MARGIN, y, 3);
       doc.setFont('helvetica', 'bold');
@@ -364,34 +348,30 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
   // Niveaux 2 & 3 (résumé)
   const week2 = pathology.sevenDayPlans.find(p => p.level === 2);
   const week3 = pathology.sevenDayPlans.find(p => p.level === 3);
-  
   if (week2 || week3) {
     doc.setFontSize(10);
     doc.setTextColor(...PRIMARY);
     doc.setFont('helvetica', 'bold');
     doc.text('NIVEAUX SUPÉRIEURS (quand vous progressez)', MARGIN, y);
     y += 6;
-    
     doc.setFontSize(9);
     doc.setTextColor(...MUTED);
     doc.setFont('helvetica', 'normal');
-    
     if (week2) {
       doc.text(`• Niveau 2: ${week2.levelName.split('—')[1]?.trim() || 'Normal'}`, MARGIN, y);
       y += 4;
     }
     if (week3) {
       doc.text(`• Niveau 3: ${week3.levelName.split('—')[1]?.trim() || 'Actif'}`, MARGIN, y);
-      y += 4;
     }
   }
 
   addFooter(doc);
 
-  // ========== PAGE 3: PROGRAMME 8 SEMAINES ==========
+  // ========== PAGE 3 ==========
   doc.addPage();
   y = 16;
-  addBrandHeader(doc, pathology.name, 3, 4);
+  addBrandHeader(doc, pathology.title, 3, 4);
 
   doc.setFontSize(14);
   doc.setTextColor(...PRIMARY);
@@ -399,10 +379,8 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
   doc.text('📈 PROGRAMME 8 SEMAINES', MARGIN, y);
   y += 8;
 
-  // Afficher niveaux 0 et 1
-  pathology.eightWeekPrograms.slice(0, 2).forEach((program, progIndex) => {
+  pathology.eightWeekPrograms.slice(0, 2).forEach((program) => {
     const isLevel0 = program.level === 0;
-    
     if (isLevel0) {
       addBox(doc, MARGIN, y, CONTENT_WIDTH, 50, LEVEL0_BG);
       doc.setFontSize(11);
@@ -411,7 +389,6 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
       doc.setFontSize(11);
       doc.setTextColor(...PRIMARY);
     }
-    
     doc.setFont('helvetica', 'bold');
     const levelTitle = `NIVEAU ${program.level} — ${program.levelName.split('—')[1]?.trim() || ''}`;
     doc.text(levelTitle, isLevel0 ? MARGIN + 4 : MARGIN, y + (isLevel0 ? 6 : 0));
@@ -419,7 +396,6 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
 
     doc.setFontSize(9);
     doc.setTextColor(...TEXT);
-    
     program.weeks.forEach((week) => {
       doc.setFont('helvetica', 'bold');
       doc.text(`${week.week}`, isLevel0 ? MARGIN + 4 : MARGIN, y);
@@ -427,7 +403,6 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
       doc.setTextColor(...MUTED);
       doc.text(`— ${week.focus}`, (isLevel0 ? MARGIN + 4 : MARGIN) + 25, y);
       y += 4;
-      
       doc.setTextColor(...TEXT);
       week.exercises.slice(0, 2).forEach((ex) => {
         addCheckbox(doc, isLevel0 ? MARGIN + 6 : MARGIN + 2, y, 2.5);
@@ -437,26 +412,24 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
       });
       y += 2;
     });
-    
     y += isLevel0 ? 6 : 8;
   });
 
-  // Mention niveaux 2-3
   if (pathology.eightWeekPrograms.length > 2) {
     doc.setFontSize(9);
     doc.setTextColor(...MUTED);
     doc.setFont('helvetica', 'italic');
-    doc.text('→ Niveaux 2-3 disponibles sur coolance.fr pour les patients plus actifs.', MARGIN, y);
+    doc.text('→ Niveaux 2-3 disponibles sur coolance.fr', MARGIN, y);
   }
 
   addFooter(doc);
 
-  // ========== PAGE 4: NUTRITION + RED FLAGS ==========
+  // ========== PAGE 4 ==========
   doc.addPage();
   y = 16;
-  addBrandHeader(doc, pathology.name, 4, 4);
+  addBrandHeader(doc, pathology.title, 4, 4);
 
-  // === NUTRITION ===
+  // Nutrition
   doc.setFontSize(14);
   doc.setTextColor(...PRIMARY);
   doc.setFont('helvetica', 'bold');
@@ -468,7 +441,6 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
   doc.setFont('helvetica', 'bold');
   doc.text("L'assiette idéale :", MARGIN, y);
   y += 5;
-
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
   pathology.nutrition.idealPlate.forEach((item) => {
@@ -481,7 +453,6 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
   doc.setFont('helvetica', 'bold');
   doc.text('Mes conseils :', MARGIN, y);
   y += 5;
-
   doc.setFont('helvetica', 'normal');
   pathology.nutrition.tips.forEach((tip) => {
     const lines = doc.splitTextToSize(`• ${tip}`, CONTENT_WIDTH - 4);
@@ -490,7 +461,7 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
   });
   y += 8;
 
-  // === PLAN POUSSÉE ===
+  // Plan poussée
   if (pathology.flareProtocol) {
     doc.setFontSize(12);
     doc.setTextColor(...PRIMARY);
@@ -503,7 +474,6 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
     doc.setFont('helvetica', 'bold');
     doc.text('Premières 24h :', MARGIN, y);
     y += 5;
-
     doc.setFont('helvetica', 'normal');
     pathology.flareProtocol.hours0to24.slice(0, 4).forEach((action) => {
       const lines = doc.splitTextToSize(`• ${action}`, CONTENT_WIDTH - 4);
@@ -515,7 +485,6 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
     doc.setFont('helvetica', 'bold');
     doc.text('24-48h :', MARGIN, y);
     y += 5;
-
     doc.setFont('helvetica', 'normal');
     pathology.flareProtocol.hours24to48.slice(0, 3).forEach((action) => {
       const lines = doc.splitTextToSize(`• ${action}`, CONTENT_WIDTH - 4);
@@ -525,18 +494,15 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
     y += 6;
   }
 
-  // === RED FLAGS ===
+  // Red flags
   addBox(doc, MARGIN, y, CONTENT_WIDTH, 36, [255, 245, 245]);
-  
   doc.setFontSize(11);
   doc.setTextColor(...DANGER);
   doc.setFont('helvetica', 'bold');
   doc.text('⚠️ CONSULTEZ RAPIDEMENT SI :', MARGIN + 4, y + 6);
-  
   doc.setFontSize(9);
   doc.setTextColor(...TEXT);
   doc.setFont('helvetica', 'normal');
-  
   let alertY = y + 12;
   pathology.alertSigns.forEach((sign) => {
     const lines = doc.splitTextToSize(`• ${sign}`, CONTENT_WIDTH - 10);
@@ -545,19 +511,17 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
   });
   y += 40;
 
-  // === SOURCES ===
+  // Sources
   doc.setFontSize(8);
   doc.setTextColor(...MUTED);
   doc.setFont('helvetica', 'italic');
   doc.text('Sources :', MARGIN, y);
   y += 4;
-  
   pathology.sources.forEach((source) => {
     doc.text(`• ${source.name} (${source.year})`, MARGIN + 2, y);
     y += 3.5;
   });
 
-  // Message final
   y += 6;
   doc.setFontSize(9);
   doc.setTextColor(...PRIMARY);
@@ -575,8 +539,4 @@ export const generateFourPages = (pathology: Pathology): jsPDF => {
 
 export const downloadPdf = (doc: jsPDF, filename: string) => {
   doc.save(filename);
-};
-
-export const getPathologyBySlug = (slug: string, pathologies: Pathology[]): Pathology | undefined => {
-  return pathologies.find(p => p.slug === slug);
 };

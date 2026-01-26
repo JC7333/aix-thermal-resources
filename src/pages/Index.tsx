@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Download, Compass, ZoomIn, Heart, Bone, Wind, Cigarette, Activity, Baby, CircleDot, FileText, Printer } from 'lucide-react';
+import { ArrowRight, Download, Compass, ZoomIn, Heart, Bone, Wind, Cigarette, Activity, Baby, CircleDot, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
-import { fullQuickAnswers } from '@/data/quick-answers';
-import { pathologies } from '@/data/pathologies';
+import { quickAnswers, pathologies } from '@/content/content';
 import { generateOnePage, downloadPdf } from '@/services/pdfGenerator';
 
 const themeButtons = [
@@ -170,15 +169,15 @@ const Index = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {fullQuickAnswers.slice(0, 3).map((answer) => (
+              {quickAnswers.slice(0, 3).map((answer) => (
                 <Link
                   key={answer.slug}
                   to={`/reponses-rapides/${answer.slug}`}
                   className="card-medical hover:shadow-lg transition-shadow group"
                 >
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${answer.color}`}>
-                      <CircleDot className="w-6 h-6" />
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-${answer.color}/10`}>
+                      <span className="text-2xl">{answer.icon}</span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-serif text-lg font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">

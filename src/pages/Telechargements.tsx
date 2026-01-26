@@ -1,15 +1,22 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Download, FileText, Book, Filter, Printer } from 'lucide-react';
+import { Download, FileText, Book, Filter, Printer, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
-import { pathologies, categoryLabels, categoryColors, Pathology } from '@/data/pathologies';
+import { 
+  pathologies, 
+  categoryLabels, 
+  categoryColors, 
+  PathologyContent,
+  exportContentAsJson,
+  ContentCategory 
+} from '@/content/content';
 import { generateOnePage, generateFourPages, downloadPdf } from '@/services/pdfGenerator';
 
-type CategoryFilter = 'all' | 'rhumatologie' | 'veino-lymphatique' | 'orl-respiratoire' | 'muqueuses-buccales';
+type CategoryFilter = 'all' | ContentCategory;
 
 const categoryFilters: { value: CategoryFilter; label: string }[] = [
   { value: 'all', label: 'Toutes les catégories' },
@@ -20,22 +27,22 @@ const categoryFilters: { value: CategoryFilter; label: string }[] = [
 ];
 
 interface PdfDownload {
-  pathology: Pathology;
+  pathology: PathologyContent;
   type: '1page' | '4pages';
 }
 
 const Telechargements = () => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
   const [downloading, setDownloading] = useState<PdfDownload | null>(null);
+  const [showAdmin, setShowAdmin] = useState(false);
 
+  const publishedPathologies = pathologies.filter(p => p.isPublished);
   const filteredPathologies = selectedCategory === 'all' 
-    ? pathologies 
-    : pathologies.filter(p => p.category === selectedCategory);
+    ? publishedPathologies 
+    : publishedPathologies.filter(p => p.category === selectedCategory);
 
-  const handleDownload1Page = async (pathology: Pathology) => {
+  const handleDownload1Page = async (pathology: PathologyContent) => {
     setDownloading({ pathology, type: '1page' });
-    
-    // Small delay for UX feedback
     setTimeout(() => {
       const doc = generateOnePage(pathology);
       downloadPdf(doc, `COOLANCE_${pathology.slug}_fiche-1-page.pdf`);
@@ -43,14 +50,26 @@ const Telechargements = () => {
     }, 300);
   };
 
-  const handleDownload4Pages = async (pathology: Pathology) => {
+  const handleDownload4Pages = async (pathology: PathologyContent) => {
     setDownloading({ pathology, type: '4pages' });
-    
     setTimeout(() => {
       const doc = generateFourPages(pathology);
       downloadPdf(doc, `COOLANCE_${pathology.slug}_guide-complet.pdf`);
       setDownloading(null);
     }, 300);
+  };
+
+  const handleExportJson = () => {
+    const json = exportContentAsJson();
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `coolance-content-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -111,7 +130,7 @@ const Telechargements = () => {
                     >
                       {categoryLabels[pathology.category]}
                     </Badge>
-                    <CardTitle className="text-xl font-serif">{pathology.name}</CardTitle>
+                    <CardTitle className="text-xl font-serif">{pathology.title}</CardTitle>
                   </div>
                 </div>
                 <CardDescription className="text-sm">
@@ -219,6 +238,41 @@ const Telechargements = () => {
             </div>
           </div>
         </div>
+
+        {/* Admin Export Button (discret) */}
+        <div className="mt-8 flex justify-center">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-muted-foreground/50 hover:text-muted-foreground text-xs"
+            onClick={() => setShowAdmin(!showAdmin)}
+          >
+            <Settings className="w-3 h-3 mr-1" />
+            Admin
+          </Button>
+        </div>
+
+        {showAdmin && (
+          <div className="mt-4 p-4 bg-muted/30 rounded-lg border border-dashed border-muted-foreground/20">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="font-medium text-sm">Exporter le contenu</p>
+                <p className="text-xs text-muted-foreground">
+                  Télécharge tout le contenu en JSON (pour audio, podcast, social...)
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleExportJson}
+                className="gap-2"
+              >
+                <Download className="w-4 h-4" />
+                Exporter JSON
+              </Button>
+            </div>
+          </div>
+        )}
 
         {/* Reminder */}
         <div className="mt-8 p-4 bg-accent/10 rounded-lg border border-accent/20">
