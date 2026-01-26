@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle2, Instagram, Facebook } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import drAudricPhoto from '@/assets/dr-audric-bugnard.jpg';
 
 const principles = [
   {
@@ -36,12 +37,13 @@ const QuiSuisJe = () => {
         {/* Header with Photo */}
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center mb-12">
-            {/* Photo placeholder */}
-            <div className="w-48 h-48 lg:w-64 lg:h-64 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center shrink-0 border-4 border-white shadow-lg">
-              <div className="text-center">
-                <span className="font-serif text-4xl lg:text-5xl font-bold text-primary">AB</span>
-                <p className="text-xs text-muted-foreground mt-2">Photo à venir</p>
-              </div>
+            {/* Photo */}
+            <div className="w-48 h-48 lg:w-64 lg:h-64 rounded-2xl overflow-hidden shrink-0 border-4 border-white shadow-lg">
+              <img 
+                src={drAudricPhoto} 
+                alt="Dr Audric Bugnard" 
+                className="w-full h-full object-cover"
+              />
             </div>
 
             {/* Intro */}
