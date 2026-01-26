@@ -48,6 +48,12 @@ export interface Source {
   url?: string;
 }
 
+export interface DailyPlan {
+  level: MobilityLevel;
+  levelName: string;
+  actions: string[];
+}
+
 export interface Pathology {
   id: string;
   slug: string;
@@ -67,6 +73,9 @@ export interface Pathology {
     description: string;
     icon: string;
   }[];
+  
+  // Plan du jour (NOUVEAU)
+  dailyPlans?: DailyPlan[];
   
   // Plan 7 jours par niveau
   sevenDayPlans: {
@@ -162,14 +171,14 @@ export const audienceLabels: Record<AudienceType, string> = {
 };
 
 export const levelLabels: Record<MobilityLevel, string> = {
-  0: 'Niveau 0 — Mobilité très limitée',
-  1: 'Niveau 1 — Mobilité limitée',
-  2: 'Niveau 2 — Mobilité correcte',
-  3: 'Niveau 3 — Bonne mobilité',
+  0: 'Niveau 0 — Très facile (mobilité très limitée)',
+  1: 'Niveau 1 — Facile (mobilité limitée)',
+  2: 'Niveau 2 — Normal (mobilité correcte)',
+  3: 'Niveau 3 — Actif (bonne mobilité)',
 };
 
 // ============================================
-// PATHOLOGIES MVP COMPLÈTES
+// PATHOLOGIES MVP COMPLÈTES — TON HUMAIN
 // ============================================
 
 export const pathologies: Pathology[] = [
@@ -179,43 +188,73 @@ export const pathologies: Pathology[] = [
     slug: 'arthrose',
     name: 'Arthrose',
     category: 'rhumatologie',
-    shortDescription: 'Usure progressive du cartilage articulaire, source de douleurs et de raideur.',
+    shortDescription: 'Je vous aide à mieux vivre avec l\'arthrose au quotidien.',
     audience: 'senior',
     readingTime: 8,
-    lastUpdated: '2024-01',
+    lastUpdated: 'Janvier 2025',
 
     // En 2 minutes
-    quickSummary: `L'arthrose est une usure du cartilage qui recouvre vos articulations. Ce n'est pas une fatalité liée à l'âge. Le cartilage a besoin de mouvement pour se nourrir. Rester immobile l'abîme davantage. Bouger régulièrement, même doucement, est le meilleur traitement. La douleur peut diminuer significativement avec une activité adaptée et quelques ajustements du quotidien.`,
+    quickSummary: `Je sais que l'arthrose peut être vraiment handicapante au quotidien. La bonne nouvelle ? Ce n'est pas une fatalité. Votre cartilage a besoin de mouvement pour rester en bonne santé. 
+
+Je vous propose ici des conseils simples et concrets pour soulager vos douleurs. Pas de recette miracle, mais des gestes qui ont fait leurs preuves. La plupart de mes patients voient une vraie amélioration en quelques semaines, simplement en bougeant un peu plus et en appliquant quelques principes de base.
+
+Si vous avez un doute sur quoi que ce soit, on en parle en consultation.`,
 
     // Physiopathologie vulgarisée
-    physiopathology: `Imaginez le cartilage comme une éponge. Quand vous bougez, l'éponge se comprime et absorbe le liquide articulaire riche en nutriments. Quand vous vous arrêtez, elle se regonfle. Sans mouvement, l'éponge s'assèche et s'use. L'os sous le cartilage réagit en formant des petites excroissances (ostéophytes). L'articulation devient raide et douloureuse, surtout après l'immobilité prolongée.`,
+    physiopathology: `Pour comprendre simplement : imaginez votre cartilage comme une éponge. 
+
+Quand vous bougez, cette éponge se comprime et absorbe le liquide nutritif de votre articulation. Quand vous vous arrêtez, elle se regonfle. C'est comme ça qu'elle se nourrit.
+
+Si vous restez immobile trop longtemps, l'éponge s'assèche et s'abîme. C'est pour ça que je dis toujours à mes patients : "Le repos prolongé est l'ennemi de l'arthrose." Je sais, ça peut sembler contre-intuitif quand on a mal. Mais c'est vraiment le mouvement régulier et doux qui protège vos articulations.`,
 
     // Top 5 non médicamenteux
     top5NonMedical: [
       {
-        title: 'Bouger tous les jours',
-        description: 'Marche, vélo, natation : 30 min/jour. Le mouvement nourrit le cartilage et renforce les muscles qui protègent l\'articulation.',
+        title: 'Bouger un peu chaque jour',
+        description: 'Mon conseil n°1 : 30 minutes de marche, vélo ou natation par jour. Si c\'est trop au début, commencez par 5 minutes. L\'important, c\'est la régularité.',
         icon: '🚶',
       },
       {
         title: 'Appliquer de la chaleur',
-        description: 'Bouillotte, compresse chaude ou bain chaud pendant 15-20 min. La chaleur détend les muscles et diminue la raideur.',
+        description: 'Une bouillotte 15-20 minutes sur l\'articulation douloureuse. Ça détend les muscles et ça soulage vraiment. Faites-le le matin au réveil ou le soir.',
         icon: '🔥',
       },
       {
-        title: 'Renforcer les muscles',
-        description: 'Quadriceps pour le genou, fessiers pour la hanche. Des muscles forts = moins de pression sur l\'articulation.',
+        title: 'Renforcer les muscles autour',
+        description: 'Des muscles forts = moins de pression sur l\'articulation. Je vous montre des exercices simples, adaptés à votre niveau.',
         icon: '💪',
       },
       {
-        title: 'Gérer le poids',
-        description: 'Chaque kilo en moins = 4 kilos de pression en moins sur les genoux. Même une perte modeste aide.',
+        title: 'Surveiller le poids',
+        description: 'Je ne vous demande pas de faire un régime drastique. Mais sachez que chaque kilo perdu enlève 4 kilos de pression sur vos genoux. Même 2-3 kilos font une différence.',
         icon: '⚖️',
       },
       {
-        title: 'Alterner positions',
-        description: 'Ne restez jamais plus d\'1h dans la même position. Levez-vous, faites quelques pas, étirez-vous.',
+        title: 'Changer de position souvent',
+        description: 'Ne restez jamais plus d\'une heure dans la même position. Levez-vous, faites quelques pas, étirez-vous. Votre corps vous remerciera.',
         icon: '🔄',
+      },
+    ],
+
+    // Plan du jour (NOUVEAU)
+    dailyPlans: [
+      {
+        level: 0,
+        levelName: 'Version très facile',
+        actions: [
+          '5 minutes de mouvements doux sur votre chaise (bougez les chevilles, pliez les genoux)',
+          'Appliquez une bouillotte 15 minutes sur la zone douloureuse',
+          'Marchez dans votre appartement, même juste 3 minutes',
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Version normale',
+        actions: [
+          '15 minutes d\'exercices doux (je vous les détaille plus bas)',
+          '20-30 minutes de marche à votre rythme',
+          'Bouillotte ou bain chaud le soir si raideur',
+        ],
       },
     ],
 
@@ -223,54 +262,54 @@ export const pathologies: Pathology[] = [
     sevenDayPlans: [
       {
         level: 0,
-        levelName: 'Mobilité très limitée',
+        levelName: 'Très facile — Je bouge à peine',
         days: [
-          { day: 'Jour 1', actions: ['5 min de mouvements doux sur chaise (flexion-extension chevilles, genoux)', 'Appliquer chaleur 15 min sur zone douloureuse'] },
-          { day: 'Jour 2', actions: ['5 min mouvements sur chaise', 'Marcher dans l\'appartement 2x3 min', 'Chaleur 15 min'] },
-          { day: 'Jour 3', actions: ['7 min mouvements sur chaise', 'Marcher 2x5 min', 'S\'hydrater : 6 verres d\'eau'] },
-          { day: 'Jour 4', actions: ['7 min mouvements + 1 exercice couché (pont fessier 5x)', 'Marcher 2x5 min'] },
-          { day: 'Jour 5', actions: ['10 min mouvements variés', 'Marcher 10 min en 1 ou 2 fois'] },
-          { day: 'Jour 6', actions: ['10 min mouvements', 'Marcher 10-15 min', 'Chaleur le soir 15 min'] },
-          { day: 'Jour 7', actions: ['Jour de repos actif : quelques mouvements doux uniquement', 'Notez vos progrès'] },
+          { day: 'Jour 1', actions: ['5 min de mouvements sur chaise', 'Bouillotte 15 min'] },
+          { day: 'Jour 2', actions: ['5 min mouvements + 3 min de marche dans la maison', 'Buvez 6 verres d\'eau'] },
+          { day: 'Jour 3', actions: ['7 min mouvements variés', 'Marche 5 min', 'Bouillotte le soir'] },
+          { day: 'Jour 4', actions: ['7 min mouvements + 1 exercice couché', 'Marche 5-7 min'] },
+          { day: 'Jour 5', actions: ['10 min mouvements', 'Marche 10 min (en 2 fois si besoin)'] },
+          { day: 'Jour 6', actions: ['10 min mouvements', 'Marche 10-15 min', 'Félicitez-vous !'] },
+          { day: 'Jour 7', actions: ['Repos actif : mouvements doux', 'Notez vos progrès de la semaine'] },
         ],
       },
       {
         level: 1,
-        levelName: 'Mobilité limitée',
+        levelName: 'Facile — Je me fatigue vite',
         days: [
-          { day: 'Jour 1', actions: ['10 min exercices doux (chaise + sol)', 'Marcher 10 min à allure lente', 'Chaleur 15 min'] },
-          { day: 'Jour 2', actions: ['10 min exercices', 'Marcher 15 min', 'Boire 1,5L d\'eau'] },
-          { day: 'Jour 3', actions: ['12 min exercices avec renforcement léger', 'Marcher 15 min', 'Étirer les jambes 5 min le soir'] },
-          { day: 'Jour 4', actions: ['12 min exercices', 'Marcher 20 min (pauses si besoin)', 'Chaleur le soir'] },
-          { day: 'Jour 5', actions: ['15 min exercices variés', 'Marcher 20 min'] },
-          { day: 'Jour 6', actions: ['15 min exercices', 'Marcher 20-25 min', 'Étirements soir'] },
-          { day: 'Jour 7', actions: ['Repos actif : marche légère 10 min + mouvements doux', 'Bilan de la semaine'] },
+          { day: 'Jour 1', actions: ['10 min exercices doux', 'Marche 10-15 min', 'Chaleur si raideur'] },
+          { day: 'Jour 2', actions: ['10 min exercices', 'Marche 15 min', 'Hydratation : 1,5L'] },
+          { day: 'Jour 3', actions: ['12 min exercices avec renforcement léger', 'Marche 15-20 min'] },
+          { day: 'Jour 4', actions: ['12 min exercices', 'Marche 20 min (pauses ok)'] },
+          { day: 'Jour 5', actions: ['15 min exercices', 'Marche 20 min'] },
+          { day: 'Jour 6', actions: ['15 min exercices', 'Marche 25 min', 'Étirements le soir'] },
+          { day: 'Jour 7', actions: ['Repos actif : marche tranquille', 'Bilan : comment ça va ?'] },
         ],
       },
       {
         level: 2,
-        levelName: 'Mobilité correcte',
+        levelName: 'Normal — Je peux marcher 30 min',
         days: [
-          { day: 'Jour 1', actions: ['15 min exercices (renforcement + mobilité)', 'Marcher 25-30 min', 'Chaleur si raideur'] },
-          { day: 'Jour 2', actions: ['15 min exercices', 'Marcher 30 min ou vélo 20 min'] },
-          { day: 'Jour 3', actions: ['20 min exercices complets', 'Marcher 30 min', 'Étirements 10 min soir'] },
-          { day: 'Jour 4', actions: ['15 min exercices', 'Activité au choix 30 min (marche, vélo, piscine)'] },
-          { day: 'Jour 5', actions: ['20 min exercices', 'Marcher 30-40 min'] },
-          { day: 'Jour 6', actions: ['20 min exercices', 'Activité plaisir 30-40 min', 'Étirements'] },
-          { day: 'Jour 7', actions: ['Repos actif : marche légère 20 min', 'Évaluer les progrès'] },
+          { day: 'Jour 1', actions: ['15 min exercices complets', 'Marche 30 min'] },
+          { day: 'Jour 2', actions: ['15 min exercices', 'Marche 30 min ou vélo 20 min'] },
+          { day: 'Jour 3', actions: ['20 min exercices', 'Marche 30 min', 'Étirements 10 min'] },
+          { day: 'Jour 4', actions: ['15 min exercices', 'Activité plaisir 30 min'] },
+          { day: 'Jour 5', actions: ['20 min exercices', 'Marche 35-40 min'] },
+          { day: 'Jour 6', actions: ['20 min exercices', 'Sortie 40 min', 'Étirements'] },
+          { day: 'Jour 7', actions: ['Repos actif', 'Évaluez vos progrès'] },
         ],
       },
       {
         level: 3,
-        levelName: 'Bonne mobilité',
+        levelName: 'Actif — Je suis en forme',
         days: [
-          { day: 'Jour 1', actions: ['20 min renforcement musculaire', 'Cardio 30-40 min (marche rapide, vélo, natation)'] },
-          { day: 'Jour 2', actions: ['20 min exercices mobilité + équilibre', 'Marcher 40 min'] },
-          { day: 'Jour 3', actions: ['25 min renforcement', 'Cardio 30-40 min', 'Étirements 10 min'] },
-          { day: 'Jour 4', actions: ['20 min exercices', 'Activité plaisir 45 min'] },
-          { day: 'Jour 5', actions: ['25 min renforcement complet', 'Cardio 40 min'] },
-          { day: 'Jour 6', actions: ['20 min exercices', 'Activité extérieure 45-60 min', 'Étirements'] },
-          { day: 'Jour 7', actions: ['Repos actif : marche tranquille, yoga doux'] },
+          { day: 'Jour 1', actions: ['20 min renforcement', 'Cardio 40 min'] },
+          { day: 'Jour 2', actions: ['20 min mobilité + équilibre', 'Marche rapide 40 min'] },
+          { day: 'Jour 3', actions: ['25 min renforcement', 'Cardio 40 min', 'Étirements'] },
+          { day: 'Jour 4', actions: ['20 min exercices', 'Sport plaisir 45 min'] },
+          { day: 'Jour 5', actions: ['25 min renforcement', 'Cardio 45 min'] },
+          { day: 'Jour 6', actions: ['20 min exercices', 'Activité longue 1h'] },
+          { day: 'Jour 7', actions: ['Repos actif : yoga, natation douce'] },
         ],
       },
     ],
@@ -279,42 +318,42 @@ export const pathologies: Pathology[] = [
     eightWeekPrograms: [
       {
         level: 0,
-        levelName: 'Niveau 0 — Je peux à peine bouger',
+        levelName: 'Très facile — Je démarre doucement',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Réveiller le corps', exercises: ['Mouvements sur chaise 5-10 min/jour', 'Marche intérieure 5 min 2x/jour', 'Chaleur quotidienne 15 min'] },
-          { week: 'Semaines 3-4', focus: 'Gagner en amplitude', exercises: ['Mouvements sur chaise 10 min', 'Ajouter 1 exercice couché (pont)', 'Marche 10 min 1-2x/jour'] },
-          { week: 'Semaines 5-6', focus: 'Premiers renforcements', exercises: ['Exercices assis + couchés 15 min', 'Marche 15-20 min/jour', 'Commencer montées sur pointes debout'] },
-          { week: 'Semaines 7-8', focus: 'Consolider', exercises: ['Routine complète 15-20 min', 'Marche 20-30 min/jour', 'Objectif : passer au niveau 1'] },
+          { week: 'Semaines 1-2', focus: 'On réveille le corps', exercises: ['Mouvements sur chaise 5-10 min/jour', 'Marche 5 min 2x/jour dans la maison', 'Bouillotte quotidienne'] },
+          { week: 'Semaines 3-4', focus: 'On gagne en amplitude', exercises: ['Mouvements 10 min/jour', 'Ajouter 1 exercice couché', 'Marche 10 min/jour'] },
+          { week: 'Semaines 5-6', focus: 'Premiers renforcements', exercises: ['Exercices 15 min', 'Marche 15-20 min/jour', 'Montées sur pointes si possible'] },
+          { week: 'Semaines 7-8', focus: 'On consolide', exercises: ['Routine 20 min', 'Marche 25-30 min', 'Objectif : passer au niveau 1'] },
         ],
       },
       {
         level: 1,
-        levelName: 'Niveau 1 — Je me fatigue vite',
+        levelName: 'Facile — Je progresse à mon rythme',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Base solide', exercises: ['Exercices 15 min/jour (mobilité + léger renforcement)', 'Marche 15-20 min/jour'] },
-          { week: 'Semaines 3-4', focus: 'Augmenter progressivement', exercises: ['Exercices 20 min/jour', 'Marche 25-30 min/jour', 'Ajouter étirements soir'] },
-          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Exercices 20 min', 'Alterner marche/vélo d\'appartement 30 min', 'Renforcement 3x/semaine'] },
-          { week: 'Semaines 7-8', focus: 'Prêt pour niveau 2', exercises: ['Routine complète 25 min', 'Cardio léger 30-35 min/jour', 'Évaluation et ajustement'] },
+          { week: 'Semaines 1-2', focus: 'Base solide', exercises: ['Exercices 15 min/jour', 'Marche 20 min/jour'] },
+          { week: 'Semaines 3-4', focus: 'On augmente', exercises: ['Exercices 20 min', 'Marche 25-30 min', 'Étirements le soir'] },
+          { week: 'Semaines 5-6', focus: 'On diversifie', exercises: ['Exercices 20 min', 'Alterner marche/vélo 30 min'] },
+          { week: 'Semaines 7-8', focus: 'Prêt pour niveau 2', exercises: ['Routine 25 min', 'Cardio 35 min'] },
         ],
       },
       {
         level: 2,
-        levelName: 'Niveau 2 — Je peux marcher 30 min',
+        levelName: 'Normal — J\'ai une bonne base',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Renforcement structuré', exercises: ['Renforcement 20 min 4x/semaine', 'Cardio 30-35 min/jour (marche, vélo, piscine)'] },
-          { week: 'Semaines 3-4', focus: 'Intensifier doucement', exercises: ['Renforcement 25 min', 'Cardio 35-40 min', 'Ajouter équilibre 5 min'] },
-          { week: 'Semaines 5-6', focus: 'Endurance', exercises: ['Renforcement complet 25 min', 'Cardio 40-45 min', 'Exercices proprioception'] },
-          { week: 'Semaines 7-8', focus: 'Autonomie', exercises: ['Programme personnel 30 min 5x/semaine', 'Cardio 45 min', 'Objectif maintien long terme'] },
+          { week: 'Semaines 1-2', focus: 'Renforcement structuré', exercises: ['Renforcement 20 min 4x/sem', 'Cardio 35 min/jour'] },
+          { week: 'Semaines 3-4', focus: 'Intensification douce', exercises: ['Renforcement 25 min', 'Cardio 40 min'] },
+          { week: 'Semaines 5-6', focus: 'Endurance', exercises: ['Renforcement complet 25 min', 'Cardio 45 min'] },
+          { week: 'Semaines 7-8', focus: 'Autonomie', exercises: ['Programme personnel 30 min 5x/sem', 'Cardio 45 min'] },
         ],
       },
       {
         level: 3,
-        levelName: 'Niveau 3 — Je suis actif',
+        levelName: 'Actif — Je vise le maintien long terme',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Renforcement ciblé 30 min 4-5x/semaine', 'Cardio varié 45 min/jour'] },
-          { week: 'Semaines 3-4', focus: 'Performance douce', exercises: ['Circuits complets 30-35 min', 'Cardio 45-50 min', 'Stretching quotidien'] },
-          { week: 'Semaines 5-6', focus: 'Sport plaisir', exercises: ['Intégrer une activité sportive régulière', 'Maintenir renforcement 3x/semaine'] },
-          { week: 'Semaines 7-8', focus: 'Maintien vie active', exercises: ['Routine personnalisée durable', 'Activité physique quotidienne intégrée', 'Réévaluation tous les 3 mois'] },
+          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Renforcement 30 min 5x/sem', 'Cardio varié 45 min'] },
+          { week: 'Semaines 3-4', focus: 'Performance douce', exercises: ['Circuits complets', 'Cardio 50 min'] },
+          { week: 'Semaines 5-6', focus: 'Sport plaisir', exercises: ['Intégrer une activité sportive régulière'] },
+          { week: 'Semaines 7-8', focus: 'Maintien', exercises: ['Routine personnalisée', 'Réévaluation tous les 3 mois'] },
         ],
       },
     ],
@@ -322,63 +361,58 @@ export const pathologies: Pathology[] = [
     // Nutrition
     nutrition: {
       idealPlate: [
-        '½ assiette de légumes colorés (anti-inflammatoires naturels)',
-        '¼ assiette de protéines (poisson 2-3x/semaine, œufs, volaille, légumineuses)',
-        '¼ assiette de féculents complets (riz complet, quinoa, patate douce)',
-        'Huile d\'olive en assaisonnement (1-2 cuillères à soupe)',
-        'Fruits en dessert ou collation (fruits rouges, agrumes)',
+        '½ assiette de légumes colorés — ils sont anti-inflammatoires naturels',
+        '¼ de protéines (poisson 2-3x/semaine, œufs, volaille)',
+        '¼ de féculents complets (riz complet, patate douce)',
+        'Huile d\'olive pour assaisonner',
+        'Fruits en dessert (fruits rouges, agrumes)',
       ],
       commonMistakes: [
-        'Régimes restrictifs qui affaiblissent les muscles',
-        'Trop de sucres rapides (gâteaux, sodas) qui favorisent l\'inflammation',
-        'Pas assez de protéines (les muscles fondent)',
-        'Oublier l\'hydratation (le cartilage a besoin d\'eau)',
-        'Croire aux « aliments miracles » (curcuma seul ne suffit pas)',
+        'Faire un régime restrictif → ça affaiblit les muscles qui protègent l\'articulation',
+        'Trop de sucres rapides (gâteaux, sodas) → ça augmente l\'inflammation',
+        'Pas assez de protéines → les muscles fondent',
       ],
       tips: [
-        'Mangez du poisson gras 2-3x/semaine (saumon, sardines, maquereau)',
-        'Buvez au moins 1,5L d\'eau par jour',
-        'Limitez l\'alcool (inflammatoire)',
-        'Si surpoids : visez -5% du poids actuel, pas plus',
+        'Poisson gras 2-3x/semaine (saumon, sardines)',
+        'Au moins 1,5L d\'eau par jour — le cartilage a besoin d\'eau',
+        'Si surpoids : visez -5% du poids, pas plus, c\'est déjà efficace',
       ],
     },
 
     // Plan poussée 48h
     flareProtocol: {
-      title: 'Plan crise arthrosique 48h',
+      title: 'Crise de douleur — Que faire pendant 48h',
       hours0to24: [
-        'Repos relatif : réduisez les activités mais ne restez pas immobile',
-        'Appliquez du chaud (bouillotte, bain) 20 min 3-4x/jour',
-        'Faites des mouvements très doux pour éviter l\'enraidissement',
-        'Hydratez-vous bien (1,5-2L)',
+        'Réduisez les activités mais ne restez pas immobile',
+        'Bouillotte ou bain chaud 20 min, 3-4 fois dans la journée',
+        'Quelques mouvements très doux pour éviter l\'enraidissement',
+        'Buvez bien : 1,5 à 2 litres',
         'Position confortable : coussin sous les genoux si couché',
       ],
       hours24to48: [
-        'Reprenez progressivement les mouvements habituels',
+        'Reprenez progressivement les mouvements',
         'Continuez la chaleur si ça soulage',
-        'Marche courte (5-10 min) plusieurs fois par jour',
+        'Marche courte (5-10 min) plusieurs fois',
         'Étirements doux le soir',
-        'Maintenez une alimentation anti-inflammatoire',
       ],
-      resumeActivity: 'Si la douleur diminue de moitié, reprenez votre programme au niveau précédent. Si la douleur persiste après 48h ou s\'aggrave : consultez.',
+      resumeActivity: 'Si la douleur diminue de moitié, reprenez votre programme au niveau en dessous. Si ça persiste après 48h ou si ça s\'aggrave : consultez-moi.',
     },
 
     // Red flags
     alertSigns: [
-      'Douleur brutale et intense apparue sans raison',
-      'Articulation très gonflée, rouge et chaude (possible infection ou goutte)',
-      'Fièvre associée aux douleurs articulaires',
-      'Blocage articulaire complet (impossible de bouger)',
-      'Perte de force brutale d\'un membre',
-      'Douleur qui réveille la nuit systématiquement',
+      'Douleur brutale et intense sans raison apparente',
+      'Articulation très gonflée, rouge et chaude',
+      'Fièvre associée aux douleurs',
+      'Blocage complet de l\'articulation',
+      'Perte de force brutale',
+      'Douleur qui vous réveille chaque nuit',
     ],
 
     // Sources
     sources: [
-      { name: 'OARSI Guidelines for the Non-Surgical Management of Knee Osteoarthritis', year: 2019 },
-      { name: 'EULAR Recommendations for the Management of OA', year: 2019 },
-      { name: 'HAS - Prise en charge de l\'arthrose', year: 2023 },
-      { name: 'Cochrane Review: Exercise for osteoarthritis of the knee', year: 2015 },
+      { name: 'OARSI Guidelines — Prise en charge de l\'arthrose', year: 2019 },
+      { name: 'EULAR Recommendations', year: 2019 },
+      { name: 'HAS — Recommandations arthrose', year: 2023 },
     ],
   },
 
@@ -388,94 +422,123 @@ export const pathologies: Pathology[] = [
     slug: 'lombalgie-chronique',
     name: 'Lombalgie chronique',
     category: 'rhumatologie',
-    shortDescription: 'Douleur du bas du dos persistant plus de 3 mois, souvent liée au mode de vie.',
+    shortDescription: 'Je vous accompagne pour soulager votre mal de dos chronique.',
     audience: 'adulte',
     readingTime: 8,
-    lastUpdated: '2024-01',
+    lastUpdated: 'Janvier 2025',
 
-    quickSummary: `Votre dos vous fait mal depuis plus de 3 mois ? C'est une lombalgie chronique. Bonne nouvelle : dans plus de 90% des cas, ce n'est pas grave. Le repos prolongé aggrave les choses. Bouger est le meilleur remède. Les muscles du dos ont besoin d'être sollicités pour rester forts et protéger la colonne. Avec les bons exercices et quelques ajustements du quotidien, la plupart des lombalgies s'améliorent nettement.`,
+    quickSummary: `Votre dos vous fait mal depuis plus de 3 mois ? Je sais à quel point c'est usant. Voici ce que je dis à mes patients : dans plus de 90% des cas, il n'y a rien de grave.
 
-    physiopathology: `Votre colonne lombaire supporte le poids du corps et permet de nombreux mouvements. Quand on reste trop assis ou immobile, les muscles du dos s'affaiblissent. Les disques entre les vertèbres, privés de mouvement, s'hydratent moins bien. Les tensions s'accumulent. Contrairement à ce qu'on croit, le problème vient rarement d'une « vertèbre déplacée ». C'est plutôt un déséquilibre musculaire et postural, souvent aggravé par le stress qui contracte les muscles.`,
+Le repos prolongé aggrave les choses. Je sais, ça semble bizarre quand on a mal. Mais vos muscles du dos ont besoin de bouger pour rester forts et protéger votre colonne.
+
+Avec les bons exercices et quelques ajustements simples, la plupart de mes patients voient une vraie amélioration. Ça prend un peu de temps, mais ça marche. Et si vous avez un doute, on en parle en consultation.`,
+
+    physiopathology: `Votre colonne lombaire porte le poids de tout votre corps. Elle est faite pour bouger, pas pour rester assise 8 heures par jour.
+
+Quand on reste trop statique, les muscles du dos s'affaiblissent, les disques entre les vertèbres se déshydratent. Les tensions s'accumulent.
+
+Contrairement à ce qu'on entend souvent, le problème vient rarement d'une vertèbre "déplacée". C'est plutôt un déséquilibre musculaire, souvent aggravé par le stress (qui contracte les muscles du dos). La bonne nouvelle : tout ça se corrige avec du mouvement et de la patience.`,
 
     top5NonMedical: [
       {
         title: 'Bouger malgré la douleur',
-        description: 'Le mouvement est le meilleur traitement. Marche, natation, vélo : reprenez progressivement. La douleur ne signifie pas forcément lésion.',
+        description: 'C\'est mon conseil principal. Marche, natation, vélo : reprenez progressivement. La douleur ne veut pas dire que vous vous abîmez.',
         icon: '🚶',
       },
       {
         title: 'Renforcer le gainage',
-        description: 'Des abdominaux et muscles du dos forts = une colonne stable et protégée. 10 min/jour de gainage suffit.',
+        description: '10 minutes de gainage par jour suffisent. Des abdos et muscles du dos forts = une colonne stable.',
         icon: '💪',
       },
       {
-        title: 'Changer de position souvent',
-        description: 'Ne restez jamais plus d\'1h assis. Levez-vous, étirez-vous, faites quelques pas. C\'est plus important que d\'avoir la « parfaite » posture.',
+        title: 'Changer de position régulièrement',
+        description: 'Ne restez jamais plus d\'1 heure assis. Levez-vous, étirez-vous. C\'est plus important que d\'avoir la posture "parfaite".',
         icon: '🔄',
       },
       {
         title: 'Gérer le stress',
-        description: 'Le stress contracte les muscles du dos et amplifie la douleur. Respiration, relaxation, activités plaisantes sont essentiels.',
+        description: 'Le stress contracte les muscles du dos. Respiration, relaxation, activités qui vous font plaisir — c\'est du soin.',
         icon: '🧘',
       },
       {
         title: 'Bien dormir',
-        description: 'Matelas ni trop mou ni trop dur. Coussin entre les genoux si couché sur le côté. Le sommeil répare les muscles.',
+        description: 'Matelas ni trop mou ni trop dur. Un coussin entre les genoux si vous dormez sur le côté. Le sommeil répare.',
         icon: '😴',
+      },
+    ],
+
+    dailyPlans: [
+      {
+        level: 0,
+        levelName: 'Version très facile',
+        actions: [
+          'Marcher 5 minutes dans la maison, même lentement',
+          'Position allongée : genoux fléchis, pieds au sol, 10 min pour soulager',
+          '3 fois dans la journée : 3 min de respiration calme, mains sur le ventre',
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Version normale',
+        actions: [
+          '15 minutes d\'exercices doux (étirements + gainage léger)',
+          'Marche 20-30 minutes à votre rythme',
+          'Le soir : 5 minutes d\'étirements avant de dormir',
+        ],
       },
     ],
 
     sevenDayPlans: [
       {
         level: 0,
-        levelName: 'Douleur forte, bouge à peine',
+        levelName: 'Très facile — J\'ai vraiment mal',
         days: [
-          { day: 'Jour 1', actions: ['Marcher 5 min dans l\'appartement (même lentement)', 'Position allongée : genoux fléchis, pieds au sol, 10 min', 'Respiration abdominale 3x3 min'] },
-          { day: 'Jour 2', actions: ['Marcher 5-10 min', '3 exercices doux au sol (chat-vache, genoux poitrine)', 'Chaleur 15 min si spasme'] },
-          { day: 'Jour 3', actions: ['Marcher 10 min', 'Exercices 10 min', 'Détente/respiration le soir'] },
-          { day: 'Jour 4', actions: ['Marcher 10-15 min en 2 fois', 'Exercices 10 min', 'Éviter la position assise prolongée'] },
-          { day: 'Jour 5', actions: ['Marcher 15 min', 'Exercices 15 min avec 1er gainage (sur genoux)'] },
-          { day: 'Jour 6', actions: ['Marcher 15-20 min', 'Exercices + gainage 15 min', 'Étirements soir'] },
-          { day: 'Jour 7', actions: ['Repos actif : marche légère + mouvements doux', 'Bilan de la semaine'] },
+          { day: 'Jour 1', actions: ['Marcher 5 min dans la maison', 'Position délordose 10 min', 'Respiration 3x3 min'] },
+          { day: 'Jour 2', actions: ['Marche 5-10 min', 'Exercices doux (chat-vache)', 'Chaleur si spasme'] },
+          { day: 'Jour 3', actions: ['Marche 10 min', 'Exercices 10 min', 'Respiration le soir'] },
+          { day: 'Jour 4', actions: ['Marche 10-15 min', 'Exercices 10 min', 'Éviter assis prolongé'] },
+          { day: 'Jour 5', actions: ['Marche 15 min', 'Exercices 15 min avec gainage léger'] },
+          { day: 'Jour 6', actions: ['Marche 15-20 min', 'Exercices + gainage', 'Étirements soir'] },
+          { day: 'Jour 7', actions: ['Repos actif', 'Notez comment vous vous sentez'] },
         ],
       },
       {
         level: 1,
-        levelName: 'Douleur modérée, mobilité limitée',
+        levelName: 'Facile — Ça va mieux',
         days: [
-          { day: 'Jour 1', actions: ['Marcher 15 min', 'Exercices mobilité + gainage 15 min', 'Étirements soir 5 min'] },
-          { day: 'Jour 2', actions: ['Marcher 20 min', 'Exercices 15 min', 'Pause toutes les 45 min si assis'] },
-          { day: 'Jour 3', actions: ['Marcher 20-25 min', 'Exercices complets 20 min'] },
-          { day: 'Jour 4', actions: ['Marcher ou vélo 25 min', 'Exercices 20 min', 'Gestion stress 10 min'] },
-          { day: 'Jour 5', actions: ['Marcher 25-30 min', 'Exercices 20 min'] },
-          { day: 'Jour 6', actions: ['Activité au choix 30 min', 'Exercices complets', 'Étirements profonds'] },
-          { day: 'Jour 7', actions: ['Repos actif', 'Évaluer les progrès'] },
+          { day: 'Jour 1', actions: ['Marche 15 min', 'Exercices 15 min', 'Étirements soir'] },
+          { day: 'Jour 2', actions: ['Marche 20 min', 'Exercices 15 min', 'Pause toutes les 45 min si assis'] },
+          { day: 'Jour 3', actions: ['Marche 20-25 min', 'Exercices complets 20 min'] },
+          { day: 'Jour 4', actions: ['Marche ou vélo 25 min', 'Exercices 20 min', 'Relaxation 10 min'] },
+          { day: 'Jour 5', actions: ['Marche 25-30 min', 'Exercices 20 min'] },
+          { day: 'Jour 6', actions: ['Activité plaisir 30 min', 'Exercices', 'Étirements'] },
+          { day: 'Jour 7', actions: ['Repos actif', 'Bilan de la semaine'] },
         ],
       },
       {
         level: 2,
-        levelName: 'Douleur légère, mobilité correcte',
+        levelName: 'Normal — Je reprends confiance',
         days: [
-          { day: 'Jour 1', actions: ['Cardio 30 min (marche rapide, vélo, natation)', 'Renforcement dos/abdos 20 min'] },
-          { day: 'Jour 2', actions: ['Marche 30-40 min', 'Exercices 20 min', 'Étirements 10 min'] },
+          { day: 'Jour 1', actions: ['Cardio 30 min', 'Renforcement dos/abdos 20 min'] },
+          { day: 'Jour 2', actions: ['Marche 35 min', 'Exercices 20 min', 'Étirements 10 min'] },
           { day: 'Jour 3', actions: ['Cardio 35 min', 'Renforcement complet 25 min'] },
           { day: 'Jour 4', actions: ['Activité plaisir 40 min', 'Gainage 15 min'] },
           { day: 'Jour 5', actions: ['Cardio 40 min', 'Renforcement 25 min'] },
-          { day: 'Jour 6', actions: ['Activité sportive ou longue marche', 'Exercices + étirements'] },
-          { day: 'Jour 7', actions: ['Repos actif : yoga doux, marche tranquille'] },
+          { day: 'Jour 6', actions: ['Sport ou longue marche', 'Exercices + étirements'] },
+          { day: 'Jour 7', actions: ['Repos actif : yoga doux'] },
         ],
       },
       {
         level: 3,
-        levelName: 'Quasi plus de douleur, actif',
+        levelName: 'Actif — Je me sens bien',
         days: [
           { day: 'Jour 1', actions: ['Cardio 45 min', 'Renforcement complet 30 min'] },
-          { day: 'Jour 2', actions: ['Activité sportive 45-60 min', 'Gainage 15 min'] },
-          { day: 'Jour 3', actions: ['Cardio varié 45 min', 'Renforcement + équilibre 30 min'] },
-          { day: 'Jour 4', actions: ['Sport plaisir 1h', 'Stretching 15 min'] },
-          { day: 'Jour 5', actions: ['Cardio 45-50 min', 'Renforcement 30 min'] },
-          { day: 'Jour 6', actions: ['Activité longue durée (rando, vélo)', 'Récupération soir'] },
-          { day: 'Jour 7', actions: ['Repos actif : yoga, natation douce'] },
+          { day: 'Jour 2', actions: ['Sport 45-60 min', 'Gainage 15 min'] },
+          { day: 'Jour 3', actions: ['Cardio varié 45 min', 'Renforcement + équilibre'] },
+          { day: 'Jour 4', actions: ['Sport plaisir 1h', 'Stretching'] },
+          { day: 'Jour 5', actions: ['Cardio 50 min', 'Renforcement 30 min'] },
+          { day: 'Jour 6', actions: ['Activité longue durée', 'Récupération'] },
+          { day: 'Jour 7', actions: ['Repos actif'] },
         ],
       },
     ],
@@ -483,103 +546,96 @@ export const pathologies: Pathology[] = [
     eightWeekPrograms: [
       {
         level: 0,
-        levelName: 'Niveau 0 — Douleur forte',
+        levelName: 'Très facile — Je redémarre',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Reprendre le mouvement', exercises: ['Marche 5-10 min 2x/jour', 'Exercices au sol 10 min (chat-vache, respiration)', 'Éviter position assise > 30 min'] },
-          { week: 'Semaines 3-4', focus: 'Progresser doucement', exercises: ['Marche 15-20 min/jour', 'Exercices 15 min avec gainage débutant', 'Ajouter étirements'] },
-          { week: 'Semaines 5-6', focus: 'Renforcer', exercises: ['Marche 20-25 min', 'Exercices + gainage 20 min', 'Commencer activité douce (vélo, piscine)'] },
-          { week: 'Semaines 7-8', focus: 'Stabiliser', exercises: ['Marche 30 min/jour', 'Routine complète 25 min', 'Objectif niveau 1'] },
+          { week: 'Semaines 1-2', focus: 'Reprendre le mouvement', exercises: ['Marche 5-10 min 2x/jour', 'Exercices au sol 10 min', 'Éviter assis > 30 min'] },
+          { week: 'Semaines 3-4', focus: 'Progresser doucement', exercises: ['Marche 15-20 min/jour', 'Exercices 15 min + gainage débutant'] },
+          { week: 'Semaines 5-6', focus: 'Renforcer', exercises: ['Marche 25 min', 'Exercices + gainage 20 min'] },
+          { week: 'Semaines 7-8', focus: 'Stabiliser', exercises: ['Marche 30 min/jour', 'Routine complète', 'Objectif niveau 1'] },
         ],
       },
       {
         level: 1,
-        levelName: 'Niveau 1 — Douleur modérée',
+        levelName: 'Facile — Je progresse',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Renforcer la base', exercises: ['Cardio léger 20-25 min/jour', 'Exercices dos/abdos 20 min'] },
-          { week: 'Semaines 3-4', focus: 'Augmenter', exercises: ['Cardio 30 min', 'Renforcement 25 min', 'Étirements quotidiens'] },
-          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Alterner marche/vélo/natation 30-35 min', 'Renforcement complet', 'Gestion du stress'] },
-          { week: 'Semaines 7-8', focus: 'Vers l\'autonomie', exercises: ['Cardio 35-40 min', 'Programme personnalisé', 'Objectif niveau 2'] },
+          { week: 'Semaines 1-2', focus: 'Renforcer la base', exercises: ['Cardio léger 25 min/jour', 'Exercices dos/abdos 20 min'] },
+          { week: 'Semaines 3-4', focus: 'Augmenter', exercises: ['Cardio 30 min', 'Renforcement 25 min'] },
+          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Alterner marche/vélo/natation 35 min'] },
+          { week: 'Semaines 7-8', focus: 'Vers l\'autonomie', exercises: ['Cardio 40 min', 'Programme personnel'] },
         ],
       },
       {
         level: 2,
-        levelName: 'Niveau 2 — Douleur légère',
+        levelName: 'Normal — J\'ai une bonne base',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Structurer l\'entraînement', exercises: ['Cardio 35-40 min 5x/semaine', 'Renforcement 25 min 4x/semaine'] },
-          { week: 'Semaines 3-4', focus: 'Intensifier', exercises: ['Cardio 40-45 min', 'Renforcement + proprioception 30 min'] },
-          { week: 'Semaines 5-6', focus: 'Performance douce', exercises: ['Cardio varié 45 min', 'Circuits complets', 'Sport plaisir 1x/semaine'] },
-          { week: 'Semaines 7-8', focus: 'Maintien', exercises: ['Programme autonome', 'Activité quotidienne', 'Prévention long terme'] },
+          { week: 'Semaines 1-2', focus: 'Structurer', exercises: ['Cardio 40 min 5x/sem', 'Renforcement 25 min 4x/sem'] },
+          { week: 'Semaines 3-4', focus: 'Intensifier', exercises: ['Cardio 45 min', 'Renforcement + proprioception'] },
+          { week: 'Semaines 5-6', focus: 'Performance douce', exercises: ['Cardio varié 45 min', 'Sport plaisir 1x/sem'] },
+          { week: 'Semaines 7-8', focus: 'Maintien', exercises: ['Programme autonome', 'Prévention long terme'] },
         ],
       },
       {
         level: 3,
-        levelName: 'Niveau 3 — Actif',
+        levelName: 'Actif — Je maintiens',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Cardio intensité modérée 45-50 min', 'Renforcement avancé 30 min'] },
-          { week: 'Semaines 3-4', focus: 'Sport régulier', exercises: ['Intégrer 2-3 séances sport/semaine', 'Maintenir gainage quotidien'] },
-          { week: 'Semaines 5-6', focus: 'Équilibre vie active', exercises: ['Sport plaisir régulier', 'Renforcement d\'entretien', 'Étirements quotidiens'] },
-          { week: 'Semaines 7-8', focus: 'Maintien long terme', exercises: ['Routine personnelle durable', 'Activité physique comme habitude de vie'] },
+          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Cardio 50 min', 'Renforcement avancé'] },
+          { week: 'Semaines 3-4', focus: 'Sport régulier', exercises: ['2-3 séances sport/sem', 'Gainage quotidien'] },
+          { week: 'Semaines 5-6', focus: 'Équilibre vie active', exercises: ['Sport plaisir régulier', 'Étirements quotidiens'] },
+          { week: 'Semaines 7-8', focus: 'Long terme', exercises: ['Routine personnelle durable'] },
         ],
       },
     ],
 
     nutrition: {
       idealPlate: [
-        '½ assiette de légumes (tous types, variez les couleurs)',
-        '¼ assiette de protéines (poisson, volaille, œufs, légumineuses)',
-        '¼ assiette de féculents complets (pain complet, riz complet)',
+        '½ assiette de légumes variés',
+        '¼ de protéines (poisson, volaille, œufs, légumineuses)',
+        '¼ de féculents complets',
         'Huile d\'olive ou colza (oméga-3 anti-inflammatoires)',
-        'Fruits frais en dessert',
       ],
       commonMistakes: [
-        'Trop de sucre et aliments ultra-transformés (inflammatoires)',
-        'Pas assez de protéines (les muscles du dos en ont besoin)',
-        'Oublier l\'hydratation (les disques sont composés d\'eau)',
-        'Trop de café (peut augmenter les tensions)',
-        'Alcool excessif (inflammatoire et mauvais pour le sommeil)',
+        'Trop de sucre et aliments ultra-transformés → inflammatoires',
+        'Pas assez de protéines → les muscles du dos s\'affaiblissent',
+        'Oublier de boire → les disques sont composés d\'eau',
       ],
       tips: [
         'Hydratez-vous : 1,5 à 2L d\'eau par jour',
-        'Mangez anti-inflammatoire : poissons gras, légumes verts, fruits rouges',
-        'Si surpoids : perdre 5% réduit la charge sur le dos',
-        'Évitez les grignotages sucrés qui favorisent l\'inflammation',
+        'Poissons gras, légumes verts, fruits rouges = anti-inflammatoire',
+        'Si surpoids : même 5% de poids en moins soulage le dos',
       ],
     },
 
     flareProtocol: {
-      title: 'Plan crise lombaire 48h',
+      title: 'Crise lombaire — Les 48 premières heures',
       hours0to24: [
         'Ne vous allongez pas toute la journée : bougez régulièrement, même 5 min',
         'Position de délordose : couché, genoux fléchis sur un coussin, 15-20 min',
-        'Chaleur sur les lombaires si contractures (bouillotte 20 min)',
-        'Respiration abdominale 5 min 3-4x dans la journée',
-        'Marche lente dans la maison régulièrement',
+        'Chaleur sur les lombaires si contractures',
+        'Respiration abdominale 5 min, 3-4 fois',
+        'Marche lente dans la maison',
       ],
       hours24to48: [
         'Augmentez progressivement les périodes de marche',
-        'Reprenez les exercices très doux (chat-vache, genoux-poitrine)',
-        'Alternez debout/assis/couché pour éviter les raideurs',
-        'Continuez la chaleur si ça soulage',
+        'Reprenez les exercices très doux',
+        'Alternez debout/assis/couché',
         'Dormez avec coussin entre les genoux',
       ],
-      resumeActivity: 'Si la douleur baisse de moitié après 48h, reprenez votre programme à un niveau en dessous. Si la douleur reste intense, si vous avez des fourmillements dans les jambes ou des difficultés urinaires : consultez rapidement.',
+      resumeActivity: 'Si la douleur baisse de moitié, reprenez au niveau en dessous. Si ça reste intense, ou si vous avez des fourmillements dans les jambes : consultez.',
     },
 
     alertSigns: [
       'Perte de contrôle des urines ou des selles',
-      'Engourdissement de la zone périnéale (selle de cheval)',
+      'Engourdissement de la zone entre les jambes',
       'Faiblesse progressive des deux jambes',
-      'Douleur intense qui réveille chaque nuit',
-      'Fièvre associée aux douleurs du dos',
+      'Douleur intense qui vous réveille chaque nuit',
+      'Fièvre associée',
       'Perte de poids inexpliquée avec douleur dorsale',
-      'Antécédent de cancer et nouvelle douleur dorsale',
     ],
 
     sources: [
-      { name: 'NICE Guidelines: Low back pain and sciatica', year: 2020 },
-      { name: 'HAS - Prise en charge du patient présentant une lombalgie commune', year: 2019 },
+      { name: 'NICE Guidelines — Low back pain', year: 2020 },
+      { name: 'HAS — Lombalgie commune', year: 2019 },
       { name: 'Lancet Series on Low Back Pain', year: 2018 },
-      { name: 'Cochrane: Exercise therapy for chronic low back pain', year: 2021 },
     ],
   },
 
@@ -589,94 +645,123 @@ export const pathologies: Pathology[] = [
     slug: 'insuffisance-veineuse',
     name: 'Insuffisance veineuse chronique',
     category: 'veino-lymphatique',
-    shortDescription: 'Mauvais retour veineux des jambes, source de lourdeur et gonflement.',
+    shortDescription: 'Je vous aide à soulager vos jambes lourdes au quotidien.',
     audience: 'senior',
     readingTime: 7,
-    lastUpdated: '2024-01',
+    lastUpdated: 'Janvier 2025',
 
-    quickSummary: `Vos jambes sont lourdes, gonflent en fin de journée, vous avez des varices ? C'est l'insuffisance veineuse. Le sang a du mal à remonter vers le cœur et stagne dans vos jambes. La bonne nouvelle : marcher active la « pompe » musculaire du mollet qui propulse le sang vers le haut. Porter des bas de contention, surélever les jambes et éviter la chaleur font aussi partie des solutions simples et efficaces.`,
+    quickSummary: `Vos jambes sont lourdes, gonflent en fin de journée, vous avez des varices ? C'est l'insuffisance veineuse. Le sang a du mal à remonter vers le cœur et stagne.
 
-    physiopathology: `Les veines de vos jambes contiennent des petites valves qui empêchent le sang de redescendre. Avec le temps, ces valves peuvent s'affaiblir. Le sang stagne, les veines se dilatent (varices), et le liquide s'accumule dans les tissus (œdème). La pompe musculaire du mollet est votre meilleure alliée : à chaque pas, les muscles compriment les veines et propulsent le sang vers le haut. C'est pourquoi la sédentarité aggrave le problème et la marche l'améliore.`,
+La bonne nouvelle : vous avez dans vos mollets une "pompe" naturelle. À chaque pas, vos muscles compriment les veines et propulsent le sang vers le haut. C'est pour ça que la marche est votre meilleur allié.
+
+Porter des bas de contention, surélever les jambes le soir, éviter la chaleur — ces gestes simples font une vraie différence. Si vous avez un doute, on en parle en consultation.`,
+
+    physiopathology: `Vos veines des jambes contiennent de petites valves, comme des portes battantes qui empêchent le sang de redescendre.
+
+Avec le temps, ces valves peuvent s'affaiblir. Le sang stagne, les veines se dilatent (ce sont les varices), et du liquide s'accumule dans les tissus (œdème).
+
+Votre meilleure alliée ? La pompe musculaire du mollet. À chaque pas, vos muscles compriment les veines et propulsent le sang vers le haut. C'est pourquoi rester immobile aggrave le problème, et marcher l'améliore.`,
 
     top5NonMedical: [
       {
         title: 'Marcher tous les jours',
-        description: '30 min de marche active la pompe du mollet. C\'est le traitement n°1. Prenez les escaliers, descendez un arrêt plus tôt.',
+        description: '30 min de marche active la pompe du mollet. C\'est le traitement n°1. Prenez les escaliers, descendez un arrêt de bus plus tôt.',
         icon: '🚶',
       },
       {
         title: 'Porter des bas de contention',
-        description: 'Ils compriment les veines et aident le retour veineux. Prescrit par le médecin, remboursés. Mettez-les le matin.',
+        description: 'Ils compriment les veines et aident le retour du sang. Je vous les prescris, ils sont remboursés. Mettez-les le matin au réveil.',
         icon: '🧦',
       },
       {
         title: 'Surélever les jambes',
-        description: '15-20 min 2x/jour. Surélevez les pieds du lit de 10-15 cm. Ça draine passivement le sang vers le cœur.',
+        description: '15-20 min, 2 fois par jour. Vous pouvez aussi surélever les pieds du lit de 10-15 cm. Ça draine passivement le sang vers le cœur.',
         icon: '🦶',
       },
       {
         title: 'Éviter la chaleur',
-        description: 'Pas de bains chauds, sauna, exposition prolongée au soleil. La chaleur dilate les veines et aggrave la stagnation.',
+        description: 'Pas de bains trop chauds, pas de sauna, évitez le soleil sur les jambes. La chaleur dilate les veines et aggrave la stagnation.',
         icon: '❄️',
       },
       {
         title: 'Faire des exercices de mollets',
-        description: 'Flexion-extension des pieds, montées sur pointes. À faire assis, debout, ou même couché, plusieurs fois par jour.',
+        description: 'Flexion-extension des pieds, montées sur pointes. Vous pouvez le faire assis, debout, même couché, plusieurs fois par jour.',
         icon: '💪',
+      },
+    ],
+
+    dailyPlans: [
+      {
+        level: 0,
+        levelName: 'Version très facile',
+        actions: [
+          'Surélever les jambes 15 min (sur un coussin ou contre le mur)',
+          'Flexion-extension des pieds 20 fois, assis — faites-le 3 fois dans la journée',
+          'Marcher 5 min dans la maison',
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Version normale',
+        actions: [
+          '20-30 min de marche à votre rythme',
+          'Exercices de mollets 10 min (montées sur pointes, flexions)',
+          'Surélévation des jambes le soir 15-20 min',
+        ],
       },
     ],
 
     sevenDayPlans: [
       {
         level: 0,
-        levelName: 'Mobilité très limitée',
+        levelName: 'Très facile — Je bouge peu',
         days: [
-          { day: 'Jour 1', actions: ['Surélever les jambes 15 min 2x', 'Flexion-extension des pieds assis 20x 3 fois', 'Marcher 5 min dans la maison'] },
-          { day: 'Jour 2', actions: ['Surélévation 15 min 2x', 'Exercices pieds 3x', 'Marcher 2x5 min', 'Jet d\'eau fraîche sur jambes'] },
-          { day: 'Jour 3', actions: ['Surélévation', 'Exercices pieds + pédalage couché 2 min', 'Marcher 10 min'] },
-          { day: 'Jour 4', actions: ['Surélévation', 'Exercices 3x', 'Marcher 10-15 min'] },
-          { day: 'Jour 5', actions: ['Surélévation', 'Tous exercices', 'Marcher 15 min'] },
-          { day: 'Jour 6', actions: ['Surélévation', 'Exercices complets', 'Marcher 15-20 min'] },
-          { day: 'Jour 7', actions: ['Repos actif : mouvements doux, surélévation', 'Bilan de la semaine'] },
+          { day: 'Jour 1', actions: ['Surélever jambes 15 min 2x', 'Flexions pieds 20x 3 fois', 'Marche 5 min'] },
+          { day: 'Jour 2', actions: ['Surélévation', 'Exercices pieds', 'Marche 2x5 min', 'Jet d\'eau fraîche sur jambes'] },
+          { day: 'Jour 3', actions: ['Surélévation', 'Exercices + pédalage couché 2 min', 'Marche 10 min'] },
+          { day: 'Jour 4', actions: ['Surélévation', 'Exercices complets', 'Marche 10-15 min'] },
+          { day: 'Jour 5', actions: ['Surélévation', 'Exercices', 'Marche 15 min'] },
+          { day: 'Jour 6', actions: ['Surélévation', 'Exercices complets', 'Marche 15-20 min'] },
+          { day: 'Jour 7', actions: ['Repos actif, surélévation', 'Notez vos progrès'] },
         ],
       },
       {
         level: 1,
-        levelName: 'Mobilité limitée',
+        levelName: 'Facile — Je peux marcher 15 min',
         days: [
-          { day: 'Jour 1', actions: ['Surélévation 15 min 2x', 'Exercices complets 10 min', 'Marcher 15 min'] },
-          { day: 'Jour 2', actions: ['Surélévation', 'Exercices 10 min + montées sur pointes 15x', 'Marcher 20 min'] },
-          { day: 'Jour 3', actions: ['Surélévation', 'Exercices 15 min', 'Marcher 20 min', 'Douche fraîche jambes'] },
-          { day: 'Jour 4', actions: ['Surélévation', 'Exercices + marche sur pointes 1 min', 'Marcher 20-25 min'] },
-          { day: 'Jour 5', actions: ['Surélévation', 'Exercices complets 15 min', 'Marcher 25 min'] },
-          { day: 'Jour 6', actions: ['Surélévation', 'Exercices', 'Marcher ou vélo 25-30 min'] },
-          { day: 'Jour 7', actions: ['Repos actif, surélévation, exercices doux'] },
+          { day: 'Jour 1', actions: ['Surélévation 15 min 2x', 'Exercices 10 min', 'Marche 15 min'] },
+          { day: 'Jour 2', actions: ['Surélévation', 'Exercices + montées sur pointes 15x', 'Marche 20 min'] },
+          { day: 'Jour 3', actions: ['Surélévation', 'Exercices 15 min', 'Marche 20 min', 'Douche fraîche jambes'] },
+          { day: 'Jour 4', actions: ['Surélévation', 'Exercices + marche sur pointes 1 min', 'Marche 25 min'] },
+          { day: 'Jour 5', actions: ['Surélévation', 'Exercices complets 15 min', 'Marche 25 min'] },
+          { day: 'Jour 6', actions: ['Surélévation', 'Exercices', 'Marche ou vélo 30 min'] },
+          { day: 'Jour 7', actions: ['Repos actif, surélévation'] },
         ],
       },
       {
         level: 2,
-        levelName: 'Mobilité correcte',
+        levelName: 'Normal — Je suis assez actif',
         days: [
-          { day: 'Jour 1', actions: ['Surélévation soir', 'Marcher 30 min', 'Exercices 15 min'] },
-          { day: 'Jour 2', actions: ['Marcher 35 min ou natation 20 min', 'Exercices + escaliers'] },
-          { day: 'Jour 3', actions: ['Cardio 30-35 min', 'Renforcement mollets', 'Surélévation soir'] },
-          { day: 'Jour 4', actions: ['Marcher ou vélo 35 min', 'Exercices complets'] },
+          { day: 'Jour 1', actions: ['Surélévation soir', 'Marche 30 min', 'Exercices 15 min'] },
+          { day: 'Jour 2', actions: ['Marche 35 min ou natation 20 min', 'Exercices + escaliers'] },
+          { day: 'Jour 3', actions: ['Cardio 35 min', 'Renforcement mollets', 'Surélévation'] },
+          { day: 'Jour 4', actions: ['Marche ou vélo 35 min', 'Exercices complets'] },
           { day: 'Jour 5', actions: ['Cardio 40 min', 'Exercices 15 min'] },
-          { day: 'Jour 6', actions: ['Activité plaisir 40 min (marche, piscine)', 'Étirements et surélévation'] },
-          { day: 'Jour 7', actions: ['Repos actif : marche légère, surélévation'] },
+          { day: 'Jour 6', actions: ['Activité plaisir 40 min', 'Étirements et surélévation'] },
+          { day: 'Jour 7', actions: ['Repos actif : marche légère'] },
         ],
       },
       {
         level: 3,
-        levelName: 'Bonne mobilité',
+        levelName: 'Actif — Je fais du sport',
         days: [
-          { day: 'Jour 1', actions: ['Cardio 40-45 min (marche rapide, natation)', 'Renforcement 20 min'] },
-          { day: 'Jour 2', actions: ['Marche rapide ou vélo 45 min', 'Exercices mollets intensifs'] },
-          { day: 'Jour 3', actions: ['Cardio 45 min', 'Renforcement jambes complet'] },
-          { day: 'Jour 4', actions: ['Natation ou aquagym 45 min', 'Étirements'] },
+          { day: 'Jour 1', actions: ['Cardio 45 min', 'Renforcement 20 min'] },
+          { day: 'Jour 2', actions: ['Marche rapide ou vélo 45 min', 'Exercices mollets'] },
+          { day: 'Jour 3', actions: ['Cardio 45 min', 'Renforcement jambes'] },
+          { day: 'Jour 4', actions: ['Natation ou aquagym 45 min'] },
           { day: 'Jour 5', actions: ['Cardio 50 min', 'Exercices proprioception'] },
           { day: 'Jour 6', actions: ['Sport plaisir 1h', 'Surélévation récupération'] },
-          { day: 'Jour 7', actions: ['Repos actif : natation douce, marche'] },
+          { day: 'Jour 7', actions: ['Repos actif : natation douce'] },
         ],
       },
     ],
@@ -684,83 +769,77 @@ export const pathologies: Pathology[] = [
     eightWeekPrograms: [
       {
         level: 0,
-        levelName: 'Niveau 0 — Très peu mobile',
+        levelName: 'Très facile — Je démarre',
         weeks: [
           { week: 'Semaines 1-2', focus: 'Activer la pompe', exercises: ['Surélévation 2x15 min/jour', 'Flexion pieds 3x20/jour', 'Marche 5-10 min 2x/jour'] },
-          { week: 'Semaines 3-4', focus: 'Augmenter la marche', exercises: ['Surélévation quotidienne', 'Exercices complets 10 min', 'Marche 15-20 min/jour'] },
-          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Marche 20-25 min', 'Ajouter montées sur pointes', 'Douche fraîche quotidienne'] },
-          { week: 'Semaines 7-8', focus: 'Consolider', exercises: ['Marche 30 min/jour', 'Routine d\'exercices établie', 'Port contention si prescrit'] },
+          { week: 'Semaines 3-4', focus: 'Augmenter la marche', exercises: ['Surélévation quotidienne', 'Exercices complets 10 min', 'Marche 20 min/jour'] },
+          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Marche 25 min', 'Montées sur pointes', 'Douche fraîche quotidienne'] },
+          { week: 'Semaines 7-8', focus: 'Consolider', exercises: ['Marche 30 min/jour', 'Routine établie'] },
         ],
       },
       {
         level: 1,
-        levelName: 'Niveau 1 — Mobilité limitée',
+        levelName: 'Facile — Je progresse',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Base solide', exercises: ['Marche 20-25 min/jour', 'Exercices 15 min', 'Surélévation 2x/jour'] },
+          { week: 'Semaines 1-2', focus: 'Base solide', exercises: ['Marche 25 min/jour', 'Exercices 15 min', 'Surélévation 2x/jour'] },
           { week: 'Semaines 3-4', focus: 'Progression', exercises: ['Marche 30 min ou vélo 20 min', 'Exercices + renforcement mollets'] },
-          { week: 'Semaines 5-6', focus: 'Endurance', exercises: ['Cardio 30-35 min', 'Exercices complets', 'Escaliers régulièrement'] },
-          { week: 'Semaines 7-8', focus: 'Autonomie', exercises: ['Cardio 35-40 min', 'Programme personnel', 'Objectif niveau 2'] },
+          { week: 'Semaines 5-6', focus: 'Endurance', exercises: ['Cardio 35 min', 'Exercices complets', 'Escaliers'] },
+          { week: 'Semaines 7-8', focus: 'Autonomie', exercises: ['Cardio 40 min', 'Programme personnel'] },
         ],
       },
       {
         level: 2,
-        levelName: 'Niveau 2 — Mobilité correcte',
+        levelName: 'Normal — J\'ai une bonne base',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Structurer', exercises: ['Cardio 35-40 min 5x/semaine', 'Renforcement 20 min'] },
-          { week: 'Semaines 3-4', focus: 'Intensifier', exercises: ['Cardio 40-45 min', 'Renforcement + proprioception'] },
-          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Alterner marche/vélo/natation 45 min', 'Circuits jambes'] },
-          { week: 'Semaines 7-8', focus: 'Maintien', exercises: ['Programme autonome', 'Sport 2-3x/semaine', 'Prévention long terme'] },
+          { week: 'Semaines 1-2', focus: 'Structurer', exercises: ['Cardio 40 min 5x/sem', 'Renforcement 20 min'] },
+          { week: 'Semaines 3-4', focus: 'Intensifier', exercises: ['Cardio 45 min', 'Renforcement + proprioception'] },
+          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Alterner marche/vélo/natation 45 min'] },
+          { week: 'Semaines 7-8', focus: 'Maintien', exercises: ['Programme autonome', 'Sport 2-3x/sem'] },
         ],
       },
       {
         level: 3,
-        levelName: 'Niveau 3 — Actif',
+        levelName: 'Actif — Je maintiens',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Cardio 45-50 min', 'Renforcement avancé'] },
-          { week: 'Semaines 3-4', focus: 'Sport régulier', exercises: ['Sport 3-4x/semaine', 'Natation ou aquagym 1x/semaine'] },
-          { week: 'Semaines 5-6', focus: 'Performance', exercises: ['Entraînement varié', 'Compétition amicale si souhaité'] },
-          { week: 'Semaines 7-8', focus: 'Vie active', exercises: ['Activité quotidienne intégrée', 'Maintien long terme'] },
+          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Cardio 50 min', 'Renforcement avancé'] },
+          { week: 'Semaines 3-4', focus: 'Sport régulier', exercises: ['Sport 3-4x/sem', 'Natation 1x/sem'] },
+          { week: 'Semaines 5-6', focus: 'Performance', exercises: ['Entraînement varié'] },
+          { week: 'Semaines 7-8', focus: 'Vie active', exercises: ['Activité quotidienne intégrée'] },
         ],
       },
     ],
 
     nutrition: {
       idealPlate: [
-        'Fruits rouges (myrtilles, cassis, framboises) : renforcent les parois veineuses',
-        'Légumes verts à chaque repas (antioxydants)',
-        'Poisson 2-3x/semaine (oméga-3)',
-        'Peu de sel (limite la rétention d\'eau)',
-        'Beaucoup d\'eau et tisanes (1,5-2L/jour)',
+        'Fruits rouges (myrtilles, cassis, framboises) — ils renforcent les parois veineuses',
+        'Légumes verts à chaque repas',
+        'Poisson 2-3x/semaine',
+        'Eau : au moins 1,5L par jour',
       ],
       commonMistakes: [
-        'Trop de sel (plats préparés, charcuterie) : favorise les œdèmes',
-        'Pas assez d\'eau : le sang s\'épaissit',
-        'Trop d\'alcool : dilate les veines et déshydrate',
-        'Pas assez de fibres (constipation gêne le retour veineux)',
-        'Repas trop copieux le soir',
+        'Trop de sel → rétention d\'eau, jambes gonflées',
+        'Pas assez d\'eau → le sang s\'épaissit',
+        'Rester assis jambes croisées → comprime les veines',
       ],
       tips: [
-        'Buvez avant d\'avoir soif, surtout quand il fait chaud',
-        'Mangez des agrumes (vitamine C pour le collagène des veines)',
-        'Limitez les plats industriels (sel caché)',
-        'Fibres : légumes, fruits, céréales complètes',
+        'Limitez le sel : évitez plats préparés et charcuterie',
+        'Mangez des flavonoïdes : agrumes, thé vert, baies',
+        'Évitez l\'alcool qui dilate les veines',
       ],
     },
 
     alertSigns: [
-      'Mollet rouge, chaud, dur et douloureux (suspicion de phlébite)',
-      'Gonflement brutal d\'une seule jambe',
-      'Douleur thoracique ou essoufflement brutal (embolie possible)',
-      'Ulcère de jambe qui ne cicatrise pas',
-      'Saignement d\'une varice',
-      'Changement de couleur de la peau (brune, rouge) avec durcissement',
+      'Jambe brutalement gonflée, rouge et chaude (risque de phlébite)',
+      'Douleur intense dans le mollet',
+      'Ulcère de jambe qui ne guérit pas',
+      'Fièvre avec jambe inflammatoire',
+      'Essoufflement brutal (risque d\'embolie pulmonaire)',
     ],
 
     sources: [
+      { name: 'HAS — Insuffisance veineuse chronique', year: 2014 },
       { name: 'European Society for Vascular Surgery Guidelines', year: 2022 },
-      { name: 'HAS - Insuffisance veineuse chronique des membres inférieurs', year: 2021 },
-      { name: 'International Union of Phlebology Guidelines', year: 2020 },
-      { name: 'Cochrane: Compression stockings for treating venous leg ulcers', year: 2018 },
+      { name: 'International Compression Club Recommendations', year: 2020 },
     ],
   },
 
@@ -770,88 +849,117 @@ export const pathologies: Pathology[] = [
     slug: 'bpco',
     name: 'BPCO',
     category: 'orl-respiratoire',
-    shortDescription: 'Maladie respiratoire chronique avec essoufflement progressif, souvent liée au tabac.',
+    shortDescription: 'Je vous accompagne pour mieux respirer au quotidien.',
     audience: 'adulte',
-    readingTime: 9,
-    lastUpdated: '2024-01',
+    readingTime: 8,
+    lastUpdated: 'Janvier 2025',
 
-    quickSummary: `La BPCO (broncho-pneumopathie chronique obstructive) rend la respiration difficile. Les bronches sont rétrécies et inflammées, souvent à cause du tabac. L'essoufflement fait peur et pousse à moins bouger. Mais c'est le contraire qu'il faut faire : l'activité physique adaptée améliore le souffle, la qualité de vie et réduit les exacerbations. Arrêter le tabac est essentiel. La rééducation respiratoire et les exercices quotidiens font partie intégrante du traitement.`,
+    quickSummary: `Vous êtes essoufflé au moindre effort ? Vous toussez souvent ? La BPCO (Broncho-Pneumopathie Chronique Obstructive) touche vos poumons, mais ne vous condamne pas à l'immobilité.
 
-    physiopathology: `Vos bronches sont comme des tubes qui amènent l'air jusqu'aux poumons. Dans la BPCO, ces tubes sont rétrécis par l'inflammation chronique et encombrés de mucus. Les petits sacs d'air (alvéoles) sont abîmés et perdent leur élasticité. Résultat : l'air entre mal et surtout sort mal. Vous vous essoufflez. Le cercle vicieux s'installe : essoufflement → peur de bouger → muscles qui fondent → essoufflement plus rapide. La solution : réentraîner progressivement votre corps à l'effort.`,
+Je sais que c'est frustrant d'être essoufflé. Mais moins on bouge, plus les muscles s'affaiblissent, et plus on s'essouffle vite. C'est un cercle vicieux qu'on peut casser.
+
+L'activité physique adaptée est un vrai traitement. Elle renforce vos muscles respiratoires et améliore votre qualité de vie. Arrêter de fumer reste essentiel. Si vous avez un doute, on en parle en consultation.`,
+
+    physiopathology: `Dans la BPCO, vos bronches sont inflammées et rétrécies. L'air a du mal à sortir des poumons, vous vous sentez "bloqué" en fin d'expiration.
+
+C'est souvent lié au tabac, mais pas toujours. L'inflammation abîme les petites bronches et les alvéoles (petits sacs où se fait l'échange d'oxygène).
+
+La bonne nouvelle : même si les dégâts sont là, on peut améliorer les choses. Les muscles respiratoires peuvent se renforcer, et votre corps peut s'adapter pour mieux utiliser l'oxygène disponible. C'est pour ça que l'activité physique est si importante.`,
 
     top5NonMedical: [
       {
-        title: 'Arrêter le tabac',
-        description: 'C\'est LA priorité absolue. Même après des années, l\'arrêt ralentit l\'évolution de la maladie. Demandez de l\'aide (substituts, suivi).',
+        title: 'Arrêter de fumer',
+        description: 'C\'est le plus important. Même après des années, arrêter ralentit la maladie. Je peux vous accompagner ou vous orienter vers un tabacologue.',
         icon: '🚭',
       },
       {
-        title: 'Faire de l\'activité physique',
-        description: 'Marche, vélo, natation : 30 min/jour améliore le souffle et la qualité de vie. Commencez très progressivement.',
+        title: 'Bouger régulièrement',
+        description: 'L\'activité physique est un vrai traitement. Commencez très doucement : même 5 min de marche comptent. On augmente progressivement.',
         icon: '🚶',
       },
       {
-        title: 'Pratiquer les exercices respiratoires',
-        description: 'Respiration à lèvres pincées, respiration abdominale : 5-10 min 2-3x/jour. Ça améliore le contrôle du souffle.',
+        title: 'Apprendre à respirer',
+        description: 'La respiration "lèvres pincées" (expirer doucement par la bouche, lèvres presque fermées) vous aide à vider vos poumons et reprendre votre souffle.',
         icon: '🌬️',
       },
       {
-        title: 'Faire la réhabilitation respiratoire',
-        description: 'Programme supervisé par des professionnels. Très efficace pour améliorer la capacité d\'effort. Demandez une prescription.',
-        icon: '🏥',
+        title: 'Éviter les polluants',
+        description: 'Aérez chez vous, évitez les parfums d\'intérieur, la poussière, les fumées. Vos bronches sont sensibles.',
+        icon: '🏠',
       },
       {
-        title: 'Éviter les infections',
-        description: 'Vaccins (grippe, pneumocoque, COVID), lavage des mains, éviter les personnes malades. Les infections aggravent la BPCO.',
+        title: 'Se faire vacciner',
+        description: 'Grippe chaque année, pneumocoque selon les recommandations. Les infections aggravent la BPCO.',
         icon: '💉',
+      },
+    ],
+
+    dailyPlans: [
+      {
+        level: 0,
+        levelName: 'Version très facile',
+        actions: [
+          'Respiration lèvres pincées : 5 minutes, 3 fois dans la journée',
+          'Marcher 5 minutes dans la maison, à votre rythme, avec des pauses si besoin',
+          'Quelques exercices assis : lever les bras, faire des cercles',
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Version normale',
+        actions: [
+          'Exercices respiratoires 10 minutes',
+          'Marche 20-30 minutes (pauses autorisées !)',
+          'Renforcement musculaire léger 10 minutes',
+        ],
       },
     ],
 
     sevenDayPlans: [
       {
         level: 0,
-        levelName: 'Essoufflement au moindre effort',
+        levelName: 'Très facile — Je suis très essoufflé',
         days: [
-          { day: 'Jour 1', actions: ['Respiration lèvres pincées 5 min 3x', 'Marcher dans l\'appartement 2x3 min', 'Respiration abdominale 5 min'] },
-          { day: 'Jour 2', actions: ['Exercices respiratoires 3x', 'Marcher 2x5 min', 'Exercices assis (bras) 5 min'] },
-          { day: 'Jour 3', actions: ['Respirations 3x', 'Marcher 3x5 min', 'Exercices assis 7 min'] },
-          { day: 'Jour 4', actions: ['Respirations', 'Marcher 2x7 min', 'Exercices 10 min'] },
-          { day: 'Jour 5', actions: ['Respirations', 'Marcher 15 min (pauses si besoin)', 'Exercices 10 min'] },
-          { day: 'Jour 6', actions: ['Respirations', 'Marcher 15-20 min', 'Exercices complets'] },
-          { day: 'Jour 7', actions: ['Repos actif : exercices respiratoires + mouvements doux'] },
+          { day: 'Jour 1', actions: ['Respiration lèvres pincées 5 min 3x', 'Marche 5 min dans la maison', 'Exercices assis 5 min'] },
+          { day: 'Jour 2', actions: ['Respirations', 'Marche 2x5 min', 'Exercices assis 5 min'] },
+          { day: 'Jour 3', actions: ['Respirations', 'Marche 2x5 min', 'Exercices assis + bras 7 min'] },
+          { day: 'Jour 4', actions: ['Respirations', 'Marche 10 min total', 'Exercices 7 min'] },
+          { day: 'Jour 5', actions: ['Respirations', 'Marche 10-12 min', 'Exercices 10 min'] },
+          { day: 'Jour 6', actions: ['Respirations', 'Marche 12-15 min', 'Exercices 10 min'] },
+          { day: 'Jour 7', actions: ['Repos actif', 'Notez vos progrès'] },
         ],
       },
       {
         level: 1,
-        levelName: 'Essoufflement à l\'effort modéré',
+        levelName: 'Facile — Je m\'essouffle à l\'effort',
         days: [
-          { day: 'Jour 1', actions: ['Exercices respiratoires 10 min', 'Marcher 15 min', 'Renforcement léger 10 min'] },
-          { day: 'Jour 2', actions: ['Respirations', 'Marcher 20 min', 'Exercices 15 min'] },
-          { day: 'Jour 3', actions: ['Respirations', 'Marcher ou vélo 20 min', 'Renforcement 15 min'] },
-          { day: 'Jour 4', actions: ['Respirations', 'Cardio 25 min', 'Exercices'] },
-          { day: 'Jour 5', actions: ['Respirations', 'Marcher 25-30 min', 'Renforcement'] },
-          { day: 'Jour 6', actions: ['Respirations', 'Activité au choix 30 min', 'Étirements'] },
-          { day: 'Jour 7', actions: ['Repos actif, exercices respiratoires'] },
+          { day: 'Jour 1', actions: ['Respirations 10 min', 'Marche 15-20 min', 'Exercices 10 min'] },
+          { day: 'Jour 2', actions: ['Respirations', 'Marche 20 min', 'Renforcement léger 10 min'] },
+          { day: 'Jour 3', actions: ['Respirations', 'Marche 20-25 min', 'Exercices 15 min'] },
+          { day: 'Jour 4', actions: ['Respirations', 'Marche 25 min', 'Renforcement 15 min'] },
+          { day: 'Jour 5', actions: ['Respirations', 'Marche 25-30 min', 'Exercices 15 min'] },
+          { day: 'Jour 6', actions: ['Respirations', 'Marche ou vélo 30 min', 'Renforcement 15 min'] },
+          { day: 'Jour 7', actions: ['Repos actif', 'Bilan de la semaine'] },
         ],
       },
       {
         level: 2,
-        levelName: 'Essoufflement à l\'effort soutenu',
+        levelName: 'Normal — Essoufflement modéré',
         days: [
-          { day: 'Jour 1', actions: ['Exercices respiratoires', 'Cardio 30 min', 'Renforcement 20 min'] },
-          { day: 'Jour 2', actions: ['Respirations', 'Marche rapide ou vélo 35 min', 'Exercices'] },
-          { day: 'Jour 3', actions: ['Respirations', 'Cardio 35 min', 'Renforcement complet'] },
+          { day: 'Jour 1', actions: ['Respirations', 'Cardio 30-35 min', 'Renforcement 20 min'] },
+          { day: 'Jour 2', actions: ['Respirations', 'Marche ou vélo 35 min', 'Exercices 20 min'] },
+          { day: 'Jour 3', actions: ['Respirations', 'Cardio 35-40 min', 'Renforcement 20 min'] },
           { day: 'Jour 4', actions: ['Respirations', 'Activité plaisir 40 min'] },
-          { day: 'Jour 5', actions: ['Respirations', 'Cardio 40 min', 'Renforcement'] },
-          { day: 'Jour 6', actions: ['Activité longue 45 min', 'Étirements'] },
+          { day: 'Jour 5', actions: ['Respirations', 'Cardio 40 min', 'Renforcement 20 min'] },
+          { day: 'Jour 6', actions: ['Activité extérieure 45 min', 'Récupération'] },
           { day: 'Jour 7', actions: ['Repos actif'] },
         ],
       },
       {
         level: 3,
-        levelName: 'Bonne tolérance à l\'effort',
+        levelName: 'Actif — Je tolère bien l\'effort',
         days: [
-          { day: 'Jour 1', actions: ['Exercices respiratoires', 'Cardio 45 min', 'Renforcement 25 min'] },
+          { day: 'Jour 1', actions: ['Respirations', 'Cardio 45 min', 'Renforcement 25 min'] },
           { day: 'Jour 2', actions: ['Respirations', 'Sport 45-60 min'] },
           { day: 'Jour 3', actions: ['Respirations', 'Cardio varié 45 min', 'Renforcement'] },
           { day: 'Jour 4', actions: ['Activité plaisir 1h'] },
@@ -865,41 +973,41 @@ export const pathologies: Pathology[] = [
     eightWeekPrograms: [
       {
         level: 0,
-        levelName: 'Niveau 0 — Très essoufflé',
+        levelName: 'Très facile — Je démarre',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Retrouver le souffle', exercises: ['Exercices respiratoires 3x10 min/jour', 'Marche intérieure 5 min 2-3x/jour', 'Exercices assis 10 min'] },
-          { week: 'Semaines 3-4', focus: 'Augmenter doucement', exercises: ['Respirations', 'Marche 10-15 min/jour', 'Exercices 15 min'] },
-          { week: 'Semaines 5-6', focus: 'Renforcer', exercises: ['Respirations', 'Marche 20 min', 'Exercices + renforcement léger'] },
-          { week: 'Semaines 7-8', focus: 'Stabiliser', exercises: ['Marche 25-30 min', 'Programme complet', 'Objectif niveau 1'] },
+          { week: 'Semaines 1-2', focus: 'Retrouver le souffle', exercises: ['Respirations 3x10 min/jour', 'Marche 5 min 2-3x/jour', 'Exercices assis 10 min'] },
+          { week: 'Semaines 3-4', focus: 'Augmenter doucement', exercises: ['Respirations', 'Marche 15 min/jour', 'Exercices 15 min'] },
+          { week: 'Semaines 5-6', focus: 'Renforcer', exercises: ['Respirations', 'Marche 20 min', 'Exercices + renforcement'] },
+          { week: 'Semaines 7-8', focus: 'Stabiliser', exercises: ['Marche 25-30 min', 'Programme complet'] },
         ],
       },
       {
         level: 1,
-        levelName: 'Niveau 1 — Essoufflé à l\'effort',
+        levelName: 'Facile — Je progresse',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Base cardio', exercises: ['Respirations quotidiennes', 'Marche 20-25 min', 'Renforcement 15 min'] },
-          { week: 'Semaines 3-4', focus: 'Progression', exercises: ['Cardio 30 min', 'Renforcement 20 min', 'Étirements'] },
-          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Alterner marche/vélo 35 min', 'Renforcement complet'] },
+          { week: 'Semaines 1-2', focus: 'Base cardio', exercises: ['Respirations', 'Marche 25 min', 'Renforcement 15 min'] },
+          { week: 'Semaines 3-4', focus: 'Progression', exercises: ['Cardio 30 min', 'Renforcement 20 min'] },
+          { week: 'Semaines 5-6', focus: 'Diversifier', exercises: ['Alterner marche/vélo 35 min'] },
           { week: 'Semaines 7-8', focus: 'Endurance', exercises: ['Cardio 40 min', 'Programme autonome'] },
         ],
       },
       {
         level: 2,
-        levelName: 'Niveau 2 — Essoufflement modéré',
+        levelName: 'Normal — J\'ai une bonne base',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Structurer', exercises: ['Cardio 35-40 min 5x/semaine', 'Renforcement 20 min'] },
-          { week: 'Semaines 3-4', focus: 'Intensifier', exercises: ['Cardio 40-45 min', 'Renforcement + endurance'] },
-          { week: 'Semaines 5-6', focus: 'Performance', exercises: ['Cardio varié 45 min', 'Circuits complets'] },
-          { week: 'Semaines 7-8', focus: 'Maintien', exercises: ['Programme autonome', 'Sport 2-3x/semaine'] },
+          { week: 'Semaines 1-2', focus: 'Structurer', exercises: ['Cardio 40 min 5x/sem', 'Renforcement 20 min'] },
+          { week: 'Semaines 3-4', focus: 'Intensifier', exercises: ['Cardio 45 min', 'Renforcement + endurance'] },
+          { week: 'Semaines 5-6', focus: 'Performance', exercises: ['Cardio varié 45 min'] },
+          { week: 'Semaines 7-8', focus: 'Maintien', exercises: ['Programme autonome', 'Sport 2-3x/sem'] },
         ],
       },
       {
         level: 3,
-        levelName: 'Niveau 3 — Actif',
+        levelName: 'Actif — Je maintiens',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Cardio 45-50 min', 'Renforcement avancé'] },
-          { week: 'Semaines 3-4', focus: 'Sport régulier', exercises: ['Sport 3-4x/semaine', 'Maintenir exercices respiratoires'] },
-          { week: 'Semaines 5-6', focus: 'Équilibre', exercises: ['Activité physique quotidienne', 'Prévention exacerbations'] },
+          { week: 'Semaines 1-2', focus: 'Optimiser', exercises: ['Cardio 50 min', 'Renforcement avancé'] },
+          { week: 'Semaines 3-4', focus: 'Sport régulier', exercises: ['Sport 3-4x/sem', 'Exercices respiratoires maintenus'] },
+          { week: 'Semaines 5-6', focus: 'Équilibre', exercises: ['Activité quotidienne'] },
           { week: 'Semaines 7-8', focus: 'Long terme', exercises: ['Mode de vie actif', 'Surveillance régulière'] },
         ],
       },
@@ -907,51 +1015,45 @@ export const pathologies: Pathology[] = [
 
     nutrition: {
       idealPlate: [
-        'Protéines à chaque repas (viande, poisson, œufs, légumineuses) : les muscles respiratoires en ont besoin',
-        'Légumes variés (antioxydants)',
-        'Féculents en quantité modérée (éviter le surpoids qui gêne la respiration)',
-        'Produits laitiers (calcium + vitamine D)',
-        'Hydratation suffisante (fluidifie le mucus)',
+        'Protéines à chaque repas — vos muscles respiratoires en ont besoin',
+        'Légumes variés pour les antioxydants',
+        'Féculents en quantité modérée — éviter le surpoids qui gêne la respiration',
+        'Eau : au moins 1,5L — ça fluidifie le mucus',
       ],
       commonMistakes: [
-        'Manger trop en une fois (l\'estomac plein comprime le diaphragme)',
-        'Pas assez de protéines (fonte musculaire)',
-        'Sauter des repas (faiblesse, fatigue)',
-        'Trop de sel (rétention d\'eau)',
-        'Continuer à fumer',
+        'Manger trop en une fois → l\'estomac plein comprime le diaphragme',
+        'Pas assez de protéines → fonte musculaire',
+        'Sauter des repas → faiblesse et fatigue',
       ],
       tips: [
         'Mangez plus le matin et midi, léger le soir',
-        'Fractionnez en 5-6 petits repas si essoufflé en mangeant',
+        'Fractionnez en 5-6 petits repas si vous êtes essoufflé en mangeant',
         'Repos 30 min après les repas',
-        'Hydratez-vous bien (1,5L eau + tisanes)',
-        'Limitez les boissons gazeuses (ballonnements)',
       ],
     },
 
     flareProtocol: {
-      title: 'Plan exacerbation BPCO 48h',
+      title: 'Exacerbation BPCO — Les 48 premières heures',
       hours0to24: [
         'Repos relatif mais pas alitement total',
         'Augmentez les exercices respiratoires (lèvres pincées)',
-        'Hydratez-vous abondamment (fluidifie le mucus)',
+        'Hydratez-vous abondamment (ça fluidifie le mucus)',
         'Prenez vos traitements habituels comme prescrits',
         'Surveillez : fièvre, changement de couleur des crachats, essoufflement aggravé',
-        'Si aggravation franche : contactez votre médecin',
+        'Si aggravation franche : contactez-moi',
       ],
       hours24to48: [
-        'Si amélioration : reprenez très doucement les activités',
+        'Si amélioration : reprenez très doucement',
         'Continuez hydratation et exercices respiratoires',
         'Marche très courte (5 min) si supportée',
-        'Repos supplémentaire la nuit',
-        'Si pas d\'amélioration ou aggravation : consultez',
+        'Si pas d\'amélioration : consultez',
       ],
-      resumeActivity: 'Attendez 2-3 jours après la fin des symptômes aigus pour reprendre l\'activité. Recommencez à un niveau en dessous. Si exacerbations fréquentes : parlez-en à votre médecin.',
+      resumeActivity: 'Attendez 2-3 jours après la fin des symptômes aigus pour reprendre. Recommencez à un niveau en dessous. Si exacerbations fréquentes : on en parle.',
     },
 
     alertSigns: [
-      'Essoufflement brutal et intense, pire qu\'habitude',
-      'Lèvres ou ongles bleutés (cyanose)',
+      'Essoufflement brutal et intense, pire que d\'habitude',
+      'Lèvres ou ongles bleutés',
       'Confusion, somnolence anormale',
       'Fièvre élevée avec crachats purulents',
       'Douleur thoracique',
@@ -960,9 +1062,8 @@ export const pathologies: Pathology[] = [
     ],
 
     sources: [
-      { name: 'GOLD Guidelines (Global Initiative for Chronic Obstructive Lung Disease)', year: 2024 },
-      { name: 'HAS - Guide parcours de soins BPCO', year: 2022 },
-      { name: 'Cochrane: Pulmonary rehabilitation for COPD', year: 2021 },
+      { name: 'GOLD Guidelines (Global Initiative for COPD)', year: 2024 },
+      { name: 'HAS — Guide parcours BPCO', year: 2022 },
       { name: 'European Respiratory Society Guidelines', year: 2023 },
     ],
   },
@@ -973,14 +1074,22 @@ export const pathologies: Pathology[] = [
     slug: 'otites-repetition-enfant',
     name: 'Otites à répétition (enfant)',
     category: 'orl-respiratoire',
-    shortDescription: 'Infections récurrentes de l\'oreille chez l\'enfant, souvent virales.',
+    shortDescription: 'Je vous aide à réduire les otites de votre enfant.',
     audience: 'enfant',
     readingTime: 7,
-    lastUpdated: '2024-01',
+    lastUpdated: 'Janvier 2025',
 
-    quickSummary: `Votre enfant a souvent mal aux oreilles ? Les otites à répétition (plus de 3-4 par an) sont fréquentes chez les petits. La trompe d'Eustache, qui relie l'oreille au nez, est courte et horizontale chez l'enfant : les microbes y passent facilement. La bonne nouvelle : la plupart des otites guérissent spontanément. Les lavages de nez, l'aération des pièces et quelques gestes simples réduisent les récidives. Avec la croissance, ça s'améliore généralement.`,
+    quickSummary: `Votre enfant a souvent mal aux oreilles ? Les otites à répétition (plus de 3-4 par an) sont fréquentes chez les petits. Je sais, c'est épuisant pour vous et douloureux pour lui.
 
-    physiopathology: `L'oreille moyenne (derrière le tympan) est reliée au nez par un petit tube appelé trompe d'Eustache. Chez l'enfant, ce tube est court, horizontal et immature : les microbes du nez y montent facilement. Quand l'enfant a un rhume, la trompe se bouche, du liquide s'accumule derrière le tympan et s'infecte. Les facteurs favorisants : collectivité (crèche), tabagisme passif, tétine après 6 mois, reflux, allergies. L'allaitement maternel protège.`,
+La bonne nouvelle : la plupart des otites guérissent spontanément. Et avec quelques gestes simples — lavage de nez, aération, hygiène — on peut vraiment réduire les récidives.
+
+La trompe d'Eustache (le petit tube qui relie l'oreille au nez) est courte chez l'enfant. Elle grandit avec lui, et en général ça s'améliore vers 5-6 ans. Si vous avez un doute, on en parle en consultation.`,
+
+    physiopathology: `L'oreille moyenne (derrière le tympan) est reliée au nez par un petit tube : la trompe d'Eustache.
+
+Chez l'enfant, ce tube est court, horizontal et immature. Résultat : quand votre enfant a un rhume, les microbes montent facilement vers l'oreille. La trompe se bouche, du liquide s'accumule derrière le tympan et s'infecte.
+
+Ce qui favorise les otites : la collectivité (crèche, école), le tabagisme passif, la tétine après 6 mois, les allergies. L'allaitement maternel, lui, protège. Et avec l'âge, la trompe grandit et ça va mieux.`,
 
     top5NonMedical: [
       {
@@ -990,23 +1099,44 @@ export const pathologies: Pathology[] = [
       },
       {
         title: 'Aérer et dépoussiérer',
-        description: '10-15 min d\'aération quotidienne. Évitez la poussière, les acariens, la fumée de cigarette.',
+        description: '10-15 minutes d\'aération par jour. Évitez poussière, acariens, fumée de cigarette. La chambre doit être propre et bien ventilée.',
         icon: '🌬️',
       },
       {
         title: 'Moucher correctement',
-        description: 'Une narine après l\'autre, doucement. Apprenez à l\'enfant dès que possible. Mouchoirs jetables.',
+        description: 'Une narine après l\'autre, doucement. Apprenez-lui dès que possible. Mouchoirs jetables, poubelle avec couvercle.',
         icon: '🤧',
       },
       {
         title: 'Limiter la tétine',
-        description: 'Après 6 mois, la tétine favorise les otites. Essayez de la limiter à l\'endormissement.',
+        description: 'Après 6 mois, la tétine favorise les otites. Essayez de la garder seulement pour l\'endormissement.',
         icon: '👶',
       },
       {
-        title: 'Éviter le tabagisme passif',
-        description: 'La fumée irrite les voies respiratoires et favorise les infections. Jamais de tabac à la maison.',
+        title: 'Pas de tabac à la maison',
+        description: 'Le tabagisme passif irrite les voies respiratoires et favorise les infections. Jamais de cigarette à l\'intérieur.',
         icon: '🚭',
+      },
+    ],
+
+    dailyPlans: [
+      {
+        level: 0,
+        levelName: 'Prévention quotidienne',
+        actions: [
+          'Lavage de nez matin et soir avec sérum physiologique',
+          'Aérer la chambre 10 minutes',
+          'Vérifier que l\'humidité est correcte (40-60%)',
+        ],
+      },
+      {
+        level: 1,
+        levelName: 'Pendant un rhume',
+        actions: [
+          'Lavages de nez 4-5 fois par jour',
+          'Surélever légèrement la tête du lit',
+          'Hydrater ++ : proposer à boire souvent',
+        ],
       },
     ],
 
@@ -1015,39 +1145,39 @@ export const pathologies: Pathology[] = [
         level: 0,
         levelName: 'Prévention quotidienne',
         days: [
-          { day: 'Jour 1', actions: ['Lavage de nez matin et soir', 'Aérer la chambre 10 min', 'Vérifier l\'humidité de l\'air'] },
-          { day: 'Jour 2', actions: ['Lavages de nez 2-3x', 'Aérer', 'Nettoyer les jouets et doudous'] },
+          { day: 'Jour 1', actions: ['Lavage nez matin et soir', 'Aérer chambre 10 min', 'Vérifier humidité'] },
+          { day: 'Jour 2', actions: ['Lavages 2-3x', 'Aérer', 'Nettoyer jouets et doudous'] },
           { day: 'Jour 3', actions: ['Lavages', 'Aérer', 'Proposer à boire régulièrement'] },
-          { day: 'Jour 4', actions: ['Lavages', 'Aérer', 'Vérifier qu\'il n\'y a pas de tabagisme passif'] },
+          { day: 'Jour 4', actions: ['Lavages', 'Aérer', 'Vérifier pas de tabagisme passif'] },
           { day: 'Jour 5', actions: ['Lavages', 'Aérer', 'Limiter la tétine'] },
-          { day: 'Jour 6', actions: ['Lavages', 'Aérer', 'Sortie au grand air si possible'] },
-          { day: 'Jour 7', actions: ['Bilan de la semaine : les gestes sont-ils devenus une habitude ?'] },
+          { day: 'Jour 6', actions: ['Lavages', 'Aérer', 'Sortie au grand air'] },
+          { day: 'Jour 7', actions: ['Bilan : les gestes sont-ils devenus des habitudes ?'] },
         ],
       },
       {
         level: 1,
         levelName: 'Pendant un rhume (prévenir l\'otite)',
         days: [
-          { day: 'Jour 1', actions: ['Lavages de nez 4-5x/jour', 'Surélever légèrement la tête du lit', 'Hydrater++'] },
+          { day: 'Jour 1', actions: ['Lavages 4-5x/jour', 'Surélever tête du lit', 'Hydrater++'] },
           { day: 'Jour 2', actions: ['Lavages fréquents', 'Moucher régulièrement', 'Repos calme'] },
-          { day: 'Jour 3', actions: ['Lavages', 'Surveiller fièvre et comportement', 'Aérer malgré le rhume'] },
-          { day: 'Jour 4', actions: ['Lavages', 'Si fièvre persiste ou douleur oreille : voir médecin'] },
+          { day: 'Jour 3', actions: ['Lavages', 'Surveiller fièvre et comportement', 'Aérer'] },
+          { day: 'Jour 4', actions: ['Lavages', 'Si fièvre persiste ou douleur oreille : consultez'] },
           { day: 'Jour 5', actions: ['Lavages', 'Normalement amélioration du rhume'] },
-          { day: 'Jour 6', actions: ['Lavages', 'Reprendre activités normales si mieux'] },
-          { day: 'Jour 7', actions: ['Maintenir les lavages encore quelques jours'] },
+          { day: 'Jour 6', actions: ['Lavages', 'Reprendre activités si mieux'] },
+          { day: 'Jour 7', actions: ['Maintenir les lavages quelques jours encore'] },
         ],
       },
       {
         level: 2,
         levelName: 'Après une otite (éviter la récidive)',
         days: [
-          { day: 'Jour 1', actions: ['Continuer les lavages de nez', 'Repos', 'Hydratation'] },
-          { day: 'Jour 2', actions: ['Lavages', 'Reprise progressive des activités'] },
-          { day: 'Jour 3', actions: ['Lavages', 'Aérer la chambre++', 'Laver les doudous à 60°C'] },
-          { day: 'Jour 4', actions: ['Lavages', 'Éviter les lieux très fréquentés si possible'] },
-          { day: 'Jour 5', actions: ['Lavages', 'Retour en collectivité si plus de fièvre depuis 24h'] },
-          { day: 'Jour 6', actions: ['Maintenir les bonnes habitudes'] },
-          { day: 'Jour 7', actions: ['Continuer la prévention quotidienne'] },
+          { day: 'Jour 1', actions: ['Continuer les lavages', 'Repos', 'Hydratation'] },
+          { day: 'Jour 2', actions: ['Lavages', 'Reprise progressive'] },
+          { day: 'Jour 3', actions: ['Lavages', 'Aérer la chambre++', 'Laver doudous à 60°C'] },
+          { day: 'Jour 4', actions: ['Lavages', 'Éviter lieux très fréquentés si possible'] },
+          { day: 'Jour 5', actions: ['Lavages', 'Retour collectivité si plus de fièvre depuis 24h'] },
+          { day: 'Jour 6', actions: ['Maintenir bonnes habitudes'] },
+          { day: 'Jour 7', actions: ['Continuer la prévention'] },
         ],
       },
     ],
@@ -1057,10 +1187,10 @@ export const pathologies: Pathology[] = [
         level: 0,
         levelName: 'Programme prévention long terme',
         weeks: [
-          { week: 'Semaines 1-2', focus: 'Installer les routines', exercises: ['Lavages de nez matin/soir', 'Aération quotidienne', 'Vérifier humidité (40-60%)'] },
-          { week: 'Semaines 3-4', focus: 'Hygiène environnement', exercises: ['Nettoyage approfondi chambre', 'Lavage doudous/peluches', 'Éliminer sources de poussière'] },
-          { week: 'Semaines 5-6', focus: 'Renforcer les défenses', exercises: ['Alimentation variée et équilibrée', 'Sorties quotidiennes au grand air', 'Sommeil suffisant (10-12h)'] },
-          { week: 'Semaines 7-8', focus: 'Bilan et ajustements', exercises: ['Moins d\'otites ce mois-ci ?', 'Maintenir les routines', 'Consulter ORL si toujours fréquentes'] },
+          { week: 'Semaines 1-2', focus: 'Installer les routines', exercises: ['Lavages matin/soir', 'Aération quotidienne', 'Vérifier humidité (40-60%)'] },
+          { week: 'Semaines 3-4', focus: 'Hygiène environnement', exercises: ['Nettoyage chambre', 'Lavage doudous/peluches', 'Éliminer poussière'] },
+          { week: 'Semaines 5-6', focus: 'Renforcer les défenses', exercises: ['Alimentation variée', 'Sorties quotidiennes', 'Sommeil suffisant'] },
+          { week: 'Semaines 7-8', focus: 'Bilan', exercises: ['Moins d\'otites ?', 'Maintenir les routines', 'Si toujours fréquentes : consultation ORL'] },
         ],
       },
     ],
@@ -1068,23 +1198,19 @@ export const pathologies: Pathology[] = [
     nutrition: {
       idealPlate: [
         'Légumes et fruits variés (vitamines C et A)',
-        'Poisson 2x/semaine (oméga-3)',
-        'Produits laitiers (pour l\'immunité)',
-        'Céréales complètes',
-        'Beaucoup d\'eau et bouillons',
+        'Poisson 2x/semaine',
+        'Produits laitiers adaptés à l\'âge',
+        'Beaucoup d\'eau et de bouillons',
       ],
       commonMistakes: [
-        'Trop de sucre (affaiblit les défenses)',
+        'Trop de sucre → affaiblit les défenses',
         'Pas assez de légumes',
-        'Grignotages (perturbent l\'appétit aux repas)',
-        'Lait en excès (peut favoriser le mucus chez certains enfants)',
-        'Oublier l\'hydratation',
+        'Grignotages qui coupent l\'appétit aux repas',
       ],
       tips: [
-        'Vitamine D en supplémentation l\'hiver (demandez au pédiatre)',
-        'Évitez le biberon couché (reflux → otites)',
+        'Vitamine D en hiver (demandez au pédiatre)',
+        'Évitez le biberon couché (risque de reflux → otites)',
         'Allaitez si possible les premiers mois (protecteur)',
-        'Pas de miel avant 1 an',
       ],
     },
 
@@ -1099,10 +1225,9 @@ export const pathologies: Pathology[] = [
     ],
 
     sources: [
-      { name: 'AAP Guidelines: Otitis Media with Effusion', year: 2016 },
-      { name: 'HAS - Antibiothérapie par voie générale en pratique courante dans les infections respiratoires hautes', year: 2021 },
-      { name: 'Société Française de Pédiatrie - Recommandations', year: 2022 },
-      { name: 'Cochrane: Antibiotics for acute otitis media in children', year: 2015 },
+      { name: 'AAP Guidelines — Otitis Media', year: 2016 },
+      { name: 'HAS — Infections respiratoires hautes', year: 2021 },
+      { name: 'Société Française de Pédiatrie', year: 2022 },
     ],
   },
 ];
