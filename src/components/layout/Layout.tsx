@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
 
 interface LayoutProps {
   children: ReactNode;
@@ -8,7 +9,8 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="min-h-screen flex flex-col">
+      <MedicalDisclaimer variant="banner" />
       <Header />
       <main id="main-content" className="flex-1">
         {children}

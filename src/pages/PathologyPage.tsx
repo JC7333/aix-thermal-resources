@@ -1,9 +1,10 @@
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { Download, Clock, Users, AlertTriangle, Apple, Activity, Moon, Brain, Droplets, ChevronRight } from 'lucide-react';
+import { Download, Clock, Users, AlertTriangle, Apple, Activity, Moon, Brain, Droplets, ChevronRight, Printer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { ExerciseCard } from '@/components/shared/ExerciseCard';
+import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
 import { pathologies, categoryLabels, audienceLabels, resources } from '@/data/pathologies';
 
 const PathologyPage = () => {
@@ -17,8 +18,11 @@ const PathologyPage = () => {
   const relatedResources = resources.filter((r) => r.pathologyId === pathology.id);
 
   const handleDownloadPDF = () => {
-    // PDF generation/download logic
     alert('Téléchargement PDF - Fonctionnalité à venir');
+  };
+
+  const handlePrint = () => {
+    window.print();
   };
 
   return (
@@ -26,8 +30,8 @@ const PathologyPage = () => {
       <div className="container mx-auto px-4 py-6 lg:py-8">
         <Breadcrumb
           items={[
-            { label: 'Ressources', href: '/ressources' },
-            { label: categoryLabels[pathology.category], href: `/ressources?categorie=${pathology.category}` },
+            { label: 'Pathologies', href: '/pathologies' },
+            { label: categoryLabels[pathology.category], href: `/pathologies?categorie=${pathology.category}` },
             { label: pathology.name },
           ]}
         />
@@ -58,10 +62,16 @@ const PathologyPage = () => {
             {pathology.shortDescription}
           </p>
 
-          <Button onClick={handleDownloadPDF} variant="pdf" size="lg" className="mt-6">
-            <Download className="w-5 h-5" />
-            Télécharger la fiche PDF de synthèse
-          </Button>
+          <div className="flex flex-wrap gap-3 mt-6 no-print">
+            <Button onClick={handleDownloadPDF} variant="pdf" size="lg">
+              <Download className="w-5 h-5" />
+              Télécharger le PDF
+            </Button>
+            <Button onClick={handlePrint} variant="outline" size="lg">
+              <Printer className="w-5 h-5" />
+              Imprimer
+            </Button>
+          </div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
@@ -328,7 +338,7 @@ const PathologyPage = () => {
                 Besoin d'un accompagnement ?
               </h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Le Dr Martin vous accompagne dans la prise en charge de votre pathologie.
+                Le Dr Bugnard vous accompagne dans la prise en charge de votre pathologie.
               </p>
               <Button asChild className="w-full">
                 <a href="https://www.doctolib.fr" target="_blank" rel="noopener noreferrer">
@@ -336,6 +346,9 @@ const PathologyPage = () => {
                 </a>
               </Button>
             </div>
+
+            {/* Disclaimer */}
+            <MedicalDisclaimer variant="inline" />
           </aside>
         </div>
       </div>

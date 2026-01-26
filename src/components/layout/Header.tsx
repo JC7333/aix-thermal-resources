@@ -1,20 +1,24 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, Eye, EyeOff, FileText, Home, BookOpen, HelpCircle, Building2 } from 'lucide-react';
+import { Menu, X, Phone, ZoomIn, Eye, FileText, Home, BookOpen, HelpCircle, Building2, Navigation, Baby, Compass, Map, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
 
 const navigation = [
   { name: 'Accueil', href: '/', icon: Home },
+  { name: 'Parcours guidé', href: '/parcours', icon: Compass },
   { name: 'Ressources', href: '/ressources', icon: BookOpen },
+  { name: 'Pathologies', href: '/pathologies', icon: Layers },
   { name: 'Programmes', href: '/programmes', icon: FileText },
+  { name: 'Guides', href: '/guides', icon: Map },
+  { name: 'Parents', href: '/parents', icon: Baby },
   { name: 'FAQ', href: '/faq', icon: HelpCircle },
-  { name: 'Le Cabinet', href: '/cabinet', icon: Building2 },
+  { name: 'Cabinet', href: '/cabinet', icon: Building2 },
 ];
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { easyReading, toggleEasyReading } = useAccessibility();
+  const { seniorMode, toggleSeniorMode } = useAccessibility();
   const location = useLocation();
 
   return (
@@ -29,14 +33,14 @@ export const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
             <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-serif text-lg lg:text-xl font-bold shadow-sm group-hover:shadow-md transition-shadow">
-              MT
+              AB
             </div>
             <div className="hidden sm:block">
               <p className="font-serif text-lg lg:text-xl font-bold text-foreground">
-                Dr Martin
+                Dr Audric Bugnard
               </p>
               <p className="text-xs lg:text-sm text-muted-foreground -mt-0.5">
-                Médecin Thermaliste
+                Médecin Thermaliste — Aix-les-Bains
               </p>
             </div>
           </Link>
@@ -65,20 +69,16 @@ export const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-2 lg:gap-3">
-            {/* Easy Reading Toggle */}
+            {/* Senior Mode Toggle */}
             <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleEasyReading}
-              className="h-10 w-10 lg:h-11 lg:w-11"
-              aria-label={easyReading ? 'Désactiver le mode lecture facile' : 'Activer le mode lecture facile'}
-              title={easyReading ? 'Désactiver le mode lecture facile' : 'Mode lecture facile'}
+              variant={seniorMode ? 'default' : 'ghost'}
+              size="sm"
+              onClick={toggleSeniorMode}
+              className={`hidden md:flex items-center gap-2 h-10 lg:h-11 ${seniorMode ? 'bg-primary text-primary-foreground' : ''}`}
+              aria-label={seniorMode ? 'Désactiver le mode Senior' : 'Activer le mode Senior'}
             >
-              {easyReading ? (
-                <EyeOff className="h-5 w-5 text-primary" />
-              ) : (
-                <Eye className="h-5 w-5" />
-              )}
+              {seniorMode ? <Eye className="h-4 w-4" /> : <ZoomIn className="h-4 w-4" />}
+              <span className="hidden lg:inline">{seniorMode ? 'Mode Senior ✓' : 'Mode Senior'}</span>
             </Button>
 
             {/* Phone Button - Desktop */}

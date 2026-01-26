@@ -122,9 +122,9 @@ const Cabinet = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="mailto:contact@dr-martin-thermaliste.fr" className="flex items-center gap-2 text-foreground hover:text-primary transition-colors">
+                      <a href="mailto:contact@dr-bugnard.fr" className="flex items-center gap-2 text-foreground hover:text-primary transition-colors">
                         <Mail className="w-4 h-4" />
-                        contact@dr-martin-thermaliste.fr
+                        contact@dr-bugnard.fr
                       </a>
                     </li>
                   </ul>

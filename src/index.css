@@ -103,7 +103,50 @@
     --ring: 199 55% 55%;
   }
 
-  /* Mode accessibilité seniors */
+  /* Mode Senior - Police +30%, contrastes forts, gros boutons */
+  .senior-mode {
+    --radius: 1rem;
+    font-size: 1.3rem;
+    line-height: 1.9;
+    letter-spacing: 0.025em;
+    
+    /* Contrastes renforcés */
+    --foreground: 210 30% 10%;
+    --muted-foreground: 210 20% 30%;
+    --background: 0 0% 100%;
+    --card: 0 0% 100%;
+  }
+
+  .senior-mode h1, .senior-mode h2, .senior-mode h3, .senior-mode h4 {
+    letter-spacing: 0.015em;
+    font-weight: 800;
+  }
+
+  .senior-mode h1 { font-size: 2.5rem; }
+  .senior-mode h2 { font-size: 2rem; }
+  .senior-mode h3 { font-size: 1.5rem; }
+
+  .senior-mode p {
+    max-width: 60ch;
+    font-size: 1.3rem;
+    line-height: 2;
+  }
+
+  .senior-mode button, 
+  .senior-mode a,
+  .senior-mode .btn {
+    min-height: 56px;
+    min-width: 56px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+  }
+
+  .senior-mode .card-medical {
+    padding: 2rem;
+  }
+
+  /* Mode lecture facile (moins intense que senior) */
   .easy-reading {
     --radius: 1rem;
     font-size: 1.15rem;

@@ -10,10 +10,10 @@ export const Footer = () => {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white font-serif text-lg font-bold">
-                MT
+                AB
               </div>
               <div>
-                <p className="font-serif text-lg font-bold">Dr Martin</p>
+                <p className="font-serif text-lg font-bold">Dr Audric Bugnard</p>
                 <p className="text-sm text-white/70">Médecin Thermaliste</p>
               </div>
             </div>
@@ -41,9 +41,9 @@ export const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="mailto:contact@dr-martin-thermaliste.fr" className="flex items-center gap-3 text-white/80 hover:text-white transition-colors">
+                <a href="mailto:contact@dr-bugnard.fr" className="flex items-center gap-3 text-white/80 hover:text-white transition-colors">
                   <Mail className="w-5 h-5 text-secondary shrink-0" />
-                  contact@dr-martin-thermaliste.fr
+                  contact@dr-bugnard.fr
                 </a>
               </li>
             </ul>
@@ -67,13 +67,28 @@ export const Footer = () => {
             <h3 className="font-serif text-lg font-bold mb-4">Liens utiles</h3>
             <ul className="space-y-2 text-sm">
               <li>
+                <Link to="/parcours" className="text-white/80 hover:text-white transition-colors">
+                  Parcours guidé
+                </Link>
+              </li>
+              <li>
                 <Link to="/ressources" className="text-white/80 hover:text-white transition-colors">
                   Bibliothèque de ressources
                 </Link>
               </li>
               <li>
+                <Link to="/pathologies" className="text-white/80 hover:text-white transition-colors">
+                  Toutes les pathologies
+                </Link>
+              </li>
+              <li>
                 <Link to="/programmes" className="text-white/80 hover:text-white transition-colors">
                   Programmes d'exercices
+                </Link>
+              </li>
+              <li>
+                <Link to="/parents" className="text-white/80 hover:text-white transition-colors">
+                  Espace Parents
                 </Link>
               </li>
               <li>
@@ -98,7 +113,7 @@ export const Footer = () => {
         {/* Bottom */}
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
-            <p>© 2024 Dr Martin - Médecin Thermaliste. Tous droits réservés.</p>
+            <p>© 2024 Dr Audric Bugnard - Médecin Thermaliste Aix-les-Bains. Tous droits réservés.</p>
             <p className="text-center md:text-right">
               Site à caractère informatif — Ne remplace pas une consultation médicale
             </p>

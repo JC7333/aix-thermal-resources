@@ -7,7 +7,11 @@ import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import Index from "./pages/Index";
 import Resources from "./pages/Resources";
 import PathologyPage from "./pages/PathologyPage";
+import Pathologies from "./pages/Pathologies";
 import Programs from "./pages/Programs";
+import Parcours from "./pages/Parcours";
+import Guides from "./pages/Guides";
+import Parents from "./pages/Parents";
 import FAQ from "./pages/FAQ";
 import Cabinet from "./pages/Cabinet";
 import MentionsLegales from "./pages/MentionsLegales";
@@ -25,13 +29,19 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/parcours" element={<Parcours />} />
             <Route path="/ressources" element={<Resources />} />
-            <Route path="/pathologie/:slug" element={<PathologyPage />} />
+            <Route path="/pathologies" element={<Pathologies />} />
+            <Route path="/pathologies/:slug" element={<PathologyPage />} />
             <Route path="/programmes" element={<Programs />} />
+            <Route path="/guides" element={<Guides />} />
+            <Route path="/parents" element={<Parents />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/cabinet" element={<Cabinet />} />
             <Route path="/mentions-legales" element={<MentionsLegales />} />
             <Route path="/confidentialite" element={<Confidentialite />} />
+            {/* Legacy route */}
+            <Route path="/pathologie/:slug" element={<PathologyPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
