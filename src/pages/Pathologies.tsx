@@ -7,51 +7,7 @@ import { FavoritesActionsMenu } from '@/components/shared/FavoritesActionsMenu';
 import { FavoritesImportBanner } from '@/components/shared/FavoritesImportBanner';
 import { useFavorites } from '@/hooks/useFavorites';
 import { getAllEvidence, type EvidenceData } from '@/data/evidence';
-
-// Métadonnées enrichies pour chaque pathologie
-const pathologyMeta: Record<string, {
-  name: string;
-  category: 'rhumatologie' | 'veino-lymphatique' | 'orl-respiratoire';
-  shortDescription: string;
-  readingTime: number;
-  icon: string;
-}> = {
-  'arthrose': {
-    name: 'Arthrose',
-    category: 'rhumatologie',
-    shortDescription: 'Je vous aide à mieux vivre avec l\'arthrose au quotidien.',
-    readingTime: 8,
-    icon: '🦴',
-  },
-  'lombalgie-chronique': {
-    name: 'Lombalgie chronique',
-    category: 'rhumatologie',
-    shortDescription: 'Je vous accompagne pour soulager votre mal de dos chronique.',
-    readingTime: 8,
-    icon: '🦴',
-  },
-  'insuffisance-veineuse-chronique': {
-    name: 'Insuffisance veineuse chronique',
-    category: 'veino-lymphatique',
-    shortDescription: 'Jambes lourdes, varices : des solutions concrètes existent.',
-    readingTime: 7,
-    icon: '🩸',
-  },
-  'bpco': {
-    name: 'BPCO',
-    category: 'orl-respiratoire',
-    shortDescription: 'Reprendre souffle et qualité de vie avec la BPCO.',
-    readingTime: 9,
-    icon: '🫁',
-  },
-  'otites-a-repetition-enfant': {
-    name: 'Otites à répétition (enfant)',
-    category: 'orl-respiratoire',
-    shortDescription: 'Comment prévenir les otites fréquentes chez l\'enfant.',
-    readingTime: 6,
-    icon: '👂',
-  },
-};
+import { Button } from '@/components/ui/button';
 
 const categoryLabels: Record<string, string> = {
   'rhumatologie': 'Rhumatologie',
@@ -71,19 +27,13 @@ const Pathologies = () => {
   
   // Grouper les pathologies par catégorie
   const groupedPathologies = allEvidence.reduce((acc, evidence) => {
-    const meta = pathologyMeta[evidence.slug];
-    if (!meta) return acc;
-    
-    if (!acc[meta.category]) acc[meta.category] = [];
-    acc[meta.category].push({ ...evidence, meta });
+    if (!acc[evidence.category]) acc[evidence.category] = [];
+    acc[evidence.category].push(evidence);
     return acc;
-  }, {} as Record<string, (EvidenceData & { meta: typeof pathologyMeta[string] })[]>);
+  }, {} as Record<string, EvidenceData[]>);
 
   // Favoris
-  const favoritePathologies = allEvidence.filter(e => favorites.includes(e.slug)).map(e => ({
-    ...e,
-    meta: pathologyMeta[e.slug],
-  })).filter(e => e.meta);
+  const favoritePathologies = allEvidence.filter(e => favorites.includes(e.slug));
 
   return (
     <Layout>
@@ -131,27 +81,27 @@ const Pathologies = () => {
                   className="card-medical group flex flex-col ring-2 ring-destructive/20"
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <span className={`px-3 py-1 text-xs font-medium rounded-full border ${categoryColors[pathology.meta.category]}`}>
-                      {categoryLabels[pathology.meta.category]}
+                    <span className={`px-3 py-1 text-xs font-medium rounded-full border ${categoryColors[pathology.category]}`}>
+                      {categoryLabels[pathology.category]}
                     </span>
                     <FavoriteButton slug={pathology.slug} variant="icon" />
                   </div>
 
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-2xl">{pathology.meta.icon}</span>
+                    <span className="text-2xl">{pathology.icon}</span>
                     <h3 className="font-serif text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                      {pathology.meta.name}
+                      {pathology.name}
                     </h3>
                   </div>
 
-                  <p className="text-muted-foreground text-sm mb-4 flex-grow">
-                    {pathology.meta.shortDescription}
+                  <p className="text-muted-foreground text-sm mb-4 flex-grow line-clamp-3">
+                    {pathology.summary.split('\n')[0]}
                   </p>
 
                   <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground border-t border-border pt-3 mt-auto">
                     <span className="flex items-center gap-1">
                       <Clock className="w-3 h-3" />
-                      {pathology.meta.readingTime} min
+                      {pathology.readingTime} min
                     </span>
                     <span className="flex items-center gap-1 text-primary">
                       <BookOpen className="w-3 h-3" />
@@ -181,37 +131,35 @@ const Pathologies = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                   {categoryPathologies.map((pathology) => (
-                    <Link
+                    <article
                       key={pathology.slug}
-                      to={`/pathologies/${pathology.slug}`}
                       className={`card-medical group flex flex-col ${isFavorite(pathology.slug) ? 'ring-2 ring-destructive/20' : ''}`}
                     >
                       <div className="flex items-start justify-between mb-3">
-                        <span className={`px-3 py-1 text-xs font-medium rounded-full border ${categoryColors[pathology.meta.category]}`}>
-                          {categoryLabels[pathology.meta.category]}
+                        <span className={`px-3 py-1 text-xs font-medium rounded-full border ${categoryColors[pathology.category]}`}>
+                          {categoryLabels[pathology.category]}
                         </span>
                         <div className="flex items-center gap-1">
                           <FavoriteButton slug={pathology.slug} variant="icon" />
-                          <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                         </div>
                       </div>
 
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-2xl">{pathology.meta.icon}</span>
+                        <span className="text-2xl">{pathology.icon}</span>
                         <h3 className="font-serif text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                          {pathology.meta.name}
+                          {pathology.name}
                         </h3>
                       </div>
 
-                      <p className="text-muted-foreground text-sm mb-4 flex-grow">
-                        {pathology.meta.shortDescription}
+                      <p className="text-muted-foreground text-sm mb-4 flex-grow line-clamp-3">
+                        {pathology.summary.split('\n')[0]}
                       </p>
 
                       {/* Indicateurs evidence-based */}
-                      <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground border-t border-border pt-3 mt-auto">
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground border-t border-border pt-3 mb-4">
                         <span className="flex items-center gap-1">
                           <Clock className="w-3 h-3" />
-                          {pathology.meta.readingTime} min
+                          {pathology.readingTime} min
                         </span>
                         <span className="flex items-center gap-1 text-primary">
                           <BookOpen className="w-3 h-3" />
@@ -222,7 +170,14 @@ const Pathologies = () => {
                           {pathology.sources.length} sources
                         </span>
                       </div>
-                    </Link>
+
+                      <Link to={`/pathologies/${pathology.slug}`}>
+                        <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                          <span>Voir</span>
+                          <ChevronRight className="w-4 h-4 ml-1" />
+                        </Button>
+                      </Link>
+                    </article>
                   ))}
                 </div>
               </section>

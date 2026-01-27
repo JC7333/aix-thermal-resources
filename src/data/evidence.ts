@@ -14,6 +14,12 @@ export interface EvidenceRecommendation {
 
 export interface EvidenceData {
   slug: string;
+  name: string;
+  icon: string;
+  category: 'rhumatologie' | 'veino-lymphatique' | 'orl-respiratoire';
+  summary: string; // Résumé 2 minutes
+  readingTime: number;
+  lastUpdated: string;
   recommendations: EvidenceRecommendation[];
   red_flags: string[];
   sources: EvidenceSource[];
