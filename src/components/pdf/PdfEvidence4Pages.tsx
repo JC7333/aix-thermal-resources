@@ -497,7 +497,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
         </View>
 
         {/* 3 schémas d'exercices par niveau */}
-        <View style={{ marginBottom: 12 }}>
+        <View style={{ marginBottom: 8 }}>
           {(() => {
             const diagramInfo = getDiagramsBySlug(evidence.slug);
             if (!diagramInfo) return null;
@@ -505,25 +505,32 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
             const Level0Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level0 as keyof typeof ExerciseDiagramsByLevel];
             const Level1Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level1 as keyof typeof ExerciseDiagramsByLevel];
             const Level2Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level2 as keyof typeof ExerciseDiagramsByLevel];
+            const Level3Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level3 as keyof typeof ExerciseDiagramsByLevel];
 
             return (
-              <View style={{ gap: 8 }}>
-                {/* Niveau 0 */}
+              <View style={{ gap: 4 }}>
+                {/* Niveau 0 - Vert */}
                 {Level0Component && (
-                  <View style={{ alignItems: 'center', padding: 4, backgroundColor: '#e8f5ef', borderRadius: 6 }}>
-                    <Level0Component width={340} height={70} />
+                  <View style={{ alignItems: 'center', padding: 3, backgroundColor: '#e8f5ef', borderRadius: 4 }}>
+                    <Level0Component width={350} height={55} />
                   </View>
                 )}
-                {/* Niveau 1 */}
+                {/* Niveau 1 - Bleu */}
                 {Level1Component && (
-                  <View style={{ alignItems: 'center', padding: 4, backgroundColor: PDF_COLORS.primaryLight, borderRadius: 6 }}>
-                    <Level1Component width={340} height={70} />
+                  <View style={{ alignItems: 'center', padding: 3, backgroundColor: PDF_COLORS.primaryLight, borderRadius: 4 }}>
+                    <Level1Component width={350} height={55} />
                   </View>
                 )}
-                {/* Niveau 2 */}
+                {/* Niveau 2 - Orange */}
                 {Level2Component && (
-                  <View style={{ alignItems: 'center', padding: 4, backgroundColor: '#fdf6e9', borderRadius: 6 }}>
-                    <Level2Component width={340} height={70} />
+                  <View style={{ alignItems: 'center', padding: 3, backgroundColor: '#fdf6e9', borderRadius: 4 }}>
+                    <Level2Component width={350} height={55} />
+                  </View>
+                )}
+                {/* Niveau 3 - Violet */}
+                {Level3Component && (
+                  <View style={{ alignItems: 'center', padding: 3, backgroundColor: '#f3e8ff', borderRadius: 4 }}>
+                    <Level3Component width={350} height={55} />
                   </View>
                 )}
               </View>
