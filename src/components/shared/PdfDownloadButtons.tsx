@@ -13,7 +13,8 @@ import {
   generatePdf4PagesBySlug, 
   downloadPdf,
   getPdfFilename,
-  hasEvidenceData 
+  hasEvidenceData,
+  clearPdfCacheEntry,
 } from '@/services/pdfService';
 import { useToast } from '@/hooks/use-toast';
 import { PdfPreviewModal } from './PdfPreviewModal';
@@ -148,6 +149,43 @@ export const PdfDownloadButtons = ({
     setPreviewBlob(null);
   };
 
+  // Régénère le PDF en ignorant le cache
+  const handleRegenerate = async () => {
+    // Supprimer l'entrée du cache
+    clearPdfCacheEntry(slug, previewType);
+    
+    // Relancer la génération
+    setLoading(previewType);
+    setPreviewBlob(null);
+    setPreviewFromCache(false);
+
+    try {
+      const result = previewType === '1page' 
+        ? await generatePdf1PageBySlug(slug)
+        : await generatePdf4PagesBySlug(slug);
+      
+      if (result) {
+        setPreviewBlob(result.blob);
+        setPreviewFromCache(result.fromCache);
+        toast({
+          title: "PDF régénéré",
+          description: "Le document a été mis à jour avec les dernières données.",
+        });
+      } else {
+        throw new Error('Régénération échouée');
+      }
+    } catch (error) {
+      console.error('Erreur régénération PDF:', error);
+      toast({
+        title: "Erreur de régénération",
+        description: "Une erreur est survenue. Veuillez réessayer.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(null);
+    }
+  };
+
   // Choix de l'action : preview ou download direct
   const handleAction = (type: '1page' | '4pages') => {
     if (showPreview) {
@@ -202,6 +240,7 @@ export const PdfDownloadButtons = ({
           isLoading={loading !== null}
           onDownload={handleDownloadFromPreview}
           fromCache={previewFromCache}
+          onRegenerate={handleRegenerate}
         />
       </>
     );
@@ -267,6 +306,7 @@ export const PdfDownloadButtons = ({
           isLoading={loading !== null}
           onDownload={handleDownloadFromPreview}
           fromCache={previewFromCache}
+          onRegenerate={handleRegenerate}
         />
       </>
     );
@@ -316,6 +356,7 @@ export const PdfDownloadButtons = ({
         isLoading={loading !== null}
         onDownload={handleDownloadFromPreview}
         fromCache={previewFromCache}
+        onRegenerate={handleRegenerate}
       />
     </>
   );
