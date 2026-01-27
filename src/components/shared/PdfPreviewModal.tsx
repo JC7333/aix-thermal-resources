@@ -5,7 +5,7 @@
 // Indique si le PDF provient du cache
 // ============================================
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Download, X, Loader2, FileText, Book, ZoomIn, ZoomOut, Printer, Zap, RefreshCw } from 'lucide-react';
@@ -40,7 +40,6 @@ export const PdfPreviewModal = ({
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [zoom, setZoom] = useState(100);
   const [isPrinting, setIsPrinting] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -63,7 +62,7 @@ export const PdfPreviewModal = ({
   const handleZoomOut = () => setZoom((prev) => Math.max(prev - 25, 50));
 
   const handlePrint = () => {
-    if (!pdfBlob) {
+    if (!pdfBlob || !pdfUrl) {
       toast({
         title: "Impression impossible",
         description: "Le PDF n'est pas encore chargé.",
@@ -75,26 +74,43 @@ export const PdfPreviewModal = ({
     setIsPrinting(true);
 
     try {
-      // Solution anti-popup : utiliser l'iframe intégrée pour imprimer (zéro popup)
-      if (iframeRef.current?.contentWindow) {
-        iframeRef.current.contentWindow.focus();
-        iframeRef.current.contentWindow.print();
+      // Ouvrir le PDF dans un nouvel onglet pour impression
+      // C'est synchrone donc pas bloqué par popup blocker
+      const printWindow = window.open(pdfUrl, '_blank');
+      if (printWindow) {
+        // Attendre que le PDF soit chargé puis lancer l'impression
+        printWindow.onload = () => {
+          setTimeout(() => {
+            try {
+              printWindow.focus();
+              printWindow.print();
+            } catch {
+              // L'utilisateur peut imprimer manuellement depuis l'onglet
+            }
+          }, 500);
+        };
         toast({
           title: "Impression lancée",
-          description: "La boîte de dialogue d'impression devrait s'ouvrir.",
+          description: "Le PDF s'ouvre dans un nouvel onglet pour impression.",
         });
       } else {
+        // Fallback : télécharger le PDF
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
         toast({
-          title: "Impression impossible",
-          description: "L'aperçu n'est pas prêt. Veuillez télécharger le PDF et l'imprimer manuellement.",
-          variant: "destructive",
+          title: "PDF téléchargé",
+          description: "Ouvrez le fichier téléchargé pour l'imprimer.",
         });
       }
     } catch (error) {
       console.error('Erreur impression:', error);
       toast({
         title: "Erreur d'impression",
-        description: "Impossible de lancer l'impression. Téléchargez le PDF et imprimez-le manuellement.",
+        description: "Téléchargez le PDF et imprimez-le manuellement.",
         variant: "destructive",
       });
     } finally {
@@ -245,9 +261,10 @@ export const PdfPreviewModal = ({
               className="flex justify-center"
               style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }}
             >
-              <iframe
-                ref={iframeRef}
-                src={`${pdfUrl}#toolbar=0&navpanes=0`}
+              {/* Utiliser embed pour meilleure compatibilité PDF */}
+              <embed
+                src={pdfUrl}
+                type="application/pdf"
                 className="w-full max-w-[210mm] bg-white shadow-xl rounded-sm border"
                 style={{ 
                   height: type === '1page' ? '297mm' : 'calc(297mm * 4)',
