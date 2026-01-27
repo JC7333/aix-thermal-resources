@@ -38,6 +38,7 @@ export const PdfDownloadButtons = ({
   const [previewType, setPreviewType] = useState<'1page' | '4pages'>('1page');
   const [previewBlob, setPreviewBlob] = useState<Blob | null>(null);
   const [previewFromCache, setPreviewFromCache] = useState(false);
+  const [generationTime, setGenerationTime] = useState<number | null>(null);
   const { toast } = useToast();
 
   const hasEvidence = hasEvidenceData(slug);
@@ -58,15 +59,22 @@ export const PdfDownloadButtons = ({
     setPreviewOpen(true);
     setPreviewBlob(null);
     setPreviewFromCache(false);
+    setGenerationTime(null);
+
+    const startTime = performance.now();
 
     try {
       const result = type === '1page' 
         ? await generatePdf1PageBySlug(slug)
         : await generatePdf4PagesBySlug(slug);
       
+      const endTime = performance.now();
+      const elapsed = Math.round(endTime - startTime);
+      
       if (result) {
         setPreviewBlob(result.blob);
         setPreviewFromCache(result.fromCache);
+        setGenerationTime(elapsed);
       } else {
         throw new Error('Génération échouée');
       }
@@ -158,18 +166,25 @@ export const PdfDownloadButtons = ({
     setLoading(previewType);
     setPreviewBlob(null);
     setPreviewFromCache(false);
+    setGenerationTime(null);
+
+    const startTime = performance.now();
 
     try {
       const result = previewType === '1page' 
         ? await generatePdf1PageBySlug(slug)
         : await generatePdf4PagesBySlug(slug);
       
+      const endTime = performance.now();
+      const elapsed = Math.round(endTime - startTime);
+      
       if (result) {
         setPreviewBlob(result.blob);
         setPreviewFromCache(result.fromCache);
+        setGenerationTime(elapsed);
         toast({
           title: "PDF régénéré",
-          description: "Le document a été mis à jour avec les dernières données.",
+          description: `Document mis à jour en ${elapsed}ms.`,
         });
       } else {
         throw new Error('Régénération échouée');
@@ -241,6 +256,7 @@ export const PdfDownloadButtons = ({
           onDownload={handleDownloadFromPreview}
           fromCache={previewFromCache}
           onRegenerate={handleRegenerate}
+          generationTime={generationTime}
         />
       </>
     );
@@ -307,6 +323,7 @@ export const PdfDownloadButtons = ({
           onDownload={handleDownloadFromPreview}
           fromCache={previewFromCache}
           onRegenerate={handleRegenerate}
+          generationTime={generationTime}
         />
       </>
     );
@@ -357,6 +374,7 @@ export const PdfDownloadButtons = ({
         onDownload={handleDownloadFromPreview}
         fromCache={previewFromCache}
         onRegenerate={handleRegenerate}
+        generationTime={generationTime}
       />
     </>
   );

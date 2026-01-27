@@ -21,7 +21,8 @@ interface PdfPreviewModalProps {
   isLoading: boolean;
   onDownload: () => void;
   fromCache?: boolean;
-  onRegenerate?: () => void; // Nouveau: callback pour régénérer
+  onRegenerate?: () => void;
+  generationTime?: number | null; // Temps de génération en ms
 }
 
 export const PdfPreviewModal = ({
@@ -34,6 +35,7 @@ export const PdfPreviewModal = ({
   onDownload,
   fromCache = false,
   onRegenerate,
+  generationTime,
 }: PdfPreviewModalProps) => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [zoom, setZoom] = useState(100);
@@ -126,29 +128,45 @@ export const PdfPreviewModal = ({
               <DialogTitle className="text-lg font-serif">
                 Aperçu — {type === '1page' ? 'Fiche 1 page' : 'Guide 4 pages'}
               </DialogTitle>
-              {/* Badge indicateur cache avec animation */}
+              {/* Badge indicateur cache avec temps de génération */}
               {pdfBlob && !isLoading && (
-                <Badge 
-                  key={fromCache ? 'cache' : 'generated'}
-                  variant={fromCache ? "secondary" : "outline"} 
-                  className={`text-xs gap-1 animate-scale-in transition-all duration-300 ${
-                    fromCache 
-                      ? 'bg-secondary/20 text-secondary border-secondary/30' 
-                      : 'bg-accent/20 text-accent-foreground border-accent/30'
-                  }`}
-                >
-                  {fromCache ? (
-                    <>
-                      <Zap className="w-3 h-3" />
-                      Cache
-                    </>
-                  ) : (
-                    <>
-                      <RefreshCw className="w-3 h-3 animate-spin" style={{ animationDuration: '1s', animationIterationCount: 1 }} />
-                      Généré
-                    </>
+                <div className="flex items-center gap-2 animate-scale-in">
+                  <Badge 
+                    key={fromCache ? 'cache' : 'generated'}
+                    variant={fromCache ? "secondary" : "outline"} 
+                    className={`text-xs gap-1 transition-all duration-300 ${
+                      fromCache 
+                        ? 'bg-secondary/20 text-secondary border-secondary/30' 
+                        : 'bg-accent/20 text-accent-foreground border-accent/30'
+                    }`}
+                  >
+                    {fromCache ? (
+                      <>
+                        <Zap className="w-3 h-3" />
+                        Cache
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw className="w-3 h-3" />
+                        Généré
+                      </>
+                    )}
+                  </Badge>
+                  {/* Temps de génération */}
+                  {generationTime !== null && generationTime !== undefined && (
+                    <span className={`text-xs font-mono ${
+                      fromCache ? 'text-secondary' : 'text-muted-foreground'
+                    }`}>
+                      {generationTime < 1000 
+                        ? `${generationTime}ms` 
+                        : `${(generationTime / 1000).toFixed(1)}s`
+                      }
+                      {fromCache && generationTime < 50 && (
+                        <span className="ml-1 text-secondary">⚡</span>
+                      )}
+                    </span>
                   )}
-                </Badge>
+                </div>
               )}
             </div>
             <div className="flex items-center gap-2">
