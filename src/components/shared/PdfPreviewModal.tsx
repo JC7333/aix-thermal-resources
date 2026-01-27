@@ -1,13 +1,14 @@
 // ============================================
 // MODALE PRÉVISUALISATION PDF — COOLANCE
 // ============================================
-// Affiche un aperçu du PDF avant téléchargement
+// Affiche un aperçu du PDF avant téléchargement ou impression
 // ============================================
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Download, X, Loader2, FileText, Book, ZoomIn, ZoomOut } from 'lucide-react';
+import { Download, X, Loader2, FileText, Book, ZoomIn, ZoomOut, Printer } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface PdfPreviewModalProps {
   isOpen: boolean;
@@ -30,6 +31,9 @@ export const PdfPreviewModal = ({
 }: PdfPreviewModalProps) => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [zoom, setZoom] = useState(100);
+  const [isPrinting, setIsPrinting] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (pdfBlob) {
@@ -40,8 +44,66 @@ export const PdfPreviewModal = ({
     return () => {};
   }, [pdfBlob]);
 
+  // Reset zoom when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setZoom(100);
+    }
+  }, [isOpen]);
+
   const handleZoomIn = () => setZoom((prev) => Math.min(prev + 25, 200));
   const handleZoomOut = () => setZoom((prev) => Math.max(prev - 25, 50));
+
+  const handlePrint = async () => {
+    if (!pdfUrl || !pdfBlob) {
+      toast({
+        title: "Impression impossible",
+        description: "Le PDF n'est pas encore chargé.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsPrinting(true);
+
+    try {
+      // Créer une nouvelle fenêtre pour l'impression
+      const printWindow = window.open(pdfUrl, '_blank');
+      
+      if (printWindow) {
+        printWindow.addEventListener('load', () => {
+          setTimeout(() => {
+            printWindow.print();
+            setIsPrinting(false);
+          }, 500);
+        });
+        
+        // Fallback si l'événement load ne se déclenche pas
+        setTimeout(() => {
+          setIsPrinting(false);
+        }, 3000);
+      } else {
+        // Fallback : utiliser l'iframe
+        if (iframeRef.current?.contentWindow) {
+          iframeRef.current.contentWindow.print();
+        }
+        setIsPrinting(false);
+      }
+
+      toast({
+        title: "Impression lancée",
+        description: "La boîte de dialogue d'impression devrait s'ouvrir.",
+      });
+    } catch (error) {
+      console.error('Erreur impression:', error);
+      toast({
+        title: "Erreur d'impression",
+        description: "Impossible de lancer l'impression. Téléchargez le PDF et imprimez-le manuellement.",
+        variant: "destructive",
+      });
+      setIsPrinting(false);
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -98,6 +160,7 @@ export const PdfPreviewModal = ({
               style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }}
             >
               <iframe
+                ref={iframeRef}
                 src={`${pdfUrl}#toolbar=0&navpanes=0`}
                 className="w-full max-w-[210mm] bg-white shadow-xl rounded-sm border"
                 style={{ 
@@ -121,14 +184,29 @@ export const PdfPreviewModal = ({
             <X className="w-4 h-4" />
             Fermer
           </Button>
-          <Button 
-            onClick={onDownload} 
-            disabled={!pdfBlob || isLoading}
-            className="gap-2"
-          >
-            <Download className="w-4 h-4" />
-            Télécharger {filename}
-          </Button>
+          <div className="flex gap-2">
+            <Button 
+              variant="outline"
+              onClick={handlePrint} 
+              disabled={!pdfBlob || isLoading || isPrinting}
+              className="gap-2"
+            >
+              {isPrinting ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Printer className="w-4 h-4" />
+              )}
+              Imprimer
+            </Button>
+            <Button 
+              onClick={onDownload} 
+              disabled={!pdfBlob || isLoading}
+              className="gap-2"
+            >
+              <Download className="w-4 h-4" />
+              Télécharger
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
