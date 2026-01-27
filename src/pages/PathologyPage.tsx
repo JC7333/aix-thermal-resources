@@ -14,6 +14,7 @@ import { getEvidenceBySlug, getAllEvidence, hasPrograms } from '@/data/evidence'
 import { usePdfPreload } from '@/hooks/usePdfPreload';
 import { useProgramProgress } from '@/hooks/useProgramProgress';
 import { useToast } from '@/hooks/use-toast';
+import { useSeniorMode } from '@/hooks/useSeniorMode';
 
 // Niveau de preuve → badge couleur
 const evidenceBadge = (level: string) => {
@@ -36,6 +37,7 @@ const PathologyPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [selectedLevel, setSelectedLevel] = useState<0 | 1 | 2>(0);
   const { toast } = useToast();
+  const { seniorMode, titleClass, subtitleClass, textClass, smallTextClass, buttonSize, iconSize, iconSizeLg, cardClass, cardPadding, badgeClass } = useSeniorMode();
   
   // Données evidence-based (source unique)
   const evidence = slug ? getEvidenceBySlug(slug) : undefined;
@@ -166,31 +168,31 @@ const PathologyPage = () => {
         </div>
 
         {/* Header */}
-        <header className="mb-8 lg:mb-10 print:mb-4">
+        <header className={seniorMode ? 'mb-10 lg:mb-14 print:mb-4' : 'mb-8 lg:mb-10 print:mb-4'}>
           <div className="flex flex-wrap items-center gap-3 mb-4 no-print">
-            <span className="px-3 py-1 text-sm font-medium rounded-full bg-primary/10 text-primary">
+            <span className={`font-medium rounded-full bg-primary/10 text-primary ${badgeClass}`}>
               {categoryLabels[evidence.category]}
             </span>
-            <span className="px-3 py-1 text-sm font-medium rounded-full bg-green-100 text-green-700 flex items-center gap-1">
-              <Shield className="w-3 h-3" />
+            <span className={`font-medium rounded-full bg-green-100 text-green-700 flex items-center gap-1 ${badgeClass}`}>
+              <Shield className={seniorMode ? 'w-4 h-4' : 'w-3 h-3'} />
               Evidence-based
             </span>
-            <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <Clock className="w-4 h-4" />
+            <span className={`flex items-center gap-1.5 text-muted-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>
+              <Clock className={iconSize} />
               {evidence.readingTime} min
             </span>
           </div>
 
           <div className="flex items-start gap-4 mb-4">
-            <span className="text-4xl">{evidence.icon}</span>
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground print:text-2xl">
+            <span className={seniorMode ? 'text-5xl' : 'text-4xl'}>{evidence.icon}</span>
+            <h1 className={`${titleClass} print:text-2xl`}>
               {evidence.name}
             </h1>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 mt-6 no-print">
-            <Button onClick={handlePrint} variant="pdf" size="lg">
-              <Printer className="w-5 h-5" />
+          <div className={`flex flex-wrap items-center gap-3 no-print ${seniorMode ? 'mt-8' : 'mt-6'}`}>
+            <Button onClick={handlePrint} variant="pdf" size={buttonSize}>
+              <Printer className={iconSize} />
               Imprimer cette fiche
             </Button>
             {slug && (
@@ -214,12 +216,12 @@ const PathologyPage = () => {
         </div>
 
         {/* Onglets Informations / Programme */}
-        <Tabs defaultValue="informations" className="no-print mb-8">
-          <TabsList className="grid w-full max-w-md grid-cols-2 mb-8">
-            <TabsTrigger value="informations" className="text-sm">
+        <Tabs defaultValue="informations" className={seniorMode ? 'no-print mb-10' : 'no-print mb-8'}>
+          <TabsList className={`grid w-full max-w-md grid-cols-2 ${seniorMode ? 'mb-10 h-14' : 'mb-8'}`}>
+            <TabsTrigger value="informations" className={seniorMode ? 'text-lg py-3' : 'text-sm'}>
               📋 Informations
             </TabsTrigger>
-            <TabsTrigger value="programme" className="text-sm" disabled={!hasProgramsAvailable}>
+            <TabsTrigger value="programme" className={seniorMode ? 'text-lg py-3' : 'text-sm'} disabled={!hasProgramsAvailable}>
               🎯 Programme
               {!hasProgramsAvailable && <span className="ml-1 text-xs opacity-50">(bientôt)</span>}
             </TabsTrigger>
@@ -227,20 +229,20 @@ const PathologyPage = () => {
 
           {/* Onglet Informations */}
           <TabsContent value="informations">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+            <div className={seniorMode ? 'grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-14' : 'grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12'}>
               {/* Main Content */}
-              <div className="lg:col-span-2 space-y-10">
+              <div className={seniorMode ? 'lg:col-span-2 space-y-12' : 'lg:col-span-2 space-y-10'}>
                 
                 {/* Section 1: Résumé 2 minutes */}
                 <section id="resume">
-                  <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3">
-                    <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-lg">
+                  <h2 className={`${subtitleClass} text-foreground mb-4 flex items-center gap-3`}>
+                    <span className={`rounded-lg bg-primary/10 flex items-center justify-center text-primary ${seniorMode ? 'w-12 h-12 text-xl' : 'w-10 h-10 text-lg'}`}>
                       ⏱️
                     </span>
                     En 2 minutes
                   </h2>
-                  <div className="bg-primary/5 border border-primary/20 rounded-xl p-6">
-                    <p className="text-foreground leading-relaxed whitespace-pre-line">
+                  <div className={`bg-primary/5 border border-primary/20 rounded-xl ${seniorMode ? 'p-8' : 'p-6'}`}>
+                    <p className={`${textClass} text-foreground leading-relaxed whitespace-pre-line`}>
                       {evidence.summary}
                     </p>
                   </div>
@@ -249,24 +251,24 @@ const PathologyPage = () => {
                 {/* Section 2: Recommandations Evidence-Based */}
                 {evidence.recommendations.length > 0 && (
                   <section id="recommandations">
-                    <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
-                      <span className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center text-green-700 text-lg">
-                        <Award className="w-5 h-5" />
+                    <h2 className={`${subtitleClass} text-foreground mb-6 flex items-center gap-3`}>
+                      <span className={`rounded-lg bg-green-100 flex items-center justify-center text-green-700 ${seniorMode ? 'w-12 h-12' : 'w-10 h-10 text-lg'}`}>
+                        <Award className={iconSizeLg} />
                       </span>
                       Ce qui aide vraiment (non médicamenteux)
                     </h2>
                     
-                    <div className="space-y-3">
+                    <div className={seniorMode ? 'space-y-4' : 'space-y-3'}>
                       {evidence.recommendations.map((rec, index) => (
-                        <div key={index} className="flex items-start gap-4 bg-card border border-border rounded-xl p-4">
-                          <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold text-sm shrink-0">
+                        <div key={index} className={`flex items-start gap-4 bg-card border border-border rounded-xl ${seniorMode ? 'p-5' : 'p-4'}`}>
+                          <div className={`rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold shrink-0 ${seniorMode ? 'w-10 h-10 text-base' : 'w-8 h-8 text-sm'}`}>
                             {index + 1}
                           </div>
                           <div className="flex-1">
-                            <p className="text-foreground mb-2">
+                            <p className={`${textClass} text-foreground mb-2`}>
                               {rec.text}
                             </p>
-                            <span className={`inline-block px-2 py-0.5 text-xs rounded-full border ${evidenceBadge(rec.evidence)}`}>
+                            <span className={`inline-block rounded-full border ${evidenceBadge(rec.evidence)} ${badgeClass}`}>
                               {rec.evidence}
                             </span>
                           </div>
@@ -279,22 +281,22 @@ const PathologyPage = () => {
                 {/* Section 3: Red Flags (mobile) */}
                 {evidence.red_flags.length > 0 && (
                   <section id="red-flags" className="lg:hidden">
-                    <h2 className="font-serif text-2xl font-bold text-destructive mb-4 flex items-center gap-3">
-                      <span className="w-10 h-10 rounded-lg bg-destructive/10 flex items-center justify-center text-destructive text-lg">
-                        <AlertTriangle className="w-5 h-5" />
+                    <h2 className={`${subtitleClass} text-destructive mb-4 flex items-center gap-3`}>
+                      <span className={`rounded-lg bg-destructive/10 flex items-center justify-center text-destructive ${seniorMode ? 'w-12 h-12' : 'w-10 h-10 text-lg'}`}>
+                        <AlertTriangle className={iconSizeLg} />
                       </span>
                       Quand consulter rapidement
                     </h2>
-                    <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-6">
-                      <ul className="space-y-2">
+                    <div className={`bg-destructive/5 border border-destructive/20 rounded-xl ${seniorMode ? 'p-8' : 'p-6'}`}>
+                      <ul className={seniorMode ? 'space-y-3' : 'space-y-2'}>
                         {evidence.red_flags.map((alert, index) => (
-                          <li key={index} className="flex items-start gap-2 text-sm text-destructive">
+                          <li key={index} className={`flex items-start gap-2 text-destructive ${seniorMode ? 'text-lg' : 'text-sm'}`}>
                             <span className="font-bold">⚠️</span>
                             {alert}
                           </li>
                         ))}
                       </ul>
-                      <p className="mt-4 text-xs text-muted-foreground">
+                      <p className={`mt-4 text-muted-foreground ${smallTextClass}`}>
                         Ces signes nécessitent un avis médical rapide. En cas d'urgence : 15 / 112.
                       </p>
                     </div>
@@ -304,18 +306,18 @@ const PathologyPage = () => {
                 {/* Section 4: Sources (mobile) */}
                 {evidence.sources.length > 0 && (
                   <section id="sources" className="lg:hidden">
-                    <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3">
-                      <span className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-primary text-lg">
-                        <BookOpen className="w-5 h-5" />
+                    <h2 className={`${subtitleClass} text-foreground mb-4 flex items-center gap-3`}>
+                      <span className={`rounded-lg bg-muted flex items-center justify-center text-primary ${seniorMode ? 'w-12 h-12' : 'w-10 h-10 text-lg'}`}>
+                        <BookOpen className={iconSizeLg} />
                       </span>
                       Sources scientifiques
                     </h2>
-                    <div className="bg-muted/50 border border-border rounded-xl p-6">
-                      <ul className="space-y-3">
+                    <div className={`bg-muted/50 border border-border rounded-xl ${seniorMode ? 'p-8' : 'p-6'}`}>
+                      <ul className={seniorMode ? 'space-y-4' : 'space-y-3'}>
                         {evidence.sources.map((source, index) => (
-                          <li key={index} className="text-sm">
+                          <li key={index} className={seniorMode ? 'text-base' : 'text-sm'}>
                             <div className="font-medium text-foreground">{source.title}</div>
-                            <div className="text-xs text-muted-foreground flex items-center justify-between flex-wrap gap-2">
+                            <div className={`text-muted-foreground flex items-center justify-between flex-wrap gap-2 ${smallTextClass}`}>
                               <span>{source.org}, {source.year}</span>
                               {source.url && (
                                 <a 
@@ -324,7 +326,7 @@ const PathologyPage = () => {
                                   rel="noopener noreferrer"
                                   className="text-primary hover:underline flex items-center gap-1"
                                 >
-                                  Lire <ExternalLink className="w-3 h-3" />
+                                  Lire <ExternalLink className={seniorMode ? 'w-4 h-4' : 'w-3 h-3'} />
                                 </a>
                               )}
                             </div>
@@ -336,30 +338,30 @@ const PathologyPage = () => {
                 )}
 
                 {/* Date de mise à jour */}
-                <div className="flex items-center gap-2 text-sm text-muted-foreground pt-4 border-t border-border">
-                  <Calendar className="w-4 h-4" />
+                <div className={`flex items-center gap-2 text-muted-foreground pt-4 border-t border-border ${smallTextClass}`}>
+                  <Calendar className={iconSize} />
                   <span>Dernière mise à jour : {evidence.lastUpdated}</span>
                 </div>
               </div>
 
               {/* Sidebar */}
-              <aside className="space-y-6">
+              <aside className={seniorMode ? 'space-y-8' : 'space-y-6'}>
                 {/* Red Flags (desktop sidebar) */}
                 {evidence.red_flags.length > 0 && (
-                  <div className="card-medical bg-destructive/5 border-destructive/20 hidden lg:block">
-                    <h3 className="font-serif text-lg font-bold text-destructive mb-4 flex items-center gap-2">
-                      <AlertTriangle className="w-5 h-5" />
+                  <div className={`${cardClass} bg-destructive/5 border-destructive/20 hidden lg:block ${cardPadding}`}>
+                    <h3 className={`font-serif font-bold text-destructive mb-4 flex items-center gap-2 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
+                      <AlertTriangle className={iconSize} />
                       Quand consulter rapidement
                     </h3>
-                    <ul className="space-y-2">
+                    <ul className={seniorMode ? 'space-y-3' : 'space-y-2'}>
                       {evidence.red_flags.map((alert, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm text-destructive">
+                        <li key={index} className={`flex items-start gap-2 text-destructive ${seniorMode ? 'text-base' : 'text-sm'}`}>
                           <span className="font-bold">⚠️</span>
                           {alert}
                         </li>
                       ))}
                     </ul>
-                    <p className="mt-4 text-xs text-muted-foreground">
+                    <p className={`mt-4 text-muted-foreground ${smallTextClass}`}>
                       Ces signes nécessitent un avis médical rapide. En cas d'urgence : 15 / 112.
                     </p>
                   </div>
@@ -367,16 +369,16 @@ const PathologyPage = () => {
 
                 {/* Sources (desktop sidebar) */}
                 {evidence.sources.length > 0 && (
-                  <div className="card-medical bg-muted/50 hidden lg:block">
-                    <h3 className="font-serif text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                      <BookOpen className="w-5 h-5 text-primary" />
+                  <div className={`${cardClass} bg-muted/50 hidden lg:block ${cardPadding}`}>
+                    <h3 className={`font-serif font-bold text-foreground mb-4 flex items-center gap-2 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
+                      <BookOpen className={`${iconSize} text-primary`} />
                       Sources scientifiques
                     </h3>
-                    <ul className="space-y-3">
+                    <ul className={seniorMode ? 'space-y-4' : 'space-y-3'}>
                       {evidence.sources.map((source, index) => (
-                        <li key={index} className="text-sm">
+                        <li key={index} className={seniorMode ? 'text-base' : 'text-sm'}>
                           <div className="font-medium text-foreground">{source.title}</div>
-                          <div className="text-xs text-muted-foreground flex items-center justify-between">
+                          <div className={`text-muted-foreground flex items-center justify-between ${smallTextClass}`}>
                             <span>{source.org}, {source.year}</span>
                             {source.url && (
                               <a 
@@ -385,14 +387,14 @@ const PathologyPage = () => {
                                 rel="noopener noreferrer"
                                 className="text-primary hover:underline flex items-center gap-1"
                               >
-                                Lire <ExternalLink className="w-3 h-3" />
+                                Lire <ExternalLink className={seniorMode ? 'w-4 h-4' : 'w-3 h-3'} />
                               </a>
                             )}
                           </div>
                         </li>
                       ))}
                     </ul>
-                    <p className="mt-4 text-xs text-muted-foreground">
+                    <p className={`mt-4 text-muted-foreground ${smallTextClass}`}>
                       Dernière mise à jour : {evidence.lastUpdated}
                     </p>
                   </div>
@@ -407,11 +409,11 @@ const PathologyPage = () => {
                 <MedicalDisclaimer variant="compact" />
 
                 {/* Navigation rapide */}
-                <div className="card-medical">
-                  <h3 className="font-serif text-lg font-bold text-foreground mb-4">
+                <div className={`${cardClass} ${cardPadding}`}>
+                  <h3 className={`font-serif font-bold text-foreground mb-4 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
                     Sur cette page
                   </h3>
-                  <nav className="space-y-2 text-sm">
+                  <nav className={`space-y-2 ${seniorMode ? 'text-base' : 'text-sm'}`}>
                     <a href="#resume" className="block text-muted-foreground hover:text-primary transition-colors">
                       → En 2 minutes
                     </a>
@@ -429,25 +431,25 @@ const PathologyPage = () => {
 
                 {/* Autres pathologies */}
                 {relatedPathologies.length > 0 && (
-                  <div className="card-medical">
-                    <h3 className="font-serif text-lg font-bold text-foreground mb-4">
+                  <div className={`${cardClass} ${cardPadding}`}>
+                    <h3 className={`font-serif font-bold text-foreground mb-4 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
                       Voir aussi
                     </h3>
-                    <div className="space-y-2">
+                    <div className={seniorMode ? 'space-y-3' : 'space-y-2'}>
                       {relatedPathologies.map((related) => (
                         <Link 
                           key={related.slug}
                           to={`/pathologies/${related.slug}`} 
-                          className="flex items-center gap-2 text-sm text-primary hover:underline"
+                          className={`flex items-center gap-2 text-primary hover:underline ${seniorMode ? 'text-base' : 'text-sm'}`}
                         >
                           <span>{related.icon}</span>
                           {related.name}
-                          <ChevronRight className="w-3 h-3" />
+                          <ChevronRight className={seniorMode ? 'w-4 h-4' : 'w-3 h-3'} />
                         </Link>
                       ))}
                       <Link 
                         to="/pathologies" 
-                        className="block text-sm text-muted-foreground hover:text-primary mt-3 pt-2 border-t border-border"
+                        className={`block text-muted-foreground hover:text-primary mt-3 pt-2 border-t border-border ${seniorMode ? 'text-base' : 'text-sm'}`}
                       >
                         → Toutes les pathologies
                       </Link>
@@ -460,29 +462,29 @@ const PathologyPage = () => {
 
           {/* Onglet Programme */}
           <TabsContent value="programme">
-            <div className="space-y-8">
+            <div className={seniorMode ? 'space-y-10' : 'space-y-8'}>
               {/* Sélecteur de niveau */}
               {sortedLevels.length > 1 && (
-                <div className="bg-muted/50 rounded-xl p-6 border border-border">
-                  <h3 className="font-serif text-lg font-bold text-foreground mb-4">
+                <div className={`bg-muted/50 rounded-xl border border-border ${seniorMode ? 'p-8' : 'p-6'}`}>
+                  <h3 className={`font-serif font-bold text-foreground mb-4 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
                     Choisissez votre niveau
                   </h3>
-                  <div className="flex flex-wrap gap-2">
+                  <div className={seniorMode ? 'flex flex-wrap gap-3' : 'flex flex-wrap gap-2'}>
                     {sortedLevels.map((level) => (
                       <button
                         key={level}
                         onClick={() => setSelectedLevel(level)}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        className={`rounded-lg font-medium transition-colors ${
                           selectedLevel === level
                             ? 'bg-primary text-primary-foreground'
                             : 'bg-background border border-border hover:border-primary/50'
-                        }`}
+                        } ${seniorMode ? 'px-6 py-3 text-lg' : 'px-4 py-2 text-sm'}`}
                       >
                         {levelLabels[level]}
                       </button>
                     ))}
                   </div>
-                  <p className="text-xs text-muted-foreground mt-3">
+                  <p className={`text-muted-foreground mt-3 ${smallTextClass}`}>
                     {selectedLevel === 0 && "Pour les personnes très limitées, en poussée, ou qui reprennent après une longue pause."}
                     {selectedLevel === 1 && "Pour une progression douce et régulière, sans forcer."}
                     {selectedLevel === 2 && "Pour les personnes actives qui veulent maintenir leur forme."}
@@ -493,34 +495,34 @@ const PathologyPage = () => {
               {/* Plan 7 jours */}
               {selectedSevenDayPlan && (
                 <section>
-                  <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                    <h2 className="font-serif text-2xl font-bold text-foreground flex items-center gap-3">
-                      <span className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary text-lg">
-                        <Calendar className="w-5 h-5" />
+                  <div className={`flex flex-wrap items-center justify-between gap-4 ${seniorMode ? 'mb-8' : 'mb-6'}`}>
+                    <h2 className={`${subtitleClass} text-foreground flex items-center gap-3`}>
+                      <span className={`rounded-lg bg-secondary/20 flex items-center justify-center text-secondary ${seniorMode ? 'w-12 h-12' : 'w-10 h-10 text-lg'}`}>
+                        <Calendar className={iconSizeLg} />
                       </span>
                       Plan 7 jours — {selectedSevenDayPlan.levelName}
                     </h2>
                     {progressPercent > 0 && (
                       <Button
                         variant="ghost"
-                        size="sm"
+                        size={seniorMode ? 'default' : 'sm'}
                         onClick={resetProgress}
                         className="text-muted-foreground hover:text-destructive"
                       >
-                        <RotateCcw className="w-4 h-4 mr-1" />
-                        Réinitialiser
+                        <RotateCcw className={iconSize} />
+                        <span className="ml-1">Réinitialiser</span>
                       </Button>
                     )}
                   </div>
 
                   {/* Barre de progression globale */}
-                  <div className="bg-muted/50 rounded-xl p-4 mb-6 border border-border">
+                  <div className={`bg-muted/50 rounded-xl border border-border ${seniorMode ? 'p-6 mb-8' : 'p-4 mb-6'}`}>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-foreground">Votre progression</span>
-                      <span className="text-sm font-bold text-primary">{progressPercent}%</span>
+                      <span className={`font-medium text-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>Votre progression</span>
+                      <span className={`font-bold text-primary ${seniorMode ? 'text-lg' : 'text-sm'}`}>{progressPercent}%</span>
                     </div>
-                    <Progress value={progressPercent} className="h-3" />
-                    <p className="text-xs text-muted-foreground mt-2">
+                    <Progress value={progressPercent} className={seniorMode ? 'h-4' : 'h-3'} />
+                    <p className={`text-muted-foreground mt-2 ${smallTextClass}`}>
                       {progressPercent === 0 && "Cochez les actions au fur et à mesure pour suivre votre progression."}
                       {progressPercent > 0 && progressPercent < 50 && "Bon début ! Continuez à votre rythme."}
                       {progressPercent >= 50 && progressPercent < 100 && "Bravo ! Vous êtes sur la bonne voie."}
@@ -528,7 +530,7 @@ const PathologyPage = () => {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  <div className={seniorMode ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'}>
                     {selectedSevenDayPlan.days.map((day, dayIndex) => {
                       const completedCount = getDayCompletedCount(dayIndex, day.actions.length);
                       const isFullyCompleted = completedCount === day.actions.length;
@@ -536,28 +538,28 @@ const PathologyPage = () => {
                       return (
                         <div 
                           key={dayIndex} 
-                          className={`bg-card border rounded-xl p-4 transition-colors ${
+                          className={`bg-card border rounded-xl transition-colors ${
                             isFullyCompleted 
                               ? 'border-primary/50 bg-primary/5' 
                               : 'border-border'
-                          }`}
+                          } ${seniorMode ? 'p-6 border-2' : 'p-4'}`}
                         >
-                          <h4 className="font-semibold text-foreground mb-3 flex items-center justify-between">
+                          <h4 className={`font-semibold text-foreground flex items-center justify-between ${seniorMode ? 'mb-4 text-lg' : 'mb-3'}`}>
                             <span className="flex items-center gap-2">
-                              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                              <span className={`rounded-full flex items-center justify-center font-bold ${
                                 isFullyCompleted 
                                   ? 'bg-primary text-primary-foreground' 
                                   : 'bg-secondary/20 text-secondary'
-                              }`}>
+                              } ${seniorMode ? 'w-8 h-8 text-sm' : 'w-6 h-6 text-xs'}`}>
                                 {isFullyCompleted ? '✓' : dayIndex + 1}
                               </span>
                               {day.day}
                             </span>
-                            <span className="text-xs text-muted-foreground">
+                            <span className={`text-muted-foreground ${smallTextClass}`}>
                               {completedCount}/{day.actions.length}
                             </span>
                           </h4>
-                          <ul className="space-y-3">
+                          <ul className={seniorMode ? 'space-y-4' : 'space-y-3'}>
                             {day.actions.map((action, actionIndex) => {
                               const completed = isCompleted(dayIndex, actionIndex);
                               return (
@@ -569,15 +571,15 @@ const PathologyPage = () => {
                                     id={`action-${dayIndex}-${actionIndex}`}
                                     checked={completed}
                                     onCheckedChange={() => handleToggleAction(dayIndex, actionIndex, day.actions.length, day.day)}
-                                    className="mt-0.5 h-5 w-5"
+                                    className={seniorMode ? 'mt-0.5 h-6 w-6' : 'mt-0.5 h-5 w-5'}
                                   />
                                   <label 
                                     htmlFor={`action-${dayIndex}-${actionIndex}`}
-                                    className={`text-sm cursor-pointer select-none transition-colors ${
+                                    className={`cursor-pointer select-none transition-colors ${
                                       completed 
                                         ? 'text-muted-foreground line-through' 
                                         : 'text-foreground'
-                                    }`}
+                                    } ${seniorMode ? 'text-base' : 'text-sm'}`}
                                   >
                                     {action}
                                   </label>
@@ -595,34 +597,34 @@ const PathologyPage = () => {
               {/* Programme 8 semaines */}
               {selectedEightWeekProgram && (
                 <section>
-                  <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                    <h2 className="font-serif text-2xl font-bold text-foreground flex items-center gap-3">
-                      <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-lg">
-                        <Target className="w-5 h-5" />
+                  <div className={`flex flex-wrap items-center justify-between gap-4 ${seniorMode ? 'mb-8' : 'mb-6'}`}>
+                    <h2 className={`${subtitleClass} text-foreground flex items-center gap-3`}>
+                      <span className={`rounded-lg bg-primary/10 flex items-center justify-center text-primary ${seniorMode ? 'w-12 h-12' : 'w-10 h-10 text-lg'}`}>
+                        <Target className={iconSizeLg} />
                       </span>
                       Programme 8 semaines — {selectedEightWeekProgram.levelName}
                     </h2>
                     {weeklyProgressPercent > 0 && (
                       <Button
                         variant="ghost"
-                        size="sm"
+                        size={seniorMode ? 'default' : 'sm'}
                         onClick={resetWeeklyProgress}
                         className="text-muted-foreground hover:text-destructive"
                       >
-                        <RotateCcw className="w-4 h-4 mr-1" />
-                        Réinitialiser
+                        <RotateCcw className={iconSize} />
+                        <span className="ml-1">Réinitialiser</span>
                       </Button>
                     )}
                   </div>
 
                   {/* Barre de progression globale 8 semaines */}
-                  <div className="bg-primary/5 rounded-xl p-4 mb-6 border border-primary/20">
+                  <div className={`bg-primary/5 rounded-xl border border-primary/20 ${seniorMode ? 'p-6 mb-8' : 'p-4 mb-6'}`}>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-foreground">Progression du programme</span>
-                      <span className="text-sm font-bold text-primary">{weeklyProgressPercent}%</span>
+                      <span className={`font-medium text-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>Progression du programme</span>
+                      <span className={`font-bold text-primary ${seniorMode ? 'text-lg' : 'text-sm'}`}>{weeklyProgressPercent}%</span>
                     </div>
-                    <Progress value={weeklyProgressPercent} className="h-3" />
-                    <p className="text-xs text-muted-foreground mt-2">
+                    <Progress value={weeklyProgressPercent} className={seniorMode ? 'h-4' : 'h-3'} />
+                    <p className={`text-muted-foreground mt-2 ${smallTextClass}`}>
                       {weeklyProgressPercent === 0 && "Cochez les exercices réalisés chaque semaine."}
                       {weeklyProgressPercent > 0 && weeklyProgressPercent < 25 && "Bon démarrage ! La régularité est la clé."}
                       {weeklyProgressPercent >= 25 && weeklyProgressPercent < 50 && "Vous progressez bien, continuez !"}
@@ -632,7 +634,7 @@ const PathologyPage = () => {
                     </p>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className={seniorMode ? 'space-y-6' : 'space-y-4'}>
                     {selectedEightWeekProgram.weeks.map((week, weekIndex) => {
                       const completedCount = getWeekCompletedCount(weekIndex, week.exercises.length);
                       const isFullyCompleted = completedCount === week.exercises.length;
@@ -640,35 +642,35 @@ const PathologyPage = () => {
                       return (
                         <div 
                           key={weekIndex} 
-                          className={`bg-card border rounded-xl p-5 transition-colors ${
+                          className={`bg-card border rounded-xl transition-colors ${
                             isFullyCompleted 
                               ? 'border-primary/50 bg-primary/5' 
                               : 'border-border'
-                          }`}
+                          } ${seniorMode ? 'p-6 border-2' : 'p-5'}`}
                         >
-                          <div className="flex items-center justify-between mb-3">
+                          <div className={seniorMode ? 'flex items-center justify-between mb-4' : 'flex items-center justify-between mb-3'}>
                             <div className="flex items-center gap-3">
-                              <span className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
+                              <span className={`rounded-full flex items-center justify-center font-bold ${
                                 isFullyCompleted 
                                   ? 'bg-primary text-primary-foreground' 
                                   : 'bg-primary/10 text-primary'
-                              }`}>
+                              } ${seniorMode ? 'w-12 h-12 text-lg' : 'w-10 h-10'}`}>
                                 {isFullyCompleted ? '✓' : weekIndex + 1}
                               </span>
                               <div>
-                                <h4 className="font-semibold text-foreground">
+                                <h4 className={`font-semibold text-foreground ${seniorMode ? 'text-lg' : ''}`}>
                                   {week.week}
                                 </h4>
-                                <p className="text-sm text-primary font-medium">
+                                <p className={`text-primary font-medium ${seniorMode ? 'text-base' : 'text-sm'}`}>
                                   Focus : {week.focus}
                                 </p>
                               </div>
                             </div>
-                            <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-full">
+                            <span className={`text-muted-foreground bg-muted px-2 py-1 rounded-full ${smallTextClass}`}>
                               {completedCount}/{week.exercises.length}
                             </span>
                           </div>
-                          <ul className="ml-2 space-y-3">
+                          <ul className={`ml-2 ${seniorMode ? 'space-y-4' : 'space-y-3'}`}>
                             {week.exercises.map((exercise, exIndex) => {
                               const completed = isWeekExerciseCompleted(weekIndex, exIndex);
                               return (
@@ -677,15 +679,15 @@ const PathologyPage = () => {
                                     id={`week-${weekIndex}-ex-${exIndex}`}
                                     checked={completed}
                                     onCheckedChange={() => handleToggleWeekExercise(weekIndex, exIndex, week.exercises.length, week.week)}
-                                    className="mt-0.5 h-5 w-5"
+                                    className={seniorMode ? 'mt-0.5 h-6 w-6' : 'mt-0.5 h-5 w-5'}
                                   />
                                   <label 
                                     htmlFor={`week-${weekIndex}-ex-${exIndex}`}
-                                    className={`text-sm cursor-pointer select-none transition-colors ${
+                                    className={`cursor-pointer select-none transition-colors ${
                                       completed 
                                         ? 'text-muted-foreground line-through' 
                                         : 'text-foreground'
-                                    }`}
+                                    } ${seniorMode ? 'text-base' : 'text-sm'}`}
                                   >
                                     {exercise}
                                   </label>
@@ -702,11 +704,11 @@ const PathologyPage = () => {
 
               {/* CTA PDF */}
               {slug && (
-                <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 text-center">
-                  <h3 className="font-serif text-lg font-bold text-foreground mb-2">
+                <div className={`bg-primary/5 border border-primary/20 rounded-xl text-center ${seniorMode ? 'p-8' : 'p-6'}`}>
+                  <h3 className={`font-serif font-bold text-foreground mb-2 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
                     📄 Téléchargez votre programme
                   </h3>
-                  <p className="text-sm text-muted-foreground mb-4">
+                  <p className={`text-muted-foreground mb-4 ${smallTextClass}`}>
                     Imprimez votre programme pour le suivre facilement au quotidien.
                   </p>
                   <PdfDownloadButtons slug={slug} />

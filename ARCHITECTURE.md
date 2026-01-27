@@ -65,6 +65,7 @@ const {
 | Accueil | `/` | ✅ |
 | Ressources | `/ressources` | ✅ |
 | Pathologies | `/pathologies` | ✅ |
+| Pathologie détail | `/pathologies/:slug` | ✅ |
 | Guides | `/guides` | ✅ |
 | Parents | `/parents` | ✅ |
 | FAQ | `/faq` | ✅ |
@@ -74,7 +75,7 @@ const {
 | Parcours guidé | `/parcours` | ✅ |
 | Réponses rapides | `/reponses-rapides` | ✅ |
 
-**Couverture : 100%** — Toutes les pages principales sont synchronisées avec le Mode Senior.
+**Couverture : 100%** — Toutes les pages principales et pages de détail sont synchronisées avec le Mode Senior.
 
 ---
 
