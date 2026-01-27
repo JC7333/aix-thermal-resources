@@ -51,7 +51,26 @@ export const Header = () => {
           flex items-center justify-between gap-2 sm:gap-3
           ${seniorMode ? 'py-3 min-h-[68px]' : 'h-16 lg:h-18'}
         `}>
-          {/* Logo - Brand COOLANCE - taille réduite en senior mobile */}
+          {/* Menu Button - À GAUCHE */}
+          <button
+            className={`
+              flex items-center justify-center rounded-lg transition-colors
+              hover:bg-muted text-foreground
+              ${useHamburgerMenu ? 'flex' : 'lg:hidden flex'}
+              ${seniorMode ? 'h-10 w-10' : 'h-9 w-9'}
+            `}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-expanded={mobileMenuOpen}
+            aria-label="Menu de navigation"
+          >
+            {mobileMenuOpen ? (
+              <X className={seniorMode ? 'h-6 w-6' : 'h-5 w-5'} />
+            ) : (
+              <Menu className={seniorMode ? 'h-6 w-6' : 'h-5 w-5'} />
+            )}
+          </button>
+
+          {/* Logo - Brand COOLANCE */}
           <Link to="/" className="flex items-center shrink-0">
             <div className="flex flex-col">
               <span className={`
@@ -133,24 +152,6 @@ export const Header = () => {
               </span>
             </button>
 
-            {/* Menu Button - Always visible in Senior Mode, mobile only otherwise */}
-            <button
-              className={`
-                flex items-center justify-center rounded-lg transition-colors
-                hover:bg-muted text-foreground
-                ${useHamburgerMenu ? 'flex' : 'lg:hidden flex'}
-                ${seniorMode ? 'h-10 w-10' : 'h-9 w-9'}
-              `}
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-expanded={mobileMenuOpen}
-              aria-label="Menu de navigation"
-            >
-              {mobileMenuOpen ? (
-                <X className={seniorMode ? 'h-6 w-6' : 'h-5 w-5'} />
-              ) : (
-                <Menu className={seniorMode ? 'h-6 w-6' : 'h-5 w-5'} />
-              )}
-            </button>
           </div>
         </div>
 
