@@ -42,7 +42,7 @@ export const Header = () => {
 
         <div className={`
           flex items-center justify-between gap-3
-          ${seniorMode ? 'h-[72px] py-3' : 'h-18 lg:h-20'}
+          ${seniorMode ? 'flex-wrap gap-y-2 py-3 h-auto' : 'h-18 lg:h-20'}
         `}>
           {/* Logo - Brand COOLANCE */}
           <Link to="/" className="flex items-center gap-3 group shrink-0">
@@ -116,6 +116,7 @@ export const Header = () => {
                 ${useHamburgerMenu ? 'flex' : 'lg:hidden flex'}
                 ${seniorMode ? 'h-12 w-12' : 'h-10 w-10'}
               `}
+              data-icon-button="true"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-expanded={mobileMenuOpen}
               aria-label="Menu de navigation"
