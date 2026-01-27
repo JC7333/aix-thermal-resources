@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { toast } from 'sonner';
 
 const Contact = () => {
@@ -15,6 +16,7 @@ const Contact = () => {
     consent: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { seniorMode, titleClass, textClass, buttonSize, smallTextClass, iconSize, inputClass } = useSeniorMode();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,21 +47,21 @@ const Contact = () => {
         <Breadcrumb items={[{ label: 'Contact' }]} />
 
         <div className="max-w-xl mx-auto">
-          <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-3">
+          <h1 className={titleClass}>
             Contact
           </h1>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className={textClass + ` ${seniorMode ? 'mb-10' : 'mb-8'}`}>
             Une question sur le site ou les ressources ? Écrivez-moi.
           </p>
 
           {/* Warning */}
-          <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 mb-8 flex gap-3">
-            <AlertTriangle className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+          <div className={`bg-destructive/10 border border-destructive/20 rounded-xl flex gap-3 ${seniorMode ? 'p-6 mb-10' : 'p-4 mb-8'}`}>
+            <AlertTriangle className={`text-destructive shrink-0 mt-0.5 ${iconSize}`} />
             <div>
-              <p className="text-sm text-destructive font-medium">
+              <p className={`text-destructive font-medium ${seniorMode ? 'text-lg' : 'text-sm'}`}>
                 Important
               </p>
-              <p className="text-sm text-destructive/80 mt-1">
+              <p className={`text-destructive/80 mt-1 ${seniorMode ? 'text-base' : 'text-sm'}`}>
                 Ne pas envoyer d'informations médicales personnelles via ce formulaire. 
                 Pour toute question médicale, consultez un professionnel de santé.
               </p>
@@ -67,9 +69,9 @@ const Contact = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className={seniorMode ? 'space-y-8' : 'space-y-6'}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+              <label htmlFor="email" className={`block font-medium text-foreground ${seniorMode ? 'text-lg mb-3' : 'text-sm mb-2'}`}>
                 Votre email *
               </label>
               <Input
@@ -79,26 +81,26 @@ const Contact = () => {
                 maxLength={255}
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="h-12"
+                className={inputClass}
                 placeholder="exemple@email.com"
               />
             </div>
 
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+              <label htmlFor="message" className={`block font-medium text-foreground ${seniorMode ? 'text-lg mb-3' : 'text-sm mb-2'}`}>
                 Votre message *
               </label>
               <Textarea
                 id="message"
                 required
                 maxLength={1000}
-                rows={6}
+                rows={seniorMode ? 8 : 6}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 placeholder="Votre question ou remarque..."
-                className="resize-none"
+                className={`resize-none ${seniorMode ? 'text-lg p-4' : ''}`}
               />
-              <p className="text-xs text-muted-foreground mt-1.5">
+              <p className={`text-muted-foreground mt-1.5 ${seniorMode ? 'text-base' : 'text-xs'}`}>
                 {formData.message.length}/1000 caractères
               </p>
             </div>
@@ -108,20 +110,20 @@ const Contact = () => {
                 id="consent"
                 checked={formData.consent}
                 onCheckedChange={(checked) => setFormData({ ...formData, consent: checked as boolean })}
-                className="mt-0.5"
+                className={seniorMode ? 'mt-1 h-6 w-6' : 'mt-0.5'}
               />
-              <label htmlFor="consent" className="text-sm text-muted-foreground cursor-pointer">
+              <label htmlFor="consent" className={`text-muted-foreground cursor-pointer ${seniorMode ? 'text-lg' : 'text-sm'}`}>
                 J'accepte que mes données soient utilisées pour répondre à ma demande, 
                 conformément à la <a href="/confidentialite" className="text-primary hover:underline">politique de confidentialité</a>. *
               </label>
             </div>
 
-            <Button type="submit" size="lg" className="w-full h-12" disabled={isSubmitting}>
+            <Button type="submit" size={buttonSize} className={`w-full ${seniorMode ? 'h-16 text-xl' : 'h-12'}`} disabled={isSubmitting}>
               {isSubmitting ? (
                 'Envoi en cours...'
               ) : (
                 <>
-                  <Send className="w-4 h-4" />
+                  <Send className={iconSize} />
                   Envoyer
                 </>
               )}

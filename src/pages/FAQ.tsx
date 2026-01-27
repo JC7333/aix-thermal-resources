@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import { useSeniorMode } from '@/hooks/useSeniorMode';
 
 interface FAQItem {
   id: string;
@@ -95,6 +96,7 @@ const categoryLabels: Record<string, string> = {
 
 const FAQ = () => {
   const [openItems, setOpenItems] = useState<string[]>([]);
+  const { seniorMode, titleClass, textClass, subtitleClass, smallTextClass, iconSize } = useSeniorMode();
 
   const toggleItem = (id: string) => {
     setOpenItems((prev) =>
@@ -110,24 +112,24 @@ const FAQ = () => {
         <Breadcrumb items={[{ label: 'Questions fréquentes' }]} />
 
         {/* Header */}
-        <div className="mb-10 max-w-3xl">
-          <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-3">
+        <div className={`max-w-3xl ${seniorMode ? 'mb-12' : 'mb-10'}`}>
+          <h1 className={titleClass}>
             Questions fréquentes
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className={textClass}>
             Retrouvez les réponses aux questions les plus courantes sur le thermalisme, 
             l'activité physique adaptée et la gestion de votre pathologie au quotidien.
           </p>
         </div>
 
         {/* FAQ by Category */}
-        <div className="max-w-3xl space-y-8">
+        <div className={`max-w-3xl ${seniorMode ? 'space-y-10' : 'space-y-8'}`}>
           {categories.map((category) => (
             <section key={category}>
-              <h2 className="font-serif text-xl font-bold text-foreground mb-4 pb-2 border-b border-border">
+              <h2 className={`font-serif font-bold text-foreground pb-2 border-b border-border ${seniorMode ? 'text-2xl mb-6' : 'text-xl mb-4'}`}>
                 {categoryLabels[category] || category}
               </h2>
-              <div className="space-y-3">
+              <div className={seniorMode ? 'space-y-4' : 'space-y-3'}>
                 {faqItems
                   .filter((item) => item.category === category)
                   .map((item) => {
@@ -135,25 +137,25 @@ const FAQ = () => {
                     return (
                       <div
                         key={item.id}
-                        className="bg-card border border-border rounded-xl overflow-hidden"
+                        className={`bg-card border rounded-xl overflow-hidden ${seniorMode ? 'border-2' : 'border'}`}
                       >
                         <button
                           onClick={() => toggleItem(item.id)}
-                          className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-muted/50 transition-colors"
+                          className={`w-full flex items-center justify-between text-left hover:bg-muted/50 transition-colors ${seniorMode ? 'px-8 py-5' : 'px-6 py-4'}`}
                           aria-expanded={isOpen}
                         >
-                          <span className="font-medium text-foreground pr-4">
+                          <span className={`font-medium text-foreground pr-4 ${seniorMode ? 'text-xl' : ''}`}>
                             {item.question}
                           </span>
                           {isOpen ? (
-                            <ChevronUp className="w-5 h-5 text-muted-foreground shrink-0" />
+                            <ChevronUp className={`text-muted-foreground shrink-0 ${iconSize}`} />
                           ) : (
-                            <ChevronDown className="w-5 h-5 text-muted-foreground shrink-0" />
+                            <ChevronDown className={`text-muted-foreground shrink-0 ${iconSize}`} />
                           )}
                         </button>
                         {isOpen && (
-                          <div className="px-6 pb-5 animate-fade-in">
-                            <p className="text-muted-foreground leading-relaxed">
+                          <div className={`animate-fade-in ${seniorMode ? 'px-8 pb-6' : 'px-6 pb-5'}`}>
+                            <p className={`text-muted-foreground leading-relaxed ${seniorMode ? 'text-lg' : ''}`}>
                               {item.answer}
                             </p>
                           </div>
@@ -168,11 +170,11 @@ const FAQ = () => {
 
         {/* Contact CTA */}
         <div className="mt-12 max-w-3xl">
-          <div className="bg-muted rounded-xl p-6 lg:p-8 text-center">
-            <h3 className="font-serif text-xl font-bold text-foreground mb-3">
+          <div className={`bg-muted rounded-xl text-center ${seniorMode ? 'p-8 lg:p-10' : 'p-6 lg:p-8'}`}>
+            <h3 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-2xl mb-4' : 'text-xl mb-3'}`}>
               Vous ne trouvez pas votre réponse ?
             </h3>
-            <p className="text-muted-foreground">
+            <p className={smallTextClass}>
               Si vous êtes inquiet ou si vos symptômes persistent, parlez-en à votre médecin traitant.
             </p>
           </div>
