@@ -5,6 +5,8 @@ import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { logEvent } from '@/services/analytics';
+import { openParcoursPrintFallback } from '@/lib/parcoursPrintFallback';
+import { useToast } from '@/hooks/use-toast';
 
 type Objective = 'douleur' | 'poids' | 'tabac' | 'souffle' | 'jambes' | 'orl-enfant' | 'bouche';
 type Level = 0 | 1 | 2 | 3;
@@ -162,6 +164,7 @@ const Parcours = () => {
   const [selectedObjective, setSelectedObjective] = useState<Objective | null>(null);
   const [selectedLevel, setSelectedLevel] = useState<Level | null>(null);
   const { seniorMode, titleClass, textClass, buttonSize, iconSize, smallTextClass } = useSeniorMode();
+  const { toast } = useToast();
 
   // Track wizard start on mount
   useEffect(() => {
@@ -200,7 +203,22 @@ const Parcours = () => {
 
   const handlePrint = () => {
     logEvent('print_click', '/parcours', { objective: selectedObjective || undefined });
-    window.print();
+    
+    // Utiliser le fallback HTML imprimable (1 page stricte)
+    const success = openParcoursPrintFallback({ autoPrint: true });
+    
+    if (success) {
+      toast({
+        title: "Impression lancée",
+        description: "Utilisez 'Enregistrer en PDF' pour sauvegarder.",
+      });
+    } else {
+      toast({
+        title: "Erreur",
+        description: "Impossible d'ouvrir l'impression. Vérifiez que les popups ne sont pas bloquées.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleReset = () => {

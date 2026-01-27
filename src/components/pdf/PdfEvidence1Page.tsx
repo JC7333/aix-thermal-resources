@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     fontSize: 9,
     color: PDF_COLORS.text,
     backgroundColor: '#ffffff',
-    padding: 24,
-    paddingBottom: 40,
+    padding: 20,
+    paddingBottom: 28, // Réduit pour éviter page 2 vide
   },
   
   // Header compact
@@ -26,29 +26,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 12,
-    paddingBottom: 10,
-    borderBottomWidth: 3,
+    marginBottom: 10,
+    paddingBottom: 8,
+    borderBottomWidth: 2,
     borderBottomColor: PDF_COLORS.primary,
   },
   headerLeft: {
     flex: 1,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 700,
     color: PDF_COLORS.primary,
     marginBottom: 2,
   },
   subtitle: {
-    fontSize: 9,
+    fontSize: 8,
     color: PDF_COLORS.textMuted,
   },
   headerRight: {
     alignItems: 'flex-end',
   },
   brand: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 700,
     color: PDF_COLORS.primary,
     letterSpacing: 1,
@@ -58,13 +58,13 @@ const styles = StyleSheet.create({
     color: PDF_COLORS.textMuted,
   },
   dateBadge: {
-    fontSize: 7,
+    fontSize: 6,
     color: PDF_COLORS.textMuted,
     backgroundColor: PDF_COLORS.muted,
-    paddingHorizontal: 6,
+    paddingHorizontal: 4,
     paddingVertical: 2,
-    borderRadius: 3,
-    marginTop: 4,
+    borderRadius: 2,
+    marginTop: 3,
   },
 
   // Layout 2 colonnes
@@ -209,25 +209,19 @@ const styles = StyleSheet.create({
     lineHeight: 1.3,
   },
 
-  // Sources
-  sourcesBox: {
-    marginTop: 10,
-    paddingTop: 8,
+  // Sources - inline, pas de box séparée
+  sourcesText: {
+    fontSize: 7,
+    color: PDF_COLORS.textMuted,
+    marginTop: 8,
+    paddingTop: 6,
     borderTopWidth: 1,
     borderTopColor: PDF_COLORS.border,
   },
-  sourceItem: {
-    fontSize: 7,
-    color: PDF_COLORS.textMuted,
-    marginBottom: 2,
-  },
 
-  // Footer
+  // Footer inline (pas de position absolute)
   footer: {
-    position: 'absolute',
-    bottom: 16,
-    left: 24,
-    right: 24,
+    marginTop: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -405,15 +399,10 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) 
           </View>
         </View>
 
-        {/* ===== SOURCES ===== */}
-        <View style={styles.sourcesBox}>
-          <Text style={{ fontSize: 8, fontWeight: 600, color: PDF_COLORS.textMuted, marginBottom: 4 }}>
-            📚 Sources : 
-          </Text>
-          <Text style={styles.sourceItem}>
-            {evidence.sources.slice(0, 2).map(s => `${s.org} (${s.year})`).join(' • ')}
-          </Text>
-        </View>
+        {/* ===== SOURCES (inline) ===== */}
+        <Text style={styles.sourcesText}>
+          📚 Sources : {evidence.sources.slice(0, 2).map(s => `${s.org} (${s.year})`).join(' • ')}
+        </Text>
 
         {/* ===== FOOTER ===== */}
         <View style={styles.footer}>
