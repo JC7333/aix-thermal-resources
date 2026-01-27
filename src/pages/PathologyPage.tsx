@@ -90,8 +90,8 @@ const PathologyPage = () => {
               <Printer className="w-5 h-5" />
               Imprimer cette fiche
             </Button>
-            {contentPathology && (
-              <PdfDownloadButtons pathology={contentPathology} />
+            {slug && (
+              <PdfDownloadButtons slug={slug} />
             )}
           </div>
         </header>

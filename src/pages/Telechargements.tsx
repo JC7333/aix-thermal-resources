@@ -14,7 +14,8 @@ import {
   exportContentAsJson,
   ContentCategory 
 } from '@/content/content';
-import { downloadPdf1Page, downloadPdf4Pages } from '@/services/pdfService';
+import { downloadPdf1PageBySlug, downloadPdf4PagesBySlug, hasEvidenceData } from '@/services/pdfService';
+import { useToast } from '@/hooks/use-toast';
 
 type CategoryFilter = 'all' | ContentCategory;
 
@@ -27,7 +28,7 @@ const categoryFilters: { value: CategoryFilter; label: string }[] = [
 ];
 
 interface PdfDownload {
-  pathology: PathologyContent;
+  slug: string;
   type: '1page' | '4pages';
 }
 
@@ -35,6 +36,7 @@ const Telechargements = () => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
   const [downloading, setDownloading] = useState<PdfDownload | null>(null);
   const [showAdmin, setShowAdmin] = useState(false);
+  const { toast } = useToast();
 
   const publishedPathologies = pathologies.filter(p => p.isPublished);
   const filteredPathologies = selectedCategory === 'all' 
@@ -42,22 +44,58 @@ const Telechargements = () => {
     : publishedPathologies.filter(p => p.category === selectedCategory);
 
   const handleDownload1Page = async (pathology: PathologyContent) => {
-    setDownloading({ pathology, type: '1page' });
+    if (!hasEvidenceData(pathology.slug)) {
+      toast({
+        title: "PDF non disponible",
+        description: "Les données evidence-based ne sont pas encore disponibles pour cette pathologie.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setDownloading({ slug: pathology.slug, type: '1page' });
     try {
-      await downloadPdf1Page(pathology);
+      await downloadPdf1PageBySlug(pathology.slug);
+      toast({
+        title: "Téléchargement réussi",
+        description: "Votre fiche PDF 1 page a été téléchargée.",
+      });
     } catch (error) {
       console.error('Erreur téléchargement PDF:', error);
+      toast({
+        title: "Erreur de téléchargement",
+        description: "Une erreur est survenue. Veuillez réessayer.",
+        variant: "destructive",
+      });
     } finally {
       setDownloading(null);
     }
   };
 
   const handleDownload4Pages = async (pathology: PathologyContent) => {
-    setDownloading({ pathology, type: '4pages' });
+    if (!hasEvidenceData(pathology.slug)) {
+      toast({
+        title: "PDF non disponible",
+        description: "Les données evidence-based ne sont pas encore disponibles pour cette pathologie.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setDownloading({ slug: pathology.slug, type: '4pages' });
     try {
-      await downloadPdf4Pages(pathology);
+      await downloadPdf4PagesBySlug(pathology.slug);
+      toast({
+        title: "Téléchargement réussi",
+        description: "Votre guide PDF 4 pages a été téléchargé.",
+      });
     } catch (error) {
       console.error('Erreur téléchargement PDF:', error);
+      toast({
+        title: "Erreur de téléchargement",
+        description: "Une erreur est survenue. Veuillez réessayer.",
+        variant: "destructive",
+      });
     } finally {
       setDownloading(null);
     }
@@ -92,8 +130,8 @@ const Telechargements = () => {
             Téléchargements PDF
           </h1>
           <p className="text-lg text-muted-foreground">
-            Je vous ai préparé des fiches pratiques à imprimer. Chaque pathologie existe en deux versions :
-            une fiche 1 page (checklist rapide) et un guide complet 4 pages (programme détaillé).
+            Je vous ai préparé des fiches pratiques à imprimer, basées sur les dernières preuves scientifiques.
+            Chaque pathologie existe en deux versions : une fiche 1 page (essentiel) et un guide complet 4 pages.
           </p>
           <p className="text-base text-muted-foreground mt-3">
             <strong>Police large et lisible</strong> — optimisé pour l'impression A4.
@@ -123,97 +161,114 @@ const Telechargements = () => {
 
         {/* PDF Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPathologies.map((pathology) => (
-            <Card key={pathology.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <Badge 
-                      variant="outline" 
-                      className={`mb-2 ${categoryColors[pathology.category]}`}
+          {filteredPathologies.map((pathology) => {
+            const hasEvidence = hasEvidenceData(pathology.slug);
+            
+            return (
+              <Card key={pathology.id} className="hover:shadow-lg transition-shadow">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <Badge 
+                        variant="outline" 
+                        className={`mb-2 ${categoryColors[pathology.category]}`}
+                      >
+                        {categoryLabels[pathology.category]}
+                      </Badge>
+                      <CardTitle className="text-xl font-serif">{pathology.title}</CardTitle>
+                    </div>
+                  </div>
+                  <CardDescription className="text-sm">
+                    {pathology.shortDescription}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {/* 1-page PDF */}
+                  <div className="p-3 bg-muted/50 rounded-lg">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 bg-primary/10 rounded-lg">
+                        <FileText className="w-5 h-5 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold text-sm">Fiche 1 page</p>
+                        <p className="text-xs text-muted-foreground">
+                          Recommandations + Red flags + Sources
+                        </p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full gap-2"
+                      onClick={() => handleDownload1Page(pathology)}
+                      disabled={downloading?.slug === pathology.slug && downloading?.type === '1page'}
                     >
-                      {categoryLabels[pathology.category]}
-                    </Badge>
-                    <CardTitle className="text-xl font-serif">{pathology.title}</CardTitle>
+                      {downloading?.slug === pathology.slug && downloading?.type === '1page' ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Génération...
+                        </>
+                      ) : (
+                        <>
+                          <Download className="w-4 h-4" />
+                          Télécharger PDF 1 page
+                        </>
+                      )}
+                    </Button>
                   </div>
-                </div>
-                <CardDescription className="text-sm">
-                  {pathology.shortDescription}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {/* 1-page PDF */}
-                <div className="p-3 bg-muted/50 rounded-lg">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <FileText className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-semibold text-sm">Fiche 1 page</p>
-                      <p className="text-xs text-muted-foreground">
-                        Checklist + Plan du jour + Plan 7 jours
-                      </p>
-                    </div>
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full gap-2"
-                    onClick={() => handleDownload1Page(pathology)}
-                    disabled={downloading?.pathology.id === pathology.id && downloading?.type === '1page'}
-                  >
-                    {downloading?.pathology.id === pathology.id && downloading?.type === '1page' ? (
-                      <>Génération...</>
-                    ) : (
-                      <>
-                        <Download className="w-4 h-4" />
-                        Télécharger PDF 1 page
-                      </>
-                    )}
-                  </Button>
-                </div>
 
-                {/* 4-pages PDF */}
-                <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <Book className="w-5 h-5 text-primary" />
+                  {/* 4-pages PDF */}
+                  <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 bg-primary/10 rounded-lg">
+                        <Book className="w-5 h-5 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold text-sm">Guide complet 4 pages</p>
+                        <p className="text-xs text-muted-foreground">
+                          Visuels + Plan d'action + Sources complètes
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <p className="font-semibold text-sm">Guide complet 4 pages</p>
-                      <p className="text-xs text-muted-foreground">
-                        Programme 8 semaines + Nutrition + Niveaux 0-3
-                      </p>
-                    </div>
+                    <Button
+                      variant="default"
+                      size="sm"
+                      className="w-full gap-2"
+                      onClick={() => handleDownload4Pages(pathology)}
+                      disabled={downloading?.slug === pathology.slug && downloading?.type === '4pages'}
+                    >
+                      {downloading?.slug === pathology.slug && downloading?.type === '4pages' ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Génération...
+                        </>
+                      ) : (
+                        <>
+                          <Download className="w-4 h-4" />
+                          Télécharger PDF 4 pages
+                        </>
+                      )}
+                    </Button>
                   </div>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    className="w-full gap-2"
-                    onClick={() => handleDownload4Pages(pathology)}
-                    disabled={downloading?.pathology.id === pathology.id && downloading?.type === '4pages'}
-                  >
-                    {downloading?.pathology.id === pathology.id && downloading?.type === '4pages' ? (
-                      <>Génération...</>
-                    ) : (
-                      <>
-                        <Download className="w-4 h-4" />
-                        Télécharger PDF 4 pages
-                      </>
-                    )}
-                  </Button>
-                </div>
 
-                {/* Link to online page */}
-                <Link 
-                  to={`/pathologies/${pathology.slug}`}
-                  className="block text-center text-sm text-primary hover:underline"
-                >
-                  Voir la version en ligne →
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
+                  {/* Evidence badge or warning */}
+                  {!hasEvidence && (
+                    <p className="text-xs text-muted-foreground text-center italic">
+                      PDF basé sur evidence-pack bientôt disponible
+                    </p>
+                  )}
+
+                  {/* Link to online page */}
+                  <Link 
+                    to={`/pathologies/${pathology.slug}`}
+                    className="block text-center text-sm text-primary hover:underline"
+                  >
+                    Voir la version en ligne →
+                  </Link>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
 
         {/* Empty state */}

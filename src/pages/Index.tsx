@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
 import { quickAnswers, pathologies } from '@/content/content';
-import { downloadPdf1Page } from '@/services/pdfService';
+import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
+import { useToast } from '@/hooks/use-toast';
 
 const themeButtons = [
   { 
@@ -61,24 +62,40 @@ const themeButtons = [
 const topPDFs = [
   { title: 'Plan arthrose 7 jours', category: 'Rhumatologie', slug: 'arthrose' },
   { title: 'Plan lombalgie 7 jours', category: 'Rhumatologie', slug: 'lombalgie-chronique' },
-  { title: 'Jambes légères - 5 actions', category: 'Veino-lymphatique', slug: 'insuffisance-veineuse' },
+  { title: 'Jambes légères - 5 actions', category: 'Veino-lymphatique', slug: 'insuffisance-veineuse-chronique' },
   { title: 'BPCO - Respirer mieux', category: 'Respiratoire', slug: 'bpco' },
-  { title: 'Otites enfant - Prévention', category: 'Parents', slug: 'otites-repetition-enfant' },
+  { title: 'Otites enfant - Prévention', category: 'Parents', slug: 'otites-a-repetition-enfant' },
 ];
 
 const Index = () => {
   const { seniorMode, toggleSeniorMode } = useAccessibility();
   const [downloadingSlug, setDownloadingSlug] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const handleDownloadPdf = async (slug: string) => {
-    const pathology = pathologies.find(p => p.slug === slug);
-    if (!pathology) return;
+    if (!hasEvidenceData(slug)) {
+      toast({
+        title: "PDF non disponible",
+        description: "Les données pour cette pathologie ne sont pas encore disponibles.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setDownloadingSlug(slug);
     try {
-      await downloadPdf1Page(pathology);
+      await downloadPdf1PageBySlug(slug);
+      toast({
+        title: "Téléchargement réussi",
+        description: "Votre fiche PDF a été téléchargée.",
+      });
     } catch (error) {
       console.error('Erreur téléchargement PDF:', error);
+      toast({
+        title: "Erreur de téléchargement",
+        description: "Une erreur est survenue. Veuillez réessayer.",
+        variant: "destructive",
+      });
     } finally {
       setDownloadingSlug(null);
     }
