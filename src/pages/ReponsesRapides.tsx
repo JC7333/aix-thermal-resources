@@ -252,13 +252,29 @@ const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
           <p className={`mt-4 font-semibold text-primary ${seniorMode ? 'text-lg' : ''}`}>— Dr Audric Bugnard</p>
         </section>
 
+        {/* Sources section */}
+        <section className={`bg-muted/30 rounded-xl ${seniorMode ? 'p-6 mb-10' : 'p-4 mb-8'}`}>
+          <h3 className={`font-semibold text-foreground ${seniorMode ? 'text-lg mb-3' : 'mb-2'}`}>📚 Sources et références</h3>
+          <p className={`text-muted-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>
+            Ces fiches s'appuient sur des recommandations de sociétés savantes et guidelines internationales : 
+            NICE, OARSI, WHO, GOLD, HAS, Cochrane Database. Les sources spécifiques sont citées dans chaque vérité.
+          </p>
+          <p className={`text-muted-foreground mt-2 ${seniorMode ? 'text-sm' : 'text-xs'}`}>
+            Dernière mise à jour : janvier 2024
+          </p>
+        </section>
+
         {/* Print button */}
         <div className="flex justify-center gap-4 no-print">
           <Button variant="outline" size={buttonSize} onClick={handlePrint}>
             <Printer className={iconSize} />
             Imprimer cette fiche
           </Button>
-          <Button asChild size={buttonSize}>
+          <Button 
+            asChild 
+            size={buttonSize}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
             <Link to="/reponses-rapides">
               Voir les autres réponses rapides
             </Link>

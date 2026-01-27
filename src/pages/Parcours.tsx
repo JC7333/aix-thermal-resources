@@ -226,6 +226,8 @@ const Parcours = () => {
     setSelectedObjective(null);
     setSelectedLevel(null);
     logEvent('wizard_start', '/parcours');
+    // Scroll vers le haut de la page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const selectedObjectiveData = objectives.find(o => o.id === selectedObjective);
