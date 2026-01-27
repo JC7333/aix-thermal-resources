@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
-import { Scale, Cigarette, Moon, Activity, ChevronRight, Download, Clock } from 'lucide-react';
+import { Scale, Cigarette, Moon, Activity, ChevronRight, Download, Eye, Loader2 } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { useToast } from '@/hooks/use-toast';
+import { openGuidePrintFallback, isGuideAvailable } from '@/lib/guidePrintFallback';
 
 const guides = [
   {
@@ -13,7 +14,6 @@ const guides = [
     description: 'Des conseils pratiques et progressifs pour atteindre un poids santé, sans régime restrictif.',
     icon: Scale,
     color: 'bg-primary/10 text-primary',
-    pdfAvailable: false,
     topics: [
       'Pourquoi les régimes restrictifs échouent',
       'L\'assiette équilibrée au quotidien',
@@ -28,7 +28,6 @@ const guides = [
     description: 'Une approche progressive et bienveillante pour se libérer du tabac.',
     icon: Cigarette,
     color: 'bg-destructive/10 text-destructive',
-    pdfAvailable: false,
     topics: [
       'Comprendre sa dépendance',
       'Préparer son arrêt',
@@ -43,7 +42,6 @@ const guides = [
     description: 'Retrouver un sommeil réparateur avec des habitudes simples et efficaces.',
     icon: Moon,
     color: 'bg-secondary/10 text-secondary',
-    pdfAvailable: false,
     topics: [
       'L\'hygiène du sommeil',
       'Préparer sa nuit',
@@ -58,7 +56,6 @@ const guides = [
     description: 'Bouger en douceur quand on a mal, qu\'on est essoufflé ou qu\'on n\'a plus l\'habitude.',
     icon: Activity,
     color: 'bg-accent/10 text-accent',
-    pdfAvailable: false,
     topics: [
       'Pourquoi bouger quand on a mal',
       'Commencer très progressivement',
@@ -70,18 +67,58 @@ const guides = [
 ];
 
 const Guides = () => {
-  const { seniorMode, titleClass, textClass, buttonSize, gridCols2, cardPadding, smallTextClass, subtitleClass } = useSeniorMode();
+  const { seniorMode, titleClass, textClass, buttonSize, gridCols2, smallTextClass } = useSeniorMode();
   const { toast } = useToast();
+  const [loading, setLoading] = useState<string | null>(null);
   
-  const handleDownloadPDF = (guideId: string, pdfAvailable: boolean) => {
-    if (!pdfAvailable) {
+  const handlePreview = (guideId: string) => {
+    const available = isGuideAvailable(guideId);
+    if (!available) {
       toast({
-        title: "Guide bientôt disponible",
-        description: "Ce guide PDF est en cours de préparation. Revenez prochainement.",
+        title: "Guide indisponible",
+        description: "Ce guide n'est pas encore disponible.",
+        variant: "destructive",
       });
       return;
     }
-    // Future: download real PDF
+    
+    const success = openGuidePrintFallback({ guideId, autoPrint: false });
+    if (!success) {
+      toast({
+        title: "Erreur",
+        description: "Impossible d'ouvrir l'aperçu. Vérifiez que les popups ne sont pas bloquées.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDownload = (guideId: string) => {
+    const available = isGuideAvailable(guideId);
+    if (!available) {
+      toast({
+        title: "Guide indisponible",
+        description: "Ce guide n'est pas encore disponible.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setLoading(guideId);
+    const success = openGuidePrintFallback({ guideId, autoPrint: true });
+    
+    if (success) {
+      toast({
+        title: "Impression lancée",
+        description: "Utilisez 'Enregistrer en PDF' dans la boîte de dialogue d'impression.",
+      });
+    } else {
+      toast({
+        title: "Erreur",
+        description: "Impossible d'ouvrir le guide. Vérifiez que les popups ne sont pas bloquées.",
+        variant: "destructive",
+      });
+    }
+    setLoading(null);
   };
 
   return (
@@ -134,18 +171,28 @@ const Guides = () => {
 
               <div className="flex gap-3">
                 <Button 
-                  onClick={() => handleDownloadPDF(guide.id, guide.pdfAvailable)} 
-                  variant={guide.pdfAvailable ? "pdf" : "outline"}
+                  onClick={() => handlePreview(guide.id)} 
+                  variant="outline"
                   size={buttonSize}
                   className="flex-1"
-                  disabled={!guide.pdfAvailable}
+                  disabled={!isGuideAvailable(guide.id)}
                 >
-                  {guide.pdfAvailable ? (
-                    <Download className={seniorMode ? 'w-5 h-5' : 'w-4 h-4'} />
+                  <Eye className={seniorMode ? 'w-5 h-5' : 'w-4 h-4'} />
+                  Aperçu
+                </Button>
+                <Button 
+                  onClick={() => handleDownload(guide.id)} 
+                  variant="pdf"
+                  size={buttonSize}
+                  className="flex-1"
+                  disabled={loading === guide.id || !isGuideAvailable(guide.id)}
+                >
+                  {loading === guide.id ? (
+                    <Loader2 className={`animate-spin ${seniorMode ? 'w-5 h-5' : 'w-4 h-4'}`} />
                   ) : (
-                    <Clock className={seniorMode ? 'w-5 h-5' : 'w-4 h-4'} />
+                    <Download className={seniorMode ? 'w-5 h-5' : 'w-4 h-4'} />
                   )}
-                  {guide.pdfAvailable ? 'Télécharger le PDF' : 'Bientôt disponible'}
+                  Télécharger
                 </Button>
               </div>
             </div>
