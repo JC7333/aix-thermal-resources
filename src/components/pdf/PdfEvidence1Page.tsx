@@ -1,8 +1,8 @@
 // ============================================
-// PDF 1 PAGE — FICHE EVIDENCE-BASED
+// PDF 1 PAGE "FRIGO" — FICHE EVIDENCE-BASED
 // ============================================
-// Génère un PDF 1 page A4 à partir des données evidence-pack.json
-// Contient : recommandations, red flags, visuels, sources
+// Génère un PDF 1 page A4 senior-friendly
+// Structure fixe : Résumé 2 min, 3 actions jour, Plan 7 jours, Red flags, Sources
 // ============================================
 
 import React from 'react';
@@ -11,7 +11,6 @@ import { pdfStyles, PDF_COLORS } from './PdfStyles';
 import {
   PdfHeader,
   PdfSectionTitle,
-  PdfRecommendations,
   PdfRedFlags,
   PdfSources,
   PdfBodySchema,
@@ -20,43 +19,20 @@ import {
 } from './PdfEvidenceComponents';
 import type { EvidenceData } from '@/data/evidence';
 
-// Métadonnées par slug
-const pathologyMeta: Record<string, { title: string; subtitle: string }> = {
-  'arthrose': { 
-    title: 'Arthrose', 
-    subtitle: 'Conseils pratiques basés sur les preuves scientifiques' 
-  },
-  'lombalgie-chronique': { 
-    title: 'Lombalgie chronique', 
-    subtitle: 'Reprendre le contrôle de votre dos' 
-  },
-  'insuffisance-veineuse-chronique': { 
-    title: 'Insuffisance veineuse', 
-    subtitle: 'Soulager vos jambes au quotidien' 
-  },
-  'bpco': { 
-    title: 'BPCO', 
-    subtitle: 'Reprendre souffle et qualité de vie' 
-  },
-  'otites-a-repetition-enfant': { 
-    title: 'Otites à répétition', 
-    subtitle: 'Prévenir les infections de l\'oreille chez l\'enfant' 
-  },
-};
-
 interface PdfEvidence1PageProps {
   evidence: EvidenceData;
 }
 
 export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) => {
-  const meta = pathologyMeta[evidence.slug] || { 
-    title: evidence.slug, 
-    subtitle: 'Recommandations basées sur les preuves' 
-  };
+  // Plan 7 jours niveau 0 (très facile) par défaut
+  const sevenDayPlan = evidence.sevenDayPlans?.find(p => p.level === 0) || evidence.sevenDayPlans?.[0];
   
-  const currentDate = new Date().toLocaleDateString('fr-FR', { 
-    month: 'long', 
-    year: 'numeric' 
+  // 3 premières recommandations simplifiées pour "Aujourd'hui"
+  const todayActions = evidence.recommendations.slice(0, 3).map(r => {
+    // Extraire la partie avant les deux-points si présente
+    const text = r.text.split(':')[0].trim();
+    // Limiter à 60 caractères
+    return text.length > 60 ? text.substring(0, 57) + '...' : text;
   });
 
   return (
@@ -64,54 +40,88 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) 
       <Page size="A4" style={pdfStyles.page1col}>
         {/* Header */}
         <PdfHeader 
-          title={meta.title}
-          subtitle={meta.subtitle}
-          date={currentDate}
+          title={evidence.name}
+          subtitle="Fiche pratique basée sur les preuves scientifiques"
+          date={evidence.lastUpdated}
           compact
         />
 
         {/* Layout 2 colonnes */}
         <View style={pdfStyles.row}>
-          {/* Colonne gauche */}
+          {/* ===== COLONNE GAUCHE ===== */}
           <View style={pdfStyles.col2}>
-            {/* Recommandations principales */}
-            <PdfSectionTitle icon="✅" small>Recommandations clés</PdfSectionTitle>
-            <PdfRecommendations recommendations={evidence.recommendations} compact />
             
-            {/* Schéma anatomique */}
-            <View style={{ marginTop: 10 }}>
-              <PdfBodySchema slug={evidence.slug} width={160} height={100} />
+            {/* Résumé 2 minutes */}
+            <PdfSectionTitle icon="⏱️" small>En 2 minutes</PdfSectionTitle>
+            <View style={[pdfStyles.boxPrimary, { padding: 8 }]}>
+              <Text style={{ fontSize: 8, lineHeight: 1.4, color: PDF_COLORS.text }}>
+                {evidence.summary.split('\n')[0].substring(0, 200)}
+                {evidence.summary.split('\n')[0].length > 200 ? '...' : ''}
+              </Text>
             </View>
+
+            {/* Aujourd'hui : 3 actions */}
+            <PdfSectionTitle icon="✅" small>Aujourd'hui : 3 actions</PdfSectionTitle>
+            <View style={[pdfStyles.box, { padding: 8 }]}>
+              {todayActions.map((action, idx) => (
+                <View key={idx} style={{ flexDirection: 'row', marginBottom: 4, alignItems: 'flex-start' }}>
+                  <View style={[pdfStyles.checkbox, { marginTop: 1 }]} />
+                  <Text style={{ fontSize: 8, color: PDF_COLORS.text, flex: 1 }}>
+                    {action}
+                  </Text>
+                </View>
+              ))}
+            </View>
+
+            {/* Schéma "Ce qui se passe" */}
+            <PdfBodySchema slug={evidence.slug} width={140} height={85} />
           </View>
 
-          {/* Colonne droite */}
+          {/* ===== COLONNE DROITE ===== */}
           <View style={pdfStyles.col2Last}>
+            
+            {/* Plan 7 jours compact */}
+            <PdfSectionTitle icon="📅" small>Cette semaine : Plan 7 jours</PdfSectionTitle>
+            {sevenDayPlan ? (
+              <View style={[pdfStyles.box, { padding: 6 }]}>
+                {sevenDayPlan.days.slice(0, 7).map((day, idx) => (
+                  <View key={idx} style={{ marginBottom: 3 }}>
+                    <Text style={{ fontSize: 7, fontWeight: 700, color: PDF_COLORS.primary }}>
+                      {day.day}
+                    </Text>
+                    <Text style={{ fontSize: 6, color: PDF_COLORS.text, paddingLeft: 6 }}>
+                      {day.actions.slice(0, 2).map((a, i) => `• ${a}`).join(' ')}
+                    </Text>
+                  </View>
+                ))}
+                <Text style={{ fontSize: 6, color: PDF_COLORS.secondary, marginTop: 4, fontWeight: 600 }}>
+                  Niveau : {sevenDayPlan.levelName}
+                </Text>
+              </View>
+            ) : (
+              <View style={pdfStyles.box}>
+                <Text style={{ fontSize: 7, color: PDF_COLORS.textMuted }}>
+                  Plan détaillé dans le PDF 4 pages
+                </Text>
+              </View>
+            )}
+
             {/* Schéma exercices */}
-            <PdfExerciseSchema slug={evidence.slug} width={180} height={70} />
-            
-            {/* Red Flags */}
-            <View style={{ marginTop: 8 }}>
-              <PdfRedFlags alerts={evidence.red_flags} compact />
+            <View style={{ marginTop: 6 }}>
+              <PdfExerciseSchema slug={evidence.slug} width={160} height={55} />
             </View>
-            
-            {/* Message clé */}
-            <View style={[pdfStyles.boxLevel0, { marginTop: 8, padding: 8 }]}>
-              <Text style={{ fontSize: 8, fontWeight: 600, color: PDF_COLORS.secondary }}>
-                ✨ L'essentiel à retenir
-              </Text>
-              <Text style={{ fontSize: 7, color: PDF_COLORS.text, marginTop: 4 }}>
-                {evidence.slug === 'arthrose' && "Le mouvement nourrit le cartilage. Bougez un peu chaque jour."}
-                {evidence.slug === 'lombalgie-chronique' && "Restez actif. Le repos prolongé aggrave le mal de dos."}
-                {evidence.slug === 'insuffisance-veineuse-chronique' && "Compression + marche = jambes plus légères."}
-                {evidence.slug === 'bpco' && "Arrêter le tabac + réhabilitation = meilleure qualité de vie."}
-                {evidence.slug === 'otites-a-repetition-enfant' && "Éviter la fumée + hygiène = moins d'otites."}
-              </Text>
+
+            {/* Red Flags compact */}
+            <View style={{ marginTop: 6 }}>
+              <PdfRedFlags alerts={evidence.red_flags} compact />
             </View>
           </View>
         </View>
 
-        {/* Sources */}
-        <PdfSources sources={evidence.sources} lastUpdated={currentDate} />
+        {/* Sources (sélection) */}
+        <View style={{ marginTop: 8 }}>
+          <PdfSources sources={evidence.sources.slice(0, 3)} lastUpdated={evidence.lastUpdated} />
+        </View>
 
         {/* Footer */}
         <PdfFooter compact />

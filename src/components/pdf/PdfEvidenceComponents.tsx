@@ -422,6 +422,69 @@ export const PdfExerciseSchema: React.FC<PdfExerciseSchemaProps> = ({ slug, widt
 };
 
 // ============================================
+// PLAN 7 JOURS (depuis evidence-pack)
+// ============================================
+
+import type { SevenDayPlan, EightWeekProgram } from '@/data/evidence';
+
+interface PdfSevenDayPlanProps {
+  plan: SevenDayPlan;
+  compact?: boolean;
+}
+
+export const PdfSevenDayPlan: React.FC<PdfSevenDayPlanProps> = ({ plan, compact }) => (
+  <View style={[pdfStyles.boxLevel0, { padding: compact ? 8 : 10 }]}>
+    <Text style={{ fontSize: 10, fontWeight: 700, color: PDF_COLORS.secondary, marginBottom: 6 }}>
+      ✨ {plan.levelName}
+    </Text>
+    {plan.days.slice(0, 7).map((day, idx) => (
+      <View key={idx} style={{ marginBottom: compact ? 3 : 5 }}>
+        <Text style={{ fontSize: compact ? 7 : 8, fontWeight: 700, color: PDF_COLORS.primary }}>
+          {day.day}
+        </Text>
+        {day.actions.slice(0, compact ? 2 : 3).map((action, aIdx) => (
+          <Text key={aIdx} style={{ fontSize: compact ? 6 : 7, color: PDF_COLORS.text, paddingLeft: 6 }}>
+            • {action}
+          </Text>
+        ))}
+      </View>
+    ))}
+  </View>
+);
+
+// ============================================
+// PROGRAMME 8 SEMAINES (depuis evidence-pack)
+// ============================================
+
+interface PdfEightWeekProgramProps {
+  program: EightWeekProgram;
+  compact?: boolean;
+}
+
+export const PdfEightWeekProgram: React.FC<PdfEightWeekProgramProps> = ({ program, compact }) => (
+  <View style={[pdfStyles.box, { padding: compact ? 8 : 10 }]}>
+    <Text style={{ fontSize: 10, fontWeight: 700, color: PDF_COLORS.secondary, marginBottom: 8 }}>
+      🎯 {program.levelName}
+    </Text>
+    {program.weeks.slice(0, 4).map((week, idx) => (
+      <View key={idx} style={{ marginBottom: 6 }}>
+        <Text style={{ fontSize: 8, fontWeight: 700, color: PDF_COLORS.primary }}>
+          {week.week}
+        </Text>
+        <Text style={{ fontSize: 7, color: PDF_COLORS.accent, fontWeight: 600, marginBottom: 2 }}>
+          Focus : {week.focus}
+        </Text>
+        {week.exercises.slice(0, 2).map((ex, eIdx) => (
+          <Text key={eIdx} style={{ fontSize: 7, color: PDF_COLORS.text, paddingLeft: 6 }}>
+            • {ex}
+          </Text>
+        ))}
+      </View>
+    ))}
+  </View>
+);
+
+// ============================================
 // FOOTER
 // ============================================
 
@@ -450,5 +513,7 @@ export default {
   PdfSources,
   PdfBodySchema,
   PdfExerciseSchema,
+  PdfSevenDayPlan,
+  PdfEightWeekProgram,
   PdfFooter,
 };
