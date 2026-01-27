@@ -46,21 +46,21 @@ export const Header = () => {
         </a>
 
         <div className={`
-          flex items-center justify-between gap-3
-          ${seniorMode ? 'flex-wrap gap-y-3 py-3 h-auto min-h-[72px]' : 'h-18 lg:h-20'}
+          flex items-center gap-3
+          ${seniorMode ? 'py-3 min-h-[72px]' : 'h-18 lg:h-20'}
         `}>
           {/* Logo - Brand COOLANCE */}
-          <Link to="/" className="flex items-center gap-3 group shrink-0">
+          <Link to="/" className="flex items-center gap-3 group shrink-0 mr-auto">
             <div className="flex flex-col">
               <span className={`
                 font-serif font-bold text-primary tracking-tight
-                ${seniorMode ? 'text-2xl' : 'text-2xl lg:text-3xl'}
+                ${seniorMode ? 'text-xl sm:text-2xl' : 'text-2xl lg:text-3xl'}
               `}>
                 COOLANCE
               </span>
               <span className={`
                 text-muted-foreground -mt-1
-                ${seniorMode ? 'text-xs' : 'text-[10px] lg:text-xs'}
+                ${seniorMode ? 'text-[10px] sm:text-xs' : 'text-[10px] lg:text-xs'}
               `}>
                 Dr Audric Bugnard
               </span>
@@ -91,35 +91,35 @@ export const Header = () => {
             </div>
           )}
 
-          {/* Actions */}
-          <div className="flex items-center gap-2 shrink-0">
+          {/* Actions - fixed to right side */}
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             {/* Senior Mode Toggle - Always visible */}
             <Button
               variant={seniorMode ? 'default' : 'outline'}
-              size={seniorMode ? 'lg' : 'sm'}
+              size={seniorMode ? 'default' : 'sm'}
               onClick={toggleSeniorMode}
               className={`
-                flex items-center gap-2 font-semibold shrink-0
+                flex items-center gap-1 sm:gap-2 font-semibold shrink-0
                 ${seniorMode 
-                  ? 'h-12 px-4 bg-primary text-primary-foreground text-base' 
-                  : 'h-10 lg:h-11 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground'
+                  ? 'h-10 sm:h-12 px-2 sm:px-4 bg-primary text-primary-foreground text-sm sm:text-base' 
+                  : 'h-9 sm:h-10 lg:h-11 px-2 sm:px-3 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground text-xs sm:text-sm'
                 }
               `}
               aria-label={seniorMode ? 'Désactiver le mode Senior' : 'Activer le mode Senior'}
             >
-              {seniorMode ? <Eye className="h-5 w-5" /> : <ZoomIn className="h-4 w-4" />}
-              <span className={seniorMode ? 'inline' : 'hidden sm:inline'}>
-                {seniorMode ? 'Mode Senior ✓' : 'Mode Senior'}
+              {seniorMode ? <Eye className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" /> : <ZoomIn className="h-4 w-4 shrink-0" />}
+              <span className={seniorMode ? 'hidden xs:inline' : 'hidden sm:inline'}>
+                {seniorMode ? 'Senior ✓' : 'Senior'}
               </span>
             </Button>
 
             {/* Menu Button - Always visible in Senior Mode, mobile only otherwise */}
             <Button
               variant="ghost"
-              size={seniorMode ? 'lg' : 'icon'}
+              size={seniorMode ? 'default' : 'icon'}
               className={`
                 ${useHamburgerMenu ? 'flex' : 'lg:hidden flex'}
-                ${seniorMode ? 'h-12 w-12' : 'h-10 w-10'}
+                ${seniorMode ? 'h-10 w-10 sm:h-12 sm:w-12' : 'h-9 w-9 sm:h-10 sm:w-10'}
               `}
               data-icon-button="true"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -127,9 +127,9 @@ export const Header = () => {
               aria-label="Menu de navigation"
             >
               {mobileMenuOpen ? (
-                <X className={seniorMode ? 'h-7 w-7' : 'h-6 w-6'} />
+                <X className={seniorMode ? 'h-5 w-5 sm:h-7 sm:w-7' : 'h-5 w-5 sm:h-6 sm:w-6'} />
               ) : (
-                <Menu className={seniorMode ? 'h-7 w-7' : 'h-6 w-6'} />
+                <Menu className={seniorMode ? 'h-5 w-5 sm:h-7 sm:w-7' : 'h-5 w-5 sm:h-6 sm:w-6'} />
               )}
             </Button>
           </div>
