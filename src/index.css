@@ -142,6 +142,15 @@
     padding: 1rem 1.5rem;
   }
 
+  /* Exception : boutons icônes (hamburger, close, etc.)
+     => on garde la taille "grosse" mais sans padding horizontal qui casse le header */
+  .senior-mode button[data-icon-button="true"],
+  .senior-mode a[data-icon-button="true"] {
+    padding: 0 !important;
+    min-width: 56px;
+    min-height: 56px;
+  }
+
   .senior-mode .card-medical {
     padding: 2rem;
   }
