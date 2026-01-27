@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Scale, Cigarette, Moon, Activity, ChevronRight, Download } from 'lucide-react';
+import { Scale, Cigarette, Moon, Activity, ChevronRight, Download, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
+import { useToast } from '@/hooks/use-toast';
 
 const guides = [
   {
@@ -12,6 +13,7 @@ const guides = [
     description: 'Des conseils pratiques et progressifs pour atteindre un poids santé, sans régime restrictif.',
     icon: Scale,
     color: 'bg-primary/10 text-primary',
+    pdfAvailable: false,
     topics: [
       'Pourquoi les régimes restrictifs échouent',
       'L\'assiette équilibrée au quotidien',
@@ -26,6 +28,7 @@ const guides = [
     description: 'Une approche progressive et bienveillante pour se libérer du tabac.',
     icon: Cigarette,
     color: 'bg-destructive/10 text-destructive',
+    pdfAvailable: false,
     topics: [
       'Comprendre sa dépendance',
       'Préparer son arrêt',
@@ -40,6 +43,7 @@ const guides = [
     description: 'Retrouver un sommeil réparateur avec des habitudes simples et efficaces.',
     icon: Moon,
     color: 'bg-secondary/10 text-secondary',
+    pdfAvailable: false,
     topics: [
       'L\'hygiène du sommeil',
       'Préparer sa nuit',
@@ -54,6 +58,7 @@ const guides = [
     description: 'Bouger en douceur quand on a mal, qu\'on est essoufflé ou qu\'on n\'a plus l\'habitude.',
     icon: Activity,
     color: 'bg-accent/10 text-accent',
+    pdfAvailable: false,
     topics: [
       'Pourquoi bouger quand on a mal',
       'Commencer très progressivement',
@@ -66,9 +71,17 @@ const guides = [
 
 const Guides = () => {
   const { seniorMode, titleClass, textClass, buttonSize, gridCols2, cardPadding, smallTextClass, subtitleClass } = useSeniorMode();
+  const { toast } = useToast();
   
-  const handleDownloadPDF = (guideId: string) => {
-    alert(`Téléchargement du guide ${guideId} - PDF à venir`);
+  const handleDownloadPDF = (guideId: string, pdfAvailable: boolean) => {
+    if (!pdfAvailable) {
+      toast({
+        title: "Guide bientôt disponible",
+        description: "Ce guide PDF est en cours de préparation. Revenez prochainement.",
+      });
+      return;
+    }
+    // Future: download real PDF
   };
 
   return (
@@ -121,13 +134,18 @@ const Guides = () => {
 
               <div className="flex gap-3">
                 <Button 
-                  onClick={() => handleDownloadPDF(guide.id)} 
-                  variant="pdf" 
+                  onClick={() => handleDownloadPDF(guide.id, guide.pdfAvailable)} 
+                  variant={guide.pdfAvailable ? "pdf" : "outline"}
                   size={buttonSize}
                   className="flex-1"
+                  disabled={!guide.pdfAvailable}
                 >
-                  <Download className={seniorMode ? 'w-5 h-5' : 'w-4 h-4'} />
-                  Télécharger le PDF
+                  {guide.pdfAvailable ? (
+                    <Download className={seniorMode ? 'w-5 h-5' : 'w-4 h-4'} />
+                  ) : (
+                    <Clock className={seniorMode ? 'w-5 h-5' : 'w-4 h-4'} />
+                  )}
+                  {guide.pdfAvailable ? 'Télécharger le PDF' : 'Bientôt disponible'}
                 </Button>
               </div>
             </div>

@@ -1,18 +1,49 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Download, Target, ChevronRight, Calendar } from 'lucide-react';
+import { Download, Target, ChevronRight, Calendar, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { pathologies, levelLabels, MobilityLevel } from '@/data/pathologies';
+import { downloadPdf4PagesBySlug, hasEvidenceData } from '@/services/pdfService';
+import { useToast } from '@/hooks/use-toast';
 
 const Programs = () => {
+  const [downloadingSlug, setDownloadingSlug] = useState<string | null>(null);
+  const { toast } = useToast();
+
   // Filter pathologies that have 8-week programs
   const pathologiesWithPrograms = pathologies.filter(
     (p) => p.eightWeekPrograms && p.eightWeekPrograms.length > 0
   );
 
-  const handleDownloadPDF = (pathologyId: string) => {
-    alert(`Téléchargement du programme ${pathologyId} - PDF à venir`);
+  const handleDownloadPDF = async (slug: string) => {
+    if (!hasEvidenceData(slug)) {
+      toast({
+        title: "PDF non disponible",
+        description: "Le programme PDF pour cette pathologie sera bientôt disponible.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setDownloadingSlug(slug);
+    try {
+      await downloadPdf4PagesBySlug(slug);
+      toast({
+        title: "Téléchargement réussi",
+        description: "Le programme PDF a été téléchargé.",
+      });
+    } catch (error) {
+      console.error('Erreur téléchargement PDF:', error);
+      toast({
+        title: "Erreur de téléchargement",
+        description: "Impossible de générer le PDF. Réessayez plus tard.",
+        variant: "destructive",
+      });
+    } finally {
+      setDownloadingSlug(null);
+    }
   };
 
   return (
@@ -33,88 +64,98 @@ const Programs = () => {
 
         {/* Programs by pathology */}
         <div className="space-y-12">
-          {pathologiesWithPrograms.map((pathology) => (
-            <section key={pathology.id} className="bg-card border border-border rounded-2xl p-6 lg:p-8">
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
-                <div>
-                  <Link
-                    to={`/pathologies/${pathology.slug}`}
-                    className="text-sm text-primary hover:underline flex items-center gap-1"
-                  >
-                    Voir la fiche complète
-                    <ChevronRight className="w-4 h-4" />
-                  </Link>
-                  <h2 className="font-serif text-2xl font-bold text-foreground mt-1">
-                    {pathology.name}
-                  </h2>
-                  <p className="text-muted-foreground mt-1">
-                    {pathology.shortDescription}
-                  </p>
-                </div>
-                <Button
-                  variant="pdf"
-                  onClick={() => handleDownloadPDF(pathology.id)}
-                  className="shrink-0"
-                >
-                  <Download className="w-4 h-4" />
-                  Télécharger les programmes PDF
-                </Button>
-              </div>
-
-              {/* Levels */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {pathology.eightWeekPrograms?.map((program) => (
-                  <div
-                    key={program.level}
-                    className="bg-muted/50 rounded-xl p-5 border border-border"
-                  >
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
-                        program.level === 0 ? 'bg-destructive/20 text-destructive' :
-                        program.level === 1 ? 'bg-accent/20 text-accent' :
-                        program.level === 2 ? 'bg-secondary/20 text-secondary' :
-                        'bg-primary/20 text-primary'
-                      }`}>
-                        {program.level}
-                      </span>
-                      <h3 className="font-semibold text-foreground">
-                        {program.levelName}
-                      </h3>
-                    </div>
-
-                    <div className="space-y-3">
-                      {program.weeks.map((week, index) => (
-                        <div key={index} className="pl-2 border-l-2 border-primary/30">
-                          <div className="flex items-center gap-2 mb-1">
-                            <Calendar className="w-4 h-4 text-primary" />
-                            <span className="font-medium text-sm text-foreground">
-                              {week.week}
-                            </span>
-                          </div>
-                          <p className="text-xs text-primary font-medium mb-1">
-                            Focus : {week.focus}
-                          </p>
-                          <ul className="space-y-0.5">
-                            {week.exercises.slice(0, 2).map((exercise, exIndex) => (
-                              <li key={exIndex} className="text-xs text-muted-foreground flex items-start gap-1">
-                                <span>•</span>
-                                <span>{exercise}</span>
-                              </li>
-                            ))}
-                            {week.exercises.length > 2 && (
-                              <li className="text-xs text-muted-foreground italic">
-                                + {week.exercises.length - 2} autres...
-                              </li>
-                            )}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
+          {pathologiesWithPrograms.map((pathology) => {
+            const hasPdf = hasEvidenceData(pathology.slug);
+            const isDownloading = downloadingSlug === pathology.slug;
+            
+            return (
+              <section key={pathology.id} className="bg-card border border-border rounded-2xl p-6 lg:p-8">
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
+                  <div>
+                    <Link
+                      to={`/pathologies/${pathology.slug}`}
+                      className="text-sm text-primary hover:underline flex items-center gap-1"
+                    >
+                      Voir la fiche complète
+                      <ChevronRight className="w-4 h-4" />
+                    </Link>
+                    <h2 className="font-serif text-2xl font-bold text-foreground mt-1">
+                      {pathology.name}
+                    </h2>
+                    <p className="text-muted-foreground mt-1">
+                      {pathology.shortDescription}
+                    </p>
                   </div>
-                ))}
-              </div>
-            </section>
-          ))}
+                  <Button
+                    variant={hasPdf ? "pdf" : "outline"}
+                    onClick={() => handleDownloadPDF(pathology.slug)}
+                    className="shrink-0"
+                    disabled={isDownloading || !hasPdf}
+                  >
+                    {isDownloading ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Download className="w-4 h-4" />
+                    )}
+                    {hasPdf ? 'Télécharger les programmes PDF' : 'Bientôt disponible'}
+                  </Button>
+                </div>
+
+                {/* Levels */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {pathology.eightWeekPrograms?.map((program) => (
+                    <div
+                      key={program.level}
+                      className="bg-muted/50 rounded-xl p-5 border border-border"
+                    >
+                      <div className="flex items-center gap-2 mb-4">
+                        <span className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
+                          program.level === 0 ? 'bg-destructive/20 text-destructive' :
+                          program.level === 1 ? 'bg-accent/20 text-accent' :
+                          program.level === 2 ? 'bg-secondary/20 text-secondary' :
+                          'bg-primary/20 text-primary'
+                        }`}>
+                          {program.level}
+                        </span>
+                        <h3 className="font-semibold text-foreground">
+                          {program.levelName}
+                        </h3>
+                      </div>
+
+                      <div className="space-y-3">
+                        {program.weeks.map((week, index) => (
+                          <div key={index} className="pl-2 border-l-2 border-primary/30">
+                            <div className="flex items-center gap-2 mb-1">
+                              <Calendar className="w-4 h-4 text-primary" />
+                              <span className="font-medium text-sm text-foreground">
+                                {week.week}
+                              </span>
+                            </div>
+                            <p className="text-xs text-primary font-medium mb-1">
+                              Focus : {week.focus}
+                            </p>
+                            <ul className="space-y-0.5">
+                              {week.exercises.slice(0, 2).map((exercise, exIndex) => (
+                                <li key={exIndex} className="text-xs text-muted-foreground flex items-start gap-1">
+                                  <span>•</span>
+                                  <span>{exercise}</span>
+                                </li>
+                              ))}
+                              {week.exercises.length > 2 && (
+                                <li className="text-xs text-muted-foreground italic">
+                                  + {week.exercises.length - 2} autres...
+                                </li>
+                              )}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
         </div>
 
         {/* Info Box */}

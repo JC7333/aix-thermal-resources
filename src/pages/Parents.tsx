@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
-import { Baby, Thermometer, Ear, HeartPulse, Download, ChevronRight, AlertTriangle } from 'lucide-react';
+import { Baby, Thermometer, Ear, HeartPulse, Download, ChevronRight, AlertTriangle, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
+import { useToast } from '@/hooks/use-toast';
 import { pathologies } from '@/data/pathologies';
 
 const parentTopics = [
@@ -61,9 +62,20 @@ const alertSigns = [
 const Parents = () => {
   const childPathologies = pathologies.filter(p => p.audience === 'enfant');
   const { seniorMode, titleClass, textClass, buttonSize, gridCols, smallTextClass, iconSize, iconSizeLg } = useSeniorMode();
+  const { toast } = useToast();
+
+  // PDF not available yet - show informational toast
+  const pdfAvailable = false;
 
   const handleDownloadPDF = () => {
-    alert('Téléchargement du guide parents - PDF à venir');
+    if (!pdfAvailable) {
+      toast({
+        title: "Guide bientôt disponible",
+        description: "Le guide parents PDF est en cours de préparation. Revenez prochainement.",
+      });
+      return;
+    }
+    // Future: download real PDF
   };
 
   return (
@@ -178,9 +190,18 @@ const Parents = () => {
               Téléchargez le guide complet avec tous les conseils pratiques, 
               les signaux d'alerte et les gestes du quotidien.
             </p>
-            <Button onClick={handleDownloadPDF} variant="pdf" size="lg">
-              <Download className="w-5 h-5" />
-              Télécharger le guide PDF
+            <Button 
+              onClick={handleDownloadPDF} 
+              variant={pdfAvailable ? "pdf" : "outline"} 
+              size="lg"
+              disabled={!pdfAvailable}
+            >
+              {pdfAvailable ? (
+                <Download className="w-5 h-5" />
+              ) : (
+                <Clock className="w-5 h-5" />
+              )}
+              {pdfAvailable ? 'Télécharger le guide PDF' : 'Guide bientôt disponible'}
             </Button>
           </div>
         </section>
