@@ -7,4 +7,5 @@
 
 export { AnatomyDiagrams } from './AnatomyDiagrams';
 export { ExerciseDiagrams } from './ExerciseDiagrams';
-export { getDiagramsBySlug } from './DiagramsMapping';
+export { ExerciseDiagramsByLevel } from './ExerciseDiagramsLevels';
+export { getDiagramsBySlug, getExerciseLevelId } from './DiagramsMapping';

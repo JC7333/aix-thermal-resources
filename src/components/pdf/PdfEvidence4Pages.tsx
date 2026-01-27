@@ -11,7 +11,9 @@
 import React from 'react';
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 import { PDF_COLORS } from './PdfStyles';
-import { PdfBodySchema, PdfExerciseSchema } from './PdfEvidenceComponents';
+import { PdfBodySchema } from './PdfEvidenceComponents';
+import { ExerciseDiagramsByLevel } from './diagrams/ExerciseDiagramsLevels';
+import { getDiagramsBySlug } from './diagrams/DiagramsMapping';
 import type { EvidenceData } from '@/data/evidence';
 
 // Styles premium 4 pages - optimisés senior
@@ -488,8 +490,46 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
           <Text style={styles.brand}>COOLANCE</Text>
         </View>
 
-        {/* Schéma exercices */}
-        <PdfExerciseSchema slug={evidence.slug} width={350} height={100} />
+        {/* Titre section exercices */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionIcon}>🏃</Text>
+          <Text style={styles.sectionTitle}>Exercices adaptés — 3 niveaux au choix</Text>
+        </View>
+
+        {/* 3 schémas d'exercices par niveau */}
+        <View style={{ marginBottom: 12 }}>
+          {(() => {
+            const diagramInfo = getDiagramsBySlug(evidence.slug);
+            if (!diagramInfo) return null;
+            
+            const Level0Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level0 as keyof typeof ExerciseDiagramsByLevel];
+            const Level1Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level1 as keyof typeof ExerciseDiagramsByLevel];
+            const Level2Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level2 as keyof typeof ExerciseDiagramsByLevel];
+
+            return (
+              <View style={{ gap: 8 }}>
+                {/* Niveau 0 */}
+                {Level0Component && (
+                  <View style={{ alignItems: 'center', padding: 4, backgroundColor: '#e8f5ef', borderRadius: 6 }}>
+                    <Level0Component width={340} height={70} />
+                  </View>
+                )}
+                {/* Niveau 1 */}
+                {Level1Component && (
+                  <View style={{ alignItems: 'center', padding: 4, backgroundColor: PDF_COLORS.primaryLight, borderRadius: 6 }}>
+                    <Level1Component width={340} height={70} />
+                  </View>
+                )}
+                {/* Niveau 2 */}
+                {Level2Component && (
+                  <View style={{ alignItems: 'center', padding: 4, backgroundColor: '#fdf6e9', borderRadius: 6 }}>
+                    <Level2Component width={340} height={70} />
+                  </View>
+                )}
+              </View>
+            );
+          })()}
+        </View>
 
         {/* Plans 7 jours par niveau */}
         <View style={styles.sectionHeader}>
@@ -508,7 +548,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
                 {sevenDayPlanLevel0.days.slice(0, 7).map((day, idx) => (
                   <View key={idx} style={styles.dayCard}>
                     <Text style={styles.dayLabel}>{day.day}</Text>
-                    {day.actions.slice(0, 2).map((action, aIdx) => (
+                    {day.actions.slice(0, 1).map((action, aIdx) => (
                       <Text key={aIdx} style={styles.dayAction}>• {action}</Text>
                     ))}
                   </View>
@@ -527,7 +567,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
                 {sevenDayPlanLevel1.days.slice(0, 7).map((day, idx) => (
                   <View key={idx} style={styles.dayCard}>
                     <Text style={styles.dayLabel}>{day.day}</Text>
-                    {day.actions.slice(0, 2).map((action, aIdx) => (
+                    {day.actions.slice(0, 1).map((action, aIdx) => (
                       <Text key={aIdx} style={styles.dayAction}>• {action}</Text>
                     ))}
                   </View>
@@ -538,9 +578,9 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
         </View>
 
         {/* Conseil */}
-        <View style={[styles.boxAccent, { marginTop: 12 }]}>
-          <Text style={{ fontSize: 10, fontWeight: 600, color: PDF_COLORS.accent, textAlign: 'center' }}>
-            💬 Conseil : Commencez par "Très facile". Même 5 minutes par jour, c'est un grand pas !
+        <View style={[styles.boxAccent, { marginTop: 8 }]}>
+          <Text style={{ fontSize: 9, fontWeight: 600, color: PDF_COLORS.accent, textAlign: 'center' }}>
+            💬 Commencez par "Très facile". Même 5 minutes par jour, c'est un grand pas !
           </Text>
         </View>
 
