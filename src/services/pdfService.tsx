@@ -83,6 +83,15 @@ export const getCacheStats = (): { size: number; entries: string[] } => {
 };
 
 // ============================================
+// TYPE RÉSULTAT AVEC STATUT CACHE
+// ============================================
+
+export interface PdfGenerationResult {
+  blob: Blob;
+  fromCache: boolean;
+}
+
+// ============================================
 // GÉNÉRATION PDF À PARTIR DE EVIDENCE DATA
 // ============================================
 
@@ -106,11 +115,14 @@ export const generatePdf4Pages = async (evidence: EvidenceData): Promise<Blob> =
 
 /**
  * Génère un PDF 1 page à partir d'un slug (avec cache)
+ * Retourne le blob ET le statut cache
  */
-export const generatePdf1PageBySlug = async (slug: string): Promise<Blob | null> => {
+export const generatePdf1PageBySlug = async (slug: string): Promise<PdfGenerationResult | null> => {
   // Vérifier le cache d'abord
   const cached = getFromCache(slug, '1page');
-  if (cached) return cached;
+  if (cached) {
+    return { blob: cached, fromCache: true };
+  }
 
   const evidence = getEvidenceBySlug(slug);
   if (!evidence) {
@@ -123,16 +135,19 @@ export const generatePdf1PageBySlug = async (slug: string): Promise<Blob | null>
   // Mettre en cache
   addToCache(slug, '1page', blob);
   
-  return blob;
+  return { blob, fromCache: false };
 };
 
 /**
  * Génère un PDF 4 pages à partir d'un slug (avec cache)
+ * Retourne le blob ET le statut cache
  */
-export const generatePdf4PagesBySlug = async (slug: string): Promise<Blob | null> => {
+export const generatePdf4PagesBySlug = async (slug: string): Promise<PdfGenerationResult | null> => {
   // Vérifier le cache d'abord
   const cached = getFromCache(slug, '4pages');
-  if (cached) return cached;
+  if (cached) {
+    return { blob: cached, fromCache: true };
+  }
 
   const evidence = getEvidenceBySlug(slug);
   if (!evidence) {
@@ -145,7 +160,7 @@ export const generatePdf4PagesBySlug = async (slug: string): Promise<Blob | null
   // Mettre en cache
   addToCache(slug, '4pages', blob);
   
-  return blob;
+  return { blob, fromCache: false };
 };
 
 // ============================================
@@ -183,12 +198,12 @@ export const getPdfFilename = (slug: string, type: '1page' | '4pages'): string =
  */
 export const downloadPdf1PageBySlug = async (slug: string): Promise<void> => {
   try {
-    const blob = await generatePdf1PageBySlug(slug);
-    if (!blob) {
+    const result = await generatePdf1PageBySlug(slug);
+    if (!result) {
       throw new Error(`Impossible de générer le PDF pour ${slug}`);
     }
     const filename = getPdfFilename(slug, '1page');
-    downloadPdf(blob, filename);
+    downloadPdf(result.blob, filename);
     
     // Tracking
     logEvent('pdf_download', `/pathologies/${slug}`, {
@@ -207,12 +222,12 @@ export const downloadPdf1PageBySlug = async (slug: string): Promise<void> => {
  */
 export const downloadPdf4PagesBySlug = async (slug: string): Promise<void> => {
   try {
-    const blob = await generatePdf4PagesBySlug(slug);
-    if (!blob) {
+    const result = await generatePdf4PagesBySlug(slug);
+    if (!result) {
       throw new Error(`Impossible de générer le PDF pour ${slug}`);
     }
     const filename = getPdfFilename(slug, '4pages');
-    downloadPdf(blob, filename);
+    downloadPdf(result.blob, filename);
     
     // Tracking
     logEvent('pdf_download', `/pathologies/${slug}`, {

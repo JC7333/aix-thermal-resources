@@ -36,6 +36,7 @@ export const PdfDownloadButtons = ({
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewType, setPreviewType] = useState<'1page' | '4pages'>('1page');
   const [previewBlob, setPreviewBlob] = useState<Blob | null>(null);
+  const [previewFromCache, setPreviewFromCache] = useState(false);
   const { toast } = useToast();
 
   const hasEvidence = hasEvidenceData(slug);
@@ -55,14 +56,16 @@ export const PdfDownloadButtons = ({
     setPreviewType(type);
     setPreviewOpen(true);
     setPreviewBlob(null);
+    setPreviewFromCache(false);
 
     try {
-      const blob = type === '1page' 
+      const result = type === '1page' 
         ? await generatePdf1PageBySlug(slug)
         : await generatePdf4PagesBySlug(slug);
       
-      if (blob) {
-        setPreviewBlob(blob);
+      if (result) {
+        setPreviewBlob(result.blob);
+        setPreviewFromCache(result.fromCache);
       } else {
         throw new Error('Génération échouée');
       }
@@ -92,14 +95,14 @@ export const PdfDownloadButtons = ({
 
     setLoading(type);
     try {
-      const blob = type === '1page' 
+      const result = type === '1page' 
         ? await generatePdf1PageBySlug(slug)
         : await generatePdf4PagesBySlug(slug);
       
-      if (!blob) throw new Error('Génération échouée');
+      if (!result) throw new Error('Génération échouée');
       
       const filename = getPdfFilename(slug, type);
-      downloadPdf(blob, filename);
+      downloadPdf(result.blob, filename);
       
       logEvent('pdf_download', `/pathologies/${slug}`, { type, slug, source: 'evidence-pack' });
       
@@ -198,6 +201,7 @@ export const PdfDownloadButtons = ({
           type={previewType}
           isLoading={loading !== null}
           onDownload={handleDownloadFromPreview}
+          fromCache={previewFromCache}
         />
       </>
     );
@@ -262,6 +266,7 @@ export const PdfDownloadButtons = ({
           type={previewType}
           isLoading={loading !== null}
           onDownload={handleDownloadFromPreview}
+          fromCache={previewFromCache}
         />
       </>
     );
@@ -310,6 +315,7 @@ export const PdfDownloadButtons = ({
         type={previewType}
         isLoading={loading !== null}
         onDownload={handleDownloadFromPreview}
+        fromCache={previewFromCache}
       />
     </>
   );

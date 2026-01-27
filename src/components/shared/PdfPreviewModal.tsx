@@ -2,13 +2,15 @@
 // MODALE PRÉVISUALISATION PDF — COOLANCE
 // ============================================
 // Affiche un aperçu du PDF avant téléchargement ou impression
+// Indique si le PDF provient du cache
 // ============================================
 
 import { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Download, X, Loader2, FileText, Book, ZoomIn, ZoomOut, Printer } from 'lucide-react';
+import { Download, X, Loader2, FileText, Book, ZoomIn, ZoomOut, Printer, Zap, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Badge } from '@/components/ui/badge';
 
 interface PdfPreviewModalProps {
   isOpen: boolean;
@@ -18,6 +20,7 @@ interface PdfPreviewModalProps {
   type: '1page' | '4pages';
   isLoading: boolean;
   onDownload: () => void;
+  fromCache?: boolean; // Nouveau: indique si le PDF vient du cache
 }
 
 export const PdfPreviewModal = ({
@@ -28,6 +31,7 @@ export const PdfPreviewModal = ({
   type,
   isLoading,
   onDownload,
+  fromCache = false,
 }: PdfPreviewModalProps) => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [zoom, setZoom] = useState(100);
@@ -120,6 +124,25 @@ export const PdfPreviewModal = ({
               <DialogTitle className="text-lg font-serif">
                 Aperçu — {type === '1page' ? 'Fiche 1 page' : 'Guide 4 pages'}
               </DialogTitle>
+              {/* Badge indicateur cache */}
+              {pdfBlob && !isLoading && (
+                <Badge 
+                  variant={fromCache ? "secondary" : "outline"} 
+                  className={`text-xs gap-1 ${fromCache ? 'bg-secondary/20 text-secondary border-secondary/30' : 'bg-accent/20 text-accent-foreground border-accent/30'}`}
+                >
+                  {fromCache ? (
+                    <>
+                      <Zap className="w-3 h-3" />
+                      Cache
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="w-3 h-3" />
+                      Généré
+                    </>
+                  )}
+                </Badge>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <Button
