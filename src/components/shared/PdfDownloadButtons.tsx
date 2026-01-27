@@ -2,33 +2,46 @@
 // BOUTONS PDF — COOLANCE
 // ============================================
 // Composant réutilisable pour les boutons de téléchargement PDF
-// Utilise les données evidence-pack.json
+// Avec prévisualisation modale avant téléchargement
 // ============================================
 
 import { useState } from 'react';
-import { Download, FileText, Book, Loader2 } from 'lucide-react';
+import { Download, FileText, Book, Loader2, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { downloadPdf1PageBySlug, downloadPdf4PagesBySlug, hasEvidenceData } from '@/services/pdfService';
+import { 
+  generatePdf1PageBySlug, 
+  generatePdf4PagesBySlug, 
+  downloadPdf,
+  getPdfFilename,
+  hasEvidenceData 
+} from '@/services/pdfService';
 import { useToast } from '@/hooks/use-toast';
+import { PdfPreviewModal } from './PdfPreviewModal';
+import { logEvent } from '@/services/analytics';
 
 interface PdfDownloadButtonsProps {
   slug: string;
   variant?: 'default' | 'compact' | 'card';
   className?: string;
+  showPreview?: boolean; // Activer la prévisualisation
 }
 
 export const PdfDownloadButtons = ({ 
   slug, 
   variant = 'default',
-  className = '' 
+  className = '',
+  showPreview = true, // Prévisualisation activée par défaut
 }: PdfDownloadButtonsProps) => {
-  const [downloading, setDownloading] = useState<'1page' | '4pages' | null>(null);
+  const [loading, setLoading] = useState<'1page' | '4pages' | null>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewType, setPreviewType] = useState<'1page' | '4pages'>('1page');
+  const [previewBlob, setPreviewBlob] = useState<Blob | null>(null);
   const { toast } = useToast();
 
-  // Vérifier si les données evidence existent
   const hasEvidence = hasEvidenceData(slug);
 
-  const handleDownload1Page = async () => {
+  // Génère le PDF et ouvre la prévisualisation
+  const handlePreview = async (type: '1page' | '4pages') => {
     if (!hasEvidence) {
       toast({
         title: "PDF non disponible",
@@ -38,26 +51,36 @@ export const PdfDownloadButtons = ({
       return;
     }
 
-    setDownloading('1page');
+    setLoading(type);
+    setPreviewType(type);
+    setPreviewOpen(true);
+    setPreviewBlob(null);
+
     try {
-      await downloadPdf1PageBySlug(slug);
-      toast({
-        title: "Téléchargement réussi",
-        description: "Votre fiche PDF 1 page a été téléchargée.",
-      });
+      const blob = type === '1page' 
+        ? await generatePdf1PageBySlug(slug)
+        : await generatePdf4PagesBySlug(slug);
+      
+      if (blob) {
+        setPreviewBlob(blob);
+      } else {
+        throw new Error('Génération échouée');
+      }
     } catch (error) {
-      console.error('Erreur téléchargement PDF 1 page:', error);
+      console.error('Erreur génération PDF:', error);
       toast({
-        title: "Erreur de téléchargement",
-        description: "Une erreur est survenue. Veuillez réessayer.",
+        title: "Erreur de génération",
+        description: "Une erreur est survenue lors de la génération du PDF.",
         variant: "destructive",
       });
+      setPreviewOpen(false);
     } finally {
-      setDownloading(null);
+      setLoading(null);
     }
   };
 
-  const handleDownload4Pages = async () => {
+  // Télécharge directement le PDF
+  const handleDirectDownload = async (type: '1page' | '4pages') => {
     if (!hasEvidence) {
       toast({
         title: "PDF non disponible",
@@ -67,135 +90,228 @@ export const PdfDownloadButtons = ({
       return;
     }
 
-    setDownloading('4pages');
+    setLoading(type);
     try {
-      await downloadPdf4PagesBySlug(slug);
+      const blob = type === '1page' 
+        ? await generatePdf1PageBySlug(slug)
+        : await generatePdf4PagesBySlug(slug);
+      
+      if (!blob) throw new Error('Génération échouée');
+      
+      const filename = getPdfFilename(slug, type);
+      downloadPdf(blob, filename);
+      
+      logEvent('pdf_download', `/pathologies/${slug}`, { type, slug, source: 'evidence-pack' });
+      
       toast({
         title: "Téléchargement réussi",
-        description: "Votre guide PDF 4 pages a été téléchargé.",
+        description: `Votre ${type === '1page' ? 'fiche' : 'guide'} PDF a été téléchargé.`,
       });
     } catch (error) {
-      console.error('Erreur téléchargement PDF 4 pages:', error);
+      console.error('Erreur téléchargement PDF:', error);
       toast({
         title: "Erreur de téléchargement",
         description: "Une erreur est survenue. Veuillez réessayer.",
         variant: "destructive",
       });
     } finally {
-      setDownloading(null);
+      setLoading(null);
     }
   };
 
+  // Télécharge depuis la prévisualisation
+  const handleDownloadFromPreview = () => {
+    if (previewBlob) {
+      const filename = getPdfFilename(slug, previewType);
+      downloadPdf(previewBlob, filename);
+      
+      logEvent('pdf_download', `/pathologies/${slug}`, { 
+        type: previewType, 
+        slug, 
+        source: 'evidence-pack',
+        fromPreview: 'true',
+      });
+      
+      toast({
+        title: "Téléchargement réussi",
+        description: `Votre ${previewType === '1page' ? 'fiche' : 'guide'} PDF a été téléchargé.`,
+      });
+      setPreviewOpen(false);
+    }
+  };
+
+  const closePreview = () => {
+    setPreviewOpen(false);
+    setPreviewBlob(null);
+  };
+
+  // Choix de l'action : preview ou download direct
+  const handleAction = (type: '1page' | '4pages') => {
+    if (showPreview) {
+      handlePreview(type);
+    } else {
+      handleDirectDownload(type);
+    }
+  };
+
+  // Rendu compact
   if (variant === 'compact') {
     return (
-      <div className={`flex gap-2 ${className}`}>
+      <>
+        <div className={`flex gap-2 ${className}`}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleAction('1page')}
+            disabled={loading !== null || !hasEvidence}
+          >
+            {loading === '1page' ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : showPreview ? (
+              <Eye className="w-4 h-4" />
+            ) : (
+              <FileText className="w-4 h-4" />
+            )}
+            <span className="ml-1">1 page</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleAction('4pages')}
+            disabled={loading !== null || !hasEvidence}
+          >
+            {loading === '4pages' ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : showPreview ? (
+              <Eye className="w-4 h-4" />
+            ) : (
+              <Book className="w-4 h-4" />
+            )}
+            <span className="ml-1">4 pages</span>
+          </Button>
+        </div>
+        <PdfPreviewModal
+          isOpen={previewOpen}
+          onClose={closePreview}
+          pdfBlob={previewBlob}
+          filename={getPdfFilename(slug, previewType)}
+          type={previewType}
+          isLoading={loading !== null}
+          onDownload={handleDownloadFromPreview}
+        />
+      </>
+    );
+  }
+
+  // Rendu card
+  if (variant === 'card') {
+    return (
+      <>
+        <div className={`card-medical bg-primary/5 border-primary/20 ${className}`}>
+          <h3 className="font-serif text-lg font-bold text-foreground mb-3 flex items-center gap-2">
+            <Download className="w-5 h-5 text-primary" />
+            Télécharger en PDF
+          </h3>
+          <p className="text-sm text-muted-foreground mb-4">
+            Fiches imprimables, basées sur les dernières preuves scientifiques.
+            {showPreview && " Prévisualisez avant de télécharger."}
+          </p>
+          <div className="flex flex-col gap-2">
+            <Button
+              variant="outline"
+              className="w-full justify-start"
+              onClick={() => handleAction('1page')}
+              disabled={loading !== null || !hasEvidence}
+            >
+              {loading === '1page' ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : showPreview ? (
+                <Eye className="w-4 h-4 mr-2" />
+              ) : (
+                <FileText className="w-4 h-4 mr-2" />
+              )}
+              {showPreview ? 'Aperçu' : 'PDF'} 1 page — Fiche essentielle
+            </Button>
+            <Button
+              variant="default"
+              className="w-full justify-start"
+              onClick={() => handleAction('4pages')}
+              disabled={loading !== null || !hasEvidence}
+            >
+              {loading === '4pages' ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : showPreview ? (
+                <Eye className="w-4 h-4 mr-2" />
+              ) : (
+                <Book className="w-4 h-4 mr-2" />
+              )}
+              {showPreview ? 'Aperçu' : 'PDF'} 4 pages — Guide complet
+            </Button>
+          </div>
+          {!hasEvidence && (
+            <p className="text-xs text-muted-foreground mt-3 italic">
+              PDF bientôt disponible pour cette pathologie.
+            </p>
+          )}
+        </div>
+        <PdfPreviewModal
+          isOpen={previewOpen}
+          onClose={closePreview}
+          pdfBlob={previewBlob}
+          filename={getPdfFilename(slug, previewType)}
+          type={previewType}
+          isLoading={loading !== null}
+          onDownload={handleDownloadFromPreview}
+        />
+      </>
+    );
+  }
+
+  // Rendu default
+  return (
+    <>
+      <div className={`flex flex-wrap gap-3 ${className}`}>
         <Button
           variant="outline"
-          size="sm"
-          onClick={handleDownload1Page}
-          disabled={downloading !== null || !hasEvidence}
+          onClick={() => handleAction('1page')}
+          disabled={loading !== null || !hasEvidence}
+          className="gap-2"
         >
-          {downloading === '1page' ? (
+          {loading === '1page' ? (
             <Loader2 className="w-4 h-4 animate-spin" />
+          ) : showPreview ? (
+            <Eye className="w-4 h-4" />
           ) : (
             <FileText className="w-4 h-4" />
           )}
-          <span className="ml-1">1 page</span>
+          {showPreview ? 'Aperçu' : 'PDF'} 1 page
         </Button>
         <Button
-          variant="outline"
-          size="sm"
-          onClick={handleDownload4Pages}
-          disabled={downloading !== null || !hasEvidence}
+          variant="default"
+          onClick={() => handleAction('4pages')}
+          disabled={loading !== null || !hasEvidence}
+          className="gap-2"
         >
-          {downloading === '4pages' ? (
+          {loading === '4pages' ? (
             <Loader2 className="w-4 h-4 animate-spin" />
+          ) : showPreview ? (
+            <Eye className="w-4 h-4" />
           ) : (
             <Book className="w-4 h-4" />
           )}
-          <span className="ml-1">4 pages</span>
+          {showPreview ? 'Aperçu' : 'PDF'} 4 pages
         </Button>
       </div>
-    );
-  }
-
-  if (variant === 'card') {
-    return (
-      <div className={`card-medical bg-primary/5 border-primary/20 ${className}`}>
-        <h3 className="font-serif text-lg font-bold text-foreground mb-3 flex items-center gap-2">
-          <Download className="w-5 h-5 text-primary" />
-          Télécharger en PDF
-        </h3>
-        <p className="text-sm text-muted-foreground mb-4">
-          Fiches imprimables, basées sur les dernières preuves scientifiques.
-        </p>
-        <div className="flex flex-col gap-2">
-          <Button
-            variant="outline"
-            className="w-full justify-start"
-            onClick={handleDownload1Page}
-            disabled={downloading !== null || !hasEvidence}
-          >
-            {downloading === '1page' ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <FileText className="w-4 h-4 mr-2" />
-            )}
-            PDF 1 page — Fiche essentielle
-          </Button>
-          <Button
-            variant="default"
-            className="w-full justify-start"
-            onClick={handleDownload4Pages}
-            disabled={downloading !== null || !hasEvidence}
-          >
-            {downloading === '4pages' ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Book className="w-4 h-4 mr-2" />
-            )}
-            PDF 4 pages — Guide complet
-          </Button>
-        </div>
-        {!hasEvidence && (
-          <p className="text-xs text-muted-foreground mt-3 italic">
-            PDF bientôt disponible pour cette pathologie.
-          </p>
-        )}
-      </div>
-    );
-  }
-
-  // Default variant
-  return (
-    <div className={`flex flex-wrap gap-3 ${className}`}>
-      <Button
-        variant="outline"
-        onClick={handleDownload1Page}
-        disabled={downloading !== null || !hasEvidence}
-        className="gap-2"
-      >
-        {downloading === '1page' ? (
-          <Loader2 className="w-4 h-4 animate-spin" />
-        ) : (
-          <FileText className="w-4 h-4" />
-        )}
-        PDF 1 page
-      </Button>
-      <Button
-        variant="default"
-        onClick={handleDownload4Pages}
-        disabled={downloading !== null || !hasEvidence}
-        className="gap-2"
-      >
-        {downloading === '4pages' ? (
-          <Loader2 className="w-4 h-4 animate-spin" />
-        ) : (
-          <Book className="w-4 h-4" />
-        )}
-        PDF 4 pages
-      </Button>
-    </div>
+      <PdfPreviewModal
+        isOpen={previewOpen}
+        onClose={closePreview}
+        pdfBlob={previewBlob}
+        filename={getPdfFilename(slug, previewType)}
+        type={previewType}
+        isLoading={loading !== null}
+        onDownload={handleDownloadFromPreview}
+      />
+    </>
   );
 };
 
