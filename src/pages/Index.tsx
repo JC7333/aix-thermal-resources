@@ -4,6 +4,7 @@ import { ArrowRight, Download, Compass, ZoomIn, Heart, Bone, Wind, Cigarette, Ac
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
+import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { quickAnswers, pathologies } from '@/content/content';
 import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
 import { useToast } from '@/hooks/use-toast';
@@ -69,6 +70,7 @@ const topPDFs = [
 
 const Index = () => {
   const { seniorMode, toggleSeniorMode } = useAccessibility();
+  const { titleClass, textClass, subtitleClass, buttonSize, iconSize, iconSizeLg, gridCols, smallTextClass } = useSeniorMode();
   const [downloadingSlug, setDownloadingSlug] = useState<string | null>(null);
   const { toast } = useToast();
 
@@ -103,13 +105,13 @@ const Index = () => {
   return (
     <Layout>
       {/* Hero Section - Product focused */}
-      <section id="hero" className="hero-gradient text-white py-16 lg:py-24">
+      <section id="hero" className={`hero-gradient text-white ${seniorMode ? 'py-20 lg:py-28' : 'py-16 lg:py-24'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+            <h1 className={`font-serif font-bold leading-tight ${seniorMode ? 'text-4xl md:text-5xl lg:text-6xl mb-8' : 'text-3xl md:text-4xl lg:text-5xl mb-6'}`}>
               Des plans simples, imprimables,<br />pour reprendre la main.
             </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed max-w-2xl mx-auto">
+            <p className={`text-white/90 leading-relaxed max-w-2xl mx-auto ${seniorMode ? 'text-xl md:text-2xl mb-10' : 'text-lg md:text-xl mb-8'}`}>
               Douleur, poids, souffle, jambes, enfants : je vous guide avec des actions concrètes, 
               adaptées à votre niveau de mobilité.
             </p>
@@ -131,22 +133,22 @@ const Index = () => {
       </section>
 
       {/* 6 Theme Buttons */}
-      <section id="themes" className="py-10 lg:py-14 bg-background">
+      <section id="themes" className={`bg-background ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground text-center mb-8">
+            <h2 className={`font-serif font-bold text-foreground text-center ${seniorMode ? 'text-3xl md:text-4xl mb-10' : 'text-2xl md:text-3xl mb-8'}`}>
               Quel est votre sujet ?
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6">
+            <div className={`grid grid-cols-2 md:grid-cols-3 ${seniorMode ? 'gap-6 lg:gap-8' : 'gap-4 lg:gap-6'}`}>
               {themeButtons.map((theme) => (
                 <Link
                   key={theme.id}
                   to={theme.href}
-                  className={`flex flex-col items-center justify-center p-6 lg:p-8 rounded-2xl transition-all duration-200 ${theme.color} border-2 border-transparent hover:border-current group`}
+                  className={`flex flex-col items-center justify-center rounded-2xl transition-all duration-200 ${theme.color} border-2 border-transparent hover:border-current group ${seniorMode ? 'p-8 lg:p-10' : 'p-6 lg:p-8'}`}
                 >
-                  <theme.icon className="w-10 h-10 lg:w-12 lg:h-12 mb-3" />
-                  <span className="font-serif text-lg lg:text-xl font-bold">{theme.label}</span>
-                  <span className="text-sm opacity-80">{theme.sublabel}</span>
+                  <theme.icon className={seniorMode ? 'w-14 h-14 lg:w-16 lg:h-16 mb-4' : 'w-10 h-10 lg:w-12 lg:h-12 mb-3'} />
+                  <span className={`font-serif font-bold ${seniorMode ? 'text-xl lg:text-2xl' : 'text-lg lg:text-xl'}`}>{theme.label}</span>
+                  <span className={`opacity-80 ${seniorMode ? 'text-base' : 'text-sm'}`}>{theme.sublabel}</span>
                 </Link>
               ))}
             </div>
@@ -155,25 +157,25 @@ const Index = () => {
       </section>
 
       {/* Start in 30 seconds */}
-      <section id="guided-path" className="py-10 lg:py-14 warm-section">
+      <section id="guided-path" className={`warm-section ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <div className="bg-card rounded-2xl shadow-card p-8 lg:p-10 text-center border border-border">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                <Compass className="w-8 h-8 text-primary" />
+            <div className={`bg-card rounded-2xl shadow-card text-center border border-border ${seniorMode ? 'p-10 lg:p-14' : 'p-8 lg:p-10'}`}>
+              <div className={`rounded-2xl bg-primary/10 flex items-center justify-center mx-auto ${seniorMode ? 'w-20 h-20 mb-8' : 'w-16 h-16 mb-6'}`}>
+                <Compass className={seniorMode ? 'w-10 h-10 text-primary' : 'w-8 h-8 text-primary'} />
               </div>
-              <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-4">
+              <h2 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-3xl md:text-4xl mb-6' : 'text-2xl md:text-3xl mb-4'}`}>
                 Commencer en 30 secondes
               </h2>
-              <p className="text-muted-foreground text-lg mb-6">
+              <p className={`text-muted-foreground ${seniorMode ? 'text-xl mb-8' : 'text-lg mb-6'}`}>
                 Répondez à 3 questions simples. Je vous propose un plan d'action personnalisé, 
                 imprimable, adapté à votre niveau de mobilité.
               </p>
-              <Button asChild size="xl">
+              <Button asChild size={seniorMode ? 'xl' : 'xl'}>
                 <Link to="/parcours" className="gap-2">
-                  <Compass className="w-5 h-5" />
+                  <Compass className={iconSize} />
                   Démarrer le parcours guidé
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className={iconSize} />
                 </Link>
               </Button>
             </div>
@@ -182,40 +184,40 @@ const Index = () => {
       </section>
 
       {/* Quick Answers Preview */}
-      <section id="resources" className="py-10 lg:py-14 bg-background">
+      <section id="resources" className={`bg-background ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
-            <div className="flex items-center justify-between mb-8">
+            <div className={`flex items-center justify-between ${seniorMode ? 'mb-10' : 'mb-8'}`}>
               <div>
-                <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground">
+                <h2 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'}`}>
                   Réponses rapides
                 </h2>
-                <p className="text-muted-foreground mt-1">Une réponse en 20 secondes</p>
+                <p className={`text-muted-foreground mt-1 ${seniorMode ? 'text-lg' : ''}`}>Une réponse en 20 secondes</p>
               </div>
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" size={buttonSize}>
                 <Link to="/reponses-rapides" className="gap-2">
                   Voir tout
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className={iconSize} />
                 </Link>
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className={seniorMode ? 'grid grid-cols-1 lg:grid-cols-3 gap-6' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'}>
               {quickAnswers.slice(0, 3).map((answer) => (
                 <Link
                   key={answer.slug}
                   to={`/reponses-rapides/${answer.slug}`}
-                  className="card-medical hover:shadow-lg transition-shadow group"
+                  className={`card-medical hover:shadow-lg transition-shadow group ${seniorMode ? 'border-2 p-6' : ''}`}
                 >
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-${answer.color}/10`}>
-                      <span className="text-2xl">{answer.icon}</span>
+                    <div className={`rounded-xl flex items-center justify-center shrink-0 bg-${answer.color}/10 ${seniorMode ? 'w-14 h-14' : 'w-12 h-12'}`}>
+                      <span className={seniorMode ? 'text-3xl' : 'text-2xl'}>{answer.icon}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-serif text-lg font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                      <h3 className={`font-serif font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
                         {answer.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className={`text-muted-foreground mt-1 ${seniorMode ? 'text-base' : 'text-sm'}`}>
                         {answer.subtitle}
                       </p>
                     </div>
@@ -228,58 +230,58 @@ const Index = () => {
       </section>
 
       {/* Top PDFs */}
-      <section id="downloads" className="py-10 lg:py-14 warm-section">
+      <section id="downloads" className={`warm-section ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="flex items-center justify-between mb-8">
+            <div className={`flex items-center justify-between ${seniorMode ? 'mb-10' : 'mb-8'}`}>
               <div>
-                <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground">
+                <h2 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'}`}>
                   PDF imprimables
                 </h2>
-                <p className="text-muted-foreground mt-1">Mes 5 fiches les plus téléchargées</p>
+                <p className={`text-muted-foreground mt-1 ${seniorMode ? 'text-lg' : ''}`}>Mes 5 fiches les plus téléchargées</p>
               </div>
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" size={buttonSize}>
                 <Link to="/telechargements" className="gap-2">
-                  <Download className="w-4 h-4" />
+                  <Download className={iconSize} />
                   Tous les PDF
                 </Link>
               </Button>
             </div>
 
-            <div className="space-y-3">
+            <div className={seniorMode ? 'space-y-4' : 'space-y-3'}>
               {topPDFs.map((pdf, index) => {
                 const pathology = pathologies.find(p => p.slug === pdf.slug);
                 return (
                   <div
                     key={index}
-                    className="flex items-center gap-4 p-4 bg-card rounded-xl border border-border hover:border-primary/30 hover:shadow-sm transition-all group"
+                    className={`flex items-center gap-4 bg-card rounded-xl border hover:border-primary/30 hover:shadow-sm transition-all group ${seniorMode ? 'p-6 border-2' : 'p-4 border'}`}
                   >
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                      <FileText className="w-5 h-5 text-primary" />
+                    <div className={`rounded-lg bg-primary/10 flex items-center justify-center shrink-0 ${seniorMode ? 'w-14 h-14' : 'w-10 h-10'}`}>
+                      <FileText className={`text-primary ${seniorMode ? 'w-7 h-7' : 'w-5 h-5'}`} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <Link 
                         to={`/pathologies/${pdf.slug}`}
-                        className="font-medium text-foreground group-hover:text-primary transition-colors"
+                        className={`font-medium text-foreground group-hover:text-primary transition-colors ${seniorMode ? 'text-xl' : ''}`}
                       >
                         {pdf.title}
                       </Link>
-                      <p className="text-sm text-muted-foreground">{pdf.category}</p>
+                      <p className={`text-muted-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>{pdf.category}</p>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <Button 
                         variant="ghost" 
-                        size="sm" 
-                        className="gap-1 text-muted-foreground hover:text-primary"
+                        size={buttonSize} 
+                        className={`gap-1 text-muted-foreground hover:text-primary ${seniorMode ? 'h-12 px-4' : ''}`}
                         disabled={downloadingSlug === pdf.slug}
                         onClick={() => handleDownloadPdf(pdf.slug)}
                       >
                         {downloadingSlug === pdf.slug ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <Loader2 className={`animate-spin ${iconSize}`} />
                         ) : (
-                          <Download className="w-4 h-4" />
+                          <Download className={iconSize} />
                         )}
-                        <span className="hidden sm:inline">PDF</span>
+                        <span className={seniorMode ? 'inline' : 'hidden sm:inline'}>PDF</span>
                       </Button>
                     </div>
                   </div>
@@ -291,18 +293,18 @@ const Index = () => {
       </section>
 
       {/* About teaser */}
-      <section id="about" className="py-10 lg:py-14 bg-background">
+      <section id="about" className={`bg-background ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="text-lg text-muted-foreground mb-4">
+            <p className={`text-muted-foreground ${seniorMode ? 'text-xl mb-6' : 'text-lg mb-4'}`}>
               "Mon objectif est simple : vous aider à mettre en place des habitudes qui tiennent dans la vraie vie."
             </p>
             <Link 
               to="/qui-suis-je" 
-              className="inline-flex items-center gap-2 text-primary font-medium hover:underline"
+              className={`inline-flex items-center gap-2 text-primary font-medium hover:underline ${seniorMode ? 'text-xl' : ''}`}
             >
               En savoir plus sur ma démarche
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className={iconSize} />
             </Link>
           </div>
         </div>
