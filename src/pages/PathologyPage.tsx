@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { Clock, AlertTriangle, Printer, BookOpen, Shield, ExternalLink, Award, Calendar, ChevronRight, Target, RotateCcw } from 'lucide-react';
+import { Clock, AlertTriangle, Printer, BookOpen, Shield, ExternalLink, Award, Calendar, ChevronRight, Target, RotateCcw, PartyPopper } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Layout } from '@/components/layout/Layout';
@@ -13,6 +13,7 @@ import { Progress } from '@/components/ui/progress';
 import { getEvidenceBySlug, getAllEvidence, hasPrograms } from '@/data/evidence';
 import { usePdfPreload } from '@/hooks/usePdfPreload';
 import { useProgramProgress } from '@/hooks/useProgramProgress';
+import { useToast } from '@/hooks/use-toast';
 
 // Niveau de preuve → badge couleur
 const evidenceBadge = (level: string) => {
@@ -34,6 +35,7 @@ const categoryLabels: Record<string, string> = {
 const PathologyPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [selectedLevel, setSelectedLevel] = useState<0 | 1 | 2>(0);
+  const { toast } = useToast();
   
   // Données evidence-based (source unique)
   const evidence = slug ? getEvidenceBySlug(slug) : undefined;
@@ -55,6 +57,61 @@ const PathologyPage = () => {
     resetWeeklyProgress,
     getWeekCompletedCount,
   } = useProgramProgress(slug || '', selectedLevel);
+
+  // Messages de félicitations variés
+  const congratsMessages = [
+    { title: "🎉 Bravo !", description: "Journée complétée avec succès !" },
+    { title: "⭐ Excellent !", description: "Vous avez terminé cette journée !" },
+    { title: "🌟 Super !", description: "Une journée de plus vers vos objectifs !" },
+    { title: "💪 Bien joué !", description: "Continuez sur cette lancée !" },
+  ];
+
+  const weekCongratsMessages = [
+    { title: "🏆 Félicitations !", description: "Semaine complétée avec brio !" },
+    { title: "🎊 Incroyable !", description: "Une semaine entière terminée !" },
+    { title: "🌈 Fantastique !", description: "Vous progressez magnifiquement !" },
+    { title: "🚀 Extraordinaire !", description: "Continuez, vous êtes sur la bonne voie !" },
+  ];
+
+  // Handler pour toggle action avec notification
+  const handleToggleAction = useCallback((dayIndex: number, actionIndex: number, totalActions: number, dayName: string) => {
+    const wasCompleted = isCompleted(dayIndex, actionIndex);
+    const currentCount = getDayCompletedCount(dayIndex, totalActions);
+    
+    // Si on va compléter la dernière action du jour
+    if (!wasCompleted && currentCount === totalActions - 1) {
+      const randomMsg = congratsMessages[Math.floor(Math.random() * congratsMessages.length)];
+      setTimeout(() => {
+        toast({
+          title: randomMsg.title,
+          description: `${dayName} terminé ! ${randomMsg.description}`,
+          className: "animate-scale-in bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/30",
+        });
+      }, 150);
+    }
+    
+    toggleAction(dayIndex, actionIndex);
+  }, [isCompleted, getDayCompletedCount, toggleAction, toast]);
+
+  // Handler pour toggle exercice semaine avec notification
+  const handleToggleWeekExercise = useCallback((weekIndex: number, exIndex: number, totalExercises: number, weekName: string) => {
+    const wasCompleted = isWeekExerciseCompleted(weekIndex, exIndex);
+    const currentCount = getWeekCompletedCount(weekIndex, totalExercises);
+    
+    // Si on va compléter le dernier exercice de la semaine
+    if (!wasCompleted && currentCount === totalExercises - 1) {
+      const randomMsg = weekCongratsMessages[Math.floor(Math.random() * weekCongratsMessages.length)];
+      setTimeout(() => {
+        toast({
+          title: randomMsg.title,
+          description: `${weekName} terminée ! ${randomMsg.description}`,
+          className: "animate-scale-in bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/30",
+        });
+      }, 150);
+    }
+    
+    toggleWeekExercise(weekIndex, exIndex);
+  }, [isWeekExerciseCompleted, getWeekCompletedCount, toggleWeekExercise, toast]);
 
   if (!evidence) {
     return <Navigate to="/pathologies" replace />;
@@ -511,7 +568,7 @@ const PathologyPage = () => {
                                   <Checkbox
                                     id={`action-${dayIndex}-${actionIndex}`}
                                     checked={completed}
-                                    onCheckedChange={() => toggleAction(dayIndex, actionIndex)}
+                                    onCheckedChange={() => handleToggleAction(dayIndex, actionIndex, day.actions.length, day.day)}
                                     className="mt-0.5 h-5 w-5"
                                   />
                                   <label 
@@ -619,7 +676,7 @@ const PathologyPage = () => {
                                   <Checkbox
                                     id={`week-${weekIndex}-ex-${exIndex}`}
                                     checked={completed}
-                                    onCheckedChange={() => toggleWeekExercise(weekIndex, exIndex)}
+                                    onCheckedChange={() => handleToggleWeekExercise(weekIndex, exIndex, week.exercises.length, week.week)}
                                     className="mt-0.5 h-5 w-5"
                                   />
                                   <label 
