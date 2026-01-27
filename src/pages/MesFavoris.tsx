@@ -50,6 +50,7 @@ import { FavoritesImportBanner } from '@/components/shared/FavoritesImportBanner
 import { DraggableFavoriteCard } from '@/components/shared/DraggableFavoriteCard';
 import { CollectionsSection } from '@/components/collections/CollectionsSection';
 import { AddToCollectionMenu } from '@/components/collections/AddToCollectionMenu';
+import { CollectionImportBanner } from '@/components/collections/CollectionImportBanner';
 import { useFavorites } from '@/hooks/useFavorites';
 import { getAllEvidence } from '@/data/evidence';
 import { useToast } from '@/hooks/use-toast';
@@ -255,8 +256,9 @@ const MesFavoris = () => {
           </div>
         </header>
 
-        {/* Bannière import */}
+        {/* Bannières import */}
         <FavoritesImportBanner />
+        <CollectionImportBanner />
 
         {/* Section Collections */}
         <CollectionsSection 
