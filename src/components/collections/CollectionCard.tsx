@@ -6,12 +6,14 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronDown, 
-  ChevronRight, 
   Edit3, 
   Trash2, 
   MoreHorizontal,
   FolderOpen,
   X,
+  Share2,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -66,7 +68,7 @@ export const CollectionCard = ({
   categoryColors,
   onRemovePathology,
 }: CollectionCardProps) => {
-  const { updateCollection, deleteCollection, removeFromCollection } = useCollections();
+  const { updateCollection, deleteCollection, removeFromCollection, getShareLink } = useCollections();
   const { toast } = useToast();
   
   const [isExpanded, setIsExpanded] = useState(true);
@@ -74,6 +76,7 @@ export const CollectionCard = ({
   const [editName, setEditName] = useState(collection.name);
   const [editEmoji, setEditEmoji] = useState(collection.emoji);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleSaveEdit = () => {
     if (!editName.trim()) {
@@ -108,6 +111,34 @@ export const CollectionCard = ({
       title: "Retiré de la collection",
       description: `${pathologyMeta[slug]?.name || slug} a été retiré.`,
     });
+  };
+
+  const handleShare = async () => {
+    if (collection.pathologies.length === 0) {
+      toast({
+        title: "Collection vide",
+        description: "Ajoutez des pathologies avant de partager.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    const link = getShareLink(collection.id);
+    try {
+      await navigator.clipboard.writeText(link);
+      setCopied(true);
+      toast({
+        title: "Lien copié !",
+        description: `Le lien de "${collection.name}" est dans votre presse-papier.`,
+      });
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Impossible de copier le lien.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -195,6 +226,14 @@ export const CollectionCard = ({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={handleShare}>
+                    {copied ? (
+                      <Check className="w-4 h-4 mr-2 text-primary" />
+                    ) : (
+                      <Share2 className="w-4 h-4 mr-2" />
+                    )}
+                    Partager via lien
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setIsEditing(true)}>
                     <Edit3 className="w-4 h-4 mr-2" />
                     Modifier

@@ -8,6 +8,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 const STORAGE_KEY = 'coolance_collections';
+const URL_PARAM = 'collection';
 
 export interface Collection {
   id: string;
@@ -18,6 +19,68 @@ export interface Collection {
   updatedAt: string;
 }
 
+export interface SharedCollection {
+  name: string;
+  emoji: string;
+  pathologies: string[];
+}
+
+/**
+ * Encode une collection pour l'URL (base64)
+ */
+export const encodeCollectionForUrl = (collection: Collection): string => {
+  try {
+    const shared: SharedCollection = {
+      name: collection.name,
+      emoji: collection.emoji,
+      pathologies: collection.pathologies,
+    };
+    const json = JSON.stringify(shared);
+    return btoa(encodeURIComponent(json));
+  } catch (error) {
+    console.error('[useCollections] Erreur encodage:', error);
+    return '';
+  }
+};
+
+/**
+ * Décode une collection depuis l'URL (base64)
+ */
+export const decodeCollectionFromUrl = (encoded: string): SharedCollection | null => {
+  try {
+    const json = decodeURIComponent(atob(encoded));
+    const parsed = JSON.parse(json);
+    if (parsed.name && parsed.emoji && Array.isArray(parsed.pathologies)) {
+      return parsed as SharedCollection;
+    }
+    return null;
+  } catch (error) {
+    console.error('[useCollections] Erreur décodage:', error);
+    return null;
+  }
+};
+
+/**
+ * Génère le lien de partage pour une collection
+ */
+export const generateCollectionShareLink = (collection: Collection): string => {
+  if (collection.pathologies.length === 0) return '';
+  const encoded = encodeCollectionForUrl(collection);
+  const baseUrl = window.location.origin;
+  return `${baseUrl}/favoris?${URL_PARAM}=${encoded}`;
+};
+
+/**
+ * Vérifie si l'URL contient une collection partagée
+ */
+export const getSharedCollectionFromUrl = (): SharedCollection | null => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const sharedCollection = urlParams.get(URL_PARAM);
+  if (sharedCollection) {
+    return decodeCollectionFromUrl(sharedCollection);
+  }
+  return null;
+};
 /**
  * Génère un ID unique pour une collection
  */
@@ -177,6 +240,31 @@ export const useCollections = () => {
     console.log('[useCollections] Reordered pathologies in:', collectionId);
   }, [collections, saveCollections]);
 
+  // Importer une collection partagée
+  const importSharedCollection = useCallback((shared: SharedCollection): Collection => {
+    const now = new Date().toISOString();
+    const newCollection: Collection = {
+      id: generateId(),
+      name: shared.name,
+      emoji: shared.emoji,
+      pathologies: shared.pathologies,
+      createdAt: now,
+      updatedAt: now,
+    };
+    
+    const updated = [...collections, newCollection];
+    saveCollections(updated);
+    console.log('[useCollections] Imported shared collection:', newCollection.name);
+    return newCollection;
+  }, [collections, saveCollections]);
+
+  // Générer le lien de partage pour une collection
+  const getShareLink = useCallback((collectionId: string): string => {
+    const collection = collections.find(c => c.id === collectionId);
+    if (!collection) return '';
+    return generateCollectionShareLink(collection);
+  }, [collections]);
+
   return {
     collections,
     isLoaded,
@@ -190,6 +278,8 @@ export const useCollections = () => {
     getCollection,
     reorderCollections,
     reorderInCollection,
+    importSharedCollection,
+    getShareLink,
     count: collections.length,
   };
 };
