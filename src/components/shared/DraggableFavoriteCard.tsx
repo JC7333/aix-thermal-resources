@@ -3,16 +3,19 @@
 // ============================================
 // Carte de pathologie favorite avec support drag & drop
 // Animations fluides avec framer-motion
+// Affichage de la progression des programmes
 // ============================================
 
 import { Link } from 'react-router-dom';
 import { useSortable } from '@dnd-kit/sortable';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, BookOpen, GripVertical } from 'lucide-react';
+import { Clock, BookOpen, GripVertical, Calendar, Target } from 'lucide-react';
 import { FavoriteButton } from '@/components/shared/FavoriteButton';
 import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
 import { AddToCollectionMenu } from '@/components/collections/AddToCollectionMenu';
 import { hasEvidenceData } from '@/services/pdfService';
+import { usePathologyProgress } from '@/hooks/usePathologyProgress';
+import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 
 interface PathologyData {
@@ -125,6 +128,10 @@ export const DraggableFavoriteCard = ({
     transition,
     isDragging,
   } = useSortable({ id: pathology.slug });
+
+  // Progression des programmes
+  const { sevenDayPercent, eightWeekPercent, hasPrograms } = usePathologyProgress(pathology.slug);
+  const hasActiveProgress = sevenDayPercent > 0 || eightWeekPercent > 0;
 
   // Style pour dnd-kit (position uniquement)
   const dndStyle = {
@@ -360,6 +367,57 @@ export const DraggableFavoriteCard = ({
           </span>
         )}
       </motion.div>
+
+      {/* Section Progression des programmes */}
+      <AnimatePresence>
+        {hasPrograms && !isDragMode && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mb-4 p-3 bg-muted/50 rounded-lg border border-border"
+          >
+            <p className="text-xs font-medium text-foreground mb-2 flex items-center gap-1">
+              📊 Progression
+            </p>
+            <div className="space-y-2">
+              {sevenDayPercent > 0 || !hasActiveProgress ? (
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-3 h-3 text-secondary shrink-0" />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between text-xs mb-1">
+                      <span className="text-muted-foreground">7 jours</span>
+                      <span className="font-medium text-secondary">{sevenDayPercent}%</span>
+                    </div>
+                    <Progress value={sevenDayPercent} className="h-1.5" />
+                  </div>
+                </div>
+              ) : null}
+              {eightWeekPercent > 0 || !hasActiveProgress ? (
+                <div className="flex items-center gap-2">
+                  <Target className="w-3 h-3 text-primary shrink-0" />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between text-xs mb-1">
+                      <span className="text-muted-foreground">8 semaines</span>
+                      <span className="font-medium text-primary">{eightWeekPercent}%</span>
+                    </div>
+                    <Progress value={eightWeekPercent} className="h-1.5" />
+                  </div>
+                </div>
+              ) : null}
+            </div>
+            {hasActiveProgress && (
+              <Link 
+                to={`/pathologies/${pathology.slug}?tab=programme`}
+                className="text-xs text-primary hover:underline mt-2 block"
+                onClick={(e) => isDragMode && e.preventDefault()}
+              >
+                Continuer le programme →
+              </Link>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Actions PDF avec animation */}
       <AnimatePresence>
