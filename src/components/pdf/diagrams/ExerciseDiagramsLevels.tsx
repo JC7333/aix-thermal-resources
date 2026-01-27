@@ -842,6 +842,255 @@ export const OtitesLevel2: React.FC<DiagramProps> = ({ width = 180, height = 70 
 );
 
 // ============================================
+// NIVEAU 3 — AVANCÉ
+// ============================================
+
+// ARTHROSE — NIVEAU 3 : Squats + fentes
+export const ArthrosLevel3: React.FC<DiagramProps> = ({ width = 180, height = 70 }) => (
+  <Svg width={width} height={height} viewBox="0 0 180 70">
+    <Rect x="0" y="0" width="180" height="12" fill="#7c3aed" rx="2" />
+    <Text x="90" y="9" textAnchor="middle" style={{ fontSize: 7, fontWeight: 700, fill: '#ffffff' }}>
+      NIVEAU 3 — Avancé (renforcement)
+    </Text>
+    
+    {/* Squat profond */}
+    <G>
+      <Circle cx="35" cy="18" r="4" fill={FILL_LIGHT} stroke={STROKE} strokeWidth="1" />
+      <Path d="M35 22 Q40 32 35 40" stroke={STROKE} strokeWidth="1.5" fill="none" />
+      <Line x1="35" y1="40" x2="28" y2="52" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="35" y1="40" x2="42" y2="52" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="36" y1="28" x2="45" y2="24" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="36" y1="28" x2="26" y2="24" stroke={STROKE} strokeWidth="1.5" />
+      <Text x="35" y="60" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>Squat profond</Text>
+    </G>
+
+    {/* Fente */}
+    <G>
+      <Circle cx="90" cy="16" r="4" fill={FILL_LIGHT} stroke={STROKE} strokeWidth="1" />
+      <Line x1="90" y1="20" x2="90" y2="34" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="90" y1="34" x2="78" y2="52" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="90" y1="34" x2="105" y2="42" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="105" y1="42" x2="105" y2="52" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="90" y1="24" x2="82" y2="28" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="90" y1="24" x2="98" y2="28" stroke={STROKE} strokeWidth="1.5" />
+      <Text x="90" y="60" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>Fentes alternées</Text>
+    </G>
+
+    {/* Compteur */}
+    <G>
+      <Circle cx="145" cy="35" r="14" fill={FILL_LIGHT} stroke="#7c3aed" strokeWidth="1.5" />
+      <Text x="145" y="32" textAnchor="middle" style={{ fontSize: 8, fontWeight: 700, fill: '#7c3aed' }}>3x12</Text>
+      <Text x="145" y="42" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>séries</Text>
+    </G>
+
+    <Text x="90" y="68" textAnchor="middle" style={{ fontSize: 5, fill: '#7c3aed' }}>
+      3 séries de 12 reps • Ajouter du poids progressivement
+    </Text>
+  </Svg>
+);
+
+// LOMBALGIE — NIVEAU 3 : Planche latérale + bird-dog
+export const LombalgieLevel3: React.FC<DiagramProps> = ({ width = 180, height = 70 }) => (
+  <Svg width={width} height={height} viewBox="0 0 180 70">
+    <Rect x="0" y="0" width="180" height="12" fill="#7c3aed" rx="2" />
+    <Text x="90" y="9" textAnchor="middle" style={{ fontSize: 7, fontWeight: 700, fill: '#ffffff' }}>
+      NIVEAU 3 — Avancé (gainage dynamique)
+    </Text>
+    
+    {/* Sol */}
+    <Line x1="10" y1="52" x2="170" y2="52" stroke={STROKE_LIGHT} strokeWidth="0.5" />
+
+    {/* Bird-dog */}
+    <G>
+      <Circle cx="45" cy="28" r="4" fill={FILL_LIGHT} stroke={STROKE} strokeWidth="1" />
+      <Line x1="41" y1="30" x2="25" y2="34" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="25" y1="34" x2="25" y2="48" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="41" y1="34" x2="41" y2="48" stroke={STROKE} strokeWidth="1.5" />
+      {/* Bras tendu */}
+      <Line x1="45" y1="30" x2="60" y2="25" stroke={STROKE} strokeWidth="1.5" />
+      {/* Jambe tendue */}
+      <Line x1="25" y1="36" x2="10" y2="40" stroke={STROKE} strokeWidth="1.5" />
+      <Text x="35" y="60" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>Bird-dog</Text>
+    </G>
+
+    {/* Planche latérale */}
+    <G>
+      <Circle cx="105" cy="28" r="4" fill={FILL_LIGHT} stroke={STROKE} strokeWidth="1" />
+      <Line x1="105" y1="32" x2="105" y2="48" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="105" y1="48" x2="130" y2="48" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="105" y1="36" x2="105" y2="22" stroke={STROKE} strokeWidth="1.5" />
+      <Text x="115" y="60" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>Planche latérale</Text>
+    </G>
+
+    {/* Chrono */}
+    <G>
+      <Circle cx="155" cy="35" r="12" fill={FILL_LIGHT} stroke="#7c3aed" strokeWidth="1" />
+      <Text x="155" y="33" textAnchor="middle" style={{ fontSize: 7, fontWeight: 600, fill: '#7c3aed' }}>45s</Text>
+      <Text x="155" y="42" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>côté</Text>
+    </G>
+
+    <Text x="90" y="68" textAnchor="middle" style={{ fontSize: 5, fill: '#7c3aed' }}>
+      Bird-dog 10 reps/côté + Planche latérale 45s/côté
+    </Text>
+  </Svg>
+);
+
+// VEINEUX — NIVEAU 3 : Montées de marches + sauts
+export const VeineuxLevel3: React.FC<DiagramProps> = ({ width = 180, height = 70 }) => (
+  <Svg width={width} height={height} viewBox="0 0 180 70">
+    <Rect x="0" y="0" width="180" height="12" fill="#7c3aed" rx="2" />
+    <Text x="90" y="9" textAnchor="middle" style={{ fontSize: 7, fontWeight: 700, fill: '#ffffff' }}>
+      NIVEAU 3 — Avancé (cardio + mollets)
+    </Text>
+
+    {/* Montée de marches */}
+    <G>
+      {/* Escalier */}
+      <Rect x="15" y="42" width="15" height="8" fill={FILL_LIGHT} stroke={STROKE} strokeWidth="0.5" />
+      <Rect x="30" y="34" width="15" height="16" fill={FILL_LIGHT} stroke={STROKE} strokeWidth="0.5" />
+      <Rect x="45" y="26" width="15" height="24" fill={FILL_LIGHT} stroke={STROKE} strokeWidth="0.5" />
+      {/* Personnage */}
+      <Circle cx="38" cy="22" r="4" fill={FILL_LIGHT} stroke={STROKE} strokeWidth="1" />
+      <Line x1="38" y1="26" x2="38" y2="34" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="38" y1="34" x2="32" y2="42" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="38" y1="34" x2="44" y2="34" stroke={STROKE} strokeWidth="1.5" />
+      <Text x="35" y="58" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>Escaliers rapides</Text>
+    </G>
+
+    {/* Sauts mollets */}
+    <G>
+      <Circle cx="100" cy="18" r="4" fill={FILL_LIGHT} stroke={STROKE} strokeWidth="1" />
+      <Line x1="100" y1="22" x2="100" y2="35" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="100" y1="35" x2="94" y2="45" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="100" y1="35" x2="106" y2="45" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="100" y1="26" x2="92" y2="30" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="100" y1="26" x2="108" y2="30" stroke={STROKE} strokeWidth="1.5" />
+      {/* Flèche saut */}
+      <Path d="M100 48 L100 52" stroke="#7c3aed" strokeWidth="0.8" strokeDasharray="2,1" fill="none" />
+      <Path d="M100 16 L100 10" stroke="#7c3aed" strokeWidth="0.8" fill="none" />
+      <Path d="M98 12 L100 10 L102 12" stroke="#7c3aed" strokeWidth="0.5" fill="none" />
+      <Text x="100" y="58" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>Sauts verticaux</Text>
+    </G>
+
+    {/* Durée */}
+    <G>
+      <Circle cx="150" cy="35" r="14" fill={FILL_LIGHT} stroke="#7c3aed" strokeWidth="1.5" />
+      <Text x="150" y="33" textAnchor="middle" style={{ fontSize: 8, fontWeight: 700, fill: '#7c3aed' }}>20</Text>
+      <Text x="150" y="42" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>min</Text>
+    </G>
+
+    <Text x="90" y="68" textAnchor="middle" style={{ fontSize: 5, fill: '#7c3aed' }}>
+      Escaliers 10 min + 30 sauts mollets • Récupération active
+    </Text>
+  </Svg>
+);
+
+// BPCO — NIVEAU 3 : Marche rapide + vélo
+export const BpcoLevel3: React.FC<DiagramProps> = ({ width = 180, height = 70 }) => (
+  <Svg width={width} height={height} viewBox="0 0 180 70">
+    <Rect x="0" y="0" width="180" height="12" fill="#7c3aed" rx="2" />
+    <Text x="90" y="9" textAnchor="middle" style={{ fontSize: 7, fontWeight: 700, fill: '#ffffff' }}>
+      NIVEAU 3 — Avancé (endurance)
+    </Text>
+
+    {/* Marche rapide */}
+    <G>
+      <Circle cx="35" cy="20" r="5" fill={FILL_LIGHT} stroke={STROKE} strokeWidth="1" />
+      <Line x1="35" y1="25" x2="35" y2="38" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="35" y1="38" x2="28" y2="50" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="35" y1="38" x2="42" y2="50" stroke={STROKE} strokeWidth="1.5" />
+      {/* Bras actifs */}
+      <Line x1="35" y1="28" x2="26" y2="35" stroke={STROKE} strokeWidth="1.5" />
+      <Line x1="35" y1="28" x2="44" y2="22" stroke={STROKE} strokeWidth="1.5" />
+      {/* Vitesse */}
+      <Line x1="20" y1="30" x2="15" y2="30" stroke="#7c3aed" strokeWidth="0.5" />
+      <Line x1="20" y1="35" x2="12" y2="35" stroke="#7c3aed" strokeWidth="0.5" />
+      <Line x1="20" y1="40" x2="15" y2="40" stroke="#7c3aed" strokeWidth="0.5" />
+      <Text x="35" y="58" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>Marche rapide</Text>
+    </G>
+
+    {/* Plus */}
+    <Text x="70" y="38" textAnchor="middle" style={{ fontSize: 12, fontWeight: 700, fill: '#7c3aed' }}>+</Text>
+
+    {/* Vélo */}
+    <G>
+      {/* Roues */}
+      <Circle cx="100" cy="42" r="8" fill="none" stroke={STROKE} strokeWidth="1" />
+      <Circle cx="125" cy="42" r="8" fill="none" stroke={STROKE} strokeWidth="1" />
+      {/* Cadre */}
+      <Line x1="100" y1="42" x2="112" y2="30" stroke={STROKE} strokeWidth="1" />
+      <Line x1="112" y1="30" x2="125" y2="42" stroke={STROKE} strokeWidth="1" />
+      <Line x1="100" y1="42" x2="118" y2="42" stroke={STROKE} strokeWidth="1" />
+      {/* Cycliste */}
+      <Circle cx="108" cy="22" r="4" fill={FILL_LIGHT} stroke={STROKE} strokeWidth="1" />
+      <Line x1="108" y1="26" x2="112" y2="34" stroke={STROKE} strokeWidth="1" />
+      <Text x="112" y="58" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>Vélo</Text>
+    </G>
+
+    {/* Durée */}
+    <G>
+      <Circle cx="155" cy="35" r="14" fill={FILL_LIGHT} stroke="#7c3aed" strokeWidth="1.5" />
+      <Text x="155" y="33" textAnchor="middle" style={{ fontSize: 8, fontWeight: 700, fill: '#7c3aed' }}>30</Text>
+      <Text x="155" y="42" textAnchor="middle" style={{ fontSize: 5, fill: STROKE }}>min</Text>
+    </G>
+
+    <Text x="90" y="68" textAnchor="middle" style={{ fontSize: 5, fill: '#7c3aed' }}>
+      30 min continues • Essoufflement modéré • Lèvres pincées si besoin
+    </Text>
+  </Svg>
+);
+
+// OTITES — NIVEAU 3 : Programme complet prévention
+export const OtitesLevel3: React.FC<DiagramProps> = ({ width = 180, height = 70 }) => (
+  <Svg width={width} height={height} viewBox="0 0 180 70">
+    <Rect x="0" y="0" width="180" height="12" fill="#7c3aed" rx="2" />
+    <Text x="90" y="9" textAnchor="middle" style={{ fontSize: 7, fontWeight: 700, fill: '#ffffff' }}>
+      NIVEAU 3 — Prévention maximale
+    </Text>
+
+    {/* Checklist complète */}
+    <G>
+      {/* Item 1 */}
+      <Rect x="15" y="18" width="10" height="10" rx="2" fill={FILL_LIGHT} stroke={SECONDARY} strokeWidth="1" />
+      <Path d="M18 23 L20 25 L24 20" stroke={SECONDARY} strokeWidth="1" fill="none" />
+      <Text x="30" y="26" style={{ fontSize: 6, fill: STROKE }}>Lavage nasal 2x/jour</Text>
+      
+      {/* Item 2 */}
+      <Rect x="15" y="32" width="10" height="10" rx="2" fill={FILL_LIGHT} stroke={SECONDARY} strokeWidth="1" />
+      <Path d="M18 37 L20 39 L24 34" stroke={SECONDARY} strokeWidth="1" fill="none" />
+      <Text x="30" y="40" style={{ fontSize: 6, fill: STROKE }}>Zéro tabac passif</Text>
+      
+      {/* Item 3 */}
+      <Rect x="15" y="46" width="10" height="10" rx="2" fill={FILL_LIGHT} stroke={SECONDARY} strokeWidth="1" />
+      <Path d="M18 51 L20 53 L24 48" stroke={SECONDARY} strokeWidth="1" fill="none" />
+      <Text x="30" y="54" style={{ fontSize: 6, fill: STROKE }}>Aération quotidienne</Text>
+    </G>
+
+    {/* Colonne 2 */}
+    <G>
+      {/* Item 4 */}
+      <Rect x="100" y="18" width="10" height="10" rx="2" fill={FILL_LIGHT} stroke={SECONDARY} strokeWidth="1" />
+      <Path d="M103 23 L105 25 L109 20" stroke={SECONDARY} strokeWidth="1" fill="none" />
+      <Text x="115" y="26" style={{ fontSize: 6, fill: STROKE }}>Vaccins à jour</Text>
+      
+      {/* Item 5 */}
+      <Rect x="100" y="32" width="10" height="10" rx="2" fill={FILL_LIGHT} stroke={SECONDARY} strokeWidth="1" />
+      <Path d="M103 37 L105 39 L109 34" stroke={SECONDARY} strokeWidth="1" fill="none" />
+      <Text x="115" y="40" style={{ fontSize: 6, fill: STROKE }}>Allaitement si possible</Text>
+      
+      {/* Item 6 */}
+      <Rect x="100" y="46" width="10" height="10" rx="2" fill={FILL_LIGHT} stroke={SECONDARY} strokeWidth="1" />
+      <Path d="M103 51 L105 53 L109 48" stroke={SECONDARY} strokeWidth="1" fill="none" />
+      <Text x="115" y="54" style={{ fontSize: 6, fill: STROKE }}>Biberon semi-assis</Text>
+    </G>
+
+    <Text x="90" y="66" textAnchor="middle" style={{ fontSize: 5, fill: '#7c3aed' }}>
+      Programme complet = réduction maximale du risque d'otites
+    </Text>
+  </Svg>
+);
+
+// ============================================
 // EXPORT GROUPÉ PAR NIVEAU
 // ============================================
 export const ExerciseDiagramsByLevel = {
@@ -849,22 +1098,27 @@ export const ExerciseDiagramsByLevel = {
   arthrose_level0: ArthrosLevel0,
   arthrose_level1: ArthrosLevel1,
   arthrose_level2: ArthrosLevel2,
+  arthrose_level3: ArthrosLevel3,
   // Lombalgie
   lombalgie_level0: LombalgieLevel0,
   lombalgie_level1: LombalgieLevel1,
   lombalgie_level2: LombalgieLevel2,
+  lombalgie_level3: LombalgieLevel3,
   // Veineux
   veineux_level0: VeineuxLevel0,
   veineux_level1: VeineuxLevel1,
   veineux_level2: VeineuxLevel2,
+  veineux_level3: VeineuxLevel3,
   // BPCO
   bpco_level0: BpcoLevel0,
   bpco_level1: BpcoLevel1,
   bpco_level2: BpcoLevel2,
+  bpco_level3: BpcoLevel3,
   // Otites
   otites_level0: OtitesLevel0,
   otites_level1: OtitesLevel1,
   otites_level2: OtitesLevel2,
+  otites_level3: OtitesLevel3,
 };
 
 export default ExerciseDiagramsByLevel;

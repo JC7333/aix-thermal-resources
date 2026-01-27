@@ -11,11 +11,12 @@ export interface DiagramInfo {
     id: string;
     title: string;
   };
-  // Nouveaux diagrammes par niveau (0-2)
+  // Diagrammes par niveau (0-3)
   exerciseLevels: {
     level0: string;
     level1: string;
     level2: string;
+    level3: string;
   };
 }
 
@@ -27,6 +28,7 @@ export const diagramsMapping: Record<string, DiagramInfo> = {
       level0: 'arthrose_level0',
       level1: 'arthrose_level1',
       level2: 'arthrose_level2',
+      level3: 'arthrose_level3',
     },
   },
   'lombalgie-chronique': {
@@ -36,6 +38,7 @@ export const diagramsMapping: Record<string, DiagramInfo> = {
       level0: 'lombalgie_level0',
       level1: 'lombalgie_level1',
       level2: 'lombalgie_level2',
+      level3: 'lombalgie_level3',
     },
   },
   'insuffisance-veineuse-chronique': {
@@ -45,6 +48,7 @@ export const diagramsMapping: Record<string, DiagramInfo> = {
       level0: 'veineux_level0',
       level1: 'veineux_level1',
       level2: 'veineux_level2',
+      level3: 'veineux_level3',
     },
   },
   'bpco': {
@@ -54,6 +58,7 @@ export const diagramsMapping: Record<string, DiagramInfo> = {
       level0: 'bpco_level0',
       level1: 'bpco_level1',
       level2: 'bpco_level2',
+      level3: 'bpco_level3',
     },
   },
   'otites-a-repetition-enfant': {
@@ -63,6 +68,7 @@ export const diagramsMapping: Record<string, DiagramInfo> = {
       level0: 'otites_level0',
       level1: 'otites_level1',
       level2: 'otites_level2',
+      level3: 'otites_level3',
     },
   },
 };
@@ -72,7 +78,7 @@ export const getDiagramsBySlug = (slug: string): DiagramInfo | null => {
 };
 
 // Helper pour obtenir le composant d'exercice par niveau
-export const getExerciseLevelId = (slug: string, level: 0 | 1 | 2): string | null => {
+export const getExerciseLevelId = (slug: string, level: 0 | 1 | 2 | 3): string | null => {
   const info = diagramsMapping[slug];
   if (!info) return null;
   
@@ -80,6 +86,7 @@ export const getExerciseLevelId = (slug: string, level: 0 | 1 | 2): string | nul
     case 0: return info.exerciseLevels.level0;
     case 1: return info.exerciseLevels.level1;
     case 2: return info.exerciseLevels.level2;
+    case 3: return info.exerciseLevels.level3;
     default: return null;
   }
 };
