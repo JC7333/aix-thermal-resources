@@ -71,8 +71,10 @@ const {
 | Qui suis-je | `/qui-suis-je` | ✅ |
 | Contact | `/contact` | ✅ |
 | Téléchargements | `/telechargements` | ✅ |
-| Parcours | `/parcours` | ⏳ À faire |
-| Réponses rapides | `/reponses-rapides` | ⏳ À faire |
+| Parcours guidé | `/parcours` | ✅ |
+| Réponses rapides | `/reponses-rapides` | ✅ |
+
+**Couverture : 100%** — Toutes les pages principales sont synchronisées avec le Mode Senior.
 
 ---
 
