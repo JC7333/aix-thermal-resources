@@ -4,6 +4,7 @@
 // Génération et téléchargement des PDFs premium
 // Utilise @react-pdf/renderer pour un rendu de qualité
 // Génère les PDFs à partir des données evidence-pack.json
+// Inclut un cache en mémoire pour éviter les régénérations
 // ============================================
 
 import { pdf } from '@react-pdf/renderer';
@@ -11,6 +12,75 @@ import { PdfEvidence1Page } from '@/components/pdf/PdfEvidence1Page';
 import { PdfEvidence4Pages } from '@/components/pdf/PdfEvidence4Pages';
 import { getEvidenceBySlug, type EvidenceData } from '@/data/evidence';
 import { logEvent } from './analytics';
+
+// ============================================
+// CACHE EN MÉMOIRE
+// ============================================
+
+interface CacheEntry {
+  blob: Blob;
+  timestamp: number;
+}
+
+// Cache avec durée de vie de 30 minutes
+const PDF_CACHE_TTL = 30 * 60 * 1000; // 30 minutes en ms
+const pdfCache = new Map<string, CacheEntry>();
+
+/**
+ * Génère une clé de cache unique
+ */
+const getCacheKey = (slug: string, type: '1page' | '4pages'): string => {
+  return `${slug}-${type}`;
+};
+
+/**
+ * Récupère un PDF du cache s'il existe et n'est pas expiré
+ */
+const getFromCache = (slug: string, type: '1page' | '4pages'): Blob | null => {
+  const key = getCacheKey(slug, type);
+  const entry = pdfCache.get(key);
+  
+  if (entry) {
+    const isExpired = Date.now() - entry.timestamp > PDF_CACHE_TTL;
+    if (!isExpired) {
+      console.log(`[pdfService] Cache hit: ${key}`);
+      return entry.blob;
+    } else {
+      // Nettoyer l'entrée expirée
+      pdfCache.delete(key);
+      console.log(`[pdfService] Cache expired: ${key}`);
+    }
+  }
+  
+  return null;
+};
+
+/**
+ * Ajoute un PDF au cache
+ */
+const addToCache = (slug: string, type: '1page' | '4pages', blob: Blob): void => {
+  const key = getCacheKey(slug, type);
+  pdfCache.set(key, { blob, timestamp: Date.now() });
+  console.log(`[pdfService] Cache set: ${key}`);
+};
+
+/**
+ * Vide le cache (utile pour forcer une régénération)
+ */
+export const clearPdfCache = (): void => {
+  pdfCache.clear();
+  console.log('[pdfService] Cache cleared');
+};
+
+/**
+ * Retourne les statistiques du cache
+ */
+export const getCacheStats = (): { size: number; entries: string[] } => {
+  return {
+    size: pdfCache.size,
+    entries: Array.from(pdfCache.keys()),
+  };
+};
 
 // ============================================
 // GÉNÉRATION PDF À PARTIR DE EVIDENCE DATA
@@ -35,27 +105,47 @@ export const generatePdf4Pages = async (evidence: EvidenceData): Promise<Blob> =
 };
 
 /**
- * Génère un PDF 1 page à partir d'un slug
+ * Génère un PDF 1 page à partir d'un slug (avec cache)
  */
 export const generatePdf1PageBySlug = async (slug: string): Promise<Blob | null> => {
+  // Vérifier le cache d'abord
+  const cached = getFromCache(slug, '1page');
+  if (cached) return cached;
+
   const evidence = getEvidenceBySlug(slug);
   if (!evidence) {
     console.error(`[pdfService] Slug introuvable: ${slug}`);
     return null;
   }
-  return generatePdf1Page(evidence);
+  
+  const blob = await generatePdf1Page(evidence);
+  
+  // Mettre en cache
+  addToCache(slug, '1page', blob);
+  
+  return blob;
 };
 
 /**
- * Génère un PDF 4 pages à partir d'un slug
+ * Génère un PDF 4 pages à partir d'un slug (avec cache)
  */
 export const generatePdf4PagesBySlug = async (slug: string): Promise<Blob | null> => {
+  // Vérifier le cache d'abord
+  const cached = getFromCache(slug, '4pages');
+  if (cached) return cached;
+
   const evidence = getEvidenceBySlug(slug);
   if (!evidence) {
     console.error(`[pdfService] Slug introuvable: ${slug}`);
     return null;
   }
-  return generatePdf4Pages(evidence);
+  
+  const blob = await generatePdf4Pages(evidence);
+  
+  // Mettre en cache
+  addToCache(slug, '4pages', blob);
+  
+  return blob;
 };
 
 // ============================================
