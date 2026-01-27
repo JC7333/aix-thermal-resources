@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import Index from "./pages/Index";
 import Resources from "./pages/Resources";
@@ -23,45 +24,49 @@ import ReponsesRapides from "./pages/ReponsesRapides";
 import Telechargements from "./pages/Telechargements";
 import Stats from "./pages/Stats";
 import MesFavoris from "./pages/MesFavoris";
+import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AccessibilityProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/reponses-rapides" element={<ReponsesRapides />} />
-            <Route path="/reponses-rapides/:slug" element={<ReponsesRapides />} />
-            <Route path="/parcours" element={<Parcours />} />
-            <Route path="/ressources" element={<Resources />} />
-            <Route path="/pathologies" element={<Pathologies />} />
-            <Route path="/pathologies/:slug" element={<PathologyPage />} />
-            <Route path="/programmes" element={<Programs />} />
-            <Route path="/guides" element={<Guides />} />
-            <Route path="/parents" element={<Parents />} />
-            <Route path="/telechargements" element={<Telechargements />} />
-            <Route path="/favoris" element={<MesFavoris />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/qui-suis-je" element={<QuiSuisJe />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/social" element={<Social />} />
-            <Route path="/mentions-legales" element={<MentionsLegales />} />
-            <Route path="/confidentialite" element={<Confidentialite />} />
-            <Route path="/stats" element={<Stats />} />
-            {/* Legacy routes */}
-            <Route path="/pathologie/:slug" element={<PathologyPage />} />
-            <Route path="/cabinet" element={<QuiSuisJe />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AccessibilityProvider>
-  </QueryClientProvider>
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <AccessibilityProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/reponses-rapides" element={<ReponsesRapides />} />
+              <Route path="/reponses-rapides/:slug" element={<ReponsesRapides />} />
+              <Route path="/parcours" element={<Parcours />} />
+              <Route path="/ressources" element={<Resources />} />
+              <Route path="/pathologies" element={<Pathologies />} />
+              <Route path="/pathologies/:slug" element={<PathologyPage />} />
+              <Route path="/programmes" element={<Programs />} />
+              <Route path="/guides" element={<Guides />} />
+              <Route path="/parents" element={<Parents />} />
+              <Route path="/telechargements" element={<Telechargements />} />
+              <Route path="/favoris" element={<MesFavoris />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/qui-suis-je" element={<QuiSuisJe />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/social" element={<Social />} />
+              <Route path="/mentions-legales" element={<MentionsLegales />} />
+              <Route path="/confidentialite" element={<Confidentialite />} />
+              <Route path="/stats" element={<Stats />} />
+              <Route path="/admin" element={<Admin />} />
+              {/* Legacy routes */}
+              <Route path="/pathologie/:slug" element={<PathologyPage />} />
+              <Route path="/cabinet" element={<QuiSuisJe />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AccessibilityProvider>
+    </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;
