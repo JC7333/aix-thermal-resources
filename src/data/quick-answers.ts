@@ -116,7 +116,7 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
       'Troubles du comportement alimentaire (obsession, culpabilité excessive)',
       'Envie de vomir après les repas'
     ],
-    closingMessage: 'Perdre du poids prend du temps. Un kilo par mois, c\'est déjà très bien. Si vous avez besoin d\'accompagnement, on en parle en consultation.'
+    closingMessage: 'Perdre du poids prend du temps. Un kilo par mois, c\'est déjà très bien. Si vous ressentez le besoin d\'un accompagnement, un professionnel de santé peut vous aider.'
   },
 
   // 2. ARRÊTER DE FUMER
@@ -182,7 +182,7 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
       },
       {
         day: 'Jour 6',
-        actions: ['Fixer une date d\'arrêt dans les 2 semaines', 'Prendre RDV médecin pour accompagnement', 'Préparer des en-cas sains']
+        actions: ['Fixer une date d\'arrêt dans les 2 semaines', 'Consulter un professionnel de santé pour accompagnement', 'Préparer des en-cas sains']
       },
       {
         day: 'Jour 7',
@@ -277,7 +277,7 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
       'Douleur nocturne qui vous réveille et ne passe pas',
       'Perte de poids inexpliquée'
     ],
-    closingMessage: 'Dans 90% des cas, le mal de dos s\'améliore en quelques semaines avec du mouvement adapté. Si ça ne va pas mieux ou si vous avez un signal d\'alerte, on en parle en consultation.'
+    closingMessage: 'Dans 90% des cas, le mal de dos s\'améliore en quelques semaines avec du mouvement adapté. Si les symptômes persistent ou si vous avez un signal d\'alerte, consultez un professionnel de santé.'
   },
 
   // 4. JAMBES LOURDES
@@ -347,7 +347,7 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
       },
       {
         day: 'Jour 7',
-        actions: ['Bilan de la semaine', 'Prendre RDV médecin si besoin de bas de contention', 'Maintenir les bonnes habitudes']
+        actions: ['Bilan de la semaine', 'Consulter un professionnel si besoin de bas de contention', 'Maintenir les bonnes habitudes']
       }
     ],
     alertSigns: [

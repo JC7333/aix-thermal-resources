@@ -101,7 +101,7 @@ const QuiSuisJe = () => {
                 dès maintenant pour améliorer votre quotidien.
               </p>
               <p className="text-muted-foreground mt-4 italic">
-                Et si vous avez un doute, on en parle en consultation.
+                En cas de doute sur votre situation, n'hésitez pas à consulter un professionnel de santé.
               </p>
             </div>
           </div>

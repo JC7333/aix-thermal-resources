@@ -196,9 +196,9 @@ export const pathologies: Pathology[] = [
     // En 2 minutes
     quickSummary: `Je sais que l'arthrose peut être vraiment handicapante au quotidien. La bonne nouvelle ? Ce n'est pas une fatalité. Votre cartilage a besoin de mouvement pour rester en bonne santé. 
 
-Je vous propose ici des conseils simples et concrets pour soulager vos douleurs. Pas de recette miracle, mais des gestes qui ont fait leurs preuves. La plupart de mes patients voient une vraie amélioration en quelques semaines, simplement en bougeant un peu plus et en appliquant quelques principes de base.
+Je vous propose ici des conseils simples et concrets pour soulager vos douleurs. Pas de recette miracle, mais des gestes qui ont fait leurs preuves. La plupart des personnes voient une vraie amélioration en quelques semaines, simplement en bougeant un peu plus et en appliquant quelques principes de base.
 
-Si vous avez un doute sur quoi que ce soit, on en parle en consultation.`,
+En cas de doute ou de symptômes inhabituels, n'hésitez pas à consulter un professionnel de santé.`,
 
     // Physiopathologie vulgarisée
     physiopathology: `Pour comprendre simplement : imaginez votre cartilage comme une éponge. 
@@ -427,11 +427,11 @@ Si vous restez immobile trop longtemps, l'éponge s'assèche et s'abîme. C'est 
     readingTime: 8,
     lastUpdated: 'Janvier 2025',
 
-    quickSummary: `Votre dos vous fait mal depuis plus de 3 mois ? Je sais à quel point c'est usant. Voici ce que je dis à mes patients : dans plus de 90% des cas, il n'y a rien de grave.
+    quickSummary: `Votre dos vous fait mal depuis plus de 3 mois ? Je sais à quel point c'est usant. Dans plus de 90% des cas, il n'y a rien de grave.
 
 Le repos prolongé aggrave les choses. Je sais, ça semble bizarre quand on a mal. Mais vos muscles du dos ont besoin de bouger pour rester forts et protéger votre colonne.
 
-Avec les bons exercices et quelques ajustements simples, la plupart de mes patients voient une vraie amélioration. Ça prend un peu de temps, mais ça marche. Et si vous avez un doute, on en parle en consultation.`,
+Avec les bons exercices et quelques ajustements simples, la plupart des personnes voient une vraie amélioration. Ça prend un peu de temps, mais ça marche. Si les symptômes persistent ou s'aggravent, consultez un professionnel de santé.`,
 
     physiopathology: `Votre colonne lombaire porte le poids de tout votre corps. Elle est faite pour bouger, pas pour rester assise 8 heures par jour.
 
@@ -654,7 +654,7 @@ Contrairement à ce qu'on entend souvent, le problème vient rarement d'une vert
 
 La bonne nouvelle : vous avez dans vos mollets une "pompe" naturelle. À chaque pas, vos muscles compriment les veines et propulsent le sang vers le haut. C'est pour ça que la marche est votre meilleur allié.
 
-Porter des bas de contention, surélever les jambes le soir, éviter la chaleur — ces gestes simples font une vraie différence. Si vous avez un doute, on en parle en consultation.`,
+Porter des bas de contention, surélever les jambes le soir, éviter la chaleur — ces gestes simples font une vraie différence. Si les symptômes persistent, un professionnel de santé pourra évaluer votre situation.`,
 
     physiopathology: `Vos veines des jambes contiennent de petites valves, comme des portes battantes qui empêchent le sang de redescendre.
 
@@ -858,7 +858,7 @@ Votre meilleure alliée ? La pompe musculaire du mollet. À chaque pas, vos musc
 
 Je sais que c'est frustrant d'être essoufflé. Mais moins on bouge, plus les muscles s'affaiblissent, et plus on s'essouffle vite. C'est un cercle vicieux qu'on peut casser.
 
-L'activité physique adaptée est un vrai traitement. Elle renforce vos muscles respiratoires et améliore votre qualité de vie. Arrêter de fumer reste essentiel. Si vous avez un doute, on en parle en consultation.`,
+L'activité physique adaptée est un vrai traitement. Elle renforce vos muscles respiratoires et améliore votre qualité de vie. Arrêter de fumer reste essentiel. En cas d'essoufflement inhabituel ou de symptômes inquiétants, contactez un professionnel de santé.`,
 
     physiopathology: `Dans la BPCO, vos bronches sont inflammées et rétrécies. L'air a du mal à sortir des poumons, vous vous sentez "bloqué" en fin d'expiration.
 
@@ -1083,7 +1083,7 @@ La bonne nouvelle : même si les dégâts sont là, on peut améliorer les chose
 
 La bonne nouvelle : la plupart des otites guérissent spontanément. Et avec quelques gestes simples — lavage de nez, aération, hygiène — on peut vraiment réduire les récidives.
 
-La trompe d'Eustache (le petit tube qui relie l'oreille au nez) est courte chez l'enfant. Elle grandit avec lui, et en général ça s'améliore vers 5-6 ans. Si vous avez un doute, on en parle en consultation.`,
+La trompe d'Eustache (le petit tube qui relie l'oreille au nez) est courte chez l'enfant. Elle grandit avec lui, et en général ça s'améliore vers 5-6 ans. En cas de fièvre élevée ou de symptômes inquiétants, consultez rapidement un professionnel de santé.`,
 
     physiopathology: `L'oreille moyenne (derrière le tympan) est reliée au nez par un petit tube : la trompe d'Eustache.
 

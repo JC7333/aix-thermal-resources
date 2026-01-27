@@ -16,14 +16,12 @@ const MentionsLegales = () => {
             <section className="mb-8">
               <h2 className="font-serif text-2xl font-bold text-foreground mb-4">Éditeur du site</h2>
               <p className="text-foreground mb-2">
-                <strong>Dr Martin</strong><br />
-                Médecin Thermaliste<br />
-                15 rue du Lac<br />
-                73100 Aix-les-Bains, France
+                <strong>COOLANCE</strong><br />
+                Site d'information en santé<br />
+                par le Dr Audric Bugnard
               </p>
               <p className="text-foreground">
-                Téléphone : 04 79 00 00 00<br />
-                Email : contact@dr-martin-thermaliste.fr
+                Email : contact@coolance.fr
               </p>
             </section>
 
@@ -39,7 +37,7 @@ const MentionsLegales = () => {
             <section className="mb-8">
               <h2 className="font-serif text-2xl font-bold text-foreground mb-4">Responsable de la publication</h2>
               <p className="text-foreground">
-                Dr Martin, Médecin Thermaliste<br />
+                Dr Audric Bugnard<br />
                 Inscrit au Conseil National de l'Ordre des Médecins
               </p>
             </section>
