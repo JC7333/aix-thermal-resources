@@ -47,19 +47,19 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
     subtitle: 'La vérité simple et un plan réaliste',
     icon: '⚖️',
     color: 'primary',
-    intro: `Je sais que vous avez probablement déjà tout essayé. Régimes, privations, promesses... Et vous êtes toujours là, à chercher une solution. Je vais être honnête avec vous : il n'existe pas de recette miracle. Mais il existe une méthode simple qui fonctionne. Elle demande du temps et de la patience, mais elle marche vraiment.`,
+    intro: `Vous avez probablement déjà tout essayé. Régimes, privations, promesses... Et vous êtes toujours là, à chercher une solution. Soyons honnêtes : il n'existe pas de recette miracle. Mais il existe une méthode simple qui fonctionne. Elle demande du temps et de la patience, mais elle fonctionne vraiment.`,
     truths: [
       {
         myth: '« Je dois faire un régime restrictif pour maigrir. »',
-        truth: 'Les régimes restrictifs font perdre du poids rapidement... puis le reprendre avec des kilos en plus. Ce qui marche : manger un peu moins, un peu mieux, durablement. Pas de privation, pas d\'interdits absolus.'
+        truth: 'Les régimes restrictifs font perdre du poids rapidement... puis le reprendre avec des kilos en plus. Ce qui fonctionne : manger un peu moins, un peu mieux, durablement. Pas de privation, pas d\'interdits absolus.'
       },
       {
         myth: '« Je dois faire du sport intensif. »',
-        truth: 'Marcher 30 minutes par jour est plus efficace pour la perte de poids que 2h de sport le week-end. L\'activité régulière et modérée est la clé.'
+        truth: 'Marcher 30 minutes par jour est plus efficace pour la perte de poids que 2h de sport le week-end. L\'activité régulière et modérée est la clé. (Source : OMS 2020)'
       },
       {
         myth: '« C\'est une question de volonté. »',
-        truth: 'C\'est une question d\'environnement et d\'habitudes. Changez vos automatismes, pas votre volonté. Un pas après l\'autre, sans vous juger.'
+        truth: 'C\'est une question d\'environnement et d\'habitudes. Changez vos automatismes, pas votre volonté. Un pas après l\'autre, sans vous juger. (Source : Cochrane Database 2021)'
       }
     ],
     dailyPlan: [
@@ -106,7 +106,7 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
       },
       {
         day: 'Jour 7',
-        actions: ['Bilan de la semaine : qu\'est-ce qui a marché ?', 'Préparer les menus de la semaine prochaine', 'Se féliciter']
+        actions: ['Bilan de la semaine : qu\'est-ce qui a fonctionné ?', 'Préparer les menus de la semaine prochaine', 'Se féliciter']
       }
     ],
     alertSigns: [
@@ -135,11 +135,11 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
       },
       {
         myth: '« J\'arrête d\'un coup ou pas du tout. »',
-        truth: 'Les deux approches fonctionnent. Certains préfèrent réduire progressivement. L\'important, c\'est de trouver ce qui marche pour vous, avec ou sans aide médicamenteuse.'
+        truth: 'Les deux approches fonctionnent. Certains préfèrent réduire progressivement. L\'important, c\'est de trouver ce qui fonctionne pour vous, avec ou sans aide médicamenteuse. (Source : HAS 2022)'
       },
       {
         myth: '« Je vais grossir si j\'arrête. »',
-        truth: 'En moyenne 2-4 kg, pas 10. Et ce poids peut être géré. Les bénéfices de l\'arrêt du tabac sont infiniment supérieurs aux quelques kilos temporaires.'
+        truth: 'En moyenne 2-4 kg, pas 10. Et ce poids peut être géré. Les bénéfices de l\'arrêt du tabac sont infiniment supérieurs aux quelques kilos temporaires. (Source : Cochrane 2020)'
       }
     ],
     dailyPlan: [
@@ -207,19 +207,19 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
     subtitle: 'Des actions concrètes pour aujourd\'hui',
     icon: '🦴',
     color: 'accent',
-    intro: `Vous avez mal. C'est réel, je ne minimise pas. Mais je vais vous dire quelque chose d'important : bouger fait moins mal que rester immobile. Pas n'importe comment, pas n'importe combien. Mais bouger, oui. Voici ce que vous pouvez faire dès maintenant.`,
+    intro: `Vous avez mal. C'est réel. Mais voici quelque chose d'important : bouger fait moins mal que rester immobile. Pas n'importe comment, pas n'importe combien. Mais bouger, oui. Voici ce que vous pouvez faire dès maintenant.`,
     truths: [
       {
         myth: '« L\'arthrose, c\'est l\'usure : plus je bouge, plus ça s\'use. »',
-        truth: 'C\'est l\'inverse. L\'articulation a besoin de mouvement pour se nourrir. Le cartilage n\'a pas de vaisseaux sanguins : il se nourrit par le mouvement. Bouger l\'entretient.'
+        truth: 'C\'est l\'inverse. L\'articulation a besoin de mouvement pour se nourrir. Le cartilage n\'a pas de vaisseaux sanguins : il se nourrit par le mouvement. (Source : OARSI 2019, NICE NG226 2022)'
       },
       {
         myth: '« Je dois me reposer quand j\'ai mal au dos. »',
-        truth: 'Le repos prolongé aggrave le mal de dos. Les études le montrent clairement : reprendre une activité légère rapidement accélère la guérison.'
+        truth: 'Le repos prolongé aggrave le mal de dos. Les études le montrent : reprendre une activité légère rapidement accélère la guérison. (Source : WHO Guideline 2023)'
       },
       {
         myth: '« Mon dos est fragile, je dois le protéger. »',
-        truth: 'Votre dos est solide. La colonne vertébrale est une structure incroyablement résistante. Vous pouvez la faire travailler, progressivement.'
+        truth: 'Votre dos est solide. La colonne vertébrale est une structure résistante. Vous pouvez la faire travailler, progressivement. (Source : Lancet Low Back Pain Series 2018)'
       }
     ],
     dailyPlan: [
@@ -292,15 +292,15 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
     truths: [
       {
         myth: '« Les varices, c\'est juste esthétique. »',
-        truth: 'Les varices sont le signe d\'une insuffisance veineuse. Sans prise en charge, ça peut évoluer vers des complications (ulcères, phlébites). Consulter n\'est pas du luxe.'
+        truth: 'Les varices sont le signe d\'une insuffisance veineuse. Sans prise en charge, ça peut évoluer vers des complications (ulcères, phlébites). (Source : ESVS 2022)'
       },
       {
         myth: '« Je suis debout toute la journée, c\'est normal d\'avoir mal. »',
-        truth: 'C\'est fréquent, mais pas une fatalité. Des gestes simples (marcher, surélever les jambes, porter des bas de contention) changent vraiment la donne.'
+        truth: 'C\'est fréquent, mais pas une fatalité. Des gestes simples (marcher, surélever les jambes, porter des bas de contention) changent vraiment la donne. (Source : Cochrane 2020)'
       },
       {
         myth: '« Les bas de contention, c\'est pour les vieux. »',
-        truth: 'C\'est le traitement le plus efficace, à tout âge. Aujourd\'hui, ils sont fins, discrets, et remboursés sur prescription.'
+        truth: 'C\'est le traitement le plus efficace, à tout âge. Aujourd\'hui, ils sont fins, discrets, et remboursés sur prescription. (Source : HAS 2021)'
       }
     ],
     dailyPlan: [
@@ -368,19 +368,19 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
     subtitle: 'Mieux respirer au quotidien',
     icon: '🫁',
     color: 'secondary',
-    intro: `L'essoufflement, c'est difficile à vivre. On a peur de bouger, peur de ne plus pouvoir respirer. Mais voilà le paradoxe : moins on bouge, plus on s'essouffle. Je vais vous expliquer comment reprendre le contrôle, à votre rythme.`,
+    intro: `L'essoufflement, c'est difficile à vivre. On a peur de bouger, peur de ne plus pouvoir respirer. Mais voilà le paradoxe : moins on bouge, plus on s'essouffle. Voici comment reprendre le contrôle, à votre rythme.`,
     truths: [
       {
         myth: '« Je suis essoufflé, je dois éviter les efforts. »',
-        truth: 'C\'est l\'inverse. L\'activité physique régulière améliore la capacité respiratoire. Les muscles se fatiguent moins, le cœur travaille mieux. Commencez doucement.'
+        truth: 'C\'est l\'inverse. L\'activité physique régulière améliore la capacité respiratoire. Les muscles se fatiguent moins, le cœur travaille mieux. (Source : GOLD 2024)'
       },
       {
         myth: '« L\'essoufflement, c\'est normal en vieillissant. »',
-        truth: 'Un essoufflement qui s\'aggrave n\'est jamais « normal ». Ça peut être l\'asthme, la BPCO, le cœur. Ça mérite d\'être exploré et pris en charge.'
+        truth: 'Un essoufflement qui s\'aggrave n\'est jamais « normal ». Ça peut être l\'asthme, la BPCO, le cœur. Ça mérite d\'être exploré. (Source : ERS/ATS 2023)'
       },
       {
         myth: '« Avec une BPCO, on ne peut plus rien faire. »',
-        truth: 'On peut très bien vivre avec une BPCO si elle est bien prise en charge. L\'arrêt du tabac, la réhabilitation respiratoire et l\'activité physique font des miracles.'
+        truth: 'On peut très bien vivre avec une BPCO si elle est bien prise en charge. L\'arrêt du tabac, la réhabilitation respiratoire et l\'activité physique font des miracles. (Source : Cochrane 2021)'
       }
     ],
     dailyPlan: [

@@ -1,5 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Instagram, Facebook, Mail } from 'lucide-react';
+
+// Composant Link qui scroll vers le haut
+const ScrollTopLink = ({ to, children, className }: { to: string; children: React.ReactNode; className?: string }) => {
+  const navigate = useNavigate();
+  
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    navigate(to);
+  };
+  
+  return (
+    <a href={to} onClick={handleClick} className={className}>
+      {children}
+    </a>
+  );
+};
 
 export const Footer = () => {
   return (
@@ -36,13 +53,12 @@ export const Footer = () => {
               >
                 <Facebook className="w-5 h-5" />
               </a>
-              <Link 
+              <ScrollTopLink 
                 to="/contact"
                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                aria-label="Nous contacter"
               >
                 <Mail className="w-5 h-5" />
-              </Link>
+              </ScrollTopLink>
             </div>
           </div>
 
@@ -51,34 +67,34 @@ export const Footer = () => {
             <h3 className="font-serif text-lg font-bold mb-4">Navigation</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/parcours" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink to="/parcours" className="text-white/80 hover:text-white transition-colors">
                   Parcours guidé
-                </Link>
+                </ScrollTopLink>
               </li>
               <li>
-                <Link to="/reponses-rapides" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink to="/reponses-rapides" className="text-white/80 hover:text-white transition-colors">
                   Réponses rapides
-                </Link>
+                </ScrollTopLink>
               </li>
               <li>
-                <Link to="/telechargements" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink to="/telechargements" className="text-white/80 hover:text-white transition-colors">
                   Téléchargements PDF
-                </Link>
+                </ScrollTopLink>
               </li>
               <li>
-                <Link to="/pathologies" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink to="/pathologies" className="text-white/80 hover:text-white transition-colors">
                   Pathologies
-                </Link>
+                </ScrollTopLink>
               </li>
               <li>
-                <Link to="/parents" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink to="/parents" className="text-white/80 hover:text-white transition-colors">
                   Espace Parents
-                </Link>
+                </ScrollTopLink>
               </li>
               <li>
-                <Link to="/social" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink to="/social" className="text-white/80 hover:text-white transition-colors">
                   Nous suivre
-                </Link>
+                </ScrollTopLink>
               </li>
             </ul>
           </div>
@@ -88,29 +104,29 @@ export const Footer = () => {
             <h3 className="font-serif text-lg font-bold mb-4">Informations</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/qui-suis-je" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink to="/qui-suis-je" className="text-white/80 hover:text-white transition-colors">
                   Qui suis-je ?
-                </Link>
+                </ScrollTopLink>
               </li>
               <li>
-                <Link to="/sources-methodologie" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink to="/sources-methodologie" className="text-white/80 hover:text-white transition-colors">
                   Sources & Méthodologie
-                </Link>
+                </ScrollTopLink>
               </li>
               <li>
-                <Link to="/contact" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink to="/contact" className="text-white/80 hover:text-white transition-colors">
                   Contact
-                </Link>
+                </ScrollTopLink>
               </li>
               <li>
-                <Link to="/mentions-legales" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink to="/mentions-legales" className="text-white/80 hover:text-white transition-colors">
                   Mentions légales
-                </Link>
+                </ScrollTopLink>
               </li>
               <li>
-                <Link to="/confidentialite" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink to="/confidentialite" className="text-white/80 hover:text-white transition-colors">
                   Politique de confidentialité
-                </Link>
+                </ScrollTopLink>
               </li>
             </ul>
           </div>

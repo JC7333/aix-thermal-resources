@@ -261,10 +261,9 @@ export const PdfPreviewModal = ({
               className="flex justify-center"
               style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }}
             >
-              {/* Utiliser embed pour meilleure compatibilité PDF */}
-              <embed
-                src={pdfUrl}
-                type="application/pdf"
+              {/* Utiliser iframe pour meilleure compatibilité PDF */}
+              <iframe
+                src={`${pdfUrl}#toolbar=1&navpanes=0`}
                 className="w-full max-w-[210mm] bg-white shadow-xl rounded-sm border"
                 style={{ 
                   height: type === '1page' ? '297mm' : 'calc(297mm * 4)',
@@ -277,6 +276,7 @@ export const PdfPreviewModal = ({
             <div className="h-full flex flex-col items-center justify-center gap-4 text-muted-foreground">
               <FileText className="w-12 h-12 opacity-50" />
               <p>Impossible de charger l'aperçu</p>
+              <p className="text-sm">Le PDF a bien été généré. Cliquez sur "Télécharger" pour l'obtenir.</p>
             </div>
           )}
         </div>
