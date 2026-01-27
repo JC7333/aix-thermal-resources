@@ -7,11 +7,48 @@
 // Inclut un cache en mémoire pour éviter les régénérations
 // ============================================
 
-import { pdf } from '@react-pdf/renderer';
-import { PdfEvidence1Page } from '@/components/pdf/PdfEvidence1Page';
-import { PdfEvidence4Pages } from '@/components/pdf/PdfEvidence4Pages';
 import { getEvidenceBySlug, type EvidenceData } from '@/data/evidence';
 import { logEvent } from './analytics';
+
+// ============================================
+// ERREURS (INSTRUMENTATION)
+// ============================================
+
+export type PdfVariant = '1page' | '4pages';
+
+export type PdfGenSerializableError = {
+  name?: string;
+  message: string;
+  stack?: string;
+};
+
+const serializeError = (error: unknown): PdfGenSerializableError => {
+  if (error instanceof Error) {
+    return {
+      name: error.name,
+      message: error.message || String(error),
+      stack: error.stack,
+    };
+  }
+
+  return {
+    message: typeof error === 'string' ? error : JSON.stringify(error),
+  };
+};
+
+export class PdfGenerationError extends Error {
+  slug: string;
+  variant: PdfVariant;
+  original: PdfGenSerializableError;
+
+  constructor(params: { slug: string; variant: PdfVariant; error: PdfGenSerializableError }) {
+    super(`PDF generation failed (${params.slug}, ${params.variant}): ${params.error.message}`);
+    this.name = 'PdfGenerationError';
+    this.slug = params.slug;
+    this.variant = params.variant;
+    this.original = params.error;
+  }
+}
 
 // ============================================
 // CACHE EN MÉMOIRE
@@ -123,8 +160,19 @@ export interface PdfGenerationResult {
  * Génère un PDF 1 page pour une pathologie (evidence-based)
  */
 export const generatePdf1Page = async (evidence: EvidenceData): Promise<Blob> => {
+  // Import dynamique : évite tout exécution/chargement inattendu hors navigateur
+  const [{ pdf }, { PdfEvidence1Page }] = await Promise.all([
+    import('@react-pdf/renderer'),
+    import('@/components/pdf/PdfEvidence1Page'),
+  ]);
+
   const doc = <PdfEvidence1Page evidence={evidence} />;
   const blob = await pdf(doc).toBlob();
+
+  if (!blob || blob.size === 0) {
+    throw new Error('PDF blob vide (1 page)');
+  }
+
   return blob;
 };
 
@@ -132,8 +180,18 @@ export const generatePdf1Page = async (evidence: EvidenceData): Promise<Blob> =>
  * Génère un PDF 4 pages pour une pathologie (evidence-based)
  */
 export const generatePdf4Pages = async (evidence: EvidenceData): Promise<Blob> => {
+  const [{ pdf }, { PdfEvidence4Pages }] = await Promise.all([
+    import('@react-pdf/renderer'),
+    import('@/components/pdf/PdfEvidence4Pages'),
+  ]);
+
   const doc = <PdfEvidence4Pages evidence={evidence} />;
   const blob = await pdf(doc).toBlob();
+
+  if (!blob || blob.size === 0) {
+    throw new Error('PDF blob vide (4 pages)');
+  }
+
   return blob;
 };
 
@@ -153,8 +211,15 @@ export const generatePdf1PageBySlug = async (slug: string): Promise<PdfGeneratio
     console.error(`[pdfService] Slug introuvable: ${slug}`);
     return null;
   }
-  
-  const blob = await generatePdf1Page(evidence);
+
+  let blob: Blob;
+  try {
+    blob = await generatePdf1Page(evidence);
+  } catch (error) {
+    const serialized = serializeError(error);
+    console.error('[PDF_GEN_ERROR]', { slug, variant: '1page', error: serialized });
+    throw new PdfGenerationError({ slug, variant: '1page', error: serialized });
+  }
   
   // Mettre en cache
   addToCache(slug, '1page', blob);
@@ -178,8 +243,15 @@ export const generatePdf4PagesBySlug = async (slug: string): Promise<PdfGenerati
     console.error(`[pdfService] Slug introuvable: ${slug}`);
     return null;
   }
-  
-  const blob = await generatePdf4Pages(evidence);
+
+  let blob: Blob;
+  try {
+    blob = await generatePdf4Pages(evidence);
+  } catch (error) {
+    const serialized = serializeError(error);
+    console.error('[PDF_GEN_ERROR]', { slug, variant: '4pages', error: serialized });
+    throw new PdfGenerationError({ slug, variant: '4pages', error: serialized });
+  }
   
   // Mettre en cache
   addToCache(slug, '4pages', blob);
