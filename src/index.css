@@ -9,98 +9,104 @@
 
 @layer base {
   :root {
-    /* Couleurs principales - Palette slate moderne */
-    --background: 210 20% 98%;
-    --foreground: 215 25% 17%;
+    /* ========================================
+       PALETTE PREMIUM SOBRE V2
+       Tons neutres + accent médical raffiné
+    ======================================== */
+    
+    /* Fond légèrement chaud, blanc cassé premium */
+    --background: 40 20% 98%;
+    --foreground: 220 20% 18%;
 
-    /* Surfaces */
+    /* Surfaces - blanc pur pour les cards */
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 17%;
+    --card-foreground: 220 20% 18%;
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 17%;
+    --popover-foreground: 220 20% 18%;
 
-    /* Bleu médical principal - légèrement plus profond */
-    --primary: 200 70% 38%;
+    /* Primary - Bleu profond médical premium */
+    --primary: 210 65% 32%;
     --primary-foreground: 0 0% 100%;
 
-    /* Vert thérapeutique secondaire */
-    --secondary: 165 45% 42%;
+    /* Secondary - Vert sauge thérapeutique */
+    --secondary: 158 35% 38%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Muted slate moderne */
-    --muted: 210 15% 95%;
-    --muted-foreground: 215 15% 45%;
+    /* Muted - Gris neutre chaleureux */
+    --muted: 40 10% 94%;
+    --muted-foreground: 220 12% 42%;
 
-    /* Accent cuivre/terre doré */
-    --accent: 25 55% 52%;
+    /* Accent - Terre/Cuivre doux */
+    --accent: 28 45% 48%;
     --accent-foreground: 0 0% 100%;
 
-    /* Alertes */
-    --destructive: 0 70% 48%;
+    /* Alertes - Rouge médical */
+    --destructive: 0 65% 50%;
     --destructive-foreground: 0 0% 100%;
 
     /* Utilitaires */
-    --border: 215 18% 90%;
-    --input: 215 18% 90%;
-    --ring: 200 70% 38%;
-    --radius: 0.75rem;
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 210 65% 32%;
+    --radius: 0.625rem;
 
-    /* Couleurs spécifiques */
-    --thermal-blue: 200 70% 38%;
-    --thermal-blue-light: 200 50% 94%;
-    --healing-green: 165 45% 42%;
-    --healing-green-light: 165 35% 94%;
-    --warm-beige: 35 30% 94%;
-    --warm-beige-dark: 35 20% 78%;
-    --trust-navy: 215 35% 22%;
+    /* Couleurs spécifiques médical */
+    --thermal-blue: 210 65% 32%;
+    --thermal-blue-light: 210 40% 95%;
+    --healing-green: 158 35% 38%;
+    --healing-green-light: 158 25% 94%;
+    --warm-beige: 35 25% 95%;
+    --warm-beige-dark: 35 18% 82%;
+    --trust-navy: 220 30% 18%;
+    --trust-teal: 175 40% 35%;
     
     /* Catégories médicales */
-    --rhuma-color: 200 65% 42%;
-    --veino-color: 280 45% 48%;
-    --orl-color: 165 50% 38%;
-    --buccal-color: 340 50% 48%;
+    --rhuma-color: 210 55% 38%;
+    --veino-color: 270 35% 45%;
+    --orl-color: 158 40% 35%;
+    --buccal-color: 340 40% 48%;
 
-    /* Gradients modernes */
-    --gradient-hero: linear-gradient(135deg, hsl(200 70% 38%) 0%, hsl(165 45% 42%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 20% 98%) 100%);
-    --gradient-warm: linear-gradient(135deg, hsl(35 30% 97%) 0%, hsl(35 25% 94%) 100%);
+    /* Gradients premium sobres */
+    --gradient-hero: linear-gradient(145deg, hsl(210 65% 32%) 0%, hsl(210 50% 42%) 50%, hsl(175 40% 35%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(40 15% 98%) 100%);
+    --gradient-warm: linear-gradient(145deg, hsl(40 20% 97%) 0%, hsl(35 18% 94%) 100%);
 
-    /* Shadows plus douces et modernes */
-    --shadow-soft: 0 1px 3px 0 hsl(215 25% 17% / 0.05), 0 1px 2px -1px hsl(215 25% 17% / 0.05);
-    --shadow-card: 0 4px 6px -1px hsl(215 25% 17% / 0.07), 0 2px 4px -2px hsl(215 25% 17% / 0.07);
-    --shadow-elevated: 0 10px 15px -3px hsl(215 25% 17% / 0.08), 0 4px 6px -4px hsl(215 25% 17% / 0.08);
+    /* Shadows raffinées */
+    --shadow-soft: 0 1px 2px 0 hsl(220 20% 18% / 0.04);
+    --shadow-card: 0 2px 8px -2px hsl(220 20% 18% / 0.06), 0 1px 3px -1px hsl(220 20% 18% / 0.04);
+    --shadow-elevated: 0 8px 24px -6px hsl(220 20% 18% / 0.1), 0 4px 8px -4px hsl(220 20% 18% / 0.06);
 
-    /* Sidebar (si besoin) */
-    --sidebar-background: 0 0% 99%;
-    --sidebar-foreground: 215 25% 22%;
-    --sidebar-primary: 200 70% 38%;
+    /* Sidebar */
+    --sidebar-background: 40 15% 99%;
+    --sidebar-foreground: 220 20% 22%;
+    --sidebar-primary: 210 65% 32%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 165 35% 94%;
-    --sidebar-accent-foreground: 215 25% 22%;
-    --sidebar-border: 215 18% 90%;
-    --sidebar-ring: 200 70% 38%;
+    --sidebar-accent: 158 25% 94%;
+    --sidebar-accent-foreground: 220 20% 22%;
+    --sidebar-border: 220 15% 88%;
+    --sidebar-ring: 210 65% 32%;
   }
 
   .dark {
-    --background: 215 25% 10%;
-    --foreground: 210 15% 94%;
-    --card: 215 25% 13%;
-    --card-foreground: 210 15% 94%;
-    --popover: 215 25% 13%;
-    --popover-foreground: 210 15% 94%;
-    --primary: 200 55% 55%;
-    --primary-foreground: 215 25% 10%;
-    --secondary: 165 40% 52%;
-    --secondary-foreground: 215 25% 10%;
-    --muted: 215 20% 18%;
-    --muted-foreground: 210 15% 65%;
-    --accent: 25 50% 55%;
+    --background: 220 18% 10%;
+    --foreground: 40 10% 94%;
+    --card: 220 18% 13%;
+    --card-foreground: 40 10% 94%;
+    --popover: 220 18% 13%;
+    --popover-foreground: 40 10% 94%;
+    --primary: 210 50% 55%;
+    --primary-foreground: 220 18% 10%;
+    --secondary: 158 35% 48%;
+    --secondary-foreground: 220 18% 10%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 40 8% 60%;
+    --accent: 28 40% 55%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 55% 48%;
+    --destructive: 0 50% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 215 20% 22%;
-    --input: 215 20% 22%;
-    --ring: 200 55% 55%;
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 210 50% 55%;
   }
 
   /* Mode Senior - Police +30%, contrastes forts, gros boutons */
