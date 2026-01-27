@@ -65,11 +65,20 @@ const addToCache = (slug: string, type: '1page' | '4pages', blob: Blob): void =>
 };
 
 /**
- * Vide le cache (utile pour forcer une régénération)
+ * Vide le cache complet (utile pour forcer une régénération globale)
  */
 export const clearPdfCache = (): void => {
   pdfCache.clear();
   console.log('[pdfService] Cache cleared');
+};
+
+/**
+ * Supprime une entrée spécifique du cache
+ */
+export const clearPdfCacheEntry = (slug: string, type: '1page' | '4pages'): void => {
+  const key = getCacheKey(slug, type);
+  pdfCache.delete(key);
+  console.log(`[pdfService] Cache entry deleted: ${key}`);
 };
 
 /**

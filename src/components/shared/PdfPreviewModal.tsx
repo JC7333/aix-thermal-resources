@@ -20,7 +20,8 @@ interface PdfPreviewModalProps {
   type: '1page' | '4pages';
   isLoading: boolean;
   onDownload: () => void;
-  fromCache?: boolean; // Nouveau: indique si le PDF vient du cache
+  fromCache?: boolean;
+  onRegenerate?: () => void; // Nouveau: callback pour régénérer
 }
 
 export const PdfPreviewModal = ({
@@ -32,6 +33,7 @@ export const PdfPreviewModal = ({
   isLoading,
   onDownload,
   fromCache = false,
+  onRegenerate,
 }: PdfPreviewModalProps) => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [zoom, setZoom] = useState(100);
@@ -203,10 +205,24 @@ export const PdfPreviewModal = ({
 
         {/* Footer */}
         <DialogFooter className="px-6 py-4 border-t bg-muted/30 flex-row gap-3 sm:justify-between">
-          <Button variant="outline" onClick={onClose} className="gap-2">
-            <X className="w-4 h-4" />
-            Fermer
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={onClose} className="gap-2">
+              <X className="w-4 h-4" />
+              Fermer
+            </Button>
+            {/* Bouton Régénérer - visible uniquement si cache et callback disponible */}
+            {fromCache && onRegenerate && (
+              <Button 
+                variant="ghost"
+                onClick={onRegenerate} 
+                disabled={isLoading}
+                className="gap-2 text-muted-foreground hover:text-foreground"
+              >
+                <RefreshCw className="w-4 h-4" />
+                Régénérer
+              </Button>
+            )}
+          </div>
           <div className="flex gap-2">
             <Button 
               variant="outline"
