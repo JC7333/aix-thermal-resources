@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { BarChart3, Users, Download, CheckCircle, MousePointer, Trash2, FileJson, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { 
   calculateStats, 
   clearAnalytics, 
@@ -245,23 +247,67 @@ const Stats = () => {
             </CardContent>
           </Card>
 
-          {/* Last 7 days */}
-          <Card>
+          {/* Last 7 days - Bar Chart */}
+          <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle className="text-lg">7 derniers jours</CardTitle>
+              <CardTitle className="text-lg">Évolution sur 7 jours</CardTitle>
             </CardHeader>
             <CardContent>
               {stats.last7Days.length === 0 ? (
-                <p className="text-muted-foreground text-sm">Aucune donnée</p>
+                <div className="h-64 flex items-center justify-center">
+                  <p className="text-muted-foreground text-sm">Aucune donnée sur les 7 derniers jours</p>
+                </div>
               ) : (
-                <ul className="space-y-2">
-                  {stats.last7Days.map((day) => (
-                    <li key={day.date} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                      <span className="text-sm text-foreground">{day.date}</span>
-                      <span className="text-sm font-semibold text-muted-foreground">{day.count} événements</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={stats.last7Days}
+                      margin={{ top: 10, right: 10, left: 0, bottom: 20 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
+                      <XAxis 
+                        dataKey="date" 
+                        tick={{ fontSize: 12 }}
+                        tickLine={false}
+                        axisLine={false}
+                        className="fill-muted-foreground"
+                      />
+                      <YAxis 
+                        tick={{ fontSize: 12 }}
+                        tickLine={false}
+                        axisLine={false}
+                        allowDecimals={false}
+                        className="fill-muted-foreground"
+                      />
+                      <Tooltip
+                        cursor={{ fill: 'hsl(var(--muted))' }}
+                        content={({ active, payload }) => {
+                          if (active && payload && payload.length) {
+                            return (
+                              <div className="bg-popover border border-border rounded-lg px-3 py-2 shadow-lg">
+                                <p className="text-sm font-medium text-foreground">{payload[0].payload.date}</p>
+                                <p className="text-sm text-primary font-semibold">{payload[0].value} événements</p>
+                              </div>
+                            );
+                          }
+                          return null;
+                        }}
+                      />
+                      <Bar 
+                        dataKey="count" 
+                        radius={[4, 4, 0, 0]}
+                        className="fill-primary"
+                      >
+                        {stats.last7Days.map((entry, index) => (
+                          <Cell 
+                            key={`cell-${index}`}
+                            className="fill-primary hover:fill-primary/80 transition-colors"
+                          />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               )}
             </CardContent>
           </Card>
