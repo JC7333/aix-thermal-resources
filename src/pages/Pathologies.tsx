@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Clock, ChevronRight, BookOpen, Shield, FileText } from 'lucide-react';
+import { Clock, ChevronRight, BookOpen, Shield, FileText, Heart } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import { FavoriteButton } from '@/components/shared/FavoriteButton';
+import { useFavorites } from '@/hooks/useFavorites';
 import { getAllEvidence, type EvidenceData } from '@/data/evidence';
 
 // Métadonnées enrichies pour chaque pathologie
@@ -63,6 +65,7 @@ const categoryColors: Record<string, string> = {
 
 const Pathologies = () => {
   const allEvidence = getAllEvidence();
+  const { favorites, isFavorite } = useFavorites();
   
   // Grouper les pathologies par catégorie
   const groupedPathologies = allEvidence.reduce((acc, evidence) => {
@@ -73,6 +76,12 @@ const Pathologies = () => {
     acc[meta.category].push({ ...evidence, meta });
     return acc;
   }, {} as Record<string, (EvidenceData & { meta: typeof pathologyMeta[string] })[]>);
+
+  // Favoris
+  const favoritePathologies = allEvidence.filter(e => favorites.includes(e.slug)).map(e => ({
+    ...e,
+    meta: pathologyMeta[e.slug],
+  })).filter(e => e.meta);
 
   return (
     <Layout>
@@ -99,6 +108,54 @@ const Pathologies = () => {
           </div>
         </header>
 
+        {/* Section Favoris */}
+        {favoritePathologies.length > 0 && (
+          <section className="mb-12">
+            <h2 className="font-serif text-2xl font-bold mb-6 pb-3 border-b-2 border-destructive/50 text-destructive flex items-center gap-2">
+              <Heart className="w-5 h-5 fill-destructive" />
+              Mes favoris ({favoritePathologies.length})
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+              {favoritePathologies.map((pathology) => (
+                <Link
+                  key={pathology.slug}
+                  to={`/pathologies/${pathology.slug}`}
+                  className="card-medical group flex flex-col ring-2 ring-destructive/20"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <span className={`px-3 py-1 text-xs font-medium rounded-full border ${categoryColors[pathology.meta.category]}`}>
+                      {categoryLabels[pathology.meta.category]}
+                    </span>
+                    <FavoriteButton slug={pathology.slug} variant="icon" />
+                  </div>
+
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-2xl">{pathology.meta.icon}</span>
+                    <h3 className="font-serif text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                      {pathology.meta.name}
+                    </h3>
+                  </div>
+
+                  <p className="text-muted-foreground text-sm mb-4 flex-grow">
+                    {pathology.meta.shortDescription}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground border-t border-border pt-3 mt-auto">
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {pathology.meta.readingTime} min
+                    </span>
+                    <span className="flex items-center gap-1 text-primary">
+                      <BookOpen className="w-3 h-3" />
+                      {pathology.recommendations.length} recommandations
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
         <div className="space-y-12 lg:space-y-16">
           {Object.entries(categoryLabels).map(([category, label]) => {
             const categoryPathologies = groupedPathologies[category];
@@ -119,13 +176,16 @@ const Pathologies = () => {
                     <Link
                       key={pathology.slug}
                       to={`/pathologies/${pathology.slug}`}
-                      className="card-medical group flex flex-col"
+                      className={`card-medical group flex flex-col ${isFavorite(pathology.slug) ? 'ring-2 ring-destructive/20' : ''}`}
                     >
                       <div className="flex items-start justify-between mb-3">
                         <span className={`px-3 py-1 text-xs font-medium rounded-full border ${categoryColors[pathology.meta.category]}`}>
                           {categoryLabels[pathology.meta.category]}
                         </span>
-                        <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                        <div className="flex items-center gap-1">
+                          <FavoriteButton slug={pathology.slug} variant="icon" />
+                          <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                        </div>
                       </div>
 
                       <div className="flex items-center gap-2 mb-2">
