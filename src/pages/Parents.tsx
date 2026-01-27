@@ -25,7 +25,7 @@ const parentTopics = [
   {
     id: 'otites',
     title: 'Otites à répétition',
-    slug: 'otites-repetition-enfant',
+    slug: 'otites-a-repetition-enfant',
     description: 'Prévenir et accompagner les otites fréquentes chez l\'enfant.',
     icon: Ear,
     quickTips: [

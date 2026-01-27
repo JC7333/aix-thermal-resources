@@ -641,8 +641,8 @@ Contrairement à ce qu'on entend souvent, le problème vient rarement d'une vert
 
   // ========== INSUFFISANCE VEINEUSE CHRONIQUE ==========
   {
-    id: 'insuffisance-veineuse',
-    slug: 'insuffisance-veineuse',
+    id: 'insuffisance-veineuse-chronique',
+    slug: 'insuffisance-veineuse-chronique',
     name: 'Insuffisance veineuse chronique',
     category: 'veino-lymphatique',
     shortDescription: 'Je vous aide à soulager vos jambes lourdes au quotidien.',
@@ -1070,8 +1070,8 @@ La bonne nouvelle : même si les dégâts sont là, on peut améliorer les chose
 
   // ========== OTITES À RÉPÉTITION (ENFANT) ==========
   {
-    id: 'otites-repetition-enfant',
-    slug: 'otites-repetition-enfant',
+    id: 'otites-a-repetition-enfant',
+    slug: 'otites-a-repetition-enfant',
     name: 'Otites à répétition (enfant)',
     category: 'orl-respiratoire',
     shortDescription: 'Je vous aide à réduire les otites de votre enfant.',
@@ -1266,7 +1266,7 @@ export const resources: Resource[] = [
   },
   {
     id: 'res-veines-contention',
-    pathologyId: 'insuffisance-veineuse',
+    pathologyId: 'insuffisance-veineuse-chronique',
     title: 'Bien porter ses bas de contention',
     summary: 'Comment choisir, mettre et entretenir ses bas de contention.',
     type: 'hygiene',
@@ -1284,7 +1284,7 @@ export const resources: Resource[] = [
   },
   {
     id: 'res-otites-prevention',
-    pathologyId: 'otites-repetition-enfant',
+    pathologyId: 'otites-a-repetition-enfant',
     title: 'Prévenir les otites chez l\'enfant',
     summary: 'Les gestes simples pour réduire les otites à répétition.',
     type: 'hygiene',
