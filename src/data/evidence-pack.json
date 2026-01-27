@@ -1,0 +1,110 @@
+[
+  {
+    "slug": "arthrose",
+    "recommendations": [
+      { "text": "Exercice thérapeutique personnalisé (renforcement + cardio doux) : c'est le socle du traitement non médicamenteux.", "evidence": "Élevé (guideline + SR)" },
+      { "text": "Séances supervisées au départ si peur de bouger, douleurs fortes ou mauvaise technique.", "evidence": "Modéré (guideline)" },
+      { "text": "Perte de poids si surpoids/obésité : même une baisse modeste aide, ~10% est souvent plus efficace que 5%.", "evidence": "Modéré (guideline)" },
+      { "text": "Programme structuré 'exercice + éducation + changement d'habitudes' (pacing, objectifs, suivi).", "evidence": "Modéré (guideline)" },
+      { "text": "Aides à la marche si besoin (canne, bâton) pour diminuer la charge et sécuriser.", "evidence": "Modéré (guideline)" },
+      { "text": "Thérapie manuelle uniquement EN PLUS de l'exercice (pas seule).", "evidence": "Faible à modéré (guideline)" },
+      { "text": "Plan anti-découragement : micro-objectifs (5-10 min/j), progression lente, suivi douleur/fatigue.", "evidence": "Consensus (mise en pratique)" }
+    ],
+    "red_flags": [
+      "Douleur aiguë très intense + articulation chaude/rouge + fièvre.",
+      "Impossibilité brutale d'appui/marche après un effort ou une chute.",
+      "Gonflement rapide inhabituel, douleur nocturne persistante, amaigrissement inexpliqué.",
+      "Déformation brutale, blocage complet, perte de fonction majeure."
+    ],
+    "sources": [
+      { "title": "Osteoarthritis in over 16s: diagnosis and management (NG226) – Recommendations", "org": "NICE", "year": 2022, "url": "https://www.nice.org.uk/guidance/ng226/chapter/Recommendations" },
+      { "title": "Exercise for osteoarthritis of the knee (CD004376)", "org": "Cochrane", "year": 2024, "url": "https://www.cochrane.org/CD004376/CENTRALED_exercise-effective-therapy-treat-knee-osteoarthritis" }
+    ]
+  },
+  {
+    "slug": "lombalgie-chronique",
+    "recommendations": [
+      { "text": "Rester actif et reprendre progressivement les activités : éviter le repos prolongé.", "evidence": "Élevé (guidelines)" },
+      { "text": "Programme d'exercices (aérobie, renforcement, mobilité, mind-body) adapté aux capacités.", "evidence": "Élevé (guidelines)" },
+      { "text": "Auto-gestion : comprendre la douleur, plan de reprise, objectifs réalistes, suivi simple.", "evidence": "Modéré (guideline)" },
+      { "text": "Approche psycho-comportementale si peur du mouvement / anxiété / évitement (CBT, mindfulness, etc.).", "evidence": "Modéré (guidelines)" },
+      { "text": "Thérapie manuelle uniquement dans un 'package' incluant exercice (pas isolée).", "evidence": "Modéré (guideline)" },
+      { "text": "Hygiène de vie 'anti-inflammation pratique' : sommeil, poids, marche quotidienne, réduction sédentarité.", "evidence": "Consensus (mise en pratique)" },
+      { "text": "Stratégie 'petits pas' : 10 minutes d'activité, 1-2 fois/j, augmentation hebdomadaire.", "evidence": "Consensus (adhésion)" }
+    ],
+    "red_flags": [
+      "Troubles urinaires/rétention, anesthésie en selle, déficit moteur progressif (urgence).",
+      "Fièvre, frissons, antécédent cancer, amaigrissement inexpliqué.",
+      "Douleur après traumatisme important, ostéoporose connue, douleur nocturne majeure.",
+      "Sciatique hyperalgique avec déficit moteur."
+    ],
+    "sources": [
+      { "title": "Low back pain and sciatica in over 16s: assessment and management (NG59) – Non-pharmacological interventions", "org": "NICE", "year": 2016, "url": "https://www.nice.org.uk/guidance/ng59/chapter/recommendations" },
+      { "title": "WHO guideline for non-surgical management of chronic primary low back pain in adults", "org": "World Health Organization", "year": 2023, "url": "https://www.who.int/publications/i/item/9789240081789" },
+      { "title": "Noninvasive Treatments for Acute, Subacute, and Chronic Low Back Pain", "org": "American College of Physicians", "year": 2017, "url": "https://pubmed.ncbi.nlm.nih.gov/28192789/" }
+    ]
+  },
+  {
+    "slug": "insuffisance-veineuse-chronique",
+    "recommendations": [
+      { "text": "Compression médicale (bas/chaussettes) si symptômes (jambes lourdes, oedème) : pilier de base.", "evidence": "Élevé (guideline)" },
+      { "text": "Marche quotidienne + 'pompe du mollet' (exercices simples) pour améliorer le retour veineux.", "evidence": "Modéré (guideline)" },
+      { "text": "Élévation des jambes (courtes sessions dans la journée) si oedème/sensation de lourdeur.", "evidence": "Consensus (pratique clinique)" },
+      { "text": "Réduction du temps immobile debout/assis : pauses actives toutes les 30-60 minutes.", "evidence": "Consensus (mécanisme + guideline)" },
+      { "text": "Poids : si surpoids, objectif progressif (même modeste) pour diminuer la pression veineuse.", "evidence": "Consensus (facteurs de risque)" },
+      { "text": "Soins de peau (hydratation, prévention eczéma/plaies), vigilance en cas de dermite ocre.", "evidence": "Modéré (guideline)" },
+      { "text": "Chaussures confort + éviter vêtements très serrés au pli inguinal/genou si oedème.", "evidence": "Consensus (pratique)" }
+    ],
+    "red_flags": [
+      "Douleur brutale unilatérale du mollet + gonflement important (phlébite à exclure).",
+      "Essoufflement brutal, douleur thoracique (urgence).",
+      "Plaie qui ne cicatrise pas, suintement, signe d'infection locale (rougeur, chaleur, fièvre).",
+      "Oedème rapidement progressif ou très asymétrique."
+    ],
+    "sources": [
+      { "title": "ESVS 2022 Clinical Practice Guidelines on the Management of Chronic Venous Disease of the Lower Limbs", "org": "European Society for Vascular Surgery (ESVS)", "year": 2022, "url": "https://www.sciencedirect.com/science/article/pii/S1078588421009795" }
+    ]
+  },
+  {
+    "slug": "bpco",
+    "recommendations": [
+      { "text": "Arrêt du tabac : action n°1 (gain sur symptômes et progression).", "evidence": "Élevé (guidelines)" },
+      { "text": "Réhabilitation respiratoire (programme structuré) : améliore dyspnée, capacité d'effort, qualité de vie.", "evidence": "Élevé (SR/guidelines)" },
+      { "text": "Activité physique régulière (marche fractionnée, renforcement doux) même hors réhab.", "evidence": "Modéré à élevé (guidelines)" },
+      { "text": "Techniques respiratoires : expiration lèvres pincées, pacing à l'effort.", "evidence": "Modéré (guidelines/pratique)" },
+      { "text": "Nutrition : éviter fonte musculaire (apports protéiques) / gérer surpoids selon profil.", "evidence": "Modéré (guidelines)" },
+      { "text": "Vaccinations recommandées (réduction exacerbations selon recommandations nationales).", "evidence": "Élevé (guidelines)" },
+      { "text": "Plan d'action écrit : reconnaître exacerbation, quoi faire, quand appeler.", "evidence": "Modéré (self-management)" }
+    ],
+    "red_flags": [
+      "Aggravation rapide de l'essoufflement au repos, lèvres bleues, confusion.",
+      "Douleur thoracique, malaise, expectoration sanglante.",
+      "Fièvre élevée + détresse respiratoire.",
+      "Exacerbation non contrôlée malgré mesures habituelles."
+    ],
+    "sources": [
+      { "title": "Global Strategy for the Diagnosis, Management, and Prevention of COPD (Report)", "org": "GOLD (Global Initiative for Chronic Obstructive Lung Disease)", "year": 2026, "url": "https://goldcopd.org/" }
+    ]
+  },
+  {
+    "slug": "otites-a-repetition-enfant",
+    "recommendations": [
+      { "text": "Réduire l'exposition à la fumée (tabac passif) : objectif prioritaire.", "evidence": "Élevé (facteur de risque reconnu)" },
+      { "text": "Hygiène respiratoire : lavage des mains, limiter contacts en période épidémique si possible.", "evidence": "Consensus (prévention infections)" },
+      { "text": "Xylitol (chewing-gum/sirop selon âge) : peut réduire la survenue d'otites chez certains enfants, effet variable.", "evidence": "Modéré (SR)" },
+      { "text": "Évaluer audition + langage si otites fréquentes / suspicion d'épanchement chronique.", "evidence": "Élevé (guideline)" },
+      { "text": "Discussion ORL si critères : aérateurs transtympaniques (grommets) selon indications.", "evidence": "Élevé (guideline)" },
+      { "text": "Limiter pacifier/tétine prolongée et optimiser sommeil/obstruction nasale si concerné.", "evidence": "Consensus (facteurs associés)" }
+    ],
+    "red_flags": [
+      "Douleur importante + fièvre élevée persistante ou enfant très abattu.",
+      "Oreille décollée, rougeur/gonflement derrière l'oreille, douleur à la mastoïde (urgence).",
+      "Raideur de nuque, vomissements incoercibles, troubles neurologiques.",
+      "Moins de 3 mois avec fièvre et suspicion d'infection."
+    ],
+    "sources": [
+      { "title": "Clinical Practice Guideline: Tympanostomy Tubes in Children (Update)", "org": "AAO-HNSF", "year": 2022, "url": "https://www.entnet.org/quality-practice/quality-products/clinical-practice-guidelines/tympanostomy-tubes-in-children/" },
+      { "title": "Xylitol for preventing acute otitis media in children up to 12 years of age (CD007095)", "org": "Cochrane", "year": 2016, "url": "https://www.cochrane.org/evidence/CD007095_xylitol-sugar-supplement-preventing-middle-ear-infection-children-12-years-age" }
+    ]
+  }
+]
