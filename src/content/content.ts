@@ -1280,7 +1280,7 @@ Ce qui favorise les otites : collectivité (crèche), tabagisme passif, tétine 
           { week: 'Semaines 1-2', focus: 'Installer les routines', exercises: ['Lavages matin/soir', 'Aération quotidienne', 'Vérifier humidité (40-60%)'] },
           { week: 'Semaines 3-4', focus: 'Hygiène environnement', exercises: ['Nettoyage chambre', 'Lavage doudous/peluches', 'Éliminer poussière'] },
           { week: 'Semaines 5-6', focus: 'Renforcer les défenses', exercises: ['Alimentation variée', 'Sorties quotidiennes', 'Sommeil suffisant'] },
-          { week: 'Semaines 7-8', focus: 'Bilan', exercises: ['Moins d\'otites ?', 'Maintenir les routines', 'Si toujours fréquentes : consultation ORL'] },
+          { week: 'Semaines 7-8', focus: 'Bilan', exercises: ['Moins d\'otites ?', 'Maintenir les routines', 'Si toujours fréquentes : parlez-en à votre médecin'] },
         ],
       },
     ],
@@ -1426,7 +1426,7 @@ export const quickAnswers: QuickAnswerContent[] = [
       { day: 'Jour 3', actions: ['Supprimer 2 cigarettes', 'Marcher 10 min quand l\'envie est forte', 'Ranger les cendriers'] },
       { day: 'Jour 4', actions: ['Ne plus fumer en intérieur', 'Appeler Tabac Info Service (3989)', 'Envisager les substituts'] },
       { day: 'Jour 5', actions: ['Réduire encore de 2 cigarettes', 'Trouver un "parrain" de soutien', 'Calculer l\'argent économisé'] },
-      { day: 'Jour 6', actions: ['Fixer une date d\'arrêt dans 2 semaines', 'Prendre RDV médecin', 'Préparer des en-cas sains'] },
+      { day: 'Jour 6', actions: ['Fixer une date d\'arrêt dans 2 semaines', 'Envisager un accompagnement (tabacologue, médecin)', 'Préparer des en-cas sains'] },
       { day: 'Jour 7', actions: ['Bilan : combien en moins ?', 'Se féliciter', 'Visualiser les bénéfices'] },
     ],
 
@@ -1544,7 +1544,7 @@ export const quickAnswers: QuickAnswerContent[] = [
       { day: 'Jour 4', actions: ['Porter des bas de contention', 'Marche 30 min', 'Éviter le chauffage au sol'] },
       { day: 'Jour 5', actions: ['Marche ou vélo 30 min', 'Massage des jambes', 'Pas de vêtements serrés'] },
       { day: 'Jour 6', actions: ['Natation ou aquagym si possible', 'Exercices quotidiens', 'Noter l\'amélioration'] },
-      { day: 'Jour 7', actions: ['Bilan', 'RDV médecin si besoin de bas de contention', 'Maintenir les habitudes'] },
+      { day: 'Jour 7', actions: ['Bilan', 'Si besoin de bas de contention, parlez-en à votre médecin', 'Maintenir les habitudes'] },
     ],
 
     alertSigns: [
@@ -1602,7 +1602,7 @@ export const quickAnswers: QuickAnswerContent[] = [
       { day: 'Jour 4', actions: ['Marche 10 min', 'Montée de quelques marches', 'Continuer la respiration'] },
       { day: 'Jour 5', actions: ['Marche 12 min', 'Exercices 10 min', 'Hydratation++'] },
       { day: 'Jour 6', actions: ['Marche 15 min', 'Exercices 10 min', 'Évaluer les progrès'] },
-      { day: 'Jour 7', actions: ['Bilan', 'RDV médecin si pas d\'amélioration', 'Planifier la suite'] },
+      { day: 'Jour 7', actions: ['Bilan', 'Si pas d\'amélioration, parlez-en à votre médecin', 'Planifier la suite'] },
     ],
 
     alertSigns: [

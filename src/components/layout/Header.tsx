@@ -27,6 +27,11 @@ export const Header = () => {
   // En mode Senior, on force le menu hamburger même sur desktop
   const useHamburgerMenu = seniorMode;
 
+  // Fermer le menu mobile et scroll vers l'ancre
+  const handleNavClick = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <header 
       className={`
@@ -42,7 +47,7 @@ export const Header = () => {
 
         <div className={`
           flex items-center justify-between gap-3
-          ${seniorMode ? 'flex-wrap gap-y-2 py-3 h-auto' : 'h-18 lg:h-20'}
+          ${seniorMode ? 'flex-wrap gap-y-3 py-3 h-auto min-h-[72px]' : 'h-18 lg:h-20'}
         `}>
           {/* Logo - Brand COOLANCE */}
           <Link to="/" className="flex items-center gap-3 group shrink-0">
@@ -146,7 +151,7 @@ export const Header = () => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={handleNavClick}
                     className={`
                       flex items-center gap-3 px-4 rounded-lg font-medium transition-colors
                       ${seniorMode ? 'py-4 text-xl' : 'py-3 text-lg'}

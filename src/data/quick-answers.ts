@@ -427,7 +427,7 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
       },
       {
         day: 'Jour 7',
-        actions: ['Bilan de la semaine', 'Planifier RDV pneumologue si pas de suivi', 'Continuer l\'effort régulier']
+        actions: ['Bilan de la semaine', 'Si pas d\'amélioration, parlez-en à votre médecin', 'Continuer l\'effort régulier']
       }
     ],
     alertSigns: [
