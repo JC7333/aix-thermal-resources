@@ -185,7 +185,7 @@ export const Pdf4Pages: React.FC<Pdf4PagesProps> = ({ pathology }) => {
 
             {/* Message de clôture */}
             <View style={[pdfStyles.box, { marginTop: 12 }]}>
-              <Text style={{ fontSize: 9, fontStyle: 'italic', color: PDF_COLORS.textMuted, textAlign: 'center' }}>
+              <Text style={{ fontSize: 9, color: PDF_COLORS.textMuted, textAlign: 'center' }}>
                 En cas de doute ou de symptômes inhabituels, consultez un professionnel de santé.
               </Text>
             </View>
