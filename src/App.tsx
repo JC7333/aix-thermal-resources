@@ -26,6 +26,7 @@ import Stats from "./pages/Stats";
 import MesFavoris from "./pages/MesFavoris";
 import Admin from "./pages/Admin";
 import SocialKit from "./pages/SocialKit";
+import SourcesMethodologie from "./pages/SourcesMethodologie";
 
 const queryClient = new QueryClient();
 
@@ -59,7 +60,7 @@ const App = () => (
               <Route path="/stats" element={<Stats />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/social-kit" element={<SocialKit />} />
-              {/* Legacy routes */}
+              <Route path="/sources-methodologie" element={<SourcesMethodologie />} />
               <Route path="/pathologie/:slug" element={<PathologyPage />} />
               <Route path="/cabinet" element={<QuiSuisJe />} />
               <Route path="*" element={<NotFound />} />

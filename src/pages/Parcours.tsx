@@ -145,6 +145,18 @@ const getActionsForObjective = (objective: Objective, level: Level): { today: st
   return plans[objective];
 };
 
+// Clé localStorage pour sauvegarder le plan
+const PLAN_STORAGE_KEY = 'coolance_parcours_plan';
+
+interface SavedPlan {
+  objective: Objective;
+  level: Level;
+  objectiveLabel: string;
+  today: string[];
+  weekPlan: string[];
+  savedAt: string;
+}
+
 const Parcours = () => {
   const [step, setStep] = useState(1);
   const [selectedObjective, setSelectedObjective] = useState<Objective | null>(null);
@@ -156,13 +168,33 @@ const Parcours = () => {
     logEvent('wizard_start', '/parcours');
   }, []);
 
-  // Track wizard complete when reaching step 3
+  // Track wizard complete when reaching step 3 + sauvegarder le plan
   useEffect(() => {
     if (step === 3 && selectedObjective && selectedLevel !== null) {
       logEvent('wizard_complete', '/parcours', { 
         objective: selectedObjective, 
         level: String(selectedLevel) 
       });
+
+      // Sauvegarder le plan finalisé dans localStorage
+      const objectiveData = objectives.find(o => o.id === selectedObjective);
+      const actions = getActionsForObjective(selectedObjective, selectedLevel);
+      
+      const planToSave: SavedPlan = {
+        objective: selectedObjective,
+        level: selectedLevel,
+        objectiveLabel: objectiveData?.label || selectedObjective,
+        today: actions.today,
+        weekPlan: actions.weekPlan,
+        savedAt: new Date().toISOString(),
+      };
+      
+      try {
+        localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(planToSave));
+        console.log('[Parcours] Plan sauvegardé dans localStorage');
+      } catch (error) {
+        console.error('[Parcours] Erreur sauvegarde localStorage:', error);
+      }
     }
   }, [step, selectedObjective, selectedLevel]);
 
@@ -228,7 +260,7 @@ const Parcours = () => {
                   Quel est votre objectif aujourd'hui ?
                 </h1>
                 <p className={`text-muted-foreground ${seniorMode ? 'text-xl' : 'text-lg'}`}>
-                  Je vais vous proposer un plan d'action simple et adapté.
+                  Ce parcours génère un plan d'action simple et adapté à votre situation.
                 </p>
               </div>
 
@@ -269,7 +301,7 @@ const Parcours = () => {
                   Quel est votre niveau de mobilité ?
                 </h1>
                 <p className={`text-muted-foreground ${seniorMode ? 'text-xl' : 'text-lg'}`}>
-                  Je vais adapter les conseils à votre capacité actuelle.
+                  Les conseils seront adaptés à votre capacité actuelle.
                 </p>
               </div>
 

@@ -93,6 +93,11 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/sources-methodologie" className="text-white/80 hover:text-white transition-colors">
+                  Sources & Méthodologie
+                </Link>
+              </li>
+              <li>
                 <Link to="/contact" className="text-white/80 hover:text-white transition-colors">
                   Contact
                 </Link>
