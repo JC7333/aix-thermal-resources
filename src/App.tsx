@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 import ReponsesRapides from "./pages/ReponsesRapides";
 import Telechargements from "./pages/Telechargements";
 import Stats from "./pages/Stats";
+import MesFavoris from "./pages/MesFavoris";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/guides" element={<Guides />} />
             <Route path="/parents" element={<Parents />} />
             <Route path="/telechargements" element={<Telechargements />} />
+            <Route path="/favoris" element={<MesFavoris />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/qui-suis-je" element={<QuiSuisJe />} />
             <Route path="/contact" element={<Contact />} />
