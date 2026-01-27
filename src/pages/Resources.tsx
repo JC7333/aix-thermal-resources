@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import { useSeniorMode } from '@/hooks/useSeniorMode';
 import {
   libraryResources,
   quickAnswers,
@@ -150,6 +151,8 @@ const Resources = () => {
   const [selectedTags, setSelectedTags] = useState<LibraryTag[]>([]);
   const [sortBy, setSortBy] = useState<SortOption>('popular');
   const [showFilters, setShowFilters] = useState(false);
+  
+  const { seniorMode, titleClass, textClass, buttonSize, gridCols, inputClass, cardClass } = useSeniorMode();
 
   // Filter and sort resources
   const filteredResources = useMemo(() => {
@@ -209,23 +212,23 @@ const Resources = () => {
         <Breadcrumb items={[{ label: 'Bibliothèque de ressources' }]} />
 
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3">
+        <div className={seniorMode ? 'mb-10' : 'mb-8'}>
+          <h1 className={titleClass}>
             Bibliothèque de ressources
           </h1>
-          <p className="text-lg text-muted-foreground max-w-3xl">
+          <p className={textClass + ' max-w-3xl'}>
             Toutes mes fiches conseils, programmes et informations pratiques. 
             Trouvez rapidement ce dont vous avez besoin.
           </p>
         </div>
 
         {/* Quick Answers Section */}
-        <section className="mb-10">
-          <h2 className="font-serif text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-accent" />
+        <section className={seniorMode ? 'mb-12' : 'mb-10'}>
+          <h2 className={`font-serif font-bold text-foreground mb-4 flex items-center gap-2 ${seniorMode ? 'text-2xl' : 'text-xl'}`}>
+            <Sparkles className={seniorMode ? 'w-6 h-6' : 'w-5 h-5'} />
             Réponses rapides
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className={seniorMode ? 'grid grid-cols-1 lg:grid-cols-3 gap-6' : 'grid grid-cols-1 md:grid-cols-3 gap-4'}>
             {quickAnswers.map((answer) => (
               <QuickAnswerCard key={answer.id} answer={answer} />
             ))}
@@ -237,13 +240,13 @@ const Resources = () => {
           {/* Search Bar */}
           <div className="flex gap-3">
             <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <Search className={`absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground ${seniorMode ? 'w-6 h-6' : 'w-5 h-5'}`} />
               <Input
                 type="search"
                 placeholder="Rechercher une ressource, un sujet..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-14 text-base rounded-xl border-2 focus:border-primary"
+                className={`pl-12 border-2 focus:border-primary ${inputClass}`}
               />
               {searchQuery && (
                 <button
@@ -256,14 +259,14 @@ const Resources = () => {
             </div>
             <Button
               variant="outline"
-              size="lg"
+              size={buttonSize}
               onClick={() => setShowFilters(!showFilters)}
-              className={`h-14 px-5 rounded-xl ${showFilters ? 'bg-primary/10 border-primary' : ''}`}
+              className={`px-5 rounded-xl ${showFilters ? 'bg-primary/10 border-primary' : ''} ${seniorMode ? 'h-14' : 'h-11'}`}
             >
-              <Filter className="w-5 h-5" />
-              <span className="hidden sm:inline ml-2">Filtres</span>
+              <Filter className={seniorMode ? 'w-6 h-6' : 'w-5 h-5'} />
+              <span className={seniorMode ? 'ml-2' : 'hidden sm:inline ml-2'}>Filtres</span>
               {hasActiveFilters && (
-                <span className="ml-2 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
+                <span className={`ml-2 rounded-full bg-primary text-primary-foreground flex items-center justify-center ${seniorMode ? 'w-6 h-6 text-sm' : 'w-5 h-5 text-xs'}`}>
                   {(selectedCategory ? 1 : 0) + selectedTags.length}
                 </span>
               )}
@@ -365,7 +368,7 @@ const Resources = () => {
 
         {/* Resources Grid */}
         {filteredResources.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className={gridCols}>
             {filteredResources.map((resource) => (
               <LibraryCard key={resource.id} resource={resource} />
             ))}

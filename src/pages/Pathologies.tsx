@@ -6,6 +6,7 @@ import { FavoriteButton } from '@/components/shared/FavoriteButton';
 import { FavoritesActionsMenu } from '@/components/shared/FavoritesActionsMenu';
 import { FavoritesImportBanner } from '@/components/shared/FavoritesImportBanner';
 import { useFavorites } from '@/hooks/useFavorites';
+import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { getAllEvidence, type EvidenceData } from '@/data/evidence';
 import { Button } from '@/components/ui/button';
 
@@ -24,6 +25,7 @@ const categoryColors: Record<string, string> = {
 const Pathologies = () => {
   const allEvidence = getAllEvidence();
   const { favorites, isFavorite } = useFavorites();
+  const { seniorMode, titleClass, textClass, gridCols, smallTextClass, iconSize } = useSeniorMode();
   
   // Grouper les pathologies par catégorie
   const groupedPathologies = allEvidence.reduce((acc, evidence) => {
@@ -44,18 +46,18 @@ const Pathologies = () => {
           ]}
         />
 
-        <header className="mb-10 lg:mb-14 text-center">
-          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+        <header className={seniorMode ? 'mb-14 lg:mb-16 text-center' : 'mb-10 lg:mb-14 text-center'}>
+          <h1 className={titleClass + ' text-center'}>
             Toutes les pathologies
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className={textClass + ' max-w-2xl mx-auto'}>
             Retrouvez des informations claires et des conseils pratiques pour chaque pathologie.
             Basé sur les données probantes les plus récentes.
           </p>
           
           {/* Badge Evidence-Based */}
-          <div className="flex items-center justify-center gap-2 mt-4 text-sm text-muted-foreground">
-            <Shield className="w-4 h-4 text-primary" />
+          <div className={`flex items-center justify-center gap-2 mt-4 ${seniorMode ? 'text-base' : 'text-sm'} text-muted-foreground`}>
+            <Shield className={iconSize + ' text-primary'} />
             <span>{allEvidence.length} pathologies documentées avec sources scientifiques</span>
           </div>
         </header>
@@ -65,15 +67,15 @@ const Pathologies = () => {
 
         {/* Section Favoris */}
         {favoritePathologies.length > 0 && (
-          <section className="mb-12">
+          <section className={seniorMode ? 'mb-16' : 'mb-12'}>
             <div className="flex items-center justify-between mb-6 pb-3 border-b-2 border-destructive/50">
-              <h2 className="font-serif text-2xl font-bold text-destructive flex items-center gap-2">
-                <Heart className="w-5 h-5 fill-destructive" />
+              <h2 className={`font-serif font-bold text-destructive flex items-center gap-2 ${seniorMode ? 'text-3xl' : 'text-2xl'}`}>
+                <Heart className={`fill-destructive ${seniorMode ? 'w-6 h-6' : 'w-5 h-5'}`} />
                 Mes favoris ({favoritePathologies.length})
               </h2>
               <FavoritesActionsMenu />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+            <div className={gridCols}>
               {favoritePathologies.map((pathology) => (
                 <Link
                   key={pathology.slug}
@@ -114,14 +116,14 @@ const Pathologies = () => {
           </section>
         )}
 
-        <div className="space-y-12 lg:space-y-16">
+        <div className={seniorMode ? 'space-y-16 lg:space-y-20' : 'space-y-12 lg:space-y-16'}>
           {Object.entries(categoryLabels).map(([category, label]) => {
             const categoryPathologies = groupedPathologies[category];
             if (!categoryPathologies || categoryPathologies.length === 0) return null;
 
             return (
               <section key={category}>
-                <h2 className={`font-serif text-2xl font-bold mb-6 pb-3 border-b-2 ${
+                <h2 className={`font-serif font-bold mb-6 pb-3 border-b-2 ${seniorMode ? 'text-3xl' : 'text-2xl'} ${
                   category === 'rhumatologie' ? 'border-primary text-primary' :
                   category === 'veino-lymphatique' ? 'border-purple-500 text-purple-600' :
                   'border-secondary text-secondary'
@@ -129,7 +131,7 @@ const Pathologies = () => {
                   {label}
                 </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                <div className={gridCols}>
                   {categoryPathologies.map((pathology) => (
                     <article
                       key={pathology.slug}

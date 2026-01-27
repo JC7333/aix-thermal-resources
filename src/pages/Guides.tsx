@@ -3,6 +3,7 @@ import { Scale, Cigarette, Moon, Activity, ChevronRight, Download } from 'lucide
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import { useSeniorMode } from '@/hooks/useSeniorMode';
 
 const guides = [
   {
@@ -64,6 +65,8 @@ const guides = [
 ];
 
 const Guides = () => {
+  const { seniorMode, titleClass, textClass, buttonSize, gridCols2, cardPadding, smallTextClass, subtitleClass } = useSeniorMode();
+  
   const handleDownloadPDF = (guideId: string) => {
     alert(`Téléchargement du guide ${guideId} - PDF à venir`);
   };
@@ -77,39 +80,39 @@ const Guides = () => {
           ]}
         />
 
-        <header className="mb-10 lg:mb-14 text-center">
-          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+        <header className={seniorMode ? 'mb-14 lg:mb-16 text-center' : 'mb-10 lg:mb-14 text-center'}>
+          <h1 className={titleClass + ' text-center'}>
             Guides transversaux
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className={textClass + ' max-w-2xl mx-auto'}>
             Des conseils qui s'appliquent à toutes les pathologies : poids, tabac, sommeil, activité physique. 
             Ces guides vous accompagnent au quotidien.
           </p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
+        <div className={`${gridCols2} max-w-5xl mx-auto`}>
           {guides.map((guide) => (
-            <div key={guide.id} className="card-medical flex flex-col">
-              <div className="flex items-start gap-4 mb-4">
-                <div className={`w-14 h-14 rounded-xl ${guide.color} flex items-center justify-center shrink-0`}>
-                  <guide.icon className="w-7 h-7" />
+            <div key={guide.id} className={`card-medical flex flex-col ${seniorMode ? 'border-2' : ''}`}>
+              <div className={`flex items-start gap-4 ${seniorMode ? 'mb-6' : 'mb-4'}`}>
+                <div className={`rounded-xl ${guide.color} flex items-center justify-center shrink-0 ${seniorMode ? 'w-16 h-16' : 'w-14 h-14'}`}>
+                  <guide.icon className={seniorMode ? 'w-8 h-8' : 'w-7 h-7'} />
                 </div>
                 <div>
-                  <h2 className="font-serif text-xl font-bold text-foreground mb-1">
+                  <h2 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-2xl mb-2' : 'text-xl mb-1'}`}>
                     {guide.title}
                   </h2>
-                  <p className="text-muted-foreground text-sm">
+                  <p className={smallTextClass}>
                     {guide.description}
                   </p>
                 </div>
               </div>
 
-              <div className="mb-6 flex-grow">
-                <h3 className="text-sm font-semibold text-foreground mb-2">Dans ce guide :</h3>
-                <ul className="space-y-1.5">
+              <div className={`flex-grow ${seniorMode ? 'mb-8' : 'mb-6'}`}>
+                <h3 className={`font-semibold text-foreground ${seniorMode ? 'text-base mb-3' : 'text-sm mb-2'}`}>Dans ce guide :</h3>
+                <ul className={seniorMode ? 'space-y-2' : 'space-y-1.5'}>
                   {guide.topics.map((topic, index) => (
-                    <li key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <ChevronRight className="w-4 h-4 text-primary shrink-0" />
+                    <li key={index} className={`flex items-center gap-2 text-muted-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>
+                      <ChevronRight className={`text-primary shrink-0 ${seniorMode ? 'w-5 h-5' : 'w-4 h-4'}`} />
                       {topic}
                     </li>
                   ))}
@@ -120,9 +123,10 @@ const Guides = () => {
                 <Button 
                   onClick={() => handleDownloadPDF(guide.id)} 
                   variant="pdf" 
+                  size={buttonSize}
                   className="flex-1"
                 >
-                  <Download className="w-4 h-4" />
+                  <Download className={seniorMode ? 'w-5 h-5' : 'w-4 h-4'} />
                   Télécharger le PDF
                 </Button>
               </div>
@@ -132,8 +136,8 @@ const Guides = () => {
 
         {/* Note importante */}
         <div className="max-w-3xl mx-auto mt-12">
-          <div className="bg-muted/50 rounded-xl p-6 text-center">
-            <p className="text-muted-foreground">
+          <div className={`bg-muted/50 rounded-xl text-center ${seniorMode ? 'p-8' : 'p-6'}`}>
+            <p className={smallTextClass}>
               <strong>Rappel :</strong> Ces guides sont des informations générales. 
               Pour un accompagnement personnalisé, parlez-en avec votre médecin.
             </p>
