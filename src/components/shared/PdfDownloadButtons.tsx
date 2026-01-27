@@ -6,10 +6,10 @@
 // Badge "Prêt" quand le PDF est en cache
 // ============================================
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Download, FileText, Book, Loader2, Eye, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { 
   generatePdf1PageBySlug, 
   generatePdf4PagesBySlug, 
@@ -45,19 +45,35 @@ export const PdfDownloadButtons = ({
   const [previewFromCache, setPreviewFromCache] = useState(false);
   const [generationTime, setGenerationTime] = useState<number | null>(null);
   const [cacheStatus, setCacheStatus] = useState({ page1: false, page4: false });
+  const [justCached, setJustCached] = useState({ page1: false, page4: false });
+  const prevCacheRef = useRef({ page1: false, page4: false });
   const { toast } = useToast();
 
   const hasEvidence = hasEvidenceData(slug);
 
-  // Vérifier le statut du cache périodiquement
+  // Vérifier le statut du cache périodiquement et détecter les nouvelles entrées
   useEffect(() => {
     if (!hasEvidence || !showReadyBadge) return;
 
     const checkCache = () => {
-      setCacheStatus({
+      const newStatus = {
         page1: isPdfInCache(slug, '1page'),
         page4: isPdfInCache(slug, '4pages'),
-      });
+      };
+
+      // Détecter si un PDF vient d'être mis en cache (pour l'animation)
+      if (newStatus.page1 && !prevCacheRef.current.page1) {
+        setJustCached(prev => ({ ...prev, page1: true }));
+        // Retirer l'état "just cached" après l'animation
+        setTimeout(() => setJustCached(prev => ({ ...prev, page1: false })), 2000);
+      }
+      if (newStatus.page4 && !prevCacheRef.current.page4) {
+        setJustCached(prev => ({ ...prev, page4: true }));
+        setTimeout(() => setJustCached(prev => ({ ...prev, page4: false })), 2000);
+      }
+
+      prevCacheRef.current = newStatus;
+      setCacheStatus(newStatus);
     };
 
     // Vérifier immédiatement
@@ -236,15 +252,33 @@ export const PdfDownloadButtons = ({
     }
   };
 
-  // Composant badge "Prêt" discret
-  const ReadyBadge = () => (
-    <Badge 
-      variant="secondary" 
-      className="ml-1 px-1.5 py-0 text-[10px] font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-0"
-    >
-      <Zap className="w-2.5 h-2.5 mr-0.5" />
-      Prêt
-    </Badge>
+  // Composant badge "Prêt" animé avec glow effect
+  const ReadyBadge = ({ isNew = false }: { isNew?: boolean }) => (
+    <AnimatePresence>
+      <motion.span
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ 
+          opacity: 1, 
+          scale: 1,
+          boxShadow: isNew 
+            ? ['0 0 0 0 rgba(34, 197, 94, 0)', '0 0 8px 2px rgba(34, 197, 94, 0.4)', '0 0 0 0 rgba(34, 197, 94, 0)']
+            : '0 0 0 0 rgba(34, 197, 94, 0)',
+        }}
+        transition={{ 
+          duration: 0.3, 
+          boxShadow: isNew ? { duration: 1.5, repeat: 2, ease: 'easeInOut' } : { duration: 0 },
+        }}
+        className="ml-1 inline-flex items-center px-1.5 py-0 text-[10px] font-medium rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+      >
+        <motion.span
+          animate={isNew ? { rotate: [0, -10, 10, -10, 0] } : { rotate: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Zap className="w-2.5 h-2.5 mr-0.5" />
+        </motion.span>
+        Prêt
+      </motion.span>
+    </AnimatePresence>
   );
 
   // Rendu compact
@@ -267,7 +301,7 @@ export const PdfDownloadButtons = ({
               <FileText className="w-4 h-4" />
             )}
             <span className="ml-1">1 page</span>
-            {showReadyBadge && cacheStatus.page1 && !loading && <ReadyBadge />}
+            {showReadyBadge && cacheStatus.page1 && !loading && <ReadyBadge isNew={justCached.page1} />}
           </Button>
           <Button
             variant="outline"
@@ -284,7 +318,7 @@ export const PdfDownloadButtons = ({
               <Book className="w-4 h-4" />
             )}
             <span className="ml-1">4 pages</span>
-            {showReadyBadge && cacheStatus.page4 && !loading && <ReadyBadge />}
+            {showReadyBadge && cacheStatus.page4 && !loading && <ReadyBadge isNew={justCached.page4} />}
           </Button>
         </div>
         <PdfPreviewModal
@@ -312,13 +346,7 @@ export const PdfDownloadButtons = ({
             <Download className="w-5 h-5 text-primary" />
             Télécharger en PDF
             {showReadyBadge && (cacheStatus.page1 || cacheStatus.page4) && (
-              <Badge 
-                variant="secondary" 
-                className="ml-1 px-1.5 py-0 text-[10px] font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-0"
-              >
-                <Zap className="w-2.5 h-2.5 mr-0.5" />
-                Prêt
-              </Badge>
+              <ReadyBadge isNew={justCached.page1 || justCached.page4} />
             )}
           </h3>
           <p className="text-sm text-muted-foreground mb-4">
@@ -340,7 +368,7 @@ export const PdfDownloadButtons = ({
                 <FileText className="w-4 h-4 mr-2" />
               )}
               {showPreview ? 'Aperçu' : 'PDF'} 1 page — Fiche essentielle
-              {showReadyBadge && cacheStatus.page1 && !loading && <ReadyBadge />}
+              {showReadyBadge && cacheStatus.page1 && !loading && <ReadyBadge isNew={justCached.page1} />}
             </Button>
             <Button
               variant="default"
@@ -356,7 +384,7 @@ export const PdfDownloadButtons = ({
                 <Book className="w-4 h-4 mr-2" />
               )}
               {showPreview ? 'Aperçu' : 'PDF'} 4 pages — Guide complet
-              {showReadyBadge && cacheStatus.page4 && !loading && <ReadyBadge />}
+              {showReadyBadge && cacheStatus.page4 && !loading && <ReadyBadge isNew={justCached.page4} />}
             </Button>
           </div>
           {!hasEvidence && (
@@ -399,7 +427,7 @@ export const PdfDownloadButtons = ({
             <FileText className="w-4 h-4" />
           )}
           {showPreview ? 'Aperçu' : 'PDF'} 1 page
-          {showReadyBadge && cacheStatus.page1 && !loading && <ReadyBadge />}
+          {showReadyBadge && cacheStatus.page1 && !loading && <ReadyBadge isNew={justCached.page1} />}
         </Button>
         <Button
           variant="default"
@@ -415,7 +443,7 @@ export const PdfDownloadButtons = ({
             <Book className="w-4 h-4" />
           )}
           {showPreview ? 'Aperçu' : 'PDF'} 4 pages
-          {showReadyBadge && cacheStatus.page4 && !loading && <ReadyBadge />}
+          {showReadyBadge && cacheStatus.page4 && !loading && <ReadyBadge isNew={justCached.page4} />}
         </Button>
       </div>
       <PdfPreviewModal
