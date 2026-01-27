@@ -1,10 +1,11 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Download, Compass, ZoomIn, Heart, Bone, Wind, Cigarette, Activity, Baby, CircleDot, FileText } from 'lucide-react';
+import { ArrowRight, Download, Compass, ZoomIn, Heart, Bone, Wind, Cigarette, Activity, Baby, CircleDot, FileText, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
 import { quickAnswers, pathologies } from '@/content/content';
-import { generateOnePage, downloadPdf } from '@/services/pdfGenerator';
+import { downloadPdf1Page } from '@/services/pdfService';
 
 const themeButtons = [
   { 
@@ -67,7 +68,21 @@ const topPDFs = [
 
 const Index = () => {
   const { seniorMode, toggleSeniorMode } = useAccessibility();
+  const [downloadingSlug, setDownloadingSlug] = useState<string | null>(null);
 
+  const handleDownloadPdf = async (slug: string) => {
+    const pathology = pathologies.find(p => p.slug === slug);
+    if (!pathology) return;
+    
+    setDownloadingSlug(slug);
+    try {
+      await downloadPdf1Page(pathology);
+    } catch (error) {
+      console.error('Erreur téléchargement PDF:', error);
+    } finally {
+      setDownloadingSlug(null);
+    }
+  };
   return (
     <Layout>
       {/* Hero Section - Product focused */}
@@ -239,14 +254,14 @@ const Index = () => {
                         variant="ghost" 
                         size="sm" 
                         className="gap-1 text-muted-foreground hover:text-primary"
-                        onClick={() => {
-                          if (pathology) {
-                            const doc = generateOnePage(pathology);
-                            downloadPdf(doc, `COOLANCE_${pdf.slug}_fiche-1-page.pdf`);
-                          }
-                        }}
+                        disabled={downloadingSlug === pdf.slug}
+                        onClick={() => handleDownloadPdf(pdf.slug)}
                       >
-                        <Download className="w-4 h-4" />
+                        {downloadingSlug === pdf.slug ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Download className="w-4 h-4" />
+                        )}
                         <span className="hidden sm:inline">PDF</span>
                       </Button>
                     </div>
