@@ -1,12 +1,14 @@
+import { useState } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { Clock, AlertTriangle, Printer, BookOpen, Shield, ExternalLink, Award, Calendar, ChevronRight } from 'lucide-react';
+import { Clock, AlertTriangle, Printer, BookOpen, Shield, ExternalLink, Award, Calendar, ChevronRight, Target, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
 import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
 import { FavoriteButton } from '@/components/shared/FavoriteButton';
-import { getEvidenceBySlug, getAllEvidence } from '@/data/evidence';
+import { getEvidenceBySlug, getAllEvidence, hasPrograms } from '@/data/evidence';
 import { usePdfPreload } from '@/hooks/usePdfPreload';
 
 // Niveau de preuve → badge couleur
@@ -28,6 +30,7 @@ const categoryLabels: Record<string, string> = {
 
 const PathologyPage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [selectedLevel, setSelectedLevel] = useState<0 | 1 | 2>(0);
   
   // Données evidence-based (source unique)
   const evidence = slug ? getEvidenceBySlug(slug) : undefined;
@@ -43,11 +46,28 @@ const PathologyPage = () => {
     window.print();
   };
 
+  // Programmes disponibles
+  const hasProgramsAvailable = hasPrograms(slug || '');
+  const selectedSevenDayPlan = evidence.sevenDayPlans?.find(p => p.level === selectedLevel) || evidence.sevenDayPlans?.[0];
+  const selectedEightWeekProgram = evidence.eightWeekPrograms?.find(p => p.level === selectedLevel) || evidence.eightWeekPrograms?.[0];
+
   // Autres pathologies de la même catégorie
   const allEvidence = getAllEvidence();
   const relatedPathologies = allEvidence
     .filter(e => e.category === evidence.category && e.slug !== evidence.slug)
     .slice(0, 3);
+
+  // Niveaux disponibles
+  const availableLevels = new Set<number>();
+  evidence.sevenDayPlans?.forEach(p => availableLevels.add(p.level));
+  evidence.eightWeekPrograms?.forEach(p => availableLevels.add(p.level));
+  const sortedLevels = Array.from(availableLevels).sort() as (0 | 1 | 2)[];
+
+  const levelLabels: Record<number, string> = {
+    0: 'Très facile',
+    1: 'Facile',
+    2: 'Normal',
+  };
 
   return (
     <Layout>
@@ -110,254 +130,414 @@ const PathologyPage = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 print:block print:space-y-4">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-10 print:space-y-4">
-            
-            {/* Section 1: Résumé 2 minutes */}
-            <section id="resume" className="print:break-inside-avoid">
-              <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3 print:text-lg print:mb-2">
-                <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-lg print:w-6 print:h-6 print:text-sm">
-                  ⏱️
-                </span>
-                En 2 minutes
-              </h2>
-              <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 print:p-3 print:bg-gray-50">
-                <p className="text-foreground leading-relaxed whitespace-pre-line print:text-xs print:leading-tight">
-                  {evidence.summary}
-                </p>
-              </div>
-            </section>
+        {/* Onglets Informations / Programme */}
+        <Tabs defaultValue="informations" className="no-print mb-8">
+          <TabsList className="grid w-full max-w-md grid-cols-2 mb-8">
+            <TabsTrigger value="informations" className="text-sm">
+              📋 Informations
+            </TabsTrigger>
+            <TabsTrigger value="programme" className="text-sm" disabled={!hasProgramsAvailable}>
+              🎯 Programme
+              {!hasProgramsAvailable && <span className="ml-1 text-xs opacity-50">(bientôt)</span>}
+            </TabsTrigger>
+          </TabsList>
 
-            {/* Section 2: Recommandations Evidence-Based */}
-            {evidence.recommendations.length > 0 && (
-              <section id="recommandations" className="print:break-inside-avoid">
-                <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3 print:text-lg print:mb-2">
-                  <span className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center text-green-700 text-lg print:w-6 print:h-6 print:text-sm">
-                    <Award className="w-5 h-5" />
-                  </span>
-                  Ce qui aide vraiment (non médicamenteux)
-                </h2>
+          {/* Onglet Informations */}
+          <TabsContent value="informations">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+              {/* Main Content */}
+              <div className="lg:col-span-2 space-y-10">
                 
-                <div className="space-y-3 print:space-y-1">
-                  {evidence.recommendations.map((rec, index) => (
-                    <div key={index} className="flex items-start gap-4 bg-card border border-border rounded-xl p-4 print:p-2 print:bg-white">
-                      <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold text-sm shrink-0 print:w-5 print:h-5 print:text-xs">
-                        {index + 1}
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-foreground mb-2 print:text-xs print:mb-1">
-                          {rec.text}
-                        </p>
-                        <span className={`inline-block px-2 py-0.5 text-xs rounded-full border ${evidenceBadge(rec.evidence)}`}>
-                          {rec.evidence}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
+                {/* Section 1: Résumé 2 minutes */}
+                <section id="resume">
+                  <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3">
+                    <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-lg">
+                      ⏱️
+                    </span>
+                    En 2 minutes
+                  </h2>
+                  <div className="bg-primary/5 border border-primary/20 rounded-xl p-6">
+                    <p className="text-foreground leading-relaxed whitespace-pre-line">
+                      {evidence.summary}
+                    </p>
+                  </div>
+                </section>
 
-            {/* Section 3: Red Flags */}
-            {evidence.red_flags.length > 0 && (
-              <section id="red-flags" className="print:break-inside-avoid lg:hidden">
-                <h2 className="font-serif text-2xl font-bold text-destructive mb-4 flex items-center gap-3 print:text-lg print:mb-2">
-                  <span className="w-10 h-10 rounded-lg bg-destructive/10 flex items-center justify-center text-destructive text-lg print:w-6 print:h-6 print:text-sm">
-                    <AlertTriangle className="w-5 h-5" />
-                  </span>
-                  Quand consulter rapidement
-                </h2>
-                <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-6 print:p-3">
-                  <ul className="space-y-2">
-                    {evidence.red_flags.map((alert, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm text-destructive print:text-xs">
-                        <span className="font-bold">⚠️</span>
-                        {alert}
-                      </li>
+                {/* Section 2: Recommandations Evidence-Based */}
+                {evidence.recommendations.length > 0 && (
+                  <section id="recommandations">
+                    <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                      <span className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center text-green-700 text-lg">
+                        <Award className="w-5 h-5" />
+                      </span>
+                      Ce qui aide vraiment (non médicamenteux)
+                    </h2>
+                    
+                    <div className="space-y-3">
+                      {evidence.recommendations.map((rec, index) => (
+                        <div key={index} className="flex items-start gap-4 bg-card border border-border rounded-xl p-4">
+                          <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold text-sm shrink-0">
+                            {index + 1}
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-foreground mb-2">
+                              {rec.text}
+                            </p>
+                            <span className={`inline-block px-2 py-0.5 text-xs rounded-full border ${evidenceBadge(rec.evidence)}`}>
+                              {rec.evidence}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {/* Section 3: Red Flags (mobile) */}
+                {evidence.red_flags.length > 0 && (
+                  <section id="red-flags" className="lg:hidden">
+                    <h2 className="font-serif text-2xl font-bold text-destructive mb-4 flex items-center gap-3">
+                      <span className="w-10 h-10 rounded-lg bg-destructive/10 flex items-center justify-center text-destructive text-lg">
+                        <AlertTriangle className="w-5 h-5" />
+                      </span>
+                      Quand consulter rapidement
+                    </h2>
+                    <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-6">
+                      <ul className="space-y-2">
+                        {evidence.red_flags.map((alert, index) => (
+                          <li key={index} className="flex items-start gap-2 text-sm text-destructive">
+                            <span className="font-bold">⚠️</span>
+                            {alert}
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="mt-4 text-xs text-muted-foreground">
+                        Ces signes nécessitent un avis médical rapide. En cas d'urgence : 15 / 112.
+                      </p>
+                    </div>
+                  </section>
+                )}
+
+                {/* Section 4: Sources (mobile) */}
+                {evidence.sources.length > 0 && (
+                  <section id="sources" className="lg:hidden">
+                    <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3">
+                      <span className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-primary text-lg">
+                        <BookOpen className="w-5 h-5" />
+                      </span>
+                      Sources scientifiques
+                    </h2>
+                    <div className="bg-muted/50 border border-border rounded-xl p-6">
+                      <ul className="space-y-3">
+                        {evidence.sources.map((source, index) => (
+                          <li key={index} className="text-sm">
+                            <div className="font-medium text-foreground">{source.title}</div>
+                            <div className="text-xs text-muted-foreground flex items-center justify-between flex-wrap gap-2">
+                              <span>{source.org}, {source.year}</span>
+                              {source.url && (
+                                <a 
+                                  href={source.url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="text-primary hover:underline flex items-center gap-1"
+                                >
+                                  Lire <ExternalLink className="w-3 h-3" />
+                                </a>
+                              )}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </section>
+                )}
+
+                {/* Date de mise à jour */}
+                <div className="flex items-center gap-2 text-sm text-muted-foreground pt-4 border-t border-border">
+                  <Calendar className="w-4 h-4" />
+                  <span>Dernière mise à jour : {evidence.lastUpdated}</span>
+                </div>
+              </div>
+
+              {/* Sidebar */}
+              <aside className="space-y-6">
+                {/* Red Flags (desktop sidebar) */}
+                {evidence.red_flags.length > 0 && (
+                  <div className="card-medical bg-destructive/5 border-destructive/20 hidden lg:block">
+                    <h3 className="font-serif text-lg font-bold text-destructive mb-4 flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5" />
+                      Quand consulter rapidement
+                    </h3>
+                    <ul className="space-y-2">
+                      {evidence.red_flags.map((alert, index) => (
+                        <li key={index} className="flex items-start gap-2 text-sm text-destructive">
+                          <span className="font-bold">⚠️</span>
+                          {alert}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-4 text-xs text-muted-foreground">
+                      Ces signes nécessitent un avis médical rapide. En cas d'urgence : 15 / 112.
+                    </p>
+                  </div>
+                )}
+
+                {/* Sources (desktop sidebar) */}
+                {evidence.sources.length > 0 && (
+                  <div className="card-medical bg-muted/50 hidden lg:block">
+                    <h3 className="font-serif text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                      <BookOpen className="w-5 h-5 text-primary" />
+                      Sources scientifiques
+                    </h3>
+                    <ul className="space-y-3">
+                      {evidence.sources.map((source, index) => (
+                        <li key={index} className="text-sm">
+                          <div className="font-medium text-foreground">{source.title}</div>
+                          <div className="text-xs text-muted-foreground flex items-center justify-between">
+                            <span>{source.org}, {source.year}</span>
+                            {source.url && (
+                              <a 
+                                href={source.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline flex items-center gap-1"
+                              >
+                                Lire <ExternalLink className="w-3 h-3" />
+                              </a>
+                            )}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-4 text-xs text-muted-foreground">
+                      Dernière mise à jour : {evidence.lastUpdated}
+                    </p>
+                  </div>
+                )}
+
+                {/* PDF Download Card */}
+                {slug && (
+                  <PdfDownloadButtons slug={slug} variant="card" />
+                )}
+
+                {/* Medical Disclaimer */}
+                <MedicalDisclaimer variant="compact" />
+
+                {/* Navigation rapide */}
+                <div className="card-medical">
+                  <h3 className="font-serif text-lg font-bold text-foreground mb-4">
+                    Sur cette page
+                  </h3>
+                  <nav className="space-y-2 text-sm">
+                    <a href="#resume" className="block text-muted-foreground hover:text-primary transition-colors">
+                      → En 2 minutes
+                    </a>
+                    <a href="#recommandations" className="block text-muted-foreground hover:text-primary transition-colors">
+                      → Ce qui aide vraiment
+                    </a>
+                    <a href="#red-flags" className="block text-muted-foreground hover:text-primary transition-colors">
+                      → Quand consulter
+                    </a>
+                    <a href="#sources" className="block text-muted-foreground hover:text-primary transition-colors">
+                      → Sources
+                    </a>
+                  </nav>
+                </div>
+
+                {/* Autres pathologies */}
+                {relatedPathologies.length > 0 && (
+                  <div className="card-medical">
+                    <h3 className="font-serif text-lg font-bold text-foreground mb-4">
+                      Voir aussi
+                    </h3>
+                    <div className="space-y-2">
+                      {relatedPathologies.map((related) => (
+                        <Link 
+                          key={related.slug}
+                          to={`/pathologies/${related.slug}`} 
+                          className="flex items-center gap-2 text-sm text-primary hover:underline"
+                        >
+                          <span>{related.icon}</span>
+                          {related.name}
+                          <ChevronRight className="w-3 h-3" />
+                        </Link>
+                      ))}
+                      <Link 
+                        to="/pathologies" 
+                        className="block text-sm text-muted-foreground hover:text-primary mt-3 pt-2 border-t border-border"
+                      >
+                        → Toutes les pathologies
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </aside>
+            </div>
+          </TabsContent>
+
+          {/* Onglet Programme */}
+          <TabsContent value="programme">
+            <div className="space-y-8">
+              {/* Sélecteur de niveau */}
+              {sortedLevels.length > 1 && (
+                <div className="bg-muted/50 rounded-xl p-6 border border-border">
+                  <h3 className="font-serif text-lg font-bold text-foreground mb-4">
+                    Choisissez votre niveau
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {sortedLevels.map((level) => (
+                      <button
+                        key={level}
+                        onClick={() => setSelectedLevel(level)}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          selectedLevel === level
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-background border border-border hover:border-primary/50'
+                        }`}
+                      >
+                        {levelLabels[level]}
+                      </button>
                     ))}
-                  </ul>
-                  <p className="mt-4 text-xs text-muted-foreground">
-                    Ces signes nécessitent un avis médical rapide. En cas d'urgence : 15 / 112.
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-3">
+                    {selectedLevel === 0 && "Pour les personnes très limitées, en poussée, ou qui reprennent après une longue pause."}
+                    {selectedLevel === 1 && "Pour une progression douce et régulière, sans forcer."}
+                    {selectedLevel === 2 && "Pour les personnes actives qui veulent maintenir leur forme."}
                   </p>
                 </div>
-              </section>
-            )}
+              )}
 
-            {/* Section 4: Sources */}
-            {evidence.sources.length > 0 && (
-              <section id="sources" className="print:break-inside-avoid lg:hidden">
-                <h2 className="font-serif text-2xl font-bold text-foreground mb-4 flex items-center gap-3 print:text-lg print:mb-2">
-                  <span className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-primary text-lg print:w-6 print:h-6 print:text-sm">
-                    <BookOpen className="w-5 h-5" />
-                  </span>
-                  Sources scientifiques
-                </h2>
-                <div className="bg-muted/50 border border-border rounded-xl p-6 print:p-3">
-                  <ul className="space-y-3">
-                    {evidence.sources.map((source, index) => (
-                      <li key={index} className="text-sm">
-                        <div className="font-medium text-foreground">{source.title}</div>
-                        <div className="text-xs text-muted-foreground flex items-center justify-between flex-wrap gap-2">
-                          <span>{source.org}, {source.year}</span>
-                          {source.url && (
-                            <a 
-                              href={source.url} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="text-primary hover:underline flex items-center gap-1"
-                            >
-                              Lire <ExternalLink className="w-3 h-3" />
-                            </a>
-                          )}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </section>
-            )}
-
-            {/* Date de mise à jour */}
-            <div className="flex items-center gap-2 text-sm text-muted-foreground pt-4 border-t border-border">
-              <Calendar className="w-4 h-4" />
-              <span>Dernière mise à jour : {evidence.lastUpdated}</span>
-            </div>
-          </div>
-
-          {/* Sidebar */}
-          <aside className="space-y-6 print:hidden">
-            {/* Red Flags (desktop sidebar) */}
-            {evidence.red_flags.length > 0 && (
-              <div className="card-medical bg-destructive/5 border-destructive/20 hidden lg:block">
-                <h3 className="font-serif text-lg font-bold text-destructive mb-4 flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5" />
-                  Quand consulter rapidement
-                </h3>
-                <ul className="space-y-2">
-                  {evidence.red_flags.map((alert, index) => (
-                    <li key={index} className="flex items-start gap-2 text-sm text-destructive">
-                      <span className="font-bold">⚠️</span>
-                      {alert}
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-4 text-xs text-muted-foreground">
-                  Ces signes nécessitent un avis médical rapide. En cas d'urgence : 15 / 112.
-                </p>
-              </div>
-            )}
-
-            {/* Sources (desktop sidebar) */}
-            {evidence.sources.length > 0 && (
-              <div className="card-medical bg-muted/50 hidden lg:block">
-                <h3 className="font-serif text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-primary" />
-                  Sources scientifiques
-                </h3>
-                <ul className="space-y-3">
-                  {evidence.sources.map((source, index) => (
-                    <li key={index} className="text-sm">
-                      <div className="font-medium text-foreground">{source.title}</div>
-                      <div className="text-xs text-muted-foreground flex items-center justify-between">
-                        <span>{source.org}, {source.year}</span>
-                        {source.url && (
-                          <a 
-                            href={source.url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-primary hover:underline flex items-center gap-1"
-                          >
-                            Lire <ExternalLink className="w-3 h-3" />
-                          </a>
-                        )}
+              {/* Plan 7 jours */}
+              {selectedSevenDayPlan && (
+                <section>
+                  <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                    <span className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary text-lg">
+                      <Calendar className="w-5 h-5" />
+                    </span>
+                    Plan 7 jours — {selectedSevenDayPlan.levelName}
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {selectedSevenDayPlan.days.map((day, index) => (
+                      <div key={index} className="bg-card border border-border rounded-xl p-4">
+                        <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
+                          <span className="w-6 h-6 rounded-full bg-secondary/20 flex items-center justify-center text-secondary text-xs font-bold">
+                            {index + 1}
+                          </span>
+                          {day.day}
+                        </h4>
+                        <ul className="space-y-2">
+                          {day.actions.map((action, actionIndex) => (
+                            <li key={actionIndex} className="flex items-start gap-2 text-sm text-muted-foreground">
+                              <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                              <span>{action}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-4 text-xs text-muted-foreground">
-                  Dernière mise à jour : {evidence.lastUpdated}
-                </p>
-              </div>
-            )}
+                    ))}
+                  </div>
+                </section>
+              )}
 
-            {/* PDF Download Card */}
-            {slug && (
-              <PdfDownloadButtons slug={slug} variant="card" />
-            )}
+              {/* Programme 8 semaines */}
+              {selectedEightWeekProgram && (
+                <section>
+                  <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+                    <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-lg">
+                      <Target className="w-5 h-5" />
+                    </span>
+                    Programme 8 semaines — {selectedEightWeekProgram.levelName}
+                  </h2>
+                  <div className="space-y-4">
+                    {selectedEightWeekProgram.weeks.map((week, index) => (
+                      <div key={index} className="bg-card border border-border rounded-xl p-5">
+                        <div className="flex items-center gap-3 mb-3">
+                          <span className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
+                            {index + 1}
+                          </span>
+                          <div>
+                            <h4 className="font-semibold text-foreground">
+                              {week.week}
+                            </h4>
+                            <p className="text-sm text-primary font-medium">
+                              Focus : {week.focus}
+                            </p>
+                          </div>
+                        </div>
+                        <ul className="ml-13 space-y-1">
+                          {week.exercises.map((exercise, exIndex) => (
+                            <li key={exIndex} className="flex items-start gap-2 text-sm text-muted-foreground">
+                              <span className="text-secondary">•</span>
+                              {exercise}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
 
-            {/* Medical Disclaimer */}
-            <MedicalDisclaimer variant="compact" />
-
-            {/* Navigation rapide */}
-            <div className="card-medical">
-              <h3 className="font-serif text-lg font-bold text-foreground mb-4">
-                Sur cette page
-              </h3>
-              <nav className="space-y-2 text-sm">
-                <a href="#resume" className="block text-muted-foreground hover:text-primary transition-colors">
-                  → En 2 minutes
-                </a>
-                <a href="#recommandations" className="block text-muted-foreground hover:text-primary transition-colors">
-                  → Ce qui aide vraiment
-                </a>
-                <a href="#red-flags" className="block text-muted-foreground hover:text-primary transition-colors">
-                  → Quand consulter
-                </a>
-                <a href="#sources" className="block text-muted-foreground hover:text-primary transition-colors">
-                  → Sources
-                </a>
-              </nav>
-            </div>
-
-            {/* Autres pathologies */}
-            {relatedPathologies.length > 0 && (
-              <div className="card-medical">
-                <h3 className="font-serif text-lg font-bold text-foreground mb-4">
-                  Voir aussi
-                </h3>
-                <div className="space-y-2">
-                  {relatedPathologies.map((related) => (
-                    <Link 
-                      key={related.slug}
-                      to={`/pathologies/${related.slug}`} 
-                      className="flex items-center gap-2 text-sm text-primary hover:underline"
-                    >
-                      <span>{related.icon}</span>
-                      {related.name}
-                      <ChevronRight className="w-3 h-3" />
-                    </Link>
-                  ))}
-                  <Link 
-                    to="/pathologies" 
-                    className="block text-sm text-muted-foreground hover:text-primary mt-3 pt-2 border-t border-border"
-                  >
-                    → Toutes les pathologies
-                  </Link>
+              {/* CTA PDF */}
+              {slug && (
+                <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 text-center">
+                  <h3 className="font-serif text-lg font-bold text-foreground mb-2">
+                    📄 Téléchargez votre programme
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Imprimez votre programme pour le suivre facilement au quotidien.
+                  </p>
+                  <PdfDownloadButtons slug={slug} />
                 </div>
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
+
+        {/* Print content (always visible in print) */}
+        <div className="hidden print:block space-y-4">
+          {/* Résumé */}
+          <section className="print:break-inside-avoid">
+            <h2 className="text-lg font-bold mb-2">⏱️ En 2 minutes</h2>
+            <div className="p-3 bg-gray-50 rounded">
+              <p className="text-xs leading-tight whitespace-pre-line">{evidence.summary}</p>
+            </div>
+          </section>
+
+          {/* Recommandations */}
+          {evidence.recommendations.length > 0 && (
+            <section className="print:break-inside-avoid">
+              <h2 className="text-lg font-bold mb-2">✅ Ce qui aide vraiment</h2>
+              <div className="space-y-1">
+                {evidence.recommendations.map((rec, index) => (
+                  <div key={index} className="flex gap-2 text-xs">
+                    <span className="font-bold">{index + 1}.</span>
+                    <span>{rec.text}</span>
+                  </div>
+                ))}
               </div>
-            )}
-          </aside>
+            </section>
+          )}
+
+          {/* Red Flags */}
+          {evidence.red_flags.length > 0 && (
+            <div className="p-3 border-2 border-destructive rounded bg-destructive/5">
+              <h3 className="text-sm font-bold text-destructive mb-2">⚠️ Consultez rapidement si :</h3>
+              <ul className="text-xs text-destructive space-y-1">
+                {evidence.red_flags.slice(0, 4).map((alert, index) => (
+                  <li key={index}>• {alert}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Sources */}
+          {evidence.sources.length > 0 && (
+            <div className="pt-2 border-t text-xs text-muted-foreground">
+              <strong>Sources :</strong> {evidence.sources.map(s => `${s.org} (${s.year})`).join(' • ')}
+            </div>
+          )}
         </div>
-
-        {/* Print Red Flags */}
-        {evidence.red_flags.length > 0 && (
-          <div className="hidden print:block mt-4 p-3 border-2 border-destructive rounded bg-destructive/5">
-            <h3 className="text-sm font-bold text-destructive mb-2">⚠️ Consultez rapidement si :</h3>
-            <ul className="text-xs text-destructive space-y-1">
-              {evidence.red_flags.slice(0, 4).map((alert, index) => (
-                <li key={index}>• {alert}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* Print Sources */}
-        {evidence.sources.length > 0 && (
-          <div className="hidden print:block mt-3 pt-2 border-t text-xs text-muted-foreground">
-            <strong>Sources :</strong> {evidence.sources.map(s => `${s.org} (${s.year})`).join(' • ')}
-          </div>
-        )}
       </div>
     </Layout>
   );
