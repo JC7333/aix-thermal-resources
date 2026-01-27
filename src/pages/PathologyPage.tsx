@@ -9,6 +9,7 @@ import { pathologies as oldPathologies, categoryLabels, audienceLabels, levelLab
 import { pathologies as contentPathologies } from '@/content/content';
 import { getEvidenceBySlug, type EvidenceData } from '@/data/evidence';
 import { useState } from 'react';
+import { usePdfPreload } from '@/hooks/usePdfPreload';
 
 // Niveau de preuve → badge couleur
 const evidenceBadge = (level: string) => {
@@ -31,6 +32,9 @@ const PathologyPage = () => {
   
   // Données evidence-based
   const evidence = slug ? getEvidenceBySlug(slug) : undefined;
+  
+  // Préchargement des PDFs en arrière-plan après 2 secondes
+  usePdfPreload(slug, { delay: 2000 });
   
   const [selectedLevel, setSelectedLevel] = useState<MobilityLevel>(1);
 
