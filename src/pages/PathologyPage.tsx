@@ -1,24 +1,25 @@
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { Download, Clock, Users, AlertTriangle, Printer, ChevronRight, Calendar, Target, Utensils, BookOpen, Flame, CheckCircle2 } from 'lucide-react';
+import { Clock, Users, AlertTriangle, Printer, ChevronRight, Calendar, Target, Utensils, BookOpen, Flame, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
-import { pathologies, categoryLabels, audienceLabels, levelLabels, MobilityLevel } from '@/data/pathologies';
+import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
+import { pathologies as oldPathologies, categoryLabels, audienceLabels, levelLabels, MobilityLevel } from '@/data/pathologies';
+import { pathologies as contentPathologies } from '@/content/content';
 import { useState } from 'react';
 
 const PathologyPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const pathology = pathologies.find((p) => p.slug === slug);
+  // Try to find in content factory first, then fallback to old data
+  const contentPathology = contentPathologies.find((p) => p.slug === slug);
+  const oldPathology = oldPathologies.find((p) => p.slug === slug);
+  const pathology = oldPathology; // Keep using old format for now for display
   const [selectedLevel, setSelectedLevel] = useState<MobilityLevel>(1);
 
   if (!pathology) {
     return <Navigate to="/pathologies" replace />;
   }
-
-  const handleDownloadPDF = () => {
-    alert('Téléchargement PDF - Fonctionnalité à venir');
-  };
 
   const handlePrint = () => {
     window.print();
@@ -73,10 +74,9 @@ const PathologyPage = () => {
               <Printer className="w-5 h-5" />
               Imprimer cette fiche
             </Button>
-            <Button onClick={handleDownloadPDF} variant="outline" size="lg">
-              <Download className="w-5 h-5" />
-              Télécharger PDF
-            </Button>
+            {contentPathology && (
+              <PdfDownloadButtons pathology={contentPathology} />
+            )}
           </div>
         </header>
 
@@ -411,21 +411,21 @@ const PathologyPage = () => {
             {/* Download Card */}
             <div className="card-medical sticky top-24">
               <h3 className="font-serif text-lg font-bold text-foreground mb-4">
-                📄 Fiche imprimable
+                📄 Télécharger en PDF
               </h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Imprimez cette fiche pour l'avoir sous les yeux. Format optimisé pour tenir sur 1 page A4.
+                Fiches imprimables, optimisées pour une lecture facile (seniors friendly).
               </p>
-              <div className="space-y-2">
-                <Button onClick={handlePrint} variant="pdf" className="w-full">
-                  <Printer className="w-4 h-4" />
-                  Imprimer (1 page)
-                </Button>
-                <Button onClick={handleDownloadPDF} variant="outline" className="w-full">
-                  <Download className="w-4 h-4" />
-                  Télécharger PDF
-                </Button>
-              </div>
+              {contentPathology ? (
+                <PdfDownloadButtons pathology={contentPathology} variant="card" />
+              ) : (
+                <div className="space-y-2">
+                  <Button onClick={handlePrint} variant="pdf" className="w-full">
+                    <Printer className="w-4 h-4" />
+                    Imprimer (1 page)
+                  </Button>
+                </div>
+              )}
             </div>
 
             {/* Quick Links */}

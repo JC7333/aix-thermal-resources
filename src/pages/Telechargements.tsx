@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Download, FileText, Book, Filter, Printer, Settings } from 'lucide-react';
+import { Download, FileText, Book, Filter, Settings, Loader2, Printer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -14,8 +14,7 @@ import {
   exportContentAsJson,
   ContentCategory 
 } from '@/content/content';
-import { generateOnePage, generateFourPages, downloadPdf } from '@/services/pdfGenerator';
-import { logEvent } from '@/services/analytics';
+import { downloadPdf1Page, downloadPdf4Pages } from '@/services/pdfService';
 
 type CategoryFilter = 'all' | ContentCategory;
 
@@ -44,28 +43,24 @@ const Telechargements = () => {
 
   const handleDownload1Page = async (pathology: PathologyContent) => {
     setDownloading({ pathology, type: '1page' });
-    logEvent('pdf_download', `/telechargements/${pathology.slug}`, { 
-      name: `${pathology.title} - 1 page`, 
-      type: '1page' 
-    });
-    setTimeout(() => {
-      const doc = generateOnePage(pathology);
-      downloadPdf(doc, `COOLANCE_${pathology.slug}_fiche-1-page.pdf`);
+    try {
+      await downloadPdf1Page(pathology);
+    } catch (error) {
+      console.error('Erreur téléchargement PDF:', error);
+    } finally {
       setDownloading(null);
-    }, 300);
+    }
   };
 
   const handleDownload4Pages = async (pathology: PathologyContent) => {
     setDownloading({ pathology, type: '4pages' });
-    logEvent('pdf_download', `/telechargements/${pathology.slug}`, { 
-      name: `${pathology.title} - 4 pages`, 
-      type: '4pages' 
-    });
-    setTimeout(() => {
-      const doc = generateFourPages(pathology);
-      downloadPdf(doc, `COOLANCE_${pathology.slug}_guide-complet.pdf`);
+    try {
+      await downloadPdf4Pages(pathology);
+    } catch (error) {
+      console.error('Erreur téléchargement PDF:', error);
+    } finally {
       setDownloading(null);
-    }, 300);
+    }
   };
 
   const handleExportJson = () => {
