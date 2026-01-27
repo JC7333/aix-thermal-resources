@@ -6,6 +6,7 @@ export type EventName =
   | 'wizard_complete' 
   | 'quick_answer_click' 
   | 'pdf_download' 
+  | 'zip_download'
   | 'print_click'
   | 'page_view';
 
