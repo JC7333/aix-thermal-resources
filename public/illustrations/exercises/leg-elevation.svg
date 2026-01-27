@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" fill="none" stroke="#374151" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Titre -->
+  <text x="100" y="12" text-anchor="middle" font-size="8" font-family="system-ui" fill="#374151" stroke="none">Surélévation des jambes</text>
+  
+  <!-- Lit/Canapé -->
+  <rect x="20" y="90" width="160" height="8" rx="2" fill="#e5e7eb" stroke="#9ca3af"/>
+  <rect x="25" y="98" width="8" height="20" rx="1" fill="#d1d5db"/>
+  <rect x="152" y="98" width="8" height="20" rx="1" fill="#d1d5db"/>
+  
+  <!-- Coussin/Support sous les jambes -->
+  <ellipse cx="140" cy="75" rx="30" ry="18" fill="#bfdbfe" stroke="#3b82f6"/>
+  <text x="140" y="78" text-anchor="middle" font-size="5" fill="#3b82f6" stroke="none">coussin</text>
+  
+  <!-- Corps allongé -->
+  <!-- Tête -->
+  <circle cx="45" cy="70" r="10" fill="#fef3c7"/>
+  <!-- Oreiller -->
+  <ellipse cx="45" cy="82" rx="15" ry="8" fill="#fef3c7" stroke="#d1d5db"/>
+  <!-- Corps -->
+  <line x1="55" y1="70" x2="95" y2="80"/>
+  <ellipse cx="75" cy="78" rx="12" ry="8" fill="#fef3c7" stroke="#374151"/>
+  <!-- Jambes surélevées -->
+  <line x1="95" y1="78" x2="130" y2="62"/>
+  <ellipse cx="115" cy="68" rx="8" ry="5" fill="#fef3c7"/>
+  <line x1="130" y1="62" x2="160" y2="55"/>
+  <!-- Pieds -->
+  <ellipse cx="162" cy="55" rx="6" ry="4" fill="#fef3c7"/>
+  
+  <!-- Angle 15-20° -->
+  <path d="M95 88 L115 88" stroke="#10b981" stroke-dasharray="2,1"/>
+  <path d="M95 88 L115 78" stroke="#10b981" stroke-dasharray="2,1"/>
+  <path d="M108 88 Q 110 85, 108 82" stroke="#10b981" stroke-width="1"/>
+  <text x="118" y="85" font-size="5" fill="#10b981" stroke="none">15-20°</text>
+  
+  <!-- Flèches de retour veineux -->
+  <path d="M155 65 L145 72" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue2)"/>
+  <path d="M135 72 L125 77" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue2)"/>
+  <path d="M115 77 L105 80" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowBlue2)"/>
+  
+  <defs>
+    <marker id="arrowBlue2" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+      <path d="M0,0 L0,5 L5,2.5 z" fill="#3b82f6"/>
+    </marker>
+  </defs>
+  
+  <!-- Légende retour veineux -->
+  <text x="145" y="50" font-size="5" fill="#3b82f6" stroke="none">retour veineux</text>
+  
+  <!-- Instructions -->
+  <text x="100" y="125" text-anchor="middle" font-size="7" font-family="system-ui" fill="#6b7280" stroke="none">Jambes plus hautes que le cœur, 15-20 min</text>
+  <text x="100" y="137" text-anchor="middle" font-size="6" font-family="system-ui" fill="#10b981" stroke="none">2-3× par jour (midi, soir)</text>
+  <text x="100" y="147" text-anchor="middle" font-size="5" font-family="system-ui" fill="#9ca3af" stroke="none">Idéal après une station debout prolongée</text>
+</svg>

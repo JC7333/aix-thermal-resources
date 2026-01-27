@@ -8,6 +8,7 @@ import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import Index from "./pages/Index";
 import Resources from "./pages/Resources";
 import PathologyPage from "./pages/PathologyPage";
+import PathologyPageV2 from "./pages/PathologyPageV2";
 import Pathologies from "./pages/Pathologies";
 import Programs from "./pages/Programs";
 import Parcours from "./pages/Parcours";
@@ -46,6 +47,8 @@ const App = () => (
               <Route path="/ressources" element={<Resources />} />
               <Route path="/pathologies" element={<Pathologies />} />
               <Route path="/pathologies/:slug" element={<PathologyPage />} />
+              {/* Routes V2 pour les nouveaux packs evidence-based */}
+              <Route path="/pathologies/v2/:slug" element={<PathologyPageV2 />} />
               <Route path="/programmes" element={<Programs />} />
               <Route path="/guides" element={<Guides />} />
               <Route path="/parents" element={<Parents />} />

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" fill="none" stroke="#374151" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Titre -->
+  <text x="100" y="12" text-anchor="middle" font-size="8" font-family="system-ui" fill="#374151" stroke="none">Assis-debout</text>
+  
+  <!-- Figure assise (gauche) -->
+  <g transform="translate(30, 25)">
+    <!-- Chaise -->
+    <rect x="5" y="60" width="40" height="5" rx="1" fill="#e5e7eb" stroke="#9ca3af"/>
+    <line x1="8" y1="65" x2="8" y2="95"/>
+    <line x1="42" y1="65" x2="42" y2="95"/>
+    <line x1="8" y1="40" x2="8" y2="65"/>
+    
+    <!-- Corps assis -->
+    <circle cx="25" cy="20" r="8" fill="#fef3c7" stroke="#374151"/>
+    <line x1="25" y1="28" x2="25" y2="50"/>
+    <line x1="25" y1="50" x2="15" y2="60"/>
+    <line x1="25" y1="50" x2="35" y2="60"/>
+    <line x1="15" y1="60" x2="10" y2="90"/>
+    <line x1="35" y1="60" x2="40" y2="90"/>
+    <line x1="25" y1="35" x2="10" y2="45"/>
+    <line x1="25" y1="35" x2="40" y2="45"/>
+  </g>
+  
+  <!-- Flèche -->
+  <path d="M85 75 L115 75" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)"/>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#10b981"/>
+    </marker>
+  </defs>
+  
+  <!-- Figure debout (droite) -->
+  <g transform="translate(130, 25)">
+    <!-- Corps debout -->
+    <circle cx="25" cy="10" r="8" fill="#fef3c7" stroke="#374151"/>
+    <line x1="25" y1="18" x2="25" y2="55"/>
+    <line x1="25" y1="55" x2="15" y2="95"/>
+    <line x1="25" y1="55" x2="35" y2="95"/>
+    <line x1="25" y1="30" x2="10" y2="45"/>
+    <line x1="25" y1="30" x2="40" y2="45"/>
+  </g>
+  
+  <!-- Instructions -->
+  <text x="100" y="135" text-anchor="middle" font-size="7" font-family="system-ui" fill="#6b7280" stroke="none">Se lever sans les mains, redescendre lentement</text>
+  <text x="100" y="145" text-anchor="middle" font-size="6" font-family="system-ui" fill="#10b981" stroke="none">10 répétitions × 3 séries</text>
+</svg>

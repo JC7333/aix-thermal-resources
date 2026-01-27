@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" fill="none" stroke="#374151" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Titre -->
+  <text x="100" y="12" text-anchor="middle" font-size="8" font-family="system-ui" fill="#374151" stroke="none">Chat-vache (mobilisation du dos)</text>
+  
+  <!-- Position Chat (dos rond) -->
+  <g transform="translate(10, 30)">
+    <!-- Sol suggéré -->
+    <line x1="5" y1="75" x2="85" y2="75" stroke="#e5e7eb" stroke-dasharray="2,2"/>
+    
+    <!-- Corps à 4 pattes -->
+    <!-- Tête -->
+    <circle cx="20" cy="30" r="7" fill="#fef3c7"/>
+    <!-- Dos arrondi (chat) -->
+    <path d="M25 35 Q 45 10, 70 40" stroke="#374151" stroke-width="2" fill="none"/>
+    <!-- Bras -->
+    <line x1="30" y1="45" x2="25" y2="75"/>
+    <!-- Jambes -->
+    <line x1="65" y1="45" x2="70" y2="75"/>
+    
+    <!-- Flèche montrant le dos qui monte -->
+    <path d="M45 25 L45 15" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrowUp)"/>
+    
+    <!-- Label -->
+    <text x="45" y="90" text-anchor="middle" font-size="6" fill="#3b82f6" stroke="none">CHAT</text>
+    <text x="45" y="98" text-anchor="middle" font-size="5" fill="#6b7280" stroke="none">Dos rond</text>
+  </g>
+  
+  <defs>
+    <marker id="arrowUp" markerWidth="6" markerHeight="6" refX="3" refY="5" orient="auto">
+      <path d="M0,6 L3,0 L6,6 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowDown" markerWidth="6" markerHeight="6" refX="3" refY="1" orient="auto">
+      <path d="M0,0 L3,6 L6,0 z" fill="#10b981"/>
+    </marker>
+  </defs>
+  
+  <!-- Flèche centrale -->
+  <g transform="translate(95, 55)">
+    <path d="M0 0 C 10 -10, 10 10, 0 0" stroke="#9ca3af"/>
+    <text x="5" y="0" font-size="10" fill="#9ca3af" stroke="none">↔</text>
+  </g>
+  
+  <!-- Position Vache (dos creux) -->
+  <g transform="translate(105, 30)">
+    <!-- Sol suggéré -->
+    <line x1="5" y1="75" x2="85" y2="75" stroke="#e5e7eb" stroke-dasharray="2,2"/>
+    
+    <!-- Corps à 4 pattes -->
+    <!-- Tête relevée -->
+    <circle cx="20" cy="25" r="7" fill="#fef3c7"/>
+    <!-- Dos creux (vache) -->
+    <path d="M25 32 Q 45 55, 70 35" stroke="#374151" stroke-width="2" fill="none"/>
+    <!-- Bras -->
+    <line x1="30" y1="40" x2="25" y2="75"/>
+    <!-- Jambes -->
+    <line x1="65" y1="42" x2="70" y2="75"/>
+    
+    <!-- Flèche montrant le dos qui descend -->
+    <path d="M45 40 L45 50" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+    
+    <!-- Label -->
+    <text x="45" y="90" text-anchor="middle" font-size="6" fill="#10b981" stroke="none">VACHE</text>
+    <text x="45" y="98" text-anchor="middle" font-size="5" fill="#6b7280" stroke="none">Dos creux</text>
+  </g>
+  
+  <!-- Instructions -->
+  <text x="100" y="120" text-anchor="middle" font-size="7" font-family="system-ui" fill="#6b7280" stroke="none">Alterner lentement, respirer profondément</text>
+  <text x="100" y="130" text-anchor="middle" font-size="6" font-family="system-ui" fill="#10b981" stroke="none">10 cycles × 2 séries</text>
+  <text x="100" y="140" text-anchor="middle" font-size="5" font-family="system-ui" fill="#9ca3af" stroke="none">Inspirer en vache, expirer en chat</text>
+</svg>
