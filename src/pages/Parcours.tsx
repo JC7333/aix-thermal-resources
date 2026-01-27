@@ -70,13 +70,13 @@ const getActionsForObjective = (objective: Objective, level: Level): { today: st
         'Buvez un grand verre d\'eau à chaque envie de cigarette',
         'Faites une activité de 5 minutes quand l\'envie arrive (marcher, respirer)',
         'Retardez de 10 minutes votre première cigarette de la journée',
-        'Parlez à votre médecin de votre projet d\'arrêt',
+        'Appelez Tabac Info Service (3989) pour un premier conseil',
       ],
       weekPlan: [
         'Jour 1-2 : Observez vos habitudes sans chercher à changer',
         'Jour 3-4 : Supprimez 1 cigarette "automatique" (celle qu\'on fume sans y penser)',
         'Jour 5-6 : Remplacez 2 cigarettes par une activité de substitution',
-        'Jour 7 : Planifiez un rendez-vous avec votre médecin ou un tabacologue',
+        'Jour 7 : Faites le point et envisagez un accompagnement (tabacologue, Tabac Info Service)',
       ],
     },
     souffle: {
@@ -136,7 +136,7 @@ const getActionsForObjective = (objective: Objective, level: Level): { today: st
         'Jour 1-2 : Focus hydratation (boire régulièrement)',
         'Jour 3-4 : Identifiez les aliments qui aggravent',
         'Jour 5-6 : Instaurez une routine d\'hygiène buccale douce',
-        'Jour 7 : Planifiez un rendez-vous dentiste si symptômes persistants',
+        'Jour 7 : Si symptômes persistants, consultez un dentiste ou professionnel de santé',
       ],
     },
   };

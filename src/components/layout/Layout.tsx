@@ -15,7 +15,7 @@ export const Layout = ({ children }: LayoutProps) => {
       <ScrollToTop />
       <MedicalDisclaimer variant="banner" />
       <Header />
-      <main id="main-content" className="flex-1">
+      <main id="main-content" className="flex-1 pt-0">
         {children}
       </main>
       <Footer />

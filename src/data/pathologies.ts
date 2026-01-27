@@ -1190,7 +1190,7 @@ Ce qui favorise les otites : la collectivité (crèche, école), le tabagisme pa
           { week: 'Semaines 1-2', focus: 'Installer les routines', exercises: ['Lavages matin/soir', 'Aération quotidienne', 'Vérifier humidité (40-60%)'] },
           { week: 'Semaines 3-4', focus: 'Hygiène environnement', exercises: ['Nettoyage chambre', 'Lavage doudous/peluches', 'Éliminer poussière'] },
           { week: 'Semaines 5-6', focus: 'Renforcer les défenses', exercises: ['Alimentation variée', 'Sorties quotidiennes', 'Sommeil suffisant'] },
-          { week: 'Semaines 7-8', focus: 'Bilan', exercises: ['Moins d\'otites ?', 'Maintenir les routines', 'Si toujours fréquentes : consultation ORL'] },
+          { week: 'Semaines 7-8', focus: 'Bilan', exercises: ['Moins d\'otites ?', 'Maintenir les routines', 'Si toujours fréquentes : parlez-en à votre médecin'] },
         ],
       },
     ],

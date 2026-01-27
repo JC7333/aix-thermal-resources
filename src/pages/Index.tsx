@@ -86,7 +86,7 @@ const Index = () => {
   return (
     <Layout>
       {/* Hero Section - Product focused */}
-      <section className="hero-gradient text-white py-16 lg:py-24">
+      <section id="hero" className="hero-gradient text-white py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
@@ -114,7 +114,7 @@ const Index = () => {
       </section>
 
       {/* 6 Theme Buttons */}
-      <section className="py-10 lg:py-14 bg-background">
+      <section id="themes" className="py-10 lg:py-14 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground text-center mb-8">
@@ -138,7 +138,7 @@ const Index = () => {
       </section>
 
       {/* Start in 30 seconds */}
-      <section className="py-10 lg:py-14 warm-section">
+      <section id="guided-path" className="py-10 lg:py-14 warm-section">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <div className="bg-card rounded-2xl shadow-card p-8 lg:p-10 text-center border border-border">
@@ -165,7 +165,7 @@ const Index = () => {
       </section>
 
       {/* Quick Answers Preview */}
-      <section className="py-10 lg:py-14 bg-background">
+      <section id="resources" className="py-10 lg:py-14 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <div className="flex items-center justify-between mb-8">
@@ -211,7 +211,7 @@ const Index = () => {
       </section>
 
       {/* Top PDFs */}
-      <section className="py-10 lg:py-14 warm-section">
+      <section id="downloads" className="py-10 lg:py-14 warm-section">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-8">
@@ -274,7 +274,7 @@ const Index = () => {
       </section>
 
       {/* About teaser */}
-      <section className="py-10 lg:py-14 bg-background">
+      <section id="about" className="py-10 lg:py-14 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-lg text-muted-foreground mb-4">

@@ -172,15 +172,9 @@ const FAQ = () => {
             <h3 className="font-serif text-xl font-bold text-foreground mb-3">
               Vous ne trouvez pas votre réponse ?
             </h3>
-            <p className="text-muted-foreground mb-4">
-              N'hésitez pas à nous contacter pour toute question sur votre prise en charge.
+            <p className="text-muted-foreground">
+              Si vous êtes inquiet ou si vos symptômes persistent, parlez-en à votre médecin traitant.
             </p>
-            <a
-              href="tel:+33479000000"
-              className="text-primary font-medium hover:underline"
-            >
-              📞 04 79 00 00 00
-            </a>
           </div>
         </div>
       </div>
