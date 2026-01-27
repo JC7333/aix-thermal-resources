@@ -26,6 +26,7 @@ import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
 import { ZipDownloadButton } from '@/components/shared/ZipDownloadButton';
 import { useToast } from '@/hooks/use-toast';
 import { logEvent } from '@/services/analytics';
+import { openPrintableFallback } from '@/lib/printFallback';
 
 // ============================================
 // FILTRES THÉMATIQUES
@@ -150,11 +151,19 @@ const Telechargements = () => {
           title: "Fiche prête à imprimer",
           description: `${title} — 1 page`,
         });
+      } else {
+        toast({
+          title: 'PDF non disponible',
+          description: "Les données pour cette pathologie ne sont pas encore disponibles.",
+          variant: 'destructive',
+        });
       }
     } catch (error) {
+      console.error('[PDF_GEN_ERROR_UI]', { slug, variant: '1page', error });
+      openPrintableFallback({ slug, variant: '1page', autoPrint: true });
       toast({
         title: "Erreur",
-        description: "Impossible de générer la fiche.",
+        description: "Impossible de générer le PDF. Ouverture de la version imprimable (Imprimer → Enregistrer en PDF).",
         variant: "destructive",
       });
     } finally {

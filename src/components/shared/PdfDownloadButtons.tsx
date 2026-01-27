@@ -19,10 +19,13 @@ import {
   hasEvidenceData,
   clearPdfCacheEntry,
   isPdfInCache,
+  PdfGenerationError,
 } from '@/services/pdfService';
 import { useToast } from '@/hooks/use-toast';
 import { PdfPreviewModal } from './PdfPreviewModal';
 import { logEvent } from '@/services/analytics';
+import { PdfErrorDetailsModal, type PdfErrorDetails } from './PdfErrorDetailsModal';
+import { openPrintableFallback } from '@/lib/printFallback';
 
 interface PdfDownloadButtonsProps {
   slug: string;
@@ -50,9 +53,44 @@ export const PdfDownloadButtons = ({
   const [cacheStatus, setCacheStatus] = useState({ page1: false, page4: false });
   const [justCached, setJustCached] = useState({ page1: false, page4: false });
   const prevCacheRef = useRef({ page1: false, page4: false });
+  const [errorDetails, setErrorDetails] = useState<PdfErrorDetails | null>(null);
+  const [errorOpen, setErrorOpen] = useState(false);
   const { toast } = useToast();
 
   const hasEvidence = hasEvidenceData(slug);
+
+  const toErrorDetails = (error: unknown, variant: '1page' | '4pages'): PdfErrorDetails => {
+    if (error instanceof PdfGenerationError) {
+      return {
+        slug: error.slug,
+        variant: error.variant,
+        name: error.original.name,
+        message: error.original.message,
+        stack: error.original.stack,
+      };
+    }
+
+    if (error instanceof Error) {
+      return {
+        slug,
+        variant,
+        name: error.name,
+        message: error.message || String(error),
+        stack: error.stack,
+      };
+    }
+
+    return {
+      slug,
+      variant,
+      message: typeof error === 'string' ? error : JSON.stringify(error),
+    };
+  };
+
+  const openError = (details: PdfErrorDetails) => {
+    setErrorDetails(details);
+    setErrorOpen(true);
+  };
 
   // Vérifier le statut du cache périodiquement et détecter les nouvelles entrées
   useEffect(() => {
@@ -105,6 +143,7 @@ export const PdfDownloadButtons = ({
     setPreviewBlob(null);
     setPreviewFromCache(false);
     setGenerationTime(null);
+    setErrorDetails(null);
 
     const startTime = performance.now();
 
@@ -124,12 +163,18 @@ export const PdfDownloadButtons = ({
         throw new Error('Génération échouée');
       }
     } catch (error) {
-      console.error('Erreur génération PDF:', error);
+      const details = toErrorDetails(error, type);
+      console.error('[PDF_GEN_ERROR_UI]', details);
+
       toast({
         title: "Erreur de génération",
-        description: "Une erreur est survenue lors de la génération du PDF.",
+        description: "Le PDF n’a pas pu être généré. Ouverture de la version imprimable.",
         variant: "destructive",
       });
+
+      // Fallback robuste : toujours un aperçu fonctionnel
+      openPrintableFallback({ slug, variant: type, autoPrint: false });
+      openError(details);
       setPreviewOpen(false);
     } finally {
       setLoading(null);
@@ -148,6 +193,7 @@ export const PdfDownloadButtons = ({
     }
 
     setLoading(type);
+    setErrorDetails(null);
     try {
       const result = type === '1page' 
         ? await generatePdf1PageBySlug(slug)
@@ -165,12 +211,17 @@ export const PdfDownloadButtons = ({
         description: `Votre ${type === '1page' ? 'fiche' : 'guide'} PDF a été téléchargé.`,
       });
     } catch (error) {
-      console.error('Erreur téléchargement PDF:', error);
+      const details = toErrorDetails(error, type);
+      console.error('[PDF_GEN_ERROR_UI]', details);
       toast({
-        title: "Erreur de téléchargement",
-        description: "Une erreur est survenue. Veuillez réessayer.",
+        title: "Téléchargement impossible",
+        description: "Ouverture de la version imprimable (Imprimer → Enregistrer en PDF).",
         variant: "destructive",
       });
+
+      // Fallback robuste : toujours un moyen d'obtenir un PDF (via impression navigateur)
+      openPrintableFallback({ slug, variant: type, autoPrint: true });
+      openError(details);
     } finally {
       setLoading(null);
     }
@@ -210,6 +261,7 @@ export const PdfDownloadButtons = ({
     setPreviewBlob(null);
     setPreviewFromCache(false);
     setGenerationTime(null);
+    setErrorDetails(null);
 
     const startTime = performance.now();
 
@@ -233,12 +285,16 @@ export const PdfDownloadButtons = ({
         throw new Error('Régénération échouée');
       }
     } catch (error) {
-      console.error('Erreur régénération PDF:', error);
+      const details = toErrorDetails(error, previewType);
+      console.error('[PDF_GEN_ERROR_UI]', details);
       toast({
         title: "Erreur de régénération",
-        description: "Une erreur est survenue. Veuillez réessayer.",
+        description: "Le PDF n’a pas pu être régénéré. Version imprimable disponible.",
         variant: "destructive",
       });
+
+      openPrintableFallback({ slug, variant: previewType, autoPrint: false });
+      openError(details);
     } finally {
       setLoading(null);
     }
@@ -341,6 +397,13 @@ export const PdfDownloadButtons = ({
           onRegenerate={handleRegenerate}
           generationTime={generationTime}
         />
+        <PdfErrorDetailsModal
+          open={errorOpen}
+          onClose={() => setErrorOpen(false)}
+          details={errorDetails}
+          onOpenPrintable={() => openPrintableFallback({ slug, variant: errorDetails?.variant ?? '1page', autoPrint: false })}
+          onPrint={() => openPrintableFallback({ slug, variant: errorDetails?.variant ?? '1page', autoPrint: true })}
+        />
       </>
     );
   }
@@ -413,6 +476,13 @@ export const PdfDownloadButtons = ({
           onRegenerate={handleRegenerate}
           generationTime={generationTime}
         />
+        <PdfErrorDetailsModal
+          open={errorOpen}
+          onClose={() => setErrorOpen(false)}
+          details={errorDetails}
+          onOpenPrintable={() => openPrintableFallback({ slug, variant: errorDetails?.variant ?? '1page', autoPrint: false })}
+          onPrint={() => openPrintableFallback({ slug, variant: errorDetails?.variant ?? '1page', autoPrint: true })}
+        />
       </>
     );
   }
@@ -464,6 +534,13 @@ export const PdfDownloadButtons = ({
           fromCache={previewFromCache}
           onRegenerate={handleRegenerate}
           generationTime={generationTime}
+        />
+        <PdfErrorDetailsModal
+          open={errorOpen}
+          onClose={() => setErrorOpen(false)}
+          details={errorDetails}
+          onOpenPrintable={() => openPrintableFallback({ slug, variant: errorDetails?.variant ?? '1page', autoPrint: false })}
+          onPrint={() => openPrintableFallback({ slug, variant: errorDetails?.variant ?? '1page', autoPrint: true })}
         />
       </>
     );
@@ -517,6 +594,13 @@ export const PdfDownloadButtons = ({
         fromCache={previewFromCache}
         onRegenerate={handleRegenerate}
         generationTime={generationTime}
+      />
+      <PdfErrorDetailsModal
+        open={errorOpen}
+        onClose={() => setErrorOpen(false)}
+        details={errorDetails}
+        onOpenPrintable={() => openPrintableFallback({ slug, variant: errorDetails?.variant ?? '1page', autoPrint: false })}
+        onPrint={() => openPrintableFallback({ slug, variant: errorDetails?.variant ?? '1page', autoPrint: true })}
       />
     </>
   );
