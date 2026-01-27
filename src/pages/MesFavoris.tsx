@@ -2,7 +2,7 @@
 // PAGE MES FAVORIS — COOLANCE
 // ============================================
 // Page dédiée à la gestion des pathologies favorites
-// Avec tri, filtres et options d'organisation
+// Avec tri, filtres, drag & drop et options d'organisation
 // ============================================
 
 import { useState, useMemo } from 'react';
@@ -15,10 +15,26 @@ import {
   List, 
   ArrowUpDown,
   Filter,
-  FileText,
-  Trash2,
   ChevronRight,
+  GripVertical,
+  Move,
 } from 'lucide-react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  rectSortingStrategy,
+} from '@dnd-kit/sortable';
 import { Button } from '@/components/ui/button';
 import { 
   Select,
@@ -29,13 +45,12 @@ import {
 } from '@/components/ui/select';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
-import { FavoriteButton } from '@/components/shared/FavoriteButton';
 import { FavoritesActionsMenu } from '@/components/shared/FavoritesActionsMenu';
 import { FavoritesImportBanner } from '@/components/shared/FavoritesImportBanner';
-import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
+import { DraggableFavoriteCard } from '@/components/shared/DraggableFavoriteCard';
 import { useFavorites } from '@/hooks/useFavorites';
-import { getAllEvidence, type EvidenceData } from '@/data/evidence';
-import { hasEvidenceData } from '@/services/pdfService';
+import { getAllEvidence } from '@/data/evidence';
+import { useToast } from '@/hooks/use-toast';
 
 // Métadonnées pour chaque pathologie
 const pathologyMeta: Record<string, {
@@ -94,17 +109,31 @@ const categoryColors: Record<string, string> = {
   'orl-respiratoire': 'bg-secondary/10 text-secondary border-secondary/20',
 };
 
-type SortOption = 'name' | 'category' | 'readingTime';
+type SortOption = 'custom' | 'name' | 'category' | 'readingTime';
 type ViewMode = 'grid' | 'list';
 type CategoryFilter = 'all' | 'rhumatologie' | 'veino-lymphatique' | 'orl-respiratoire';
 
 const MesFavoris = () => {
-  const { favorites, count, removeFavorite } = useFavorites();
+  const { favorites, count, reorderFavorites } = useFavorites();
   const allEvidence = getAllEvidence();
+  const { toast } = useToast();
   
-  const [sortBy, setSortBy] = useState<SortOption>('name');
+  const [sortBy, setSortBy] = useState<SortOption>('custom');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all');
+  const [isDragMode, setIsDragMode] = useState(false);
+
+  // Sensors pour le drag & drop
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   // Construire les données des favoris
   const favoritePathologies = useMemo(() => {
@@ -124,8 +153,10 @@ const MesFavoris = () => {
     return favoritePathologies.filter(p => p.meta.category === categoryFilter);
   }, [favoritePathologies, categoryFilter]);
 
-  // Trier
+  // Trier (sauf en mode custom/drag)
   const sortedPathologies = useMemo(() => {
+    if (sortBy === 'custom') return filteredPathologies;
+    
     const sorted = [...filteredPathologies];
     switch (sortBy) {
       case 'name':
@@ -149,6 +180,48 @@ const MesFavoris = () => {
     });
     return counts;
   }, [favoritePathologies]);
+
+  // Gérer le drag end
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    
+    if (over && active.id !== over.id) {
+      const oldIndex = favorites.indexOf(active.id as string);
+      const newIndex = favorites.indexOf(over.id as string);
+      
+      const newOrder = arrayMove(favorites, oldIndex, newIndex);
+      reorderFavorites(newOrder);
+      
+      toast({
+        title: "Ordre mis à jour",
+        description: "Vos favoris ont été réorganisés.",
+      });
+    }
+  };
+
+  // Toggle mode drag
+  const toggleDragMode = () => {
+    if (!isDragMode) {
+      setSortBy('custom');
+      setCategoryFilter('all');
+    }
+    setIsDragMode(!isDragMode);
+  };
+
+  // Désactiver le drag si on change le tri ou le filtre
+  const handleSortChange = (value: SortOption) => {
+    setSortBy(value);
+    if (value !== 'custom') {
+      setIsDragMode(false);
+    }
+  };
+
+  const handleFilterChange = (value: CategoryFilter) => {
+    setCategoryFilter(value);
+    if (value !== 'all') {
+      setIsDragMode(false);
+    }
+  };
 
   return (
     <Layout>
@@ -206,12 +279,33 @@ const MesFavoris = () => {
             {/* Toolbar */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6 p-4 bg-muted/30 rounded-xl">
               <div className="flex flex-wrap items-center gap-3">
+                {/* Bouton mode réorganisation */}
+                <Button
+                  variant={isDragMode ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={toggleDragMode}
+                  className="gap-2"
+                >
+                  {isDragMode ? (
+                    <>
+                      <Move className="w-4 h-4" />
+                      Mode réorganisation
+                    </>
+                  ) : (
+                    <>
+                      <GripVertical className="w-4 h-4" />
+                      Réorganiser
+                    </>
+                  )}
+                </Button>
+
                 {/* Filtre catégorie */}
                 <div className="flex items-center gap-2">
                   <Filter className="w-4 h-4 text-muted-foreground" />
                   <Select 
                     value={categoryFilter} 
-                    onValueChange={(v) => setCategoryFilter(v as CategoryFilter)}
+                    onValueChange={(v) => handleFilterChange(v as CategoryFilter)}
+                    disabled={isDragMode}
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Catégorie" />
@@ -238,12 +332,14 @@ const MesFavoris = () => {
                   <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
                   <Select 
                     value={sortBy} 
-                    onValueChange={(v) => setSortBy(v as SortOption)}
+                    onValueChange={(v) => handleSortChange(v as SortOption)}
+                    disabled={isDragMode}
                   >
                     <SelectTrigger className="w-[160px]">
                       <SelectValue placeholder="Trier par" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="custom">Ordre personnalisé</SelectItem>
                       <SelectItem value="name">Nom (A-Z)</SelectItem>
                       <SelectItem value="category">Catégorie</SelectItem>
                       <SelectItem value="readingTime">Temps de lecture</SelectItem>
@@ -278,109 +374,68 @@ const MesFavoris = () => {
               </div>
             </div>
 
+            {/* Info mode drag */}
+            {isDragMode && (
+              <div className="mb-6 p-4 bg-primary/10 rounded-xl border border-primary/20 animate-fade-in">
+                <p className="text-sm text-primary flex items-center gap-2">
+                  <GripVertical className="w-4 h-4" />
+                  <strong>Mode réorganisation activé :</strong> Glissez-déposez les cartes pour les réordonner.
+                  Cliquez sur "Réorganiser" pour quitter ce mode.
+                </p>
+              </div>
+            )}
+
             {/* Résultats filtrés */}
             {sortedPathologies.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
                 Aucun favori dans cette catégorie.
               </div>
-            ) : viewMode === 'grid' ? (
-              /* Vue grille */
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {sortedPathologies.map((pathology) => (
-                  <div
-                    key={pathology.slug}
-                    className="card-medical flex flex-col group"
-                  >
-                    <div className="flex items-start justify-between mb-3">
-                      <span className={`px-3 py-1 text-xs font-medium rounded-full border ${categoryColors[pathology.meta.category]}`}>
-                        {categoryLabels[pathology.meta.category]}
-                      </span>
-                      <FavoriteButton slug={pathology.slug} variant="icon" />
-                    </div>
-
-                    <Link to={`/pathologies/${pathology.slug}`} className="block mb-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-2xl">{pathology.meta.icon}</span>
-                        <h3 className="font-serif text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                          {pathology.meta.name}
-                        </h3>
-                      </div>
-                      <p className="text-muted-foreground text-sm">
-                        {pathology.meta.shortDescription}
-                      </p>
-                    </Link>
-
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground mb-4">
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {pathology.meta.readingTime} min
-                      </span>
-                      {pathology.evidence && (
-                        <span className="flex items-center gap-1 text-primary">
-                          <BookOpen className="w-3 h-3" />
-                          {pathology.evidence.recommendations.length} recommandations
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Actions PDF */}
-                    {hasEvidenceData(pathology.slug) && (
-                      <div className="pt-3 border-t border-border mt-auto">
-                        <PdfDownloadButtons slug={pathology.slug} variant="compact" />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
             ) : (
-              /* Vue liste */
-              <div className="space-y-3">
-                {sortedPathologies.map((pathology) => (
-                  <div
-                    key={pathology.slug}
-                    className="card-medical flex items-center gap-4 group"
-                  >
-                    <span className="text-3xl shrink-0">{pathology.meta.icon}</span>
-                    
-                    <Link 
-                      to={`/pathologies/${pathology.slug}`}
-                      className="flex-1 min-w-0"
-                    >
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-serif text-lg font-bold text-foreground group-hover:text-primary transition-colors truncate">
-                          {pathology.meta.name}
-                        </h3>
-                        <span className={`px-2 py-0.5 text-xs font-medium rounded-full border shrink-0 ${categoryColors[pathology.meta.category]}`}>
-                          {categoryLabels[pathology.meta.category]}
-                        </span>
-                      </div>
-                      <p className="text-muted-foreground text-sm truncate">
-                        {pathology.meta.shortDescription}
-                      </p>
-                    </Link>
-
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-xs text-muted-foreground flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {pathology.meta.readingTime} min
-                      </span>
-                      
-                      {hasEvidenceData(pathology.slug) && (
-                        <PdfDownloadButtons slug={pathology.slug} variant="compact" />
-                      )}
-                      
-                      <FavoriteButton slug={pathology.slug} variant="icon" />
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext
+                  items={sortedPathologies.map(p => p.slug)}
+                  strategy={viewMode === 'grid' ? rectSortingStrategy : verticalListSortingStrategy}
+                >
+                  {viewMode === 'grid' ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {sortedPathologies.map((pathology) => (
+                        <DraggableFavoriteCard
+                          key={pathology.slug}
+                          pathology={pathology}
+                          categoryLabels={categoryLabels}
+                          categoryColors={categoryColors}
+                          viewMode="grid"
+                          isDragMode={isDragMode}
+                        />
+                      ))}
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {sortedPathologies.map((pathology) => (
+                        <DraggableFavoriteCard
+                          key={pathology.slug}
+                          pathology={pathology}
+                          categoryLabels={categoryLabels}
+                          categoryColors={categoryColors}
+                          viewMode="list"
+                          isDragMode={isDragMode}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </SortableContext>
+              </DndContext>
             )}
 
             {/* Conseil */}
             <div className="mt-10 p-4 bg-primary/5 rounded-xl border border-primary/10 text-center">
               <p className="text-sm text-muted-foreground">
-                💡 <strong>Astuce :</strong> Partagez vos favoris avec un proche via le menu "Actions" 
-                ou exportez-les en JSON pour les sauvegarder.
+                💡 <strong>Astuce :</strong> Cliquez sur "Réorganiser" pour personnaliser l'ordre de vos favoris 
+                par glisser-déposer. Partagez-les via le menu "Actions".
               </p>
             </div>
           </>

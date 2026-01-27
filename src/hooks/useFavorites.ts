@@ -191,6 +191,21 @@ export const useFavorites = () => {
     console.log('[useFavorites] Imported:', newFavorites.length, 'items');
   }, [favorites, saveFavorites]);
 
+  // Réordonner les favoris (pour drag & drop)
+  const reorderFavorites = useCallback((newOrder: string[]) => {
+    saveFavorites(newOrder);
+    console.log('[useFavorites] Reordered');
+  }, [saveFavorites]);
+
+  // Déplacer un favori à une nouvelle position
+  const moveFavorite = useCallback((fromIndex: number, toIndex: number) => {
+    const newFavorites = [...favorites];
+    const [moved] = newFavorites.splice(fromIndex, 1);
+    newFavorites.splice(toIndex, 0, moved);
+    saveFavorites(newFavorites);
+    console.log(`[useFavorites] Moved from ${fromIndex} to ${toIndex}`);
+  }, [favorites, saveFavorites]);
+
   // Générer le lien de partage
   const getShareLink = useCallback((): string => {
     return generateShareLink(favorites);
@@ -214,6 +229,8 @@ export const useFavorites = () => {
     toggleFavorite,
     clearFavorites,
     importFavorites,
+    reorderFavorites,
+    moveFavorite,
     saveImportedFavorites,
     getShareLink,
     exportJson,
