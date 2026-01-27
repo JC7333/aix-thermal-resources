@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { Clock, AlertTriangle, Printer, BookOpen, Shield, ExternalLink, Award, Calendar, ChevronRight, Target, CheckCircle2 } from 'lucide-react';
+import { Clock, AlertTriangle, Printer, BookOpen, Shield, ExternalLink, Award, Calendar, ChevronRight, Target, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Layout } from '@/components/layout/Layout';
@@ -8,8 +8,11 @@ import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
 import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
 import { FavoriteButton } from '@/components/shared/FavoriteButton';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Progress } from '@/components/ui/progress';
 import { getEvidenceBySlug, getAllEvidence, hasPrograms } from '@/data/evidence';
 import { usePdfPreload } from '@/hooks/usePdfPreload';
+import { useProgramProgress } from '@/hooks/useProgramProgress';
 
 // Niveau de preuve → badge couleur
 const evidenceBadge = (level: string) => {
@@ -38,6 +41,15 @@ const PathologyPage = () => {
   // Préchargement des PDFs en arrière-plan après 2 secondes
   usePdfPreload(slug, { delay: 2000 });
 
+  // Hook de progression pour le plan 7 jours
+  const { 
+    isCompleted, 
+    toggleAction, 
+    getProgressPercent, 
+    resetProgress,
+    getDayCompletedCount 
+  } = useProgramProgress(slug || '', selectedLevel);
+
   if (!evidence) {
     return <Navigate to="/pathologies" replace />;
   }
@@ -50,6 +62,10 @@ const PathologyPage = () => {
   const hasProgramsAvailable = hasPrograms(slug || '');
   const selectedSevenDayPlan = evidence.sevenDayPlans?.find(p => p.level === selectedLevel) || evidence.sevenDayPlans?.[0];
   const selectedEightWeekProgram = evidence.eightWeekPrograms?.find(p => p.level === selectedLevel) || evidence.eightWeekPrograms?.[0];
+
+  // Calcul de la progression
+  const actionsPerDay = selectedSevenDayPlan?.days.map(d => d.actions.length) || [];
+  const progressPercent = getProgressPercent(selectedSevenDayPlan?.days.length || 0, actionsPerDay);
 
   // Autres pathologies de la même catégorie
   const allEvidence = getAllEvidence();
@@ -410,31 +426,101 @@ const PathologyPage = () => {
               {/* Plan 7 jours */}
               {selectedSevenDayPlan && (
                 <section>
-                  <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
-                    <span className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary text-lg">
-                      <Calendar className="w-5 h-5" />
-                    </span>
-                    Plan 7 jours — {selectedSevenDayPlan.levelName}
-                  </h2>
+                  <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <h2 className="font-serif text-2xl font-bold text-foreground flex items-center gap-3">
+                      <span className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary text-lg">
+                        <Calendar className="w-5 h-5" />
+                      </span>
+                      Plan 7 jours — {selectedSevenDayPlan.levelName}
+                    </h2>
+                    {progressPercent > 0 && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={resetProgress}
+                        className="text-muted-foreground hover:text-destructive"
+                      >
+                        <RotateCcw className="w-4 h-4 mr-1" />
+                        Réinitialiser
+                      </Button>
+                    )}
+                  </div>
+
+                  {/* Barre de progression globale */}
+                  <div className="bg-muted/50 rounded-xl p-4 mb-6 border border-border">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-foreground">Votre progression</span>
+                      <span className="text-sm font-bold text-primary">{progressPercent}%</span>
+                    </div>
+                    <Progress value={progressPercent} className="h-3" />
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {progressPercent === 0 && "Cochez les actions au fur et à mesure pour suivre votre progression."}
+                      {progressPercent > 0 && progressPercent < 50 && "Bon début ! Continuez à votre rythme."}
+                      {progressPercent >= 50 && progressPercent < 100 && "Bravo ! Vous êtes sur la bonne voie."}
+                      {progressPercent === 100 && "🎉 Félicitations ! Vous avez complété le programme."}
+                    </p>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {selectedSevenDayPlan.days.map((day, index) => (
-                      <div key={index} className="bg-card border border-border rounded-xl p-4">
-                        <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                          <span className="w-6 h-6 rounded-full bg-secondary/20 flex items-center justify-center text-secondary text-xs font-bold">
-                            {index + 1}
-                          </span>
-                          {day.day}
-                        </h4>
-                        <ul className="space-y-2">
-                          {day.actions.map((action, actionIndex) => (
-                            <li key={actionIndex} className="flex items-start gap-2 text-sm text-muted-foreground">
-                              <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                              <span>{action}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                    {selectedSevenDayPlan.days.map((day, dayIndex) => {
+                      const completedCount = getDayCompletedCount(dayIndex, day.actions.length);
+                      const isFullyCompleted = completedCount === day.actions.length;
+                      
+                      return (
+                        <div 
+                          key={dayIndex} 
+                          className={`bg-card border rounded-xl p-4 transition-colors ${
+                            isFullyCompleted 
+                              ? 'border-primary/50 bg-primary/5' 
+                              : 'border-border'
+                          }`}
+                        >
+                          <h4 className="font-semibold text-foreground mb-3 flex items-center justify-between">
+                            <span className="flex items-center gap-2">
+                              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                                isFullyCompleted 
+                                  ? 'bg-primary text-primary-foreground' 
+                                  : 'bg-secondary/20 text-secondary'
+                              }`}>
+                                {isFullyCompleted ? '✓' : dayIndex + 1}
+                              </span>
+                              {day.day}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              {completedCount}/{day.actions.length}
+                            </span>
+                          </h4>
+                          <ul className="space-y-3">
+                            {day.actions.map((action, actionIndex) => {
+                              const completed = isCompleted(dayIndex, actionIndex);
+                              return (
+                                <li 
+                                  key={actionIndex} 
+                                  className="flex items-start gap-3"
+                                >
+                                  <Checkbox
+                                    id={`action-${dayIndex}-${actionIndex}`}
+                                    checked={completed}
+                                    onCheckedChange={() => toggleAction(dayIndex, actionIndex)}
+                                    className="mt-0.5 h-5 w-5"
+                                  />
+                                  <label 
+                                    htmlFor={`action-${dayIndex}-${actionIndex}`}
+                                    className={`text-sm cursor-pointer select-none transition-colors ${
+                                      completed 
+                                        ? 'text-muted-foreground line-through' 
+                                        : 'text-foreground'
+                                    }`}
+                                  >
+                                    {action}
+                                  </label>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      );
+                    })}
                   </div>
                 </section>
               )}
