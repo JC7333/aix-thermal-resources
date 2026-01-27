@@ -9,6 +9,8 @@ export { coxarthrose } from './coxarthrose';
 export { lombalgieChronique } from './lombalgie-chronique';
 export { insuffisanceVeineuse } from './insuffisance-veineuse';
 export { bpco } from './bpco';
+export { otitesRepetitionEnfant } from './otites-repetition-enfant';
+export { rhinosinusiteChronique } from './rhinosinusite-chronique';
 
 // Import des packs
 import { gonarthrose } from './gonarthrose';
@@ -16,21 +18,11 @@ import { coxarthrose } from './coxarthrose';
 import { lombalgieChronique } from './lombalgie-chronique';
 import { insuffisanceVeineuse } from './insuffisance-veineuse';
 import { bpco } from './bpco';
+import { otitesRepetitionEnfant } from './otites-repetition-enfant';
+import { rhinosinusiteChronique } from './rhinosinusite-chronique';
 import { EvidencePackV2, createStubPack } from './types';
 
 // Stubs pour les pathologies à compléter
-export const otitesRepetitionEnfant = createStubPack(
-  'otites-repetition-enfant',
-  'Otites à répétition (enfant)',
-  'respiratoire-orl'
-);
-
-export const rhinosinusiteChronique = createStubPack(
-  'rhinosinusite-chronique',
-  'Rhinosinusite chronique',
-  'respiratoire-orl'
-);
-
 export const arthroseCheville = createStubPack('arthrose-cheville-pied', 'Arthrose cheville/pied', 'rhumatologie', 'arthrose');
 export const arthroseLombaire = createStubPack('arthrose-lombaire', 'Arthrose lombaire (rachis)', 'rhumatologie', 'arthrose');
 export const arthroseCervicale = createStubPack('arthrose-cervicale', 'Arthrose cervicale (rachis)', 'rhumatologie', 'arthrose');
@@ -53,9 +45,9 @@ export const ALL_EVIDENCE_PACKS_V2: EvidencePackV2[] = [
   lombalgieChronique,
   insuffisanceVeineuse,
   bpco,
-  // Stubs
   otitesRepetitionEnfant,
   rhinosinusiteChronique,
+  // Stubs
   arthroseCheville,
   arthroseLombaire,
   arthroseCervicale,
