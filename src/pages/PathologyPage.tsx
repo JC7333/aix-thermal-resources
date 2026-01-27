@@ -47,7 +47,13 @@ const PathologyPage = () => {
     toggleAction, 
     getProgressPercent, 
     resetProgress,
-    getDayCompletedCount 
+    getDayCompletedCount,
+    // Programme 8 semaines
+    isWeekExerciseCompleted,
+    toggleWeekExercise,
+    getWeeklyProgressPercent,
+    resetWeeklyProgress,
+    getWeekCompletedCount,
   } = useProgramProgress(slug || '', selectedLevel);
 
   if (!evidence) {
@@ -63,9 +69,13 @@ const PathologyPage = () => {
   const selectedSevenDayPlan = evidence.sevenDayPlans?.find(p => p.level === selectedLevel) || evidence.sevenDayPlans?.[0];
   const selectedEightWeekProgram = evidence.eightWeekPrograms?.find(p => p.level === selectedLevel) || evidence.eightWeekPrograms?.[0];
 
-  // Calcul de la progression
+  // Calcul de la progression 7 jours
   const actionsPerDay = selectedSevenDayPlan?.days.map(d => d.actions.length) || [];
   const progressPercent = getProgressPercent(selectedSevenDayPlan?.days.length || 0, actionsPerDay);
+
+  // Calcul de la progression 8 semaines
+  const exercisesPerWeek = selectedEightWeekProgram?.weeks.map(w => w.exercises.length) || [];
+  const weeklyProgressPercent = getWeeklyProgressPercent(exercisesPerWeek);
 
   // Autres pathologies de la même catégorie
   const allEvidence = getAllEvidence();
@@ -528,38 +538,107 @@ const PathologyPage = () => {
               {/* Programme 8 semaines */}
               {selectedEightWeekProgram && (
                 <section>
-                  <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
-                    <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-lg">
-                      <Target className="w-5 h-5" />
-                    </span>
-                    Programme 8 semaines — {selectedEightWeekProgram.levelName}
-                  </h2>
+                  <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <h2 className="font-serif text-2xl font-bold text-foreground flex items-center gap-3">
+                      <span className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-lg">
+                        <Target className="w-5 h-5" />
+                      </span>
+                      Programme 8 semaines — {selectedEightWeekProgram.levelName}
+                    </h2>
+                    {weeklyProgressPercent > 0 && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={resetWeeklyProgress}
+                        className="text-muted-foreground hover:text-destructive"
+                      >
+                        <RotateCcw className="w-4 h-4 mr-1" />
+                        Réinitialiser
+                      </Button>
+                    )}
+                  </div>
+
+                  {/* Barre de progression globale 8 semaines */}
+                  <div className="bg-primary/5 rounded-xl p-4 mb-6 border border-primary/20">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-foreground">Progression du programme</span>
+                      <span className="text-sm font-bold text-primary">{weeklyProgressPercent}%</span>
+                    </div>
+                    <Progress value={weeklyProgressPercent} className="h-3" />
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {weeklyProgressPercent === 0 && "Cochez les exercices réalisés chaque semaine."}
+                      {weeklyProgressPercent > 0 && weeklyProgressPercent < 25 && "Bon démarrage ! La régularité est la clé."}
+                      {weeklyProgressPercent >= 25 && weeklyProgressPercent < 50 && "Vous progressez bien, continuez !"}
+                      {weeklyProgressPercent >= 50 && weeklyProgressPercent < 75 && "Plus de la moitié ! Bravo pour votre persévérance."}
+                      {weeklyProgressPercent >= 75 && weeklyProgressPercent < 100 && "Dernière ligne droite, vous y êtes presque !"}
+                      {weeklyProgressPercent === 100 && "🏆 Félicitations ! Programme complété avec succès."}
+                    </p>
+                  </div>
+
                   <div className="space-y-4">
-                    {selectedEightWeekProgram.weeks.map((week, index) => (
-                      <div key={index} className="bg-card border border-border rounded-xl p-5">
-                        <div className="flex items-center gap-3 mb-3">
-                          <span className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
-                            {index + 1}
-                          </span>
-                          <div>
-                            <h4 className="font-semibold text-foreground">
-                              {week.week}
-                            </h4>
-                            <p className="text-sm text-primary font-medium">
-                              Focus : {week.focus}
-                            </p>
+                    {selectedEightWeekProgram.weeks.map((week, weekIndex) => {
+                      const completedCount = getWeekCompletedCount(weekIndex, week.exercises.length);
+                      const isFullyCompleted = completedCount === week.exercises.length;
+                      
+                      return (
+                        <div 
+                          key={weekIndex} 
+                          className={`bg-card border rounded-xl p-5 transition-colors ${
+                            isFullyCompleted 
+                              ? 'border-primary/50 bg-primary/5' 
+                              : 'border-border'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-3">
+                              <span className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
+                                isFullyCompleted 
+                                  ? 'bg-primary text-primary-foreground' 
+                                  : 'bg-primary/10 text-primary'
+                              }`}>
+                                {isFullyCompleted ? '✓' : weekIndex + 1}
+                              </span>
+                              <div>
+                                <h4 className="font-semibold text-foreground">
+                                  {week.week}
+                                </h4>
+                                <p className="text-sm text-primary font-medium">
+                                  Focus : {week.focus}
+                                </p>
+                              </div>
+                            </div>
+                            <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-full">
+                              {completedCount}/{week.exercises.length}
+                            </span>
                           </div>
+                          <ul className="ml-2 space-y-3">
+                            {week.exercises.map((exercise, exIndex) => {
+                              const completed = isWeekExerciseCompleted(weekIndex, exIndex);
+                              return (
+                                <li key={exIndex} className="flex items-start gap-3">
+                                  <Checkbox
+                                    id={`week-${weekIndex}-ex-${exIndex}`}
+                                    checked={completed}
+                                    onCheckedChange={() => toggleWeekExercise(weekIndex, exIndex)}
+                                    className="mt-0.5 h-5 w-5"
+                                  />
+                                  <label 
+                                    htmlFor={`week-${weekIndex}-ex-${exIndex}`}
+                                    className={`text-sm cursor-pointer select-none transition-colors ${
+                                      completed 
+                                        ? 'text-muted-foreground line-through' 
+                                        : 'text-foreground'
+                                    }`}
+                                  >
+                                    {exercise}
+                                  </label>
+                                </li>
+                              );
+                            })}
+                          </ul>
                         </div>
-                        <ul className="ml-13 space-y-1">
-                          {week.exercises.map((exercise, exIndex) => (
-                            <li key={exIndex} className="flex items-start gap-2 text-sm text-muted-foreground">
-                              <span className="text-secondary">•</span>
-                              {exercise}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </section>
               )}
