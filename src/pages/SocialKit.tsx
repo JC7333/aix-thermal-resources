@@ -31,6 +31,8 @@ const SocialKit = () => {
 
   const allSlugs = getAllSlugsWithContent();
   const baseUrl = 'https://coolance.fr';
+  const DISCLAIMER = '⚠️ Information éducative — ne remplace pas un avis médical. Urgence 15/112.';
+  const MAX_HASHTAGS = 5;
 
   // Filtrage
   const filteredPosts = posts30.filter(p => {
@@ -53,6 +55,7 @@ const SocialKit = () => {
 
   // Formatage du texte pour copie
   const formatPostForCopy = (post: SocialPost): string => {
+    const hashtags = post.hashtags.slice(0, MAX_HASHTAGS).map(h => `#${h}`).join(' ');
     return `${post.title}
 
 ${post.bullets.map(b => `• ${b}`).join('\n')}
@@ -61,10 +64,13 @@ ${post.bullets.map(b => `• ${b}`).join('\n')}
 
 ${post.cta}
 
-${post.hashtags.map(h => `#${h}`).join(' ')}`;
+${DISCLAIMER}
+
+${hashtags}`;
   };
 
   const formatReelForCopy = (reel: ReelScript): string => {
+    const hashtags = reel.hashtags.slice(0, MAX_HASHTAGS).map(h => `#${h}`).join(' ');
     return `🎬 SCRIPT REEL (20 sec)
 
 HOOK : "${reel.hook}"
@@ -76,10 +82,13 @@ CTA : ${reel.cta}
 
 LIEN : ${baseUrl}/pathologies/${reel.slug}
 
-${reel.hashtags.map(h => `#${h}`).join(' ')}`;
+${DISCLAIMER}
+
+${hashtags}`;
   };
 
   const formatCarouselForCopy = (carousel: Carousel): string => {
+    const hashtags = carousel.hashtags.slice(0, MAX_HASHTAGS).map(h => `#${h}`).join(' ');
     return `📱 CARROUSEL (${carousel.slides.length} slides)
 
 ${carousel.slides.map((s, i) => `SLIDE ${i + 1} : ${s.title}
@@ -87,7 +96,9 @@ ${s.content}`).join('\n\n')}
 
 LIEN : ${baseUrl}/pathologies/${carousel.slug}
 
-${carousel.hashtags.map(h => `#${h}`).join(' ')}`;
+${DISCLAIMER}
+
+${hashtags}`;
   };
 
   const handleCopy = async (id: string, text: string) => {
@@ -224,7 +235,7 @@ ${carousel.hashtags.map(h => `#${h}`).join(' ')}`;
                       {baseUrl}/pathologies/{post.slug}
                     </div>
                     <div className="flex flex-wrap gap-1">
-                      {post.hashtags.map(h => (
+                      {post.hashtags.slice(0, MAX_HASHTAGS).map(h => (
                         <span key={h} className="text-xs text-primary">#{h}</span>
                       ))}
                     </div>
@@ -264,7 +275,7 @@ ${carousel.hashtags.map(h => `#${h}`).join(' ')}`;
                       {baseUrl}/pathologies/{reel.slug}
                     </div>
                     <div className="flex flex-wrap gap-1">
-                      {reel.hashtags.map(h => (
+                      {reel.hashtags.slice(0, MAX_HASHTAGS).map(h => (
                         <span key={h} className="text-xs text-primary">#{h}</span>
                       ))}
                     </div>
@@ -305,7 +316,7 @@ ${carousel.hashtags.map(h => `#${h}`).join(' ')}`;
                       {baseUrl}/pathologies/{carousel.slug}
                     </div>
                     <div className="flex flex-wrap gap-1">
-                      {carousel.hashtags.map(h => (
+                      {carousel.hashtags.slice(0, MAX_HASHTAGS).map(h => (
                         <span key={h} className="text-xs text-primary">#{h}</span>
                       ))}
                     </div>
