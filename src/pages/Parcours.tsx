@@ -3,6 +3,7 @@ import { ArrowRight, ArrowLeft, Printer, Check, Activity, Scale, Cigarette, Wind
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
+import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { logEvent } from '@/services/analytics';
 
 type Objective = 'douleur' | 'poids' | 'tabac' | 'souffle' | 'jambes' | 'orl-enfant' | 'bouche';
@@ -148,6 +149,7 @@ const Parcours = () => {
   const [step, setStep] = useState(1);
   const [selectedObjective, setSelectedObjective] = useState<Objective | null>(null);
   const [selectedLevel, setSelectedLevel] = useState<Level | null>(null);
+  const { seniorMode, titleClass, textClass, buttonSize, iconSize, smallTextClass } = useSeniorMode();
 
   // Track wizard start on mount
   useEffect(() => {
@@ -192,26 +194,26 @@ const Parcours = () => {
 
         <div className="max-w-3xl mx-auto">
           {/* Progress indicator */}
-          <div className="flex items-center justify-center gap-2 mb-8">
+          <div className={`flex items-center justify-center gap-2 ${seniorMode ? 'mb-10' : 'mb-8'}`}>
             {[1, 2, 3].map((s) => (
               <div
                 key={s}
                 className={`flex items-center ${s < 3 ? 'flex-1' : ''}`}
               >
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-colors ${
+                  className={`rounded-full flex items-center justify-center font-semibold transition-colors ${
                     step >= s
                       ? 'bg-primary text-primary-foreground'
                       : 'bg-muted text-muted-foreground'
-                  }`}
+                  } ${seniorMode ? 'w-14 h-14 text-xl' : 'w-10 h-10'}`}
                 >
-                  {step > s ? <Check className="w-5 h-5" /> : s}
+                  {step > s ? <Check className={seniorMode ? 'w-7 h-7' : 'w-5 h-5'} /> : s}
                 </div>
                 {s < 3 && (
                   <div
-                    className={`flex-1 h-1 mx-2 rounded ${
+                    className={`flex-1 mx-2 rounded ${
                       step > s ? 'bg-primary' : 'bg-muted'
-                    }`}
+                    } ${seniorMode ? 'h-2' : 'h-1'}`}
                   />
                 )}
               </div>
@@ -221,16 +223,16 @@ const Parcours = () => {
           {/* Step 1: Objective */}
           {step === 1 && (
             <div className="animate-fade-in">
-              <div className="text-center mb-8">
-                <h1 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3">
+              <div className={`text-center ${seniorMode ? 'mb-10' : 'mb-8'}`}>
+                <h1 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-3xl md:text-4xl lg:text-5xl mb-4' : 'text-2xl md:text-3xl lg:text-4xl mb-3'}`}>
                   Quel est votre objectif aujourd'hui ?
                 </h1>
-                <p className="text-muted-foreground text-lg">
+                <p className={`text-muted-foreground ${seniorMode ? 'text-xl' : 'text-lg'}`}>
                   Je vais vous proposer un plan d'action simple et adapté.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className={`grid grid-cols-1 sm:grid-cols-2 ${seniorMode ? 'gap-5' : 'gap-4'}`}>
                 {objectives.map((obj) => (
                   <button
                     key={obj.id}
@@ -238,19 +240,19 @@ const Parcours = () => {
                       setSelectedObjective(obj.id);
                       setStep(2);
                     }}
-                    className={`p-6 rounded-xl border-2 text-left transition-all hover:shadow-md ${
+                    className={`rounded-xl border-2 text-left transition-all hover:shadow-md ${
                       selectedObjective === obj.id
                         ? 'border-primary bg-primary/5'
                         : 'border-border hover:border-primary/50'
-                    }`}
+                    } ${seniorMode ? 'p-8' : 'p-6'}`}
                   >
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                      <div className={`rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0 ${seniorMode ? 'w-16 h-16' : 'w-12 h-12'}`}>
                         {obj.icon}
                       </div>
                       <div>
-                        <h3 className="font-semibold text-foreground mb-1">{obj.label}</h3>
-                        <p className="text-sm text-muted-foreground">{obj.description}</p>
+                        <h3 className={`font-semibold text-foreground ${seniorMode ? 'text-xl mb-2' : 'mb-1'}`}>{obj.label}</h3>
+                        <p className={`text-muted-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>{obj.description}</p>
                       </div>
                     </div>
                   </button>
@@ -262,16 +264,16 @@ const Parcours = () => {
           {/* Step 2: Level */}
           {step === 2 && (
             <div className="animate-fade-in">
-              <div className="text-center mb-8">
-                <h1 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3">
+              <div className={`text-center ${seniorMode ? 'mb-10' : 'mb-8'}`}>
+                <h1 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-3xl md:text-4xl lg:text-5xl mb-4' : 'text-2xl md:text-3xl lg:text-4xl mb-3'}`}>
                   Quel est votre niveau de mobilité ?
                 </h1>
-                <p className="text-muted-foreground text-lg">
+                <p className={`text-muted-foreground ${seniorMode ? 'text-xl' : 'text-lg'}`}>
                   Je vais adapter les conseils à votre capacité actuelle.
                 </p>
               </div>
 
-              <div className="space-y-3">
+              <div className={seniorMode ? 'space-y-4' : 'space-y-3'}>
                 {levelDescriptions.map((item) => (
                   <button
                     key={item.level}
@@ -279,19 +281,19 @@ const Parcours = () => {
                       setSelectedLevel(item.level as Level);
                       setStep(3);
                     }}
-                    className={`w-full p-5 rounded-xl border-2 text-left transition-all hover:shadow-md ${
+                    className={`w-full rounded-xl border-2 text-left transition-all hover:shadow-md ${
                       selectedLevel === item.level
                         ? 'border-primary bg-primary/5'
                         : 'border-border hover:border-primary/50'
-                    }`}
+                    } ${seniorMode ? 'p-6' : 'p-5'}`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shrink-0">
+                      <div className={`rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shrink-0 ${seniorMode ? 'w-14 h-14 text-xl' : 'w-10 h-10'}`}>
                         {item.level}
                       </div>
                       <div>
-                        <h3 className="font-semibold text-foreground">{item.label}</h3>
-                        <p className="text-sm text-muted-foreground">{item.description}</p>
+                        <h3 className={`font-semibold text-foreground ${seniorMode ? 'text-xl' : ''}`}>{item.label}</h3>
+                        <p className={`text-muted-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>{item.description}</p>
                       </div>
                     </div>
                   </button>
@@ -299,8 +301,8 @@ const Parcours = () => {
               </div>
 
               <div className="mt-6">
-                <Button variant="ghost" onClick={() => setStep(1)} className="gap-2">
-                  <ArrowLeft className="w-4 h-4" />
+                <Button variant="ghost" size={buttonSize} onClick={() => setStep(1)} className="gap-2">
+                  <ArrowLeft className={iconSize} />
                   Retour
                 </Button>
               </div>
@@ -310,54 +312,54 @@ const Parcours = () => {
           {/* Step 3: Results */}
           {step === 3 && actions && selectedObjectiveData && (
             <div className="animate-fade-in print:animate-none">
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center mx-auto mb-4">
-                  <Check className="w-8 h-8 text-secondary" />
+              <div className={`text-center ${seniorMode ? 'mb-10' : 'mb-8'}`}>
+                <div className={`rounded-full bg-secondary/20 flex items-center justify-center mx-auto ${seniorMode ? 'w-20 h-20 mb-6' : 'w-16 h-16 mb-4'}`}>
+                  <Check className={seniorMode ? 'w-10 h-10 text-secondary' : 'w-8 h-8 text-secondary'} />
                 </div>
-                <h1 className="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3">
+                <h1 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-3xl md:text-4xl lg:text-5xl mb-4' : 'text-2xl md:text-3xl lg:text-4xl mb-3'}`}>
                   Votre plan personnalisé
                 </h1>
-                <p className="text-muted-foreground text-lg">
+                <p className={`text-muted-foreground ${seniorMode ? 'text-xl' : 'text-lg'}`}>
                   {selectedObjectiveData.label} — Niveau {selectedLevel}
                 </p>
               </div>
 
               {/* Today's actions */}
-              <div className="card-medical mb-6">
-                <h2 className="font-serif text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                  <span className="text-2xl">🎯</span>
+              <div className={`card-medical ${seniorMode ? 'mb-8 p-8' : 'mb-6'}`}>
+                <h2 className={`font-serif font-bold text-foreground flex items-center gap-2 ${seniorMode ? 'text-2xl mb-6' : 'text-xl mb-4'}`}>
+                  <span className={seniorMode ? 'text-3xl' : 'text-2xl'}>🎯</span>
                   5 actions pour aujourd'hui
                 </h2>
-                <ul className="space-y-3">
+                <ul className={seniorMode ? 'space-y-4' : 'space-y-3'}>
                   {actions.today.map((action, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <span className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-semibold shrink-0">
+                      <span className={`rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold shrink-0 ${seniorMode ? 'w-8 h-8 text-lg' : 'w-6 h-6 text-sm'}`}>
                         {index + 1}
                       </span>
-                      <span className="text-foreground">{action}</span>
+                      <span className={`text-foreground ${seniorMode ? 'text-lg' : ''}`}>{action}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               {/* 7-day plan */}
-              <div className="card-medical mb-6">
-                <h2 className="font-serif text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-                  <span className="text-2xl">📅</span>
+              <div className={`card-medical ${seniorMode ? 'mb-8 p-8' : 'mb-6'}`}>
+                <h2 className={`font-serif font-bold text-foreground flex items-center gap-2 ${seniorMode ? 'text-2xl mb-6' : 'text-xl mb-4'}`}>
+                  <span className={seniorMode ? 'text-3xl' : 'text-2xl'}>📅</span>
                   Plan sur 7 jours
                 </h2>
-                <ul className="space-y-3">
+                <ul className={seniorMode ? 'space-y-4' : 'space-y-3'}>
                   {actions.weekPlan.map((day, index) => (
-                    <li key={index} className="flex items-start gap-3 pb-3 border-b border-border last:border-0 last:pb-0">
-                      <span className="text-foreground">{day}</span>
+                    <li key={index} className={`flex items-start gap-3 pb-3 border-b border-border last:border-0 last:pb-0 ${seniorMode ? 'pb-4' : ''}`}>
+                      <span className={`text-foreground ${seniorMode ? 'text-lg' : ''}`}>{day}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               {/* Disclaimer */}
-              <div className="bg-muted/50 rounded-lg p-4 mb-6">
-                <p className="text-sm text-muted-foreground">
+              <div className={`bg-muted/50 rounded-lg ${seniorMode ? 'p-6 mb-8' : 'p-4 mb-6'}`}>
+                <p className={`text-muted-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>
                   <strong>Rappel :</strong> Ces conseils sont généraux et éducatifs. Ils ne remplacent pas un avis médical personnalisé. 
                   Si vos symptômes persistent ou s'aggravent, consultez votre médecin.
                 </p>
@@ -365,12 +367,12 @@ const Parcours = () => {
 
               {/* Actions */}
               <div className="flex flex-col sm:flex-row gap-3 no-print">
-                <Button onClick={handlePrint} variant="pdf" size="lg" className="flex-1">
-                  <Printer className="w-5 h-5" />
+                <Button onClick={handlePrint} variant="pdf" size={buttonSize} className={`flex-1 ${seniorMode ? 'h-14 text-lg' : ''}`}>
+                  <Printer className={iconSize} />
                   Imprimer mon plan
                 </Button>
-                <Button onClick={handleReset} variant="outline" size="lg" className="flex-1">
-                  <ArrowLeft className="w-5 h-5" />
+                <Button onClick={handleReset} variant="outline" size={buttonSize} className={`flex-1 ${seniorMode ? 'h-14 text-lg' : ''}`}>
+                  <ArrowLeft className={iconSize} />
                   Recommencer
                 </Button>
               </div>
