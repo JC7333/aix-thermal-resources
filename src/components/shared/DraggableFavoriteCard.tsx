@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, BookOpen, GripVertical } from 'lucide-react';
 import { FavoriteButton } from '@/components/shared/FavoriteButton';
 import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
+import { AddToCollectionMenu } from '@/components/collections/AddToCollectionMenu';
 import { hasEvidenceData } from '@/services/pdfService';
 import { cn } from '@/lib/utils';
 
@@ -220,6 +221,23 @@ export const DraggableFavoriteCard = ({
               </motion.div>
             )}
           </AnimatePresence>
+
+          <AnimatePresence>
+            {!isDragMode && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.15 }}
+              >
+                <AddToCollectionMenu 
+                  pathologySlug={pathology.slug} 
+                  pathologyName={pathology.meta.name}
+                  variant="icon"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
           
           <AnimatePresence>
             {!isDragMode && (
@@ -289,7 +307,13 @@ export const DraggableFavoriteCard = ({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.15 }}
+              className="flex items-center gap-1"
             >
+              <AddToCollectionMenu 
+                pathologySlug={pathology.slug} 
+                pathologyName={pathology.meta.name}
+                variant="icon"
+              />
               <FavoriteButton slug={pathology.slug} variant="icon" />
             </motion.div>
           )}

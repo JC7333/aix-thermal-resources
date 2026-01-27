@@ -48,6 +48,8 @@ import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { FavoritesActionsMenu } from '@/components/shared/FavoritesActionsMenu';
 import { FavoritesImportBanner } from '@/components/shared/FavoritesImportBanner';
 import { DraggableFavoriteCard } from '@/components/shared/DraggableFavoriteCard';
+import { CollectionsSection } from '@/components/collections/CollectionsSection';
+import { AddToCollectionMenu } from '@/components/collections/AddToCollectionMenu';
 import { useFavorites } from '@/hooks/useFavorites';
 import { getAllEvidence } from '@/data/evidence';
 import { useToast } from '@/hooks/use-toast';
@@ -255,6 +257,17 @@ const MesFavoris = () => {
 
         {/* Bannière import */}
         <FavoritesImportBanner />
+
+        {/* Section Collections */}
+        <CollectionsSection 
+          pathologyMeta={Object.fromEntries(
+            Object.entries(pathologyMeta).map(([slug, meta]) => [
+              slug,
+              { name: meta.name, icon: meta.icon, category: meta.category }
+            ])
+          )}
+          categoryColors={categoryColors}
+        />
 
         {count === 0 ? (
           /* État vide */
