@@ -1,10 +1,23 @@
 import { Phone, AlertCircle } from 'lucide-react';
 
 interface MedicalDisclaimerProps {
-  variant?: 'banner' | 'inline';
+  variant?: 'banner' | 'inline' | 'compact';
 }
 
 export const MedicalDisclaimer = ({ variant = 'banner' }: MedicalDisclaimerProps) => {
+  if (variant === 'compact') {
+    return (
+      <div className="p-3 bg-muted/50 rounded-lg border border-border text-xs">
+        <p className="text-muted-foreground text-center">
+          <AlertCircle className="w-3 h-3 inline mr-1" />
+          Information générale — ne remplace pas un avis médical.
+          <br />
+          Urgence : <a href="tel:15" className="font-semibold text-destructive hover:underline">15</a> / <a href="tel:112" className="font-semibold text-destructive hover:underline">112</a>
+        </p>
+      </div>
+    );
+  }
+
   if (variant === 'inline') {
     return (
       <div className="flex items-start gap-3 p-4 bg-muted/50 rounded-lg border border-border text-sm">
