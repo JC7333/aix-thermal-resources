@@ -10,6 +10,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, FileText, Book, Loader2, Eye, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { 
   generatePdf1PageBySlug, 
   generatePdf4PagesBySlug, 
@@ -252,33 +253,40 @@ export const PdfDownloadButtons = ({
     }
   };
 
-  // Composant badge "Prêt" animé avec glow effect
+  // Composant badge "Prêt" animé avec glow effect et tooltip
   const ReadyBadge = ({ isNew = false }: { isNew?: boolean }) => (
-    <AnimatePresence>
-      <motion.span
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ 
-          opacity: 1, 
-          scale: 1,
-          boxShadow: isNew 
-            ? ['0 0 0 0 rgba(34, 197, 94, 0)', '0 0 8px 2px rgba(34, 197, 94, 0.4)', '0 0 0 0 rgba(34, 197, 94, 0)']
-            : '0 0 0 0 rgba(34, 197, 94, 0)',
-        }}
-        transition={{ 
-          duration: 0.3, 
-          boxShadow: isNew ? { duration: 1.5, repeat: 2, ease: 'easeInOut' } : { duration: 0 },
-        }}
-        className="ml-1 inline-flex items-center px-1.5 py-0 text-[10px] font-medium rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-      >
-        <motion.span
-          animate={isNew ? { rotate: [0, -10, 10, -10, 0] } : { rotate: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <Zap className="w-2.5 h-2.5 mr-0.5" />
-        </motion.span>
-        Prêt
-      </motion.span>
-    </AnimatePresence>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <AnimatePresence>
+          <motion.span
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1,
+              boxShadow: isNew 
+                ? ['0 0 0 0 rgba(34, 197, 94, 0)', '0 0 8px 2px rgba(34, 197, 94, 0.4)', '0 0 0 0 rgba(34, 197, 94, 0)']
+                : '0 0 0 0 rgba(34, 197, 94, 0)',
+            }}
+            transition={{ 
+              duration: 0.3, 
+              boxShadow: isNew ? { duration: 1.5, repeat: 2, ease: 'easeInOut' } : { duration: 0 },
+            }}
+            className="ml-1 inline-flex items-center px-1.5 py-0 text-[10px] font-medium rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 cursor-help"
+          >
+            <motion.span
+              animate={isNew ? { rotate: [0, -10, 10, -10, 0] } : { rotate: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Zap className="w-2.5 h-2.5 mr-0.5" />
+            </motion.span>
+            Prêt
+          </motion.span>
+        </AnimatePresence>
+      </TooltipTrigger>
+      <TooltipContent side="top" className="text-xs">
+        Document préchargé, ouverture instantanée
+      </TooltipContent>
+    </Tooltip>
   );
 
   // Rendu compact
