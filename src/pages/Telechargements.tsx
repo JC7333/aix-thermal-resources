@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Download, FileText, Book, Filter, Settings, Loader2, Printer } from 'lucide-react';
+import { Download, FileText, Book, Filter, Settings, Printer, Eye, Zap, Clock, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -14,8 +14,8 @@ import {
   exportContentAsJson,
   ContentCategory 
 } from '@/content/content';
-import { downloadPdf1PageBySlug, downloadPdf4PagesBySlug, hasEvidenceData } from '@/services/pdfService';
-import { useToast } from '@/hooks/use-toast';
+import { hasEvidenceData, getCacheStats } from '@/services/pdfService';
+import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
 
 type CategoryFilter = 'all' | ContentCategory;
 
@@ -27,79 +27,24 @@ const categoryFilters: { value: CategoryFilter; label: string }[] = [
   { value: 'muqueuses-buccales', label: '👄 Muqueuses buccales' },
 ];
 
-interface PdfDownload {
-  slug: string;
-  type: '1page' | '4pages';
-}
+// Temps estimés de génération par type de PDF
+const estimatedTimes = {
+  '1page': { first: '~2s', cached: '<50ms' },
+  '4pages': { first: '~3s', cached: '<50ms' },
+};
 
 const Telechargements = () => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
-  const [downloading, setDownloading] = useState<PdfDownload | null>(null);
   const [showAdmin, setShowAdmin] = useState(false);
-  const { toast } = useToast();
 
   const publishedPathologies = pathologies.filter(p => p.isPublished);
   const filteredPathologies = selectedCategory === 'all' 
     ? publishedPathologies 
     : publishedPathologies.filter(p => p.category === selectedCategory);
 
-  const handleDownload1Page = async (pathology: PathologyContent) => {
-    if (!hasEvidenceData(pathology.slug)) {
-      toast({
-        title: "PDF non disponible",
-        description: "Les données evidence-based ne sont pas encore disponibles pour cette pathologie.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setDownloading({ slug: pathology.slug, type: '1page' });
-    try {
-      await downloadPdf1PageBySlug(pathology.slug);
-      toast({
-        title: "Téléchargement réussi",
-        description: "Votre fiche PDF 1 page a été téléchargée.",
-      });
-    } catch (error) {
-      console.error('Erreur téléchargement PDF:', error);
-      toast({
-        title: "Erreur de téléchargement",
-        description: "Une erreur est survenue. Veuillez réessayer.",
-        variant: "destructive",
-      });
-    } finally {
-      setDownloading(null);
-    }
-  };
-
-  const handleDownload4Pages = async (pathology: PathologyContent) => {
-    if (!hasEvidenceData(pathology.slug)) {
-      toast({
-        title: "PDF non disponible",
-        description: "Les données evidence-based ne sont pas encore disponibles pour cette pathologie.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setDownloading({ slug: pathology.slug, type: '4pages' });
-    try {
-      await downloadPdf4PagesBySlug(pathology.slug);
-      toast({
-        title: "Téléchargement réussi",
-        description: "Votre guide PDF 4 pages a été téléchargé.",
-      });
-    } catch (error) {
-      console.error('Erreur téléchargement PDF:', error);
-      toast({
-        title: "Erreur de téléchargement",
-        description: "Une erreur est survenue. Veuillez réessayer.",
-        variant: "destructive",
-      });
-    } finally {
-      setDownloading(null);
-    }
-  };
+  // Stats globales
+  const totalPdfs = publishedPathologies.filter(p => hasEvidenceData(p.slug)).length * 2;
+  const cacheStats = getCacheStats();
 
   const handleExportJson = () => {
     const json = exportContentAsJson();
@@ -133,9 +78,48 @@ const Telechargements = () => {
             Je vous ai préparé des fiches pratiques à imprimer, basées sur les dernières preuves scientifiques.
             Chaque pathologie existe en deux versions : une fiche 1 page (essentiel) et un guide complet 4 pages.
           </p>
-          <p className="text-base text-muted-foreground mt-3">
-            <strong>Police large et lisible</strong> — optimisé pour l'impression A4.
-          </p>
+          
+          {/* Stats rapides */}
+          <div className="flex flex-wrap gap-4 mt-6">
+            <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full">
+              <FileText className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium">{totalPdfs} PDFs disponibles</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-secondary/10 rounded-full">
+              <Eye className="w-4 h-4 text-secondary" />
+              <span className="text-sm font-medium">Prévisualisation intégrée</span>
+            </div>
+            {cacheStats.size > 0 && (
+              <div className="flex items-center gap-2 px-4 py-2 bg-accent/10 rounded-full">
+                <Zap className="w-4 h-4 text-accent-foreground" />
+                <span className="text-sm font-medium">{cacheStats.size} en cache</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Info temps de génération */}
+        <div className="mb-8 p-4 bg-muted/30 rounded-xl border border-muted">
+          <div className="flex items-start gap-4">
+            <Clock className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+            <div>
+              <p className="font-medium text-sm text-foreground mb-2">Temps de génération estimés</p>
+              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <FileText className="w-4 h-4" />
+                  <span>Fiche 1 page : <strong className="text-foreground">{estimatedTimes['1page'].first}</strong></span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Book className="w-4 h-4" />
+                  <span>Guide 4 pages : <strong className="text-foreground">{estimatedTimes['4pages'].first}</strong></span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Zap className="w-4 h-4 text-secondary" />
+                  <span>Depuis cache : <strong className="text-secondary">{estimatedTimes['1page'].cached}</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Filters */}
@@ -165,7 +149,7 @@ const Telechargements = () => {
             const hasEvidence = hasEvidenceData(pathology.slug);
             
             return (
-              <Card key={pathology.id} className="hover:shadow-lg transition-shadow">
+              <Card key={pathology.id} className="hover:shadow-lg transition-shadow group">
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between gap-2">
                     <div>
@@ -175,87 +159,51 @@ const Telechargements = () => {
                       >
                         {categoryLabels[pathology.category]}
                       </Badge>
-                      <CardTitle className="text-xl font-serif">{pathology.title}</CardTitle>
+                      <CardTitle className="text-xl font-serif group-hover:text-primary transition-colors">
+                        {pathology.title}
+                      </CardTitle>
                     </div>
+                    {hasEvidence && (
+                      <Badge variant="secondary" className="shrink-0 gap-1">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Evidence
+                      </Badge>
+                    )}
                   </div>
                   <CardDescription className="text-sm">
                     {pathology.shortDescription}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  {/* 1-page PDF */}
-                  <div className="p-3 bg-muted/50 rounded-lg">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="p-2 bg-primary/10 rounded-lg">
-                        <FileText className="w-5 h-5 text-primary" />
+                <CardContent className="space-y-4">
+                  {hasEvidence ? (
+                    <>
+                      {/* Infos PDF */}
+                      <div className="grid grid-cols-2 gap-3 text-xs">
+                        <div className="p-2 bg-muted/50 rounded-lg text-center">
+                          <FileText className="w-4 h-4 mx-auto mb-1 text-primary" />
+                          <span className="text-muted-foreground">1 page</span>
+                          <p className="font-mono text-primary">{estimatedTimes['1page'].first}</p>
+                        </div>
+                        <div className="p-2 bg-primary/5 rounded-lg text-center border border-primary/10">
+                          <Book className="w-4 h-4 mx-auto mb-1 text-primary" />
+                          <span className="text-muted-foreground">4 pages</span>
+                          <p className="font-mono text-primary">{estimatedTimes['4pages'].first}</p>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <p className="font-semibold text-sm">Fiche 1 page</p>
-                        <p className="text-xs text-muted-foreground">
-                          Recommandations + Red flags + Sources
-                        </p>
-                      </div>
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full gap-2"
-                      onClick={() => handleDownload1Page(pathology)}
-                      disabled={downloading?.slug === pathology.slug && downloading?.type === '1page'}
-                    >
-                      {downloading?.slug === pathology.slug && downloading?.type === '1page' ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                          Génération...
-                        </>
-                      ) : (
-                        <>
-                          <Download className="w-4 h-4" />
-                          Télécharger PDF 1 page
-                        </>
-                      )}
-                    </Button>
-                  </div>
 
-                  {/* 4-pages PDF */}
-                  <div className="p-3 bg-primary/5 rounded-lg border border-primary/10">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="p-2 bg-primary/10 rounded-lg">
-                        <Book className="w-5 h-5 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-semibold text-sm">Guide complet 4 pages</p>
-                        <p className="text-xs text-muted-foreground">
-                          Visuels + Plan d'action + Sources complètes
-                        </p>
-                      </div>
+                      {/* Boutons avec prévisualisation */}
+                      <PdfDownloadButtons 
+                        slug={pathology.slug} 
+                        variant="default"
+                        showPreview={true}
+                      />
+                    </>
+                  ) : (
+                    <div className="p-4 bg-muted/30 rounded-lg text-center">
+                      <p className="text-sm text-muted-foreground italic">
+                        PDFs evidence-based bientôt disponibles
+                      </p>
                     </div>
-                    <Button
-                      variant="default"
-                      size="sm"
-                      className="w-full gap-2"
-                      onClick={() => handleDownload4Pages(pathology)}
-                      disabled={downloading?.slug === pathology.slug && downloading?.type === '4pages'}
-                    >
-                      {downloading?.slug === pathology.slug && downloading?.type === '4pages' ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                          Génération...
-                        </>
-                      ) : (
-                        <>
-                          <Download className="w-4 h-4" />
-                          Télécharger PDF 4 pages
-                        </>
-                      )}
-                    </Button>
-                  </div>
-
-                  {/* Evidence badge or warning */}
-                  {!hasEvidence && (
-                    <p className="text-xs text-muted-foreground text-center italic">
-                      PDF basé sur evidence-pack bientôt disponible
-                    </p>
                   )}
 
                   {/* Link to online page */}
@@ -298,6 +246,19 @@ const Telechargements = () => {
           </div>
         </div>
 
+        {/* Cache performance info */}
+        <div className="mt-8 p-4 bg-secondary/5 rounded-lg border border-secondary/20">
+          <div className="flex items-center gap-3">
+            <Zap className="w-5 h-5 text-secondary shrink-0" />
+            <div>
+              <p className="text-sm font-medium text-foreground">Système de cache intelligent</p>
+              <p className="text-xs text-muted-foreground">
+                Les PDFs sont mis en cache pendant 30 minutes. La 2ème ouverture est quasi instantanée !
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Admin Export Button (discret) */}
         <div className="mt-8 flex justify-center">
           <Button
@@ -312,7 +273,8 @@ const Telechargements = () => {
         </div>
 
         {showAdmin && (
-          <div className="mt-4 p-4 bg-muted/30 rounded-lg border border-dashed border-muted-foreground/20">
+          <div className="mt-4 p-4 bg-muted/30 rounded-lg border border-dashed border-muted-foreground/20 space-y-4">
+            {/* Export JSON */}
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="font-medium text-sm">Exporter le contenu</p>
@@ -329,6 +291,23 @@ const Telechargements = () => {
                 <Download className="w-4 h-4" />
                 Exporter JSON
               </Button>
+            </div>
+
+            {/* Cache stats */}
+            <div className="pt-4 border-t border-muted">
+              <p className="font-medium text-sm mb-2">Statistiques cache PDF</p>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="p-3 bg-muted/50 rounded-lg">
+                  <p className="text-muted-foreground text-xs">PDFs en cache</p>
+                  <p className="font-mono text-lg font-bold text-primary">{cacheStats.size}</p>
+                </div>
+                <div className="p-3 bg-muted/50 rounded-lg">
+                  <p className="text-muted-foreground text-xs">Entrées</p>
+                  <p className="font-mono text-xs text-muted-foreground truncate">
+                    {cacheStats.entries.length > 0 ? cacheStats.entries.join(', ') : 'Vide'}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         )}
