@@ -26,10 +26,11 @@ import { logEvent } from '@/services/analytics';
 
 interface PdfDownloadButtonsProps {
   slug: string;
-  variant?: 'default' | 'compact' | 'card';
+  variant?: 'default' | 'compact' | 'card' | 'split';
   className?: string;
   showPreview?: boolean; // Activer la prévisualisation
   showReadyBadge?: boolean; // Afficher le badge "Prêt" quand en cache
+  size?: 'default' | 'sm' | 'lg'; // Taille des boutons
 }
 
 export const PdfDownloadButtons = ({ 
@@ -38,6 +39,7 @@ export const PdfDownloadButtons = ({
   className = '',
   showPreview = true, // Prévisualisation activée par défaut
   showReadyBadge = true, // Badge "Prêt" activé par défaut
+  size = 'default', // Taille par défaut
 }: PdfDownloadButtonsProps) => {
   const [loading, setLoading] = useState<'1page' | '4pages' | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -401,6 +403,58 @@ export const PdfDownloadButtons = ({
             </p>
           )}
         </div>
+        <PdfPreviewModal
+          isOpen={previewOpen}
+          onClose={closePreview}
+          pdfBlob={previewBlob}
+          filename={getPdfFilename(slug, previewType)}
+          type={previewType}
+          isLoading={loading !== null}
+          onDownload={handleDownloadFromPreview}
+          fromCache={previewFromCache}
+          onRegenerate={handleRegenerate}
+          generationTime={generationTime}
+        />
+      </>
+    );
+  }
+
+  // Rendu split (2 boutons côte à côte pour grille)
+  if (variant === 'split') {
+    const buttonHeight = size === 'lg' ? 'h-14' : size === 'sm' ? 'h-8' : 'h-10';
+    const textSize = size === 'lg' ? 'text-base' : size === 'sm' ? 'text-xs' : 'text-sm';
+    const iconSize = size === 'lg' ? 'w-5 h-5' : 'w-4 h-4';
+    
+    return (
+      <>
+        <Button
+          variant="outline"
+          className={`flex-1 gap-2 ${buttonHeight} ${textSize} ${className}`}
+          onClick={() => handleAction('1page')}
+          disabled={loading !== null || !hasEvidence}
+        >
+          {loading === '1page' ? (
+            <Loader2 className={`${iconSize} animate-spin`} />
+          ) : (
+            <FileText className={iconSize} />
+          )}
+          <span className="hidden sm:inline">PDF</span> 1 page
+          {showReadyBadge && cacheStatus.page1 && !loading && <ReadyBadge isNew={justCached.page1} />}
+        </Button>
+        <Button
+          variant="default"
+          className={`flex-1 gap-2 ${buttonHeight} ${textSize}`}
+          onClick={() => handleAction('4pages')}
+          disabled={loading !== null || !hasEvidence}
+        >
+          {loading === '4pages' ? (
+            <Loader2 className={`${iconSize} animate-spin`} />
+          ) : (
+            <Book className={iconSize} />
+          )}
+          <span className="hidden sm:inline">PDF</span> 4 pages
+          {showReadyBadge && cacheStatus.page4 && !loading && <ReadyBadge isNew={justCached.page4} />}
+        </Button>
         <PdfPreviewModal
           isOpen={previewOpen}
           onClose={closePreview}
