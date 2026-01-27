@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
-import { PDF_COLORS } from './PdfStyles';
+import { PDF_COLORS, PDF_FONT_FAMILY } from './PdfStyles';
 import { PdfBodySchema } from './PdfEvidenceComponents';
 import { ExerciseDiagramsByLevel } from './diagrams/ExerciseDiagramsLevels';
 import { getDiagramsBySlug } from './diagrams/DiagramsMapping';
@@ -19,7 +19,7 @@ import type { EvidenceData } from '@/data/evidence';
 // Styles premium 4 pages - optimisés senior
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Inter',
+    fontFamily: PDF_FONT_FAMILY,
     fontSize: 10,
     color: PDF_COLORS.text,
     backgroundColor: '#ffffff',
