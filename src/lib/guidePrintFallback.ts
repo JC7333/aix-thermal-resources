@@ -286,23 +286,38 @@ export function openGuidePrintFallback(params: {
   if (!validIds.includes(guideId)) return false;
 
   const html = buildGuideHtml(guideId as GuideId);
-  const w = window.open('', '_blank', 'noopener,noreferrer');
-  if (!w) return false;
-
-  w.document.open();
-  w.document.write(html);
-  w.document.close();
-
-  if (autoPrint) {
-    setTimeout(() => {
-      try {
-        w.focus();
-        w.print();
-      } catch {
-        // no-op
-      }
-    }, 300);
+  
+  // Use Blob URL approach to avoid popup blockers
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  
+  const w = window.open(url, '_blank');
+  if (!w) {
+    // Fallback: download as file
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `guide-${guideId}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    return true;
   }
+
+  // Clean up URL after page loads
+  w.onload = () => {
+    URL.revokeObjectURL(url);
+    if (autoPrint) {
+      setTimeout(() => {
+        try {
+          w.focus();
+          w.print();
+        } catch {
+          // no-op
+        }
+      }, 300);
+    }
+  };
 
   return true;
 }
