@@ -121,9 +121,9 @@ export const Header = () => {
               size={seniorMode ? 'default' : 'sm'}
               onClick={toggleSeniorMode}
               className={`
-                flex items-center gap-1 sm:gap-2 font-semibold shrink-0
+                flex items-center gap-1 sm:gap-2 font-semibold shrink-0 relative
                 ${seniorMode 
-                  ? 'h-10 sm:h-12 px-2 sm:px-4 bg-primary text-primary-foreground text-sm sm:text-base' 
+                  ? 'h-10 sm:h-12 px-2 sm:px-4 bg-primary text-primary-foreground text-sm sm:text-base ring-2 ring-primary/30 ring-offset-2 ring-offset-background' 
                   : 'h-9 sm:h-10 lg:h-11 px-2 sm:px-3 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground text-xs sm:text-sm'
                 }
               `}
@@ -133,6 +133,13 @@ export const Header = () => {
               <span className={seniorMode ? 'hidden xs:inline' : 'hidden sm:inline'}>
                 {seniorMode ? 'Senior ✓' : 'Senior'}
               </span>
+              {/* Indicateur visuel pulsant quand actif */}
+              {seniorMode && (
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-foreground opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-primary-foreground"></span>
+                </span>
+              )}
             </Button>
 
             {/* Menu Button - Always visible in Senior Mode, mobile only otherwise */}
