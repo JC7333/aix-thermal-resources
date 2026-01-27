@@ -70,13 +70,13 @@ const styles = StyleSheet.create({
   // Layout 2 colonnes
   twoColumns: {
     flexDirection: 'row',
-    gap: 16,
+    justifyContent: 'space-between',
   },
   columnLeft: {
-    width: '48%',
+    width: '47%',
   },
   columnRight: {
-    width: '48%',
+    width: '47%',
   },
 
   // Section avec picto
@@ -85,11 +85,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     marginBottom: 6,
-    gap: 6,
   },
   sectionIcon: {
     fontSize: 12,
     width: 18,
+    marginRight: 6,
   },
   sectionTitle: {
     fontSize: 11,
@@ -154,7 +154,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     marginBottom: 5,
-    gap: 8,
   },
   checkbox: {
     width: 12,
@@ -163,6 +162,7 @@ const styles = StyleSheet.create({
     borderColor: PDF_COLORS.primary,
     borderRadius: 2,
     marginTop: 1,
+    marginRight: 8,
   },
   checkboxLabel: {
     flex: 1,
