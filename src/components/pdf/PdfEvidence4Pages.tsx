@@ -67,11 +67,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 16,
     marginBottom: 10,
-    gap: 8,
   },
   sectionIcon: {
     fontSize: 16,
     width: 24,
+    marginRight: 8,
   },
   sectionTitle: {
     fontSize: 14,
@@ -94,10 +94,10 @@ const styles = StyleSheet.create({
   // Layout
   twoColumns: {
     flexDirection: 'row',
-    gap: 20,
+    justifyContent: 'space-between',
   },
   column: {
-    flex: 1,
+    width: '48%',
   },
 
   // Box styles
@@ -232,7 +232,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 6,
     alignItems: 'flex-start',
-    gap: 10,
   },
   checkbox: {
     width: 14,
@@ -240,6 +239,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: PDF_COLORS.primary,
     borderRadius: 3,
+    marginRight: 10,
   },
   checklistText: {
     flex: 1,
@@ -508,22 +508,22 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
             const Level3Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level3 as keyof typeof ExerciseDiagramsByLevel];
 
             return (
-              <View style={{ gap: 4 }}>
+              <View>
                 {/* Niveau 0 - Vert */}
                 {Level0Component && (
-                  <View style={{ alignItems: 'center', padding: 3, backgroundColor: '#e8f5ef', borderRadius: 4 }}>
+                  <View style={{ alignItems: 'center', padding: 3, backgroundColor: '#e8f5ef', borderRadius: 4, marginBottom: 4 }}>
                     <Level0Component width={350} height={55} />
                   </View>
                 )}
                 {/* Niveau 1 - Bleu */}
                 {Level1Component && (
-                  <View style={{ alignItems: 'center', padding: 3, backgroundColor: PDF_COLORS.primaryLight, borderRadius: 4 }}>
+                  <View style={{ alignItems: 'center', padding: 3, backgroundColor: PDF_COLORS.primaryLight, borderRadius: 4, marginBottom: 4 }}>
                     <Level1Component width={350} height={55} />
                   </View>
                 )}
                 {/* Niveau 2 - Orange */}
                 {Level2Component && (
-                  <View style={{ alignItems: 'center', padding: 3, backgroundColor: '#fdf6e9', borderRadius: 4 }}>
+                  <View style={{ alignItems: 'center', padding: 3, backgroundColor: '#fdf6e9', borderRadius: 4, marginBottom: 4 }}>
                     <Level2Component width={350} height={55} />
                   </View>
                 )}
