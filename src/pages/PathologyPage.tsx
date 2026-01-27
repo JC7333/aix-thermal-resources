@@ -5,6 +5,7 @@ import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
 import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
+import { FavoriteButton } from '@/components/shared/FavoriteButton';
 import { pathologies as oldPathologies, categoryLabels, audienceLabels, levelLabels, MobilityLevel } from '@/data/pathologies';
 import { pathologies as contentPathologies } from '@/content/content';
 import { getEvidenceBySlug, type EvidenceData } from '@/data/evidence';
@@ -89,13 +90,16 @@ const PathologyPage = () => {
             {pathology.shortDescription}
           </p>
 
-          <div className="flex flex-wrap gap-3 mt-6 no-print">
+          <div className="flex flex-wrap items-center gap-3 mt-6 no-print">
             <Button onClick={handlePrint} variant="pdf" size="lg">
               <Printer className="w-5 h-5" />
               Imprimer cette fiche
             </Button>
             {slug && (
-              <PdfDownloadButtons slug={slug} />
+              <>
+                <PdfDownloadButtons slug={slug} />
+                <FavoriteButton slug={slug} />
+              </>
             )}
           </div>
         </header>
