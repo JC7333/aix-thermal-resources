@@ -1,39 +1,59 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 /**
  * ScrollToTop - Composant global qui remonte automatiquement en haut de page
  * à chaque changement de route (navigation SPA)
+ * Gère aussi les ancres (#section) avec offset pour header sticky
  */
 export const ScrollToTop = () => {
-  const { pathname, hash } = useLocation();
+  const { pathname, search, hash } = useLocation();
+  const prevPathname = useRef(pathname);
+  const prevSearch = useRef(search);
 
   useEffect(() => {
-    // Si on a une ancre (#section), on scroll vers elle avec offset
+    // Vérifie si on a changé de page (pathname ou search params)
+    const hasNavigated = prevPathname.current !== pathname || prevSearch.current !== search;
+    
+    // Met à jour les refs
+    prevPathname.current = pathname;
+    prevSearch.current = search;
+
+    // Hauteur du header sticky + marge de sécurité
+    const headerOffset = 120;
+
     if (hash) {
-      // Petit délai pour laisser le DOM se charger
-      setTimeout(() => {
+      // Si on a une ancre (#section), on scroll vers elle avec offset
+      // Délai pour laisser le DOM se charger complètement
+      const scrollToHash = () => {
         const element = document.querySelector(hash);
         if (element) {
-          const headerOffset = 100; // Hauteur du header sticky + marge
           const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
           window.scrollTo({
             top: offsetPosition,
             behavior: 'smooth'
           });
         }
-      }, 100);
-    } else {
-      // Sinon, on remonte en haut de page
+      };
+
+      // Si navigation inter-page, attendre plus longtemps
+      if (hasNavigated) {
+        setTimeout(scrollToHash, 150);
+      } else {
+        // Même page, scroll immédiat
+        setTimeout(scrollToHash, 50);
+      }
+    } else if (hasNavigated) {
+      // Pas d'ancre et nouvelle page → remonter en haut
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: 'smooth'
+        behavior: 'instant'
       });
     }
-  }, [pathname, hash]);
+  }, [pathname, search, hash]);
 
   return null;
 };

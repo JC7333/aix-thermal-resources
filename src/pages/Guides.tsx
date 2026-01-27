@@ -86,7 +86,7 @@ const Guides = () => {
           </h1>
           <p className={textClass + ' max-w-2xl mx-auto'}>
             Des conseils qui s'appliquent à toutes les pathologies : poids, tabac, sommeil, activité physique. 
-            Ces guides vous accompagnent au quotidien.
+            Ces guides vous accompagnent au quotidien pour une meilleure qualité de vie.
           </p>
         </header>
 

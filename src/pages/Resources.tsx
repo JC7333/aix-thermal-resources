@@ -217,7 +217,7 @@ const Resources = () => {
             Bibliothèque de ressources
           </h1>
           <p className={textClass + ' max-w-3xl'}>
-            Toutes mes fiches conseils, programmes et informations pratiques. 
+            Toutes les fiches conseils, programmes et informations pratiques du site. 
             Trouvez rapidement ce dont vous avez besoin.
           </p>
         </div>
