@@ -62,8 +62,8 @@ export const PdfPreviewModal = ({
   const handleZoomIn = () => setZoom((prev) => Math.min(prev + 25, 200));
   const handleZoomOut = () => setZoom((prev) => Math.max(prev - 25, 50));
 
-  const handlePrint = async () => {
-    if (!pdfUrl || !pdfBlob) {
+  const handlePrint = () => {
+    if (!pdfBlob) {
       toast({
         title: "Impression impossible",
         description: "Le PDF n'est pas encore chargé.",
@@ -75,33 +75,21 @@ export const PdfPreviewModal = ({
     setIsPrinting(true);
 
     try {
-      // Créer une nouvelle fenêtre pour l'impression
-      const printWindow = window.open(pdfUrl, '_blank');
-      
-      if (printWindow) {
-        printWindow.addEventListener('load', () => {
-          setTimeout(() => {
-            printWindow.print();
-            setIsPrinting(false);
-          }, 500);
+      // Solution anti-popup : utiliser l'iframe intégrée pour imprimer (zéro popup)
+      if (iframeRef.current?.contentWindow) {
+        iframeRef.current.contentWindow.focus();
+        iframeRef.current.contentWindow.print();
+        toast({
+          title: "Impression lancée",
+          description: "La boîte de dialogue d'impression devrait s'ouvrir.",
         });
-        
-        // Fallback si l'événement load ne se déclenche pas
-        setTimeout(() => {
-          setIsPrinting(false);
-        }, 3000);
       } else {
-        // Fallback : utiliser l'iframe
-        if (iframeRef.current?.contentWindow) {
-          iframeRef.current.contentWindow.print();
-        }
-        setIsPrinting(false);
+        toast({
+          title: "Impression impossible",
+          description: "L'aperçu n'est pas prêt. Veuillez télécharger le PDF et l'imprimer manuellement.",
+          variant: "destructive",
+        });
       }
-
-      toast({
-        title: "Impression lancée",
-        description: "La boîte de dialogue d'impression devrait s'ouvrir.",
-      });
     } catch (error) {
       console.error('Erreur impression:', error);
       toast({
@@ -109,6 +97,7 @@ export const PdfPreviewModal = ({
         description: "Impossible de lancer l'impression. Téléchargez le PDF et imprimez-le manuellement.",
         variant: "destructive",
       });
+    } finally {
       setIsPrinting(false);
     }
   };
