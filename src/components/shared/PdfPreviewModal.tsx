@@ -180,9 +180,58 @@ export const PdfPreviewModal = ({
         {/* PDF Preview */}
         <div className="flex-1 overflow-auto bg-muted/20 p-4">
           {isLoading ? (
-            <div className="h-full flex flex-col items-center justify-center gap-4">
-              <Loader2 className="w-10 h-10 text-primary animate-spin" />
-              <p className="text-muted-foreground">Génération du PDF en cours...</p>
+            <div className="h-full flex flex-col items-center justify-center gap-6">
+              {/* Icône animée */}
+              <div className="relative">
+                <div className="w-20 h-20 rounded-full border-4 border-muted animate-pulse" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <FileText className="w-8 h-8 text-primary animate-scale-in" />
+                </div>
+              </div>
+              
+              {/* Texte de progression */}
+              <div className="text-center space-y-2">
+                <p className="text-foreground font-medium">Génération du PDF en cours...</p>
+                <p className="text-sm text-muted-foreground">
+                  {type === '1page' ? 'Fiche 1 page' : 'Guide complet 4 pages'}
+                </p>
+              </div>
+              
+              {/* Barre de progression animée */}
+              <div className="w-64 max-w-full">
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-gradient-to-r from-primary via-primary/80 to-primary rounded-full animate-pulse"
+                    style={{
+                      width: '100%',
+                      animation: 'progress-indeterminate 1.5s ease-in-out infinite',
+                    }}
+                  />
+                </div>
+                <style>{`
+                  @keyframes progress-indeterminate {
+                    0% { transform: translateX(-100%); }
+                    50% { transform: translateX(0%); }
+                    100% { transform: translateX(100%); }
+                  }
+                `}</style>
+              </div>
+              
+              {/* Étapes de génération */}
+              <div className="flex items-center gap-6 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  Compilation
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-muted-foreground/30" />
+                  Rendu
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-muted-foreground/30" />
+                  Finalisation
+                </span>
+              </div>
             </div>
           ) : pdfUrl ? (
             <div 
