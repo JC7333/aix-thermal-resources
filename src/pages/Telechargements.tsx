@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Download, FileText, Book, Filter, Settings, Printer, Eye, Zap, Clock, CheckCircle2 } from 'lucide-react';
+import { Download, FileText, Book, Filter, Settings, Printer, Eye, Zap, Clock, CheckCircle2, Archive } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +16,8 @@ import {
 } from '@/content/content';
 import { hasEvidenceData, getCacheStats } from '@/services/pdfService';
 import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
+import { ZipDownloadButton } from '@/components/shared/ZipDownloadButton';
+import { getPdfCountByCategory, getTotalPdfCount, estimateZipTime } from '@/services/zipService';
 
 type CategoryFilter = 'all' | ContentCategory;
 
@@ -119,6 +121,41 @@ const Telechargements = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Section Téléchargement groupé */}
+        <div className="mb-10 p-6 bg-primary/5 rounded-xl border border-primary/20">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <Archive className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="font-serif text-xl font-bold text-foreground">Téléchargement groupé</h2>
+              <p className="text-sm text-muted-foreground">
+                Téléchargez tous les PDFs d'une catégorie en une seule archive ZIP
+              </p>
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Boutons par catégorie */}
+            {(['rhumatologie', 'veino-lymphatique', 'orl-respiratoire'] as ContentCategory[]).map((cat) => {
+              const count = getPdfCountByCategory(cat);
+              if (count === 0) return null;
+              return (
+                <ZipDownloadButton 
+                  key={cat}
+                  category={cat}
+                  variant="outline"
+                />
+              );
+            })}
+          </div>
+
+          {/* Bouton tout télécharger */}
+          <div className="mt-6 pt-4 border-t border-primary/10">
+            <ZipDownloadButton variant="default" />
           </div>
         </div>
 
