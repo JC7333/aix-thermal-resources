@@ -1,11 +1,13 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Filter, X, Clock, Download, Printer, BookOpen, ChevronRight, Sparkles, ArrowUpDown } from 'lucide-react';
+import { Search, Filter, X, Clock, Download, Printer, BookOpen, ChevronRight, Sparkles, ArrowUpDown, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
+import { useToast } from '@/hooks/use-toast';
+import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
 import {
   libraryResources,
   quickAnswers,
@@ -25,12 +27,42 @@ import {
 
 // Resource Card Component
 const LibraryCard = ({ resource }: { resource: LibraryResource }) => {
+  const [isDownloading, setIsDownloading] = useState(false);
+  const { toast } = useToast();
+
   const handlePrint = () => {
     window.print();
   };
 
-  const handleDownloadPDF = () => {
-    alert('Téléchargement PDF - Fonctionnalité à venir');
+  const hasPdf = resource.pathologySlug ? hasEvidenceData(resource.pathologySlug) : false;
+
+  const handleDownloadPDF = async () => {
+    if (!resource.pathologySlug || !hasPdf) {
+      toast({
+        title: "PDF non disponible",
+        description: "La fiche PDF pour cette ressource sera bientôt disponible.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsDownloading(true);
+    try {
+      await downloadPdf1PageBySlug(resource.pathologySlug);
+      toast({
+        title: "Téléchargement réussi",
+        description: "La fiche PDF a été téléchargée.",
+      });
+    } catch (error) {
+      console.error('Erreur téléchargement PDF:', error);
+      toast({
+        title: "Erreur de téléchargement",
+        description: "Impossible de générer le PDF. Réessayez plus tard.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const linkTo = resource.pathologySlug 

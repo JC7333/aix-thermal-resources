@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, Download, Users } from 'lucide-react';
+import { Clock, Download, Users, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Resource, Pathology, audienceLabels, resourceTypeLabels } from '@/data/pathologies';
+import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
+import { useToast } from '@/hooks/use-toast';
 
 interface ResourceCardProps {
   resource: Resource;
@@ -10,11 +13,48 @@ interface ResourceCardProps {
 }
 
 export const ResourceCard = ({ resource, pathology, showPathology = true }: ResourceCardProps) => {
+  const [isDownloading, setIsDownloading] = useState(false);
+  const { toast } = useToast();
+
   const audienceBadgeClass = {
     senior: 'badge-senior',
     enfant: 'badge-enfant',
     adulte: 'badge-adulte',
   }[resource.audience];
+
+  // Check if PDF is available for this pathology
+  const hasPdf = pathology ? hasEvidenceData(pathology.slug) : false;
+
+  const handleDownloadPDF = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    if (!pathology || !hasPdf) {
+      toast({
+        title: "PDF non disponible",
+        description: "La fiche PDF pour cette ressource sera bientôt disponible.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsDownloading(true);
+    try {
+      await downloadPdf1PageBySlug(pathology.slug);
+      toast({
+        title: "Téléchargement réussi",
+        description: "La fiche PDF a été téléchargée.",
+      });
+    } catch (error) {
+      console.error('Erreur téléchargement PDF:', error);
+      toast({
+        title: "Erreur de téléchargement",
+        description: "Impossible de générer le PDF. Réessayez plus tard.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   return (
     <article className="card-medical flex flex-col h-full">
@@ -56,15 +96,17 @@ export const ResourceCard = ({ resource, pathology, showPathology = true }: Reso
         <Button
           variant="ghost"
           size="sm"
-          className="text-destructive hover:text-destructive hover:bg-destructive/10"
-          onClick={(e) => {
-            e.preventDefault();
-            // PDF download logic
-            alert('Téléchargement PDF - Fonctionnalité à venir');
-          }}
+          className="text-primary hover:text-primary hover:bg-primary/10"
+          onClick={handleDownloadPDF}
+          disabled={isDownloading || !hasPdf}
+          title={!hasPdf ? "PDF bientôt disponible" : "Télécharger le PDF"}
         >
-          <Download className="w-4 h-4 mr-1.5" />
-          PDF
+          {isDownloading ? (
+            <Loader2 className="w-4 h-4 mr-1.5 animate-spin" />
+          ) : (
+            <Download className="w-4 h-4 mr-1.5" />
+          )}
+          {hasPdf ? 'PDF' : 'Bientôt'}
         </Button>
       </div>
     </article>
