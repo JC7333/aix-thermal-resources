@@ -722,8 +722,8 @@ Le problème vient rarement d'une vertèbre "déplacée". C'est plutôt un dés�
 
   // ========== INSUFFISANCE VEINEUSE ==========
   {
-    id: 'insuffisance-veineuse',
-    slug: 'insuffisance-veineuse',
+    id: 'insuffisance-veineuse-chronique',
+    slug: 'insuffisance-veineuse-chronique',
     type: 'pathology',
     title: 'Insuffisance veineuse chronique',
     shortDescription: 'Je vous aide à soulager vos jambes lourdes au quotidien.',
@@ -1157,8 +1157,8 @@ La bonne nouvelle : on peut stabiliser la maladie et améliorer la qualité de v
 
   // ========== OTITES À RÉPÉTITION ==========
   {
-    id: 'otites-repetition-enfant',
-    slug: 'otites-repetition-enfant',
+    id: 'otites-a-repetition-enfant',
+    slug: 'otites-a-repetition-enfant',
     type: 'pathology',
     title: 'Otites à répétition (enfant)',
     shortDescription: 'Je vous aide à réduire les otites de votre enfant.',
@@ -1512,7 +1512,7 @@ export const quickAnswers: QuickAnswerContent[] = [
     audience: 'senior',
     tags: ['plan-simple', 'habitudes'],
     isPublished: true,
-    relatedPathologySlug: 'insuffisance-veineuse',
+    relatedPathologySlug: 'insuffisance-veineuse-chronique',
 
     intro: `Les jambes lourdes, les chevilles gonflées le soir, cette sensation de lourdeur... C'est souvent lié à une mauvaise circulation veineuse. Bonne nouvelle : beaucoup de choses simples peuvent vous soulager.`,
 
@@ -1629,7 +1629,7 @@ export const quickAnswers: QuickAnswerContent[] = [
     audience: 'parent',
     tags: ['plan-simple', 'habitudes', 'consulter'],
     isPublished: true,
-    relatedPathologySlug: 'otites-repetition-enfant',
+    relatedPathologySlug: 'otites-a-repetition-enfant',
 
     intro: `Votre enfant enchaîne les otites et les angines ? Je sais, c'est épuisant pour vous et douloureux pour lui. Mais bonne nouvelle : avec de bonnes habitudes, on peut vraiment réduire les récidives. Et ça s'améliore avec l'âge.`,
 
