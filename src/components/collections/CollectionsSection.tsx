@@ -2,8 +2,9 @@
 // SECTION COLLECTIONS — COOLANCE
 // ============================================
 
+import { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FolderOpen } from 'lucide-react';
+import { FolderOpen, BookOpen, Clock } from 'lucide-react';
 import { useCollections } from '@/hooks/useCollections';
 import { CollectionCard } from './CollectionCard';
 import { CreateCollectionDialog } from './CreateCollectionDialog';
@@ -12,6 +13,7 @@ interface PathologyMeta {
   name: string;
   icon: string;
   category: string;
+  readingTime?: number;
 }
 
 interface CollectionsSectionProps {
@@ -24,6 +26,29 @@ export const CollectionsSection = ({
   categoryColors 
 }: CollectionsSectionProps) => {
   const { collections, count, isLoaded } = useCollections();
+
+  // Calcul des statistiques globales
+  const stats = useMemo(() => {
+    // Obtenir tous les slugs uniques dans toutes les collections
+    const allSlugs = new Set<string>();
+    collections.forEach(col => {
+      col.pathologies.forEach(slug => allSlugs.add(slug));
+    });
+
+    // Calculer le temps de lecture total
+    let totalReadingTime = 0;
+    allSlugs.forEach(slug => {
+      const meta = pathologyMeta[slug];
+      if (meta?.readingTime) {
+        totalReadingTime += meta.readingTime;
+      }
+    });
+
+    return {
+      uniquePathologies: allSlugs.size,
+      totalReadingTime,
+    };
+  }, [collections, pathologyMeta]);
 
   if (!isLoaded) {
     return (
@@ -55,6 +80,30 @@ export const CollectionsSection = ({
         </div>
         <CreateCollectionDialog />
       </div>
+
+      {/* Statistiques globales */}
+      {count > 0 && stats.uniquePathologies > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-wrap gap-4 mb-4 p-3 bg-muted/30 rounded-lg"
+        >
+          <div className="flex items-center gap-2 text-sm">
+            <BookOpen className="w-4 h-4 text-primary" />
+            <span className="text-muted-foreground">
+              <strong className="text-foreground">{stats.uniquePathologies}</strong> pathologie{stats.uniquePathologies > 1 ? 's' : ''} organisée{stats.uniquePathologies > 1 ? 's' : ''}
+            </span>
+          </div>
+          {stats.totalReadingTime > 0 && (
+            <div className="flex items-center gap-2 text-sm">
+              <Clock className="w-4 h-4 text-secondary" />
+              <span className="text-muted-foreground">
+                <strong className="text-foreground">{stats.totalReadingTime}</strong> min de lecture au total
+              </span>
+            </div>
+          )}
+        </motion.div>
+      )}
 
       {count === 0 ? (
         <motion.div
