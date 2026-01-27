@@ -134,7 +134,10 @@ const Stats = () => {
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-bold text-foreground">
-                {stats.eventsByType.find(e => e.eventName === 'pdf_download')?.count || 0}
+                {stats.pdf1PageDownloads + stats.pdf4PagesDownloads}
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {stats.pdf1PageDownloads} × 1 page • {stats.pdf4PagesDownloads} × 4 pages
               </p>
             </CardContent>
           </Card>
@@ -171,7 +174,7 @@ const Stats = () => {
           {/* Top downloads */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Top téléchargements</CardTitle>
+              <CardTitle className="text-lg">Top téléchargements PDF</CardTitle>
             </CardHeader>
             <CardContent>
               {stats.topDownloads.length === 0 ? (
@@ -179,14 +182,41 @@ const Stats = () => {
               ) : (
                 <ul className="space-y-2">
                   {stats.topDownloads.map((dl, index) => (
-                    <li key={dl.name} className="flex items-center justify-between py-2 border-b border-border last:border-0">
+                    <li key={`${dl.name}-${dl.type}`} className="flex items-center justify-between py-2 border-b border-border last:border-0">
                       <span className="flex items-center gap-2">
                         <span className="w-6 h-6 rounded-full bg-secondary/10 text-secondary text-xs flex items-center justify-center font-semibold">
                           {index + 1}
                         </span>
                         <span className="text-sm text-foreground">{dl.name}</span>
+                        <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">{dl.type}</span>
                       </span>
                       <span className="text-sm font-semibold text-muted-foreground">{dl.count}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Top Quick Answers */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Top réponses rapides</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {stats.topQuickAnswers.length === 0 ? (
+                <p className="text-muted-foreground text-sm">Aucune donnée</p>
+              ) : (
+                <ul className="space-y-2">
+                  {stats.topQuickAnswers.map((qa, index) => (
+                    <li key={qa.id} className="flex items-center justify-between py-2 border-b border-border last:border-0">
+                      <span className="flex items-center gap-2">
+                        <span className="w-6 h-6 rounded-full bg-accent/10 text-accent-foreground text-xs flex items-center justify-center font-semibold">
+                          {index + 1}
+                        </span>
+                        <span className="text-sm text-foreground">{qa.title}</span>
+                      </span>
+                      <span className="text-sm font-semibold text-muted-foreground">{qa.count}</span>
                     </li>
                   ))}
                 </ul>

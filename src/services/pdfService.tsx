@@ -230,10 +230,9 @@ export const downloadPdf1PageBySlug = async (slug: string): Promise<void> => {
     downloadPdf(result.blob, filename);
     
     // Tracking
-    logEvent('pdf_download', `/pathologies/${slug}`, {
-      type: '1page',
+    logEvent('pdf_download_1page', `/pathologies/${slug}`, {
       slug,
-      source: 'evidence-pack',
+      source: 'direct-download',
     });
   } catch (error) {
     console.error('Erreur génération PDF 1 page:', error);
@@ -254,10 +253,9 @@ export const downloadPdf4PagesBySlug = async (slug: string): Promise<void> => {
     downloadPdf(result.blob, filename);
     
     // Tracking
-    logEvent('pdf_download', `/pathologies/${slug}`, {
-      type: '4pages',
+    logEvent('pdf_download_4pages', `/pathologies/${slug}`, {
       slug,
-      source: 'evidence-pack',
+      source: 'direct-download',
     });
   } catch (error) {
     console.error('Erreur génération PDF 4 pages:', error);

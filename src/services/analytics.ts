@@ -5,7 +5,9 @@ export type EventName =
   | 'wizard_start' 
   | 'wizard_complete' 
   | 'quick_answer_click' 
-  | 'pdf_download' 
+  | 'pdf_download'
+  | 'pdf_download_1page'
+  | 'pdf_download_4pages'
   | 'zip_download'
   | 'print_click'
   | 'page_view';
@@ -15,6 +17,8 @@ export interface AnalyticsEvent {
   path: string;
   timestamp: number;
   sessionId: string;
+  slug?: string;
+  id?: string;
   metadata?: Record<string, string>;
 }
 
@@ -65,6 +69,8 @@ export const logEvent = (
     path: path || window.location.pathname,
     timestamp: Date.now(),
     sessionId: getOrCreateSessionId(),
+    slug: metadata?.slug,
+    id: metadata?.id,
     metadata,
   };
   
@@ -84,9 +90,12 @@ export interface AnalyticsStats {
   wizardCompletionRate: number;
   wizardStarts: number;
   wizardCompletes: number;
-  topDownloads: { name: string; count: number }[];
+  topDownloads: { name: string; type: string; count: number }[];
+  topQuickAnswers: { id: string; title: string; count: number }[];
   eventsByType: { eventName: EventName; count: number }[];
   last7Days: { date: string; count: number }[];
+  pdf1PageDownloads: number;
+  pdf4PagesDownloads: number;
 }
 
 export const calculateStats = (): AnalyticsStats => {
@@ -111,15 +120,56 @@ export const calculateStats = (): AnalyticsStats => {
   const wizardCompletes = events.filter(e => e.eventName === 'wizard_complete').length;
   const wizardCompletionRate = wizardStarts > 0 ? (wizardCompletes / wizardStarts) * 100 : 0;
   
-  // Top downloads
-  const downloads = events.filter(e => e.eventName === 'pdf_download');
-  const downloadCount: Record<string, number> = {};
+  // Top downloads (with type distinction)
+  const downloads = events.filter(e => 
+    e.eventName === 'pdf_download' || 
+    e.eventName === 'pdf_download_1page' || 
+    e.eventName === 'pdf_download_4pages'
+  );
+  const downloadCount: Record<string, { count: number; type: string }> = {};
   downloads.forEach(e => {
-    const name = e.metadata?.name || e.path;
-    downloadCount[name] = (downloadCount[name] || 0) + 1;
+    const slug = e.slug || e.metadata?.slug || 'unknown';
+    const type = e.eventName === 'pdf_download_1page' ? '1 page' 
+      : e.eventName === 'pdf_download_4pages' ? '4 pages'
+      : e.metadata?.type || 'unknown';
+    const key = `${slug}::${type}`;
+    if (!downloadCount[key]) {
+      downloadCount[key] = { count: 0, type };
+    }
+    downloadCount[key].count++;
   });
   const topDownloads = Object.entries(downloadCount)
-    .map(([name, count]) => ({ name, count }))
+    .map(([key, data]) => ({ 
+      name: key.split('::')[0], 
+      type: data.type,
+      count: data.count 
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+  
+  // PDF type counts
+  const pdf1PageDownloads = events.filter(e => 
+    e.eventName === 'pdf_download_1page' || 
+    (e.eventName === 'pdf_download' && e.metadata?.type === '1page')
+  ).length;
+  const pdf4PagesDownloads = events.filter(e => 
+    e.eventName === 'pdf_download_4pages' || 
+    (e.eventName === 'pdf_download' && e.metadata?.type === '4pages')
+  ).length;
+  
+  // Top quick answers
+  const quickAnswers = events.filter(e => e.eventName === 'quick_answer_click');
+  const qaCount: Record<string, { title: string; count: number }> = {};
+  quickAnswers.forEach(e => {
+    const id = e.id || e.metadata?.id || e.path.split('/').pop() || 'unknown';
+    const title = e.metadata?.title || id;
+    if (!qaCount[id]) {
+      qaCount[id] = { title, count: 0 };
+    }
+    qaCount[id].count++;
+  });
+  const topQuickAnswers = Object.entries(qaCount)
+    .map(([id, data]) => ({ id, title: data.title, count: data.count }))
     .sort((a, b) => b.count - a.count)
     .slice(0, 10);
   
@@ -153,8 +203,11 @@ export const calculateStats = (): AnalyticsStats => {
     wizardStarts,
     wizardCompletes,
     topDownloads,
+    topQuickAnswers,
     eventsByType,
     last7Days,
+    pdf1PageDownloads,
+    pdf4PagesDownloads,
   };
 };
 

@@ -158,7 +158,7 @@ export const PdfDownloadButtons = ({
       const filename = getPdfFilename(slug, type);
       downloadPdf(result.blob, filename);
       
-      logEvent('pdf_download', `/pathologies/${slug}`, { type, slug, source: 'evidence-pack' });
+      logEvent(type === '1page' ? 'pdf_download_1page' : 'pdf_download_4pages', `/pathologies/${slug}`, { slug, source: 'direct' });
       
       toast({
         title: "Téléchargement réussi",
@@ -182,11 +182,9 @@ export const PdfDownloadButtons = ({
       const filename = getPdfFilename(slug, previewType);
       downloadPdf(previewBlob, filename);
       
-      logEvent('pdf_download', `/pathologies/${slug}`, { 
-        type: previewType, 
+      logEvent(previewType === '1page' ? 'pdf_download_1page' : 'pdf_download_4pages', `/pathologies/${slug}`, { 
         slug, 
-        source: 'evidence-pack',
-        fromPreview: 'true',
+        source: 'preview',
       });
       
       toast({
