@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
+import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { pathologies } from '@/data/pathologies';
 
 const parentTopics = [
@@ -59,6 +60,7 @@ const alertSigns = [
 
 const Parents = () => {
   const childPathologies = pathologies.filter(p => p.audience === 'enfant');
+  const { seniorMode, titleClass, textClass, buttonSize, gridCols, smallTextClass, iconSize, iconSizeLg } = useSeniorMode();
 
   const handleDownloadPDF = () => {
     alert('Téléchargement du guide parents - PDF à venir');
@@ -74,33 +76,33 @@ const Parents = () => {
         />
 
         {/* Hero */}
-        <header className="mb-10 lg:mb-14">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-secondary/20 flex items-center justify-center">
-              <Baby className="w-8 h-8 text-secondary" />
+        <header className={seniorMode ? 'mb-14 lg:mb-16' : 'mb-10 lg:mb-14'}>
+          <div className={`flex items-center gap-4 ${seniorMode ? 'mb-8' : 'mb-6'}`}>
+            <div className={`rounded-2xl bg-secondary/20 flex items-center justify-center ${seniorMode ? 'w-20 h-20' : 'w-16 h-16'}`}>
+              <Baby className={iconSizeLg + ' text-secondary'} />
             </div>
             <div>
-              <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
+              <h1 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-4xl md:text-5xl' : 'text-3xl md:text-4xl'}`}>
                 Espace Parents
               </h1>
-              <p className="text-muted-foreground">
+              <p className={smallTextClass}>
                 ORL enfant : angines, otites, rhino-pharyngites
               </p>
             </div>
           </div>
-          <p className="text-lg text-muted-foreground max-w-3xl">
+          <p className={textClass + ' max-w-3xl'}>
             Votre enfant a souvent mal à la gorge, aux oreilles, le nez qui coule ? 
             Retrouvez ici des conseils simples et pratiques pour le soulager au quotidien et savoir quand consulter.
           </p>
         </header>
 
         {/* Quick FAQ */}
-        <section className="mb-12">
-          <h2 className="font-serif text-2xl font-bold text-foreground mb-6">
+        <section className={seniorMode ? 'mb-16' : 'mb-12'}>
+          <h2 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-3xl mb-8' : 'text-2xl mb-6'}`}>
             Les 3 problèmes les plus fréquents
           </h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className={seniorMode ? 'grid grid-cols-1 lg:grid-cols-3 gap-8' : 'grid grid-cols-1 lg:grid-cols-3 gap-6'}>
             {parentTopics.map((topic) => {
               const pathology = pathologies.find(p => p.slug === topic.slug);
               return (
