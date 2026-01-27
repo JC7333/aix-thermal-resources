@@ -265,7 +265,7 @@ const MesFavoris = () => {
           pathologyMeta={Object.fromEntries(
             Object.entries(pathologyMeta).map(([slug, meta]) => [
               slug,
-              { name: meta.name, icon: meta.icon, category: meta.category }
+              { name: meta.name, icon: meta.icon, category: meta.category, readingTime: meta.readingTime }
             ])
           )}
           categoryColors={categoryColors}
