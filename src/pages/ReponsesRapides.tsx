@@ -21,7 +21,7 @@ const QuickAnswerCard = ({ answer, seniorMode }: { answer: FullQuickAnswer; seni
   return (
     <Link 
       to={`/reponses-rapides/${answer.slug}`}
-      onClick={() => logEvent('quick_answer_click', `/reponses-rapides/${answer.slug}`, { title: answer.title })}
+      onClick={() => logEvent('quick_answer_click', `/reponses-rapides/${answer.slug}`, { id: answer.slug, title: answer.title })}
       className={`flex items-center gap-4 rounded-2xl border-2 transition-all ${colorClasses[answer.color]} group ${seniorMode ? 'p-8' : 'p-6'}`}
     >
       <span className={seniorMode ? 'text-5xl' : 'text-4xl'}>{answer.icon}</span>

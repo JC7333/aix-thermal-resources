@@ -1,7 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
 import { Clock, AlertTriangle, Printer, BookOpen, Shield, ExternalLink, Award, Calendar, ChevronRight, Target, RotateCcw, PartyPopper } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { logEvent } from '@/services/analytics';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
@@ -44,6 +45,13 @@ const PathologyPage = () => {
   
   // Préchargement des PDFs en arrière-plan après 2 secondes
   usePdfPreload(slug, { delay: 2000 });
+
+  // Tracker page_view au montage
+  useEffect(() => {
+    if (slug) {
+      logEvent('page_view', `/pathologies/${slug}`, { slug });
+    }
+  }, [slug]);
 
   // Hook de progression pour le plan 7 jours
   const { 
@@ -120,6 +128,7 @@ const PathologyPage = () => {
   }
 
   const handlePrint = () => {
+    logEvent('print_click', `/pathologies/${slug}`, { slug: slug || '' });
     window.print();
   };
 
