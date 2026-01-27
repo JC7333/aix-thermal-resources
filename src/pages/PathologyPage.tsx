@@ -199,7 +199,7 @@ const PathologyPage = () => {
                     ))}
                   </ul>
                   <p className="mt-4 text-sm text-muted-foreground italic print:text-xs print:mt-2">
-                    Si vous avez un doute, on en parle en consultation.
+                    En cas de doute ou de symptômes inhabituels, consultez un professionnel de santé.
                   </p>
                 </div>
               </section>
@@ -455,19 +455,15 @@ const PathologyPage = () => {
               </ul>
             </div>
 
-            {/* CTA */}
+            {/* Info Box */}
             <div className="card-medical bg-primary/5 border-primary/20">
               <h3 className="font-serif text-lg font-bold text-foreground mb-3">
-                Besoin d'un accompagnement ?
+                💡 Bon à savoir
               </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Je vous accompagne dans la prise en charge de votre pathologie.
+              <p className="text-sm text-muted-foreground">
+                Ces conseils sont des informations générales. Si vos symptômes persistent ou s'aggravent, 
+                consultez un professionnel de santé pour une évaluation personnalisée.
               </p>
-              <Button asChild className="w-full">
-                <a href="https://www.doctolib.fr" target="_blank" rel="noopener noreferrer">
-                  Prendre rendez-vous
-                </a>
-              </Button>
             </div>
 
             {/* Disclaimer */}

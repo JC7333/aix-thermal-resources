@@ -287,7 +287,7 @@ const Telechargements = () => {
         <div className="mt-8 p-4 bg-accent/10 rounded-lg border border-accent/20">
           <p className="text-sm text-center text-muted-foreground">
             <strong>Rappel :</strong> Ces fiches sont des outils éducatifs. Elles ne remplacent pas 
-            une consultation médicale. Si vous avez un doute, on en parle en consultation.
+            un avis médical. Si vos symptômes persistent, consultez un professionnel de santé.
           </p>
         </div>
       </div>

@@ -64,20 +64,15 @@ const QuickAnswersList = () => {
           ))}
         </div>
 
-        {/* CTA */}
+        {/* Info Box */}
         <section className="mt-12 bg-muted/50 rounded-2xl p-8 text-center max-w-3xl mx-auto">
           <h2 className="font-serif text-xl font-bold text-foreground mb-3">
-            Besoin d'un accompagnement personnalisé ?
+            Ces fiches sont un point de départ
           </h2>
-          <p className="text-muted-foreground mb-6">
-            Ces fiches sont un point de départ. Pour aller plus loin, on en parle en consultation.
+          <p className="text-muted-foreground">
+            Elles ne remplacent pas un avis médical personnalisé. Si vos symptômes persistent, 
+            s'aggravent ou vous inquiètent, consultez un professionnel de santé.
           </p>
-          <Button asChild size="lg">
-            <a href="https://www.doctolib.fr" target="_blank" rel="noopener noreferrer">
-              Prendre rendez-vous
-              <ChevronRight className="w-5 h-5" />
-            </a>
-          </Button>
         </section>
       </div>
     </Layout>

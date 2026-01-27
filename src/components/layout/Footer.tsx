@@ -116,7 +116,7 @@ export const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
             <p>© 2024 COOLANCE — par le Dr Audric Bugnard. Tous droits réservés.</p>
             <p className="text-center md:text-right">
-              Informations générales — Ne remplace pas une consultation médicale
+              Informations générales — Ne remplace pas un avis médical
             </p>
           </div>
         </div>

@@ -43,7 +43,7 @@ const addFooter = (doc: jsPDF) => {
   doc.setFontSize(7);
   doc.setTextColor(...MUTED);
   doc.setFont('helvetica', 'italic');
-  doc.text('Informations générales — ne remplace pas une consultation. Urgence : 15 / 112.', MARGIN, y);
+  doc.text('Informations générales — ne remplace pas un avis médical. Urgence : 15 / 112.', MARGIN, y);
   doc.text('coolance.fr', PAGE_WIDTH - MARGIN - 15, y);
 };
 
@@ -526,7 +526,7 @@ export const generateFourPages = (pathology: PathologyContent): jsPDF => {
   doc.setFontSize(9);
   doc.setTextColor(...PRIMARY);
   doc.setFont('helvetica', 'italic');
-  doc.text('Si vous avez un doute, on en parle en consultation. — Dr Audric Bugnard', MARGIN, y);
+  doc.text('En cas de doute, consultez un professionnel de santé. — COOLANCE', MARGIN, y);
 
   addFooter(doc);
 

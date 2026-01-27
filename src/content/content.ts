@@ -284,7 +284,7 @@ export const pathologies: PathologyContent[] = [
 
 Je vous propose ici des conseils simples et concrets pour soulager vos douleurs. Pas de recette miracle, mais des gestes qui ont fait leurs preuves. La plupart de mes patients voient une vraie amélioration en quelques semaines.
 
-Si vous avez un doute, on en parle en consultation.`,
+En cas de doute ou de symptômes inhabituels, n'hésitez pas à consulter un professionnel de santé.`,
 
     physiopathology: `Pour comprendre simplement : imaginez votre cartilage comme une éponge.
 
@@ -508,11 +508,11 @@ Si vous restez immobile trop longtemps, l'éponge s'assèche et s'abîme. Le mou
     isPublished: true,
     isFeatured: true,
 
-    quickSummary: `Votre dos vous fait mal depuis plus de 3 mois ? Je sais à quel point c'est usant. Voici ce que je dis à mes patients : dans plus de 90% des cas, il n'y a rien de grave.
+    quickSummary: `Votre dos vous fait mal depuis plus de 3 mois ? Je sais à quel point c'est usant. Dans plus de 90% des cas, il n'y a rien de grave.
 
 Le repos prolongé aggrave les choses. Vos muscles du dos ont besoin de bouger pour rester forts et protéger votre colonne.
 
-Avec les bons exercices et quelques ajustements simples, la plupart de mes patients voient une vraie amélioration. Si vous avez un doute, on en parle en consultation.`,
+Avec les bons exercices et quelques ajustements simples, la plupart des personnes voient une vraie amélioration. Si les symptômes persistent ou s'aggravent, consultez un professionnel de santé.`,
 
     physiopathology: `Votre colonne lombaire porte le poids de tout votre corps. Elle est faite pour bouger, pas pour rester assise 8h par jour.
 
@@ -738,7 +738,7 @@ Le problème vient rarement d'une vertèbre "déplacée". C'est plutôt un dés�
 
 La bonne nouvelle : vous avez dans vos mollets une "pompe" naturelle. À chaque pas, vos muscles compriment les veines et propulsent le sang vers le haut.
 
-Porter des bas de contention, surélever les jambes le soir, éviter la chaleur — ces gestes simples font une vraie différence. Si vous avez un doute, on en parle en consultation.`,
+Porter des bas de contention, surélever les jambes le soir, éviter la chaleur — ces gestes simples font une vraie différence. Si les symptômes persistent, un professionnel de santé pourra évaluer votre situation.`,
 
     physiopathology: `Vos veines des jambes contiennent de petites valves, comme des portes battantes qui empêchent le sang de redescendre.
 
@@ -945,7 +945,7 @@ Votre meilleure alliée ? La pompe musculaire du mollet. À chaque pas, vos musc
 
 Je sais que c'est frustrant. Mais moins on bouge, plus les muscles s'affaiblissent, et plus on s'essouffle vite. C'est un cercle vicieux qu'on peut casser.
 
-L'activité physique adaptée est un vrai traitement. Arrêter de fumer reste essentiel. Si vous avez un doute, on en parle en consultation.`,
+L'activité physique adaptée est un vrai traitement. Arrêter de fumer reste essentiel. En cas d'essoufflement inhabituel ou de symptômes inquiétants, contactez un professionnel de santé.`,
 
     physiopathology: `Vos bronches sont comme des tuyaux. Avec la BPCO, les parois de ces tuyaux sont irritées (souvent par le tabac) et s'épaississent. L'air passe moins bien.
 
@@ -1173,7 +1173,7 @@ La bonne nouvelle : on peut stabiliser la maladie et améliorer la qualité de v
 
 La bonne nouvelle : la plupart des otites guérissent spontanément. Et avec quelques gestes simples — lavage de nez, aération, hygiène — on peut vraiment réduire les récidives.
 
-La trompe d'Eustache grandit avec lui, et en général ça s'améliore vers 5-6 ans. Si vous avez un doute, on en parle en consultation.`,
+La trompe d'Eustache grandit avec lui, et en général ça s'améliore vers 5-6 ans. En cas de fièvre élevée ou de symptômes inquiétants, consultez rapidement un professionnel de santé.`,
 
     physiopathology: `L'oreille moyenne (derrière le tympan) est reliée au nez par un petit tube : la trompe d'Eustache.
 
@@ -1381,7 +1381,7 @@ export const quickAnswers: QuickAnswerContent[] = [
       'Envie de vomir après les repas',
     ],
 
-    closingMessage: 'Perdre du poids prend du temps. Un kilo par mois, c\'est déjà très bien. Si vous avez besoin d\'accompagnement, on en parle en consultation.',
+    closingMessage: 'Perdre du poids prend du temps. Un kilo par mois, c\'est déjà très bien. Si vous ressentez le besoin d\'un accompagnement, un professionnel de santé peut vous aider.',
   },
 
   {
@@ -1497,7 +1497,7 @@ export const quickAnswers: QuickAnswerContent[] = [
       'Perte de poids inexpliquée',
     ],
 
-    closingMessage: 'Dans 90% des cas, le mal de dos s\'améliore en quelques semaines avec du mouvement adapté. Si ça ne va pas mieux, on en parle en consultation.',
+    closingMessage: 'Dans 90% des cas, le mal de dos s\'améliore en quelques semaines avec du mouvement adapté. Si les symptômes persistent, consultez un professionnel de santé.',
   },
 
   {
