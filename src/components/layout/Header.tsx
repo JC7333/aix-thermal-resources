@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ZoomIn, Eye, Compass, Zap, BookOpen, Layers, Map, Baby, User } from 'lucide-react';
+import { Menu, X, ZoomIn, Eye, Compass, Zap, BookOpen, Layers, Map, Baby, User, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
+import { useFavorites } from '@/hooks/useFavorites';
 
 const navigation = [
   { name: 'Parcours guidé', href: '/parcours', icon: Compass, highlight: true },
@@ -17,6 +18,7 @@ const navigation = [
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { seniorMode, toggleSeniorMode } = useAccessibility();
+  const { count: favoritesCount } = useFavorites();
   const location = useLocation();
 
   // Fermer le menu mobile lors d'un changement de route
@@ -93,6 +95,26 @@ export const Header = () => {
 
           {/* Actions - fixed to right side */}
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            {/* Favoris - visible quand il y en a */}
+            {favoritesCount > 0 && (
+              <Link
+                to="/favoris"
+                className={`
+                  relative flex items-center justify-center rounded-lg transition-colors
+                  hover:bg-destructive/10
+                  ${seniorMode ? 'h-10 w-10 sm:h-12 sm:w-12' : 'h-9 w-9 sm:h-10 sm:w-10'}
+                  ${location.pathname === '/favoris' ? 'bg-destructive/10 text-destructive' : 'text-muted-foreground hover:text-destructive'}
+                `}
+                aria-label={`Mes favoris (${favoritesCount})`}
+                title={`Mes favoris (${favoritesCount})`}
+              >
+                <Heart className={`${seniorMode ? 'w-5 h-5 sm:w-6 sm:h-6' : 'w-5 h-5'} fill-current`} />
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
+                  {favoritesCount > 9 ? '9+' : favoritesCount}
+                </span>
+              </Link>
+            )}
+
             {/* Senior Mode Toggle - Always visible */}
             <Button
               variant={seniorMode ? 'default' : 'outline'}
