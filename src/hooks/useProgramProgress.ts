@@ -206,6 +206,28 @@ export const useProgramProgress = (slug: string, level: number) => {
     return count;
   }, [progress, slug, level]);
 
+  // Obtenir la progression globale combinée (7j + 8sem) pour un slug/level donné
+  const getOverallProgress = useCallback((
+    actionsPerDay: number[],
+    exercisesPerWeek: number[]
+  ): { sevenDayPercent: number; eightWeekPercent: number; combinedPercent: number } => {
+    const sevenDayPercent = getProgressPercent(actionsPerDay.length, actionsPerDay);
+    const eightWeekPercent = getWeeklyProgressPercent(exercisesPerWeek);
+    
+    const totalItems = actionsPerDay.reduce((a, b) => a + b, 0) + exercisesPerWeek.reduce((a, b) => a + b, 0);
+    const sevenDayTotal = actionsPerDay.reduce((a, b) => a + b, 0);
+    const eightWeekTotal = exercisesPerWeek.reduce((a, b) => a + b, 0);
+    
+    let combinedPercent = 0;
+    if (totalItems > 0) {
+      combinedPercent = Math.round(
+        (sevenDayPercent * sevenDayTotal + eightWeekPercent * eightWeekTotal) / totalItems
+      );
+    }
+    
+    return { sevenDayPercent, eightWeekPercent, combinedPercent };
+  }, [getProgressPercent, getWeeklyProgressPercent]);
+
   return {
     // Plan 7 jours
     isCompleted,
@@ -219,5 +241,7 @@ export const useProgramProgress = (slug: string, level: number) => {
     getWeeklyProgressPercent,
     resetWeeklyProgress,
     getWeekCompletedCount,
+    // Global
+    getOverallProgress,
   };
 };
