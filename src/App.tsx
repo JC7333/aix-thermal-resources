@@ -25,6 +25,7 @@ import Telechargements from "./pages/Telechargements";
 import Stats from "./pages/Stats";
 import MesFavoris from "./pages/MesFavoris";
 import Admin from "./pages/Admin";
+import SocialKit from "./pages/SocialKit";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +58,7 @@ const App = () => (
               <Route path="/confidentialite" element={<Confidentialite />} />
               <Route path="/stats" element={<Stats />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/social-kit" element={<SocialKit />} />
               {/* Legacy routes */}
               <Route path="/pathologie/:slug" element={<PathologyPage />} />
               <Route path="/cabinet" element={<QuiSuisJe />} />
