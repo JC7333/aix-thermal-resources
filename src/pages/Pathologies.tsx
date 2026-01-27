@@ -3,6 +3,8 @@ import { Clock, ChevronRight, BookOpen, Shield, FileText, Heart } from 'lucide-r
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { FavoriteButton } from '@/components/shared/FavoriteButton';
+import { FavoritesActionsMenu } from '@/components/shared/FavoritesActionsMenu';
+import { FavoritesImportBanner } from '@/components/shared/FavoritesImportBanner';
 import { useFavorites } from '@/hooks/useFavorites';
 import { getAllEvidence, type EvidenceData } from '@/data/evidence';
 
@@ -108,13 +110,19 @@ const Pathologies = () => {
           </div>
         </header>
 
+        {/* Bannière import depuis URL */}
+        <FavoritesImportBanner />
+
         {/* Section Favoris */}
         {favoritePathologies.length > 0 && (
           <section className="mb-12">
-            <h2 className="font-serif text-2xl font-bold mb-6 pb-3 border-b-2 border-destructive/50 text-destructive flex items-center gap-2">
-              <Heart className="w-5 h-5 fill-destructive" />
-              Mes favoris ({favoritePathologies.length})
-            </h2>
+            <div className="flex items-center justify-between mb-6 pb-3 border-b-2 border-destructive/50">
+              <h2 className="font-serif text-2xl font-bold text-destructive flex items-center gap-2">
+                <Heart className="w-5 h-5 fill-destructive" />
+                Mes favoris ({favoritePathologies.length})
+              </h2>
+              <FavoritesActionsMenu />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
               {favoritePathologies.map((pathology) => (
                 <Link
