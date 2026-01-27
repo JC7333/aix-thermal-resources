@@ -37,32 +37,32 @@ export const Header = () => {
   return (
     <header 
       className={`
-        sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border shadow-soft
-        ${seniorMode ? 'min-h-[72px]' : ''}
+        sticky top-0 z-50 bg-card/98 backdrop-blur-md border-b border-border/60
+        ${seniorMode ? 'shadow-md' : 'shadow-soft'}
       `}
     >
-      <nav className="container mx-auto px-4" aria-label="Navigation principale">
+      <nav className="container mx-auto px-3 sm:px-4" aria-label="Navigation principale">
         {/* Skip link for accessibility */}
         <a href="#main-content" className="skip-link">
           Aller au contenu principal
         </a>
 
         <div className={`
-          flex items-center gap-3
-          ${seniorMode ? 'py-3 min-h-[72px]' : 'h-18 lg:h-20'}
+          flex items-center justify-between gap-2 sm:gap-3
+          ${seniorMode ? 'py-3 min-h-[68px]' : 'h-16 lg:h-18'}
         `}>
-          {/* Logo - Brand COOLANCE */}
-          <Link to="/" className="flex items-center gap-3 group shrink-0 mr-auto">
+          {/* Logo - Brand COOLANCE - taille réduite en senior mobile */}
+          <Link to="/" className="flex items-center shrink-0">
             <div className="flex flex-col">
               <span className={`
-                font-serif font-bold text-primary tracking-tight
-                ${seniorMode ? 'text-xl sm:text-2xl' : 'text-2xl lg:text-3xl'}
+                font-serif font-bold text-primary tracking-tight leading-none
+                ${seniorMode ? 'text-lg sm:text-xl md:text-2xl' : 'text-xl sm:text-2xl lg:text-3xl'}
               `}>
                 COOLANCE
               </span>
               <span className={`
-                text-muted-foreground -mt-1
-                ${seniorMode ? 'text-[10px] sm:text-xs' : 'text-[10px] lg:text-xs'}
+                text-muted-foreground leading-none
+                ${seniorMode ? 'text-[9px] sm:text-[10px] mt-0.5' : 'text-[10px] lg:text-xs mt-0.5'}
               `}>
                 Dr Audric Bugnard
               </span>
@@ -93,8 +93,8 @@ export const Header = () => {
             </div>
           )}
 
-          {/* Actions - fixed to right side */}
-          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+          {/* Actions - compact layout, never overlap */}
+          <div className="flex items-center gap-1 shrink-0">
             {/* Favoris - visible quand il y en a */}
             {favoritesCount > 0 && (
               <Link
@@ -102,65 +102,55 @@ export const Header = () => {
                 className={`
                   relative flex items-center justify-center rounded-lg transition-colors
                   hover:bg-destructive/10
-                  ${seniorMode ? 'h-10 w-10 sm:h-12 sm:w-12' : 'h-9 w-9 sm:h-10 sm:w-10'}
+                  ${seniorMode ? 'h-10 w-10' : 'h-9 w-9'}
                   ${location.pathname === '/favoris' ? 'bg-destructive/10 text-destructive' : 'text-muted-foreground hover:text-destructive'}
                 `}
                 aria-label={`Mes favoris (${favoritesCount})`}
                 title={`Mes favoris (${favoritesCount})`}
               >
-                <Heart className={`${seniorMode ? 'w-5 h-5 sm:w-6 sm:h-6' : 'w-5 h-5'} fill-current`} />
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
+                <Heart className="w-5 h-5 fill-current" />
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
                   {favoritesCount > 9 ? '9+' : favoritesCount}
                 </span>
               </Link>
             )}
 
-            {/* Senior Mode Toggle - Always visible */}
-            <Button
-              variant={seniorMode ? 'default' : 'outline'}
-              size={seniorMode ? 'default' : 'sm'}
+            {/* Senior Mode Toggle - compact version */}
+            <button
               onClick={toggleSeniorMode}
               className={`
-                flex items-center gap-1 sm:gap-2 font-semibold shrink-0 relative
+                flex items-center justify-center font-semibold shrink-0 rounded-lg transition-all
                 ${seniorMode 
-                  ? 'h-10 sm:h-12 px-2 sm:px-4 bg-primary text-primary-foreground text-sm sm:text-base ring-2 ring-primary/30 ring-offset-2 ring-offset-background' 
-                  : 'h-9 sm:h-10 lg:h-11 px-2 sm:px-3 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground text-xs sm:text-sm'
+                  ? 'h-10 w-10 sm:w-auto sm:px-3 bg-primary text-primary-foreground' 
+                  : 'h-9 w-9 sm:w-auto sm:px-2.5 border-2 border-primary/70 text-primary hover:bg-primary hover:text-primary-foreground'
                 }
               `}
               aria-label={seniorMode ? 'Désactiver le mode Senior' : 'Activer le mode Senior'}
             >
-              {seniorMode ? <Eye className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" /> : <ZoomIn className="h-4 w-4 shrink-0" />}
-              <span className={seniorMode ? 'hidden xs:inline' : 'hidden sm:inline'}>
+              {seniorMode ? <Eye className="h-5 w-5 shrink-0" /> : <ZoomIn className="h-4 w-4 shrink-0" />}
+              <span className={`hidden sm:inline ml-1.5 ${seniorMode ? 'text-sm font-bold' : 'text-xs font-semibold'}`}>
                 {seniorMode ? 'Senior ✓' : 'Senior'}
               </span>
-              {/* Indicateur visuel pulsant quand actif */}
-              {seniorMode && (
-                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-foreground opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-primary-foreground"></span>
-                </span>
-              )}
-            </Button>
+            </button>
 
             {/* Menu Button - Always visible in Senior Mode, mobile only otherwise */}
-            <Button
-              variant="ghost"
-              size={seniorMode ? 'default' : 'icon'}
+            <button
               className={`
+                flex items-center justify-center rounded-lg transition-colors
+                hover:bg-muted text-foreground
                 ${useHamburgerMenu ? 'flex' : 'lg:hidden flex'}
-                ${seniorMode ? 'h-10 w-10 sm:h-12 sm:w-12' : 'h-9 w-9 sm:h-10 sm:w-10'}
+                ${seniorMode ? 'h-10 w-10' : 'h-9 w-9'}
               `}
-              data-icon-button="true"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-expanded={mobileMenuOpen}
               aria-label="Menu de navigation"
             >
               {mobileMenuOpen ? (
-                <X className={seniorMode ? 'h-5 w-5 sm:h-7 sm:w-7' : 'h-5 w-5 sm:h-6 sm:w-6'} />
+                <X className={seniorMode ? 'h-6 w-6' : 'h-5 w-5'} />
               ) : (
-                <Menu className={seniorMode ? 'h-5 w-5 sm:h-7 sm:w-7' : 'h-5 w-5 sm:h-6 sm:w-6'} />
+                <Menu className={seniorMode ? 'h-6 w-6' : 'h-5 w-5'} />
               )}
-            </Button>
+            </button>
           </div>
         </div>
 

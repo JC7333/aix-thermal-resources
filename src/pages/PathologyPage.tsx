@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
+import { SourcesDisclaimerCard } from '@/components/shared/SourcesDisclaimerCard';
 import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
 import { FavoriteButton } from '@/components/shared/FavoriteButton';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -312,45 +313,15 @@ const PathologyPage = () => {
                   </section>
                 )}
 
-                {/* Section 4: Sources (mobile) */}
+                {/* Section 4: Sources + Disclaimer (mobile) */}
                 {evidence.sources.length > 0 && (
                   <section id="sources" className="lg:hidden">
-                    <h2 className={`${subtitleClass} text-foreground mb-4 flex items-center gap-3`}>
-                      <span className={`rounded-lg bg-muted flex items-center justify-center text-primary ${seniorMode ? 'w-12 h-12' : 'w-10 h-10 text-lg'}`}>
-                        <BookOpen className={iconSizeLg} />
-                      </span>
-                      Sources scientifiques
-                    </h2>
-                    <div className={`bg-muted/50 border border-border rounded-xl ${seniorMode ? 'p-8' : 'p-6'}`}>
-                      <ul className={seniorMode ? 'space-y-4' : 'space-y-3'}>
-                        {evidence.sources.map((source, index) => (
-                          <li key={index} className={seniorMode ? 'text-base' : 'text-sm'}>
-                            <div className="font-medium text-foreground">{source.title}</div>
-                            <div className={`text-muted-foreground flex items-center justify-between flex-wrap gap-2 ${smallTextClass}`}>
-                              <span>{source.org}, {source.year}</span>
-                              {source.url && (
-                                <a 
-                                  href={source.url} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                  className="text-primary hover:underline flex items-center gap-1"
-                                >
-                                  Lire <ExternalLink className={seniorMode ? 'w-4 h-4' : 'w-3 h-3'} />
-                                </a>
-                              )}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <SourcesDisclaimerCard 
+                      sources={evidence.sources}
+                      lastUpdated={evidence.lastUpdated}
+                    />
                   </section>
                 )}
-
-                {/* Date de mise à jour */}
-                <div className={`flex items-center gap-2 text-muted-foreground pt-4 border-t border-border ${smallTextClass}`}>
-                  <Calendar className={iconSize} />
-                  <span>Dernière mise à jour : {evidence.lastUpdated}</span>
-                </div>
               </div>
 
               {/* Sidebar */}
@@ -376,46 +347,19 @@ const PathologyPage = () => {
                   </div>
                 )}
 
-                {/* Sources (desktop sidebar) */}
+                {/* Sources + Disclaimer Card - NEW V2 */}
                 {evidence.sources.length > 0 && (
-                  <div className={`${cardClass} bg-muted/50 hidden lg:block ${cardPadding}`}>
-                    <h3 className={`font-serif font-bold text-foreground mb-4 flex items-center gap-2 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
-                      <BookOpen className={`${iconSize} text-primary`} />
-                      Sources scientifiques
-                    </h3>
-                    <ul className={seniorMode ? 'space-y-4' : 'space-y-3'}>
-                      {evidence.sources.map((source, index) => (
-                        <li key={index} className={seniorMode ? 'text-base' : 'text-sm'}>
-                          <div className="font-medium text-foreground">{source.title}</div>
-                          <div className={`text-muted-foreground flex items-center justify-between ${smallTextClass}`}>
-                            <span>{source.org}, {source.year}</span>
-                            {source.url && (
-                              <a 
-                                href={source.url} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="text-primary hover:underline flex items-center gap-1"
-                              >
-                                Lire <ExternalLink className={seniorMode ? 'w-4 h-4' : 'w-3 h-3'} />
-                              </a>
-                            )}
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                    <p className={`mt-4 text-muted-foreground ${smallTextClass}`}>
-                      Dernière mise à jour : {evidence.lastUpdated}
-                    </p>
-                  </div>
+                  <SourcesDisclaimerCard 
+                    sources={evidence.sources}
+                    lastUpdated={evidence.lastUpdated}
+                    className="hidden lg:block"
+                  />
                 )}
 
                 {/* PDF Download Card */}
                 {slug && (
                   <PdfDownloadButtons slug={slug} variant="card" />
                 )}
-
-                {/* Medical Disclaimer */}
-                <MedicalDisclaimer variant="compact" />
 
                 {/* Navigation rapide */}
                 <div className={`${cardClass} ${cardPadding}`}>
@@ -732,7 +676,7 @@ const PathologyPage = () => {
           {/* Résumé */}
           <section className="print:break-inside-avoid">
             <h2 className="text-lg font-bold mb-2">⏱️ En 2 minutes</h2>
-            <div className="p-3 bg-gray-50 rounded">
+            <div className="p-3 bg-muted rounded">
               <p className="text-xs leading-tight whitespace-pre-line">{evidence.summary}</p>
             </div>
           </section>
