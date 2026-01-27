@@ -1,6 +1,12 @@
 [
   {
     "slug": "arthrose",
+    "name": "Arthrose",
+    "icon": "🦴",
+    "category": "rhumatologie",
+    "summary": "L'arthrose, c'est l'usure du cartilage de vos articulations. Ça fait mal, ça raidit, mais ce n'est pas une fatalité.\n\nCe qui compte vraiment : bouger régulièrement (même doucement), garder un poids raisonnable, et éviter les excès de repos. L'exercice adapté est le traitement n°1 — pas les médicaments.\n\nJe vous propose ici des plans concrets, testés, pour retrouver du mouvement sans vous faire mal.",
+    "readingTime": 8,
+    "lastUpdated": "2025-01-15",
     "recommendations": [
       { "text": "Exercice thérapeutique personnalisé (renforcement + cardio doux) : c'est le socle du traitement non médicamenteux.", "evidence": "Élevé (guideline + SR)" },
       { "text": "Séances supervisées au départ si peur de bouger, douleurs fortes ou mauvaise technique.", "evidence": "Modéré (guideline)" },
@@ -23,6 +29,12 @@
   },
   {
     "slug": "lombalgie-chronique",
+    "name": "Lombalgie chronique",
+    "icon": "🦴",
+    "category": "rhumatologie",
+    "summary": "Le mal de dos chronique, c'est quand la douleur dure plus de 3 mois. C'est fréquent, souvent frustrant, mais rarement grave.\n\nCe qui aide vraiment : rester actif (même un peu), éviter le repos prolongé, et comprendre que la douleur n'égale pas danger. L'exercice adapté reste le meilleur traitement.\n\nJe vous guide ici avec des plans progressifs, du niveau 'très facile' au niveau 'actif'.",
+    "readingTime": 8,
+    "lastUpdated": "2025-01-15",
     "recommendations": [
       { "text": "Rester actif et reprendre progressivement les activités : éviter le repos prolongé.", "evidence": "Élevé (guidelines)" },
       { "text": "Programme d'exercices (aérobie, renforcement, mobilité, mind-body) adapté aux capacités.", "evidence": "Élevé (guidelines)" },
@@ -46,6 +58,12 @@
   },
   {
     "slug": "insuffisance-veineuse-chronique",
+    "name": "Insuffisance veineuse chronique",
+    "icon": "🩸",
+    "category": "veino-lymphatique",
+    "summary": "Les jambes lourdes, les varices, les gonflements : c'est le retour veineux qui fonctionne moins bien. Le sang stagne, les veines se dilatent.\n\nCe qui aide vraiment : la compression (bas/chaussettes), la marche, éviter de rester immobile longtemps. C'est simple mais ça fonctionne.\n\nJe vous propose ici un plan pratique pour soulager vos jambes au quotidien.",
+    "readingTime": 7,
+    "lastUpdated": "2025-01-15",
     "recommendations": [
       { "text": "Compression médicale (bas/chaussettes) si symptômes (jambes lourdes, oedème) : pilier de base.", "evidence": "Élevé (guideline)" },
       { "text": "Marche quotidienne + 'pompe du mollet' (exercices simples) pour améliorer le retour veineux.", "evidence": "Modéré (guideline)" },
@@ -67,6 +85,12 @@
   },
   {
     "slug": "bpco",
+    "name": "BPCO",
+    "icon": "🫁",
+    "category": "orl-respiratoire",
+    "summary": "La BPCO (Broncho-Pneumopathie Chronique Obstructive), c'est une maladie des poumons qui rend l'essoufflement progressif. Le tabac en est la cause principale.\n\nCe qui compte vraiment : arrêter le tabac (gain immédiat), faire de la réhabilitation respiratoire, et rester actif malgré l'essoufflement.\n\nJe vous propose ici des techniques concrètes pour mieux respirer et vivre mieux au quotidien.",
+    "readingTime": 9,
+    "lastUpdated": "2025-01-15",
     "recommendations": [
       { "text": "Arrêt du tabac : action n°1 (gain sur symptômes et progression).", "evidence": "Élevé (guidelines)" },
       { "text": "Réhabilitation respiratoire (programme structuré) : améliore dyspnée, capacité d'effort, qualité de vie.", "evidence": "Élevé (SR/guidelines)" },
@@ -83,11 +107,17 @@
       "Exacerbation non contrôlée malgré mesures habituelles."
     ],
     "sources": [
-      { "title": "Global Strategy for the Diagnosis, Management, and Prevention of COPD (Report)", "org": "GOLD (Global Initiative for Chronic Obstructive Lung Disease)", "year": 2026, "url": "https://goldcopd.org/" }
+      { "title": "Global Strategy for the Diagnosis, Management, and Prevention of COPD (Report)", "org": "GOLD (Global Initiative for Chronic Obstructive Lung Disease)", "year": 2025, "url": "https://goldcopd.org/" }
     ]
   },
   {
     "slug": "otites-a-repetition-enfant",
+    "name": "Otites à répétition (enfant)",
+    "icon": "👂",
+    "category": "orl-respiratoire",
+    "summary": "Les otites à répétition chez l'enfant, c'est fréquent et souvent source d'inquiétude pour les parents. Bonne nouvelle : la plupart des enfants 'en sortent' avec l'âge.\n\nCe qui aide vraiment : éviter le tabagisme passif, l'hygiène des mains, et parfois le xylitol. Si ça persiste, un avis ORL peut être utile.\n\nJe vous propose ici des conseils pratiques pour réduire la fréquence des épisodes.",
+    "readingTime": 6,
+    "lastUpdated": "2025-01-15",
     "recommendations": [
       { "text": "Réduire l'exposition à la fumée (tabac passif) : objectif prioritaire.", "evidence": "Élevé (facteur de risque reconnu)" },
       { "text": "Hygiène respiratoire : lavage des mains, limiter contacts en période épidémique si possible.", "evidence": "Consensus (prévention infections)" },
