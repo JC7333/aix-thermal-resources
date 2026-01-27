@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { BarChart3, Users, Download, CheckCircle, MousePointer, Trash2, FileJson, RefreshCw } from 'lucide-react';
+import { BarChart3, Users, Download, CheckCircle, MousePointer, Trash2, FileJson, RefreshCw, FileSpreadsheet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { 
   calculateStats, 
   clearAnalytics, 
   exportAnalyticsJson,
+  getStoredEvents,
   type AnalyticsStats 
 } from '@/services/analytics';
 
@@ -23,13 +23,87 @@ const Stats = () => {
     refreshStats();
   }, []);
 
+  const getDateString = () => new Date().toISOString().split('T')[0];
+
   const handleExport = () => {
     const json = exportAnalyticsJson();
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `analytics_${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `analytics_${getDateString()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportCsvAggregated = () => {
+    if (!stats) return;
+    
+    const lines: string[] = [];
+    
+    // Section: Top Pages
+    lines.push('=== TOP PAGES ===');
+    lines.push('Rang,Path,Vues');
+    stats.topPages.forEach((p, i) => {
+      lines.push(`${i + 1},"${p.path}",${p.count}`);
+    });
+    
+    lines.push('');
+    
+    // Section: Top PDF
+    lines.push('=== TOP PDF ===');
+    lines.push('Rang,Slug,Type,Téléchargements');
+    stats.topDownloads.forEach((d, i) => {
+      lines.push(`${i + 1},"${d.name}","${d.type}",${d.count}`);
+    });
+    
+    lines.push('');
+    
+    // Section: Wizard
+    lines.push('=== WIZARD ===');
+    lines.push('Métrique,Valeur');
+    lines.push(`Démarrages,${stats.wizardStarts}`);
+    lines.push(`Complétions,${stats.wizardCompletes}`);
+    lines.push(`Taux complétion,${stats.wizardCompletionRate.toFixed(1)}%`);
+    
+    lines.push('');
+    
+    // Section: Résumé
+    lines.push('=== RÉSUMÉ ===');
+    lines.push('Métrique,Valeur');
+    lines.push(`Total événements,${stats.totalEvents}`);
+    lines.push(`Sessions uniques,${stats.uniqueSessions}`);
+    lines.push(`PDF 1 page téléchargés,${stats.pdf1PageDownloads}`);
+    lines.push(`PDF 4 pages téléchargés,${stats.pdf4PagesDownloads}`);
+    
+    const csv = lines.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `coolance-stats-agregees-${getDateString()}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportCsvRaw = () => {
+    const events = getStoredEvents();
+    
+    const lines: string[] = [];
+    lines.push('eventName,path,slug,timestamp');
+    
+    events.forEach(e => {
+      const timestamp = new Date(e.timestamp).toISOString();
+      const slug = e.slug || e.metadata?.slug || '';
+      lines.push(`"${e.eventName}","${e.path}","${slug}","${timestamp}"`);
+    });
+    
+    const csv = lines.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `coolance-stats-brutes-${getDateString()}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -62,14 +136,22 @@ const Stats = () => {
               Données anonymes uniquement — Aucune donnée de santé
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" size="sm" onClick={refreshStats}>
               <RefreshCw className="w-4 h-4" />
               Actualiser
             </Button>
             <Button variant="outline" size="sm" onClick={handleExport}>
               <FileJson className="w-4 h-4" />
-              Exporter JSON
+              JSON
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleExportCsvAggregated}>
+              <FileSpreadsheet className="w-4 h-4" />
+              CSV agrégé
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleExportCsvRaw}>
+              <FileSpreadsheet className="w-4 h-4" />
+              CSV brut
             </Button>
             {!showConfirmClear ? (
               <Button variant="outline" size="sm" onClick={() => setShowConfirmClear(true)}>
