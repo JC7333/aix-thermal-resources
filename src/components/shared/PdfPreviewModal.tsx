@@ -126,11 +126,16 @@ export const PdfPreviewModal = ({
               <DialogTitle className="text-lg font-serif">
                 Aperçu — {type === '1page' ? 'Fiche 1 page' : 'Guide 4 pages'}
               </DialogTitle>
-              {/* Badge indicateur cache */}
+              {/* Badge indicateur cache avec animation */}
               {pdfBlob && !isLoading && (
                 <Badge 
+                  key={fromCache ? 'cache' : 'generated'}
                   variant={fromCache ? "secondary" : "outline"} 
-                  className={`text-xs gap-1 ${fromCache ? 'bg-secondary/20 text-secondary border-secondary/30' : 'bg-accent/20 text-accent-foreground border-accent/30'}`}
+                  className={`text-xs gap-1 animate-scale-in transition-all duration-300 ${
+                    fromCache 
+                      ? 'bg-secondary/20 text-secondary border-secondary/30' 
+                      : 'bg-accent/20 text-accent-foreground border-accent/30'
+                  }`}
                 >
                   {fromCache ? (
                     <>
@@ -139,7 +144,7 @@ export const PdfPreviewModal = ({
                     </>
                   ) : (
                     <>
-                      <RefreshCw className="w-3 h-3" />
+                      <RefreshCw className="w-3 h-3 animate-spin" style={{ animationDuration: '1s', animationIterationCount: 1 }} />
                       Généré
                     </>
                   )}
