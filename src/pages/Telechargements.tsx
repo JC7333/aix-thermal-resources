@@ -9,9 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
 import { Layout } from '@/components/layout/Layout';
+import { useAccessibility } from '@/contexts/AccessibilityContext';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { 
   pathologies, 
@@ -84,8 +83,10 @@ const estimatedTimes = {
 const Telechargements = () => {
   const [selectedTheme, setSelectedTheme] = useState<ThemeFilter>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [readableMode, setReadableMode] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  
+  // Synchronisation avec le Mode Senior global
+  const { seniorMode: readableMode } = useAccessibility();
 
   const publishedPathologies = pathologies.filter(p => p.isPublished);
   
@@ -176,21 +177,15 @@ const Telechargements = () => {
               </p>
             </div>
             
-            {/* Mode très lisible toggle */}
-            <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-xl border border-primary/20">
-              <Accessibility className={`${readableMode ? 'w-6 h-6' : 'w-5 h-5'} text-primary`} />
-              <Label 
-                htmlFor="readable-mode" 
-                className={`cursor-pointer font-medium ${readableMode ? 'text-lg' : 'text-sm'}`}
-              >
-                Mode très lisible
-              </Label>
-              <Switch 
-                id="readable-mode" 
-                checked={readableMode} 
-                onCheckedChange={setReadableMode}
-              />
-            </div>
+            {/* Indicateur Mode Senior synchronisé */}
+            {readableMode && (
+              <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-xl border border-primary/30">
+                <Accessibility className="w-6 h-6 text-primary" />
+                <span className="text-lg font-medium text-primary">
+                  Mode Senior actif ✓
+                </span>
+              </div>
+            )}
           </div>
           
           {/* Stats rapides */}
