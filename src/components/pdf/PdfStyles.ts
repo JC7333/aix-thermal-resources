@@ -5,26 +5,17 @@
 // Police lisible seniors, marges confort, couleurs harmonieuses
 // ============================================
 
-import { StyleSheet, Font } from '@react-pdf/renderer';
+import { StyleSheet } from '@react-pdf/renderer';
 
-// Register fonts for better rendering - using TTF format for compatibility
-Font.register({
-  family: 'Inter',
-  fonts: [
-    { 
-      src: 'https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.ttf', 
-      fontWeight: 400 
-    },
-    { 
-      src: 'https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa2JL7.ttf', 
-      fontWeight: 600 
-    },
-    { 
-      src: 'https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa25L7.ttf', 
-      fontWeight: 700 
-    },
-  ],
-});
+// ============================================
+// POLICES PDF — Standard uniquement
+// ============================================
+// @react-pdf/renderer supporte nativement:
+// Courier, Helvetica, Times-Roman (et leurs variantes Bold, Oblique)
+// Pour éviter "Unknown font format", on n'utilise PAS de polices custom.
+// ============================================
+
+export const PDF_FONT_FAMILY = 'Helvetica';
 
 // ============================================
 // COULEURS
@@ -75,7 +66,7 @@ export const PDF_DIMENSIONS = {
 export const pdfStyles = StyleSheet.create({
   // Page layouts
   page: {
-    fontFamily: 'Inter',
+    fontFamily: PDF_FONT_FAMILY,
     fontSize: 10,
     color: PDF_COLORS.text,
     backgroundColor: PDF_COLORS.background,
@@ -84,7 +75,7 @@ export const pdfStyles = StyleSheet.create({
   },
   
   page1col: {
-    fontFamily: 'Inter',
+    fontFamily: PDF_FONT_FAMILY,
     fontSize: 9,
     color: PDF_COLORS.text,
     backgroundColor: PDF_COLORS.background,

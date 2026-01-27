@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Document, Page, View, Text } from '@react-pdf/renderer';
-import { pdfStyles, PDF_COLORS } from './PdfStyles';
+import { pdfStyles, PDF_COLORS, PDF_FONT_FAMILY } from './PdfStyles';
 import {
   PdfHeader,
   PdfSectionTitle,
