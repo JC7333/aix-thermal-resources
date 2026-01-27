@@ -91,6 +91,21 @@ export const getCacheStats = (): { size: number; entries: string[] } => {
   };
 };
 
+/**
+ * Vérifie si un PDF est en cache (non expiré)
+ */
+export const isPdfInCache = (slug: string, type: '1page' | '4pages'): boolean => {
+  const key = getCacheKey(slug, type);
+  const entry = pdfCache.get(key);
+  
+  if (entry) {
+    const isExpired = Date.now() - entry.timestamp > PDF_CACHE_TTL;
+    return !isExpired;
+  }
+  
+  return false;
+};
+
 // ============================================
 // TYPE RÉSULTAT AVEC STATUT CACHE
 // ============================================
