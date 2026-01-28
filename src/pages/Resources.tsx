@@ -8,6 +8,7 @@ import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { useToast } from '@/hooks/use-toast';
 import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 import {
   libraryResources,
   quickAnswers,
@@ -40,7 +41,7 @@ const LibraryCard = ({ resource }: { resource: LibraryResource }) => {
     if (!resource.pathologySlug || !hasPdf) {
       toast({
         title: "PDF non disponible",
-        description: "La fiche PDF pour cette ressource sera bientôt disponible.",
+        description: "Aucune donnée disponible pour générer ce PDF.",
         variant: "destructive",
       });
       return;
@@ -66,7 +67,7 @@ const LibraryCard = ({ resource }: { resource: LibraryResource }) => {
   };
 
   const linkTo = resource.pathologySlug 
-    ? `/pathologie/${resource.pathologySlug}` 
+    ? getPathologyUrl(resource.pathologySlug) 
     : `/guides`;
 
   return (
@@ -157,7 +158,7 @@ const QuickAnswerCard = ({ answer }: { answer: typeof quickAnswers[0] }) => {
   };
 
   const linkTo = answer.pathologySlug 
-    ? `/pathologie/${answer.pathologySlug}` 
+    ? getPathologyUrl(answer.pathologySlug) 
     : answer.link || '/guides';
 
   return (

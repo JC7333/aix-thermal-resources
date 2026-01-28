@@ -66,6 +66,7 @@ const App = () => (
               <Route path="/social-kit" element={<SocialKit />} />
               <Route path="/sources-methodologie" element={<SourcesMethodologie />} />
               <Route path="/diagnostic/videos" element={<DiagnosticVideos />} />
+              {/* Route legacy /pathologie/:slug — redirige vers V2 */}
               <Route path="/pathologie/:slug" element={<PathologyPage />} />
               <Route path="/cabinet" element={<QuiSuisJe />} />
               <Route path="*" element={<NotFound />} />

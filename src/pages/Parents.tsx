@@ -71,8 +71,8 @@ const Parents = () => {
   const handleDownloadPDF = () => {
     if (!pdfAvailable) {
       toast({
-        title: "Guide bientôt disponible",
-        description: "Le guide parents PDF est en cours de préparation. Revenez prochainement.",
+        title: "Guide non disponible",
+        description: "Le guide parents PDF n'est pas encore disponible. Consultez les fiches pathologies individuelles.",
       });
       return;
     }
@@ -202,7 +202,7 @@ const Parents = () => {
               ) : (
                 <Clock className="w-5 h-5" />
               )}
-              {pdfAvailable ? 'Télécharger le guide PDF' : 'Guide bientôt disponible'}
+              {pdfAvailable ? 'Télécharger le guide PDF' : 'Guide non disponible'}
             </Button>
           </div>
         </section>
