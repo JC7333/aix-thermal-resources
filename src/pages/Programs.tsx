@@ -7,6 +7,7 @@ import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { pathologies, levelLabels, MobilityLevel } from '@/data/pathologies';
 import { downloadPdf4PagesBySlug, hasEvidenceData } from '@/services/pdfService';
 import { useToast } from '@/hooks/use-toast';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 
 const Programs = () => {
   const [downloadingSlug, setDownloadingSlug] = useState<string | null>(null);
@@ -73,7 +74,7 @@ const Programs = () => {
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
                   <div>
                     <Link
-                      to={`/pathologies/${pathology.slug}`}
+                      to={getPathologyUrl(pathology.slug)}
                       className="text-sm text-primary hover:underline flex items-center gap-1"
                     >
                       Voir la fiche complète
