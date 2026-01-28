@@ -136,8 +136,10 @@ export const Footer = () => {
         <div className="mt-10 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
             <p>© 2024 COOLANCE — par le Dr Audric Bugnard. Tous droits réservés.</p>
-            <p className="text-center md:text-right">
-              Informations générales — Ne remplace pas un avis médical
+            <p className="text-center md:text-right flex items-center gap-2">
+              <span>📞 Urgence : 15 / 112</span>
+              <span className="hidden sm:inline">•</span>
+              <span className="text-white/50">Informations générales — Ne remplace pas un avis médical</span>
             </p>
           </div>
         </div>
