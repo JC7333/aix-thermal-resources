@@ -223,13 +223,13 @@ export const VideoSection = ({ slug, maxVideos = 2, className = '' }: VideoSecti
           </span>
           Vidéos guidées
         </h2>
-        <div className={`bg-muted/50 border border-border rounded-xl ${seniorMode ? 'p-6' : 'p-5'}`}>
+        <div className={`bg-muted/30 border border-border rounded-xl ${seniorMode ? 'p-6' : 'p-5'}`}>
           <p className={`text-muted-foreground ${textClass}`}>
-            📹 Vidéos validées en cours d'ajout pour cette pathologie.
+            Aucune vidéo validée disponible pour le moment pour ce sujet.
           </p>
           <p className={`text-muted-foreground mt-2 ${seniorMode ? 'text-base' : 'text-sm'}`}>
-            Les vidéos sont sélectionnées selon des critères stricts : sources institutionnelles (CHU, kinés diplômés), 
-            conformité aux guidelines, sécurité patients, et accessibilité seniors.
+            Les vidéos sont sélectionnées selon des critères stricts : sources institutionnelles, 
+            conformité aux recommandations, et accessibilité.
           </p>
         </div>
       </section>
