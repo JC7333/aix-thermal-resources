@@ -453,15 +453,15 @@ export const fullQuickAnswers: FullQuickAnswer[] = [
     truths: [
       {
         myth: '« Mon enfant est tout le temps malade, il a un problème immunitaire. »',
-        truth: 'Un enfant de moins de 6 ans fait 6 à 10 infections par an, c\'est normal. Son système immunitaire apprend. Ce n\'est pas un déficit immunitaire.'
+        truth: 'Un enfant de moins de 6 ans fait 6 à 10 infections par an, c\'est normal. Son système immunitaire apprend. Ce n\'est pas un déficit immunitaire. (Source : AAP 2023)'
       },
       {
         myth: '« Il faut des antibiotiques à chaque otite. »',
-        truth: 'Pas forcément. Beaucoup d\'otites guérissent seules. Le médecin évalue au cas par cas. Les antibiotiques ne sont pas toujours nécessaires, surtout après 2 ans.'
+        truth: 'Pas forcément. Beaucoup d\'otites guérissent seules. Le médecin évalue au cas par cas. Les antibiotiques ne sont pas toujours nécessaires, surtout après 2 ans. (Source : AAO-HNSF 2022)'
       },
       {
         myth: '« La crèche, c\'est la source de tous les problèmes. »',
-        truth: 'La crèche expose à plus de virus, c\'est vrai. Mais c\'est aussi là que l\'immunité se construit. Ces enfants sont souvent moins malades à l\'école primaire.'
+        truth: 'La crèche expose à plus de virus, c\'est vrai. Mais c\'est aussi là que l\'immunité se construit. Ces enfants sont souvent moins malades à l\'école primaire. (Source : Pediatrics 2020)'
       }
     ],
     dailyPlan: [
