@@ -7,33 +7,42 @@ import { FavoritesActionsMenu } from '@/components/shared/FavoritesActionsMenu';
 import { FavoritesImportBanner } from '@/components/shared/FavoritesImportBanner';
 import { useFavorites } from '@/hooks/useFavorites';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
-import { getAllEvidence, type EvidenceData } from '@/data/evidence';
 import { Button } from '@/components/ui/button';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
+import { ALL_EVIDENCE_PACKS_V2, type EvidencePackV2 } from '@/content/evidence/v2';
 
+// Mapping catégories
 const categoryLabels: Record<string, string> = {
   'rhumatologie': 'Rhumatologie',
   'veino-lymphatique': 'Veino-lymphatique',
   'orl-respiratoire': 'ORL & Respiratoire',
+  'respiratoire-orl': 'ORL & Respiratoire',
 };
 
 const categoryColors: Record<string, string> = {
   'rhumatologie': 'bg-primary/10 text-primary border-primary/20',
   'veino-lymphatique': 'bg-purple-100 text-purple-700 border-purple-200',
   'orl-respiratoire': 'bg-secondary/10 text-secondary border-secondary/20',
+  'respiratoire-orl': 'bg-secondary/10 text-secondary border-secondary/20',
 };
 
+// Ordre d'affichage des catégories
+const categoryDisplayOrder = ['rhumatologie', 'veino-lymphatique', 'respiratoire-orl', 'orl-respiratoire'];
+
 const Pathologies = () => {
-  const allEvidence = getAllEvidence();
+  // Utilise les données V2 comme source de vérité (packs complets uniquement)
+  const allEvidence = ALL_EVIDENCE_PACKS_V2.filter(p => p.status === 'complete');
+  
   const { favorites, isFavorite } = useFavorites();
   const { seniorMode, titleClass, textClass, gridCols, smallTextClass, iconSize } = useSeniorMode();
   
   // Grouper les pathologies par catégorie
   const groupedPathologies = allEvidence.reduce((acc, evidence) => {
-    if (!acc[evidence.category]) acc[evidence.category] = [];
-    acc[evidence.category].push(evidence);
+    const cat = evidence.category;
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(evidence);
     return acc;
-  }, {} as Record<string, EvidenceData[]>);
+  }, {} as Record<string, EvidencePackV2[]>);
 
   // Favoris
   const favoritePathologies = allEvidence.filter(e => favorites.includes(e.slug));
@@ -84,8 +93,8 @@ const Pathologies = () => {
                   className="card-medical group flex flex-col ring-2 ring-destructive/20"
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <span className={`px-3 py-1 text-xs font-medium rounded-full border ${categoryColors[pathology.category]}`}>
-                      {categoryLabels[pathology.category]}
+                    <span className={`px-3 py-1 text-xs font-medium rounded-full border ${categoryColors[pathology.category] || categoryColors['rhumatologie']}`}>
+                      {categoryLabels[pathology.category] || pathology.category}
                     </span>
                     <FavoriteButton slug={pathology.slug} variant="icon" />
                   </div>
@@ -93,22 +102,22 @@ const Pathologies = () => {
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-2xl">{pathology.icon}</span>
                     <h3 className="font-serif text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                      {pathology.name}
+                      {pathology.title}
                     </h3>
                   </div>
 
                   <p className="text-muted-foreground text-sm mb-4 flex-grow line-clamp-3">
-                    {pathology.summary.split('\n')[0]}
+                    {pathology.definition?.summary?.split('\n')[0] || ''}
                   </p>
 
                   <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground border-t border-border pt-3 mt-auto">
                     <span className="flex items-center gap-1">
                       <Clock className="w-3 h-3" />
-                      {pathology.readingTime} min
+                      8 min
                     </span>
                     <span className="flex items-center gap-1 text-primary">
                       <BookOpen className="w-3 h-3" />
-                      {pathology.recommendations.length} recommandations
+                      {pathology.recommendations?.length || 0} recommandations
                     </span>
                   </div>
                 </Link>
@@ -118,7 +127,8 @@ const Pathologies = () => {
         )}
 
         <div className={seniorMode ? 'space-y-16 lg:space-y-20' : 'space-y-12 lg:space-y-16'}>
-          {Object.entries(categoryLabels).map(([category, label]) => {
+          {categoryDisplayOrder.map((category) => {
+            const label = categoryLabels[category];
             const categoryPathologies = groupedPathologies[category];
             if (!categoryPathologies || categoryPathologies.length === 0) return null;
 
@@ -139,8 +149,8 @@ const Pathologies = () => {
                       className={`card-medical group flex flex-col ${isFavorite(pathology.slug) ? 'ring-2 ring-destructive/20' : ''}`}
                     >
                       <div className="flex items-start justify-between mb-3">
-                        <span className={`px-3 py-1 text-xs font-medium rounded-full border ${categoryColors[pathology.category]}`}>
-                          {categoryLabels[pathology.category]}
+                        <span className={`px-3 py-1 text-xs font-medium rounded-full border ${categoryColors[pathology.category] || categoryColors['rhumatologie']}`}>
+                          {categoryLabels[pathology.category] || pathology.category}
                         </span>
                         <div className="flex items-center gap-1">
                           <FavoriteButton slug={pathology.slug} variant="icon" />
@@ -150,27 +160,27 @@ const Pathologies = () => {
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-2xl">{pathology.icon}</span>
                         <h3 className="font-serif text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                          {pathology.name}
+                          {pathology.title}
                         </h3>
                       </div>
 
                       <p className="text-muted-foreground text-sm mb-4 flex-grow line-clamp-3">
-                        {pathology.summary.split('\n')[0]}
+                        {pathology.definition?.summary?.split('\n')[0] || ''}
                       </p>
 
                       {/* Indicateurs evidence-based */}
                       <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground border-t border-border pt-3 mb-4">
                         <span className="flex items-center gap-1">
                           <Clock className="w-3 h-3" />
-                          {pathology.readingTime} min
+                          8 min
                         </span>
                         <span className="flex items-center gap-1 text-primary">
                           <BookOpen className="w-3 h-3" />
-                          {pathology.recommendations.length} recommandations
+                          {pathology.recommendations?.length || 0} recommandations
                         </span>
                         <span className="flex items-center gap-1 text-secondary">
                           <FileText className="w-3 h-3" />
-                          {pathology.sources.length} sources
+                          {pathology.sources?.length || 0} sources
                         </span>
                       </div>
 
