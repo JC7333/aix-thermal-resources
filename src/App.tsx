@@ -29,6 +29,7 @@ import Admin from "./pages/Admin";
 import SocialKit from "./pages/SocialKit";
 import SourcesMethodologie from "./pages/SourcesMethodologie";
 import DiagnosticVideos from "./pages/DiagnosticVideos";
+import DiagnosticLinks from "./pages/DiagnosticLinks";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +67,7 @@ const App = () => (
               <Route path="/social-kit" element={<SocialKit />} />
               <Route path="/sources-methodologie" element={<SourcesMethodologie />} />
               <Route path="/diagnostic/videos" element={<DiagnosticVideos />} />
+              <Route path="/diagnostic/links" element={<DiagnosticLinks />} />
               {/* Route legacy /pathologie/:slug — redirige vers V2 */}
               <Route path="/pathologie/:slug" element={<PathologyPage />} />
               <Route path="/cabinet" element={<QuiSuisJe />} />

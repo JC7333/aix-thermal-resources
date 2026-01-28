@@ -1,7 +1,7 @@
-# QA — Checklist Pathologies V2
+# QA — Checklist Fonctionnalités COOLANCE
 
 **Date :** 2026-01-28  
-**Objectif :** V2 = source de vérité unique, zéro doublon, zéro "bientôt disponible"
+**Objectif :** V2 = source de vérité unique, UX pro, zéro lien cassé
 
 ---
 
@@ -22,7 +22,14 @@
 
 ---
 
-## B) Vidéos (embed YouTube)
+## B) Vidéos (embed YouTube) — BUG #1 CORRIGÉ
+
+| Test | Status | Notes |
+|------|--------|-------|
+| Clic "Voir la vidéo" ne navigue pas | ✅ | stopPropagation() ajouté |
+| Embed YouTube lazy-load au clic | ✅ | youtube-nocookie.com |
+| Fallback "Ouvrir sur YouTube" | ✅ | Nouvel onglet |
+| 5 thèmes détectés dans JSON | ✅ | /diagnostic/videos |
 
 | Thème | Vidéos dans JSON | Affichage page | Clic embed | Fallback YouTube |
 |-------|------------------|----------------|------------|------------------|
@@ -32,52 +39,57 @@
 | bpco | 2 | ✅ | ✅ | ✅ |
 | lavage_nez | 2 | ✅ | ✅ | ✅ |
 
-**Diagnostic vidéos :** `/diagnostic/videos` — ✅ 5 thèmes détectés
+---
+
+## C) Liens "Lire" (Ressources) — BUG #2 CORRIGÉ
+
+| Test | Status | Notes |
+|------|--------|-------|
+| pathologySlug corrigés (arthrose → gonarthrose) | ✅ | library-resources.ts |
+| Liens vers V2 (via getPathologyUrl) | ✅ | Tous les slugs mappés |
+| Bouton désactivé si pas de donnée | ✅ | "Non disponible" affiché |
+| Diagnostic liens disponible | ✅ | /diagnostic/links |
+
+**Slugs corrigés :**
+- `arthrose` → `gonarthrose`
+- `insuffisance-veineuse-chronique` → `insuffisance-veineuse`
+- `otites-a-repetition-enfant` → `otites-repetition-enfant`
 
 ---
 
-## C) Sources scientifiques
+## D) Scroll-to-top global
 
-| Pathologie | Sources affichées | Format correct (Org — Année — Titre) |
-|------------|-------------------|--------------------------------------|
-| gonarthrose | ✅ 4 sources | ✅ |
-| coxarthrose | ✅ 4 sources | ✅ |
-| lombalgie-chronique | ✅ 5 sources | ✅ |
-| insuffisance-veineuse | ✅ 4 sources | ✅ |
-| bpco | ✅ 5 sources | ✅ |
-
----
-
-## D) Liens internes (V2 partout)
-
-| Page / Composant | Liens utilisent getPathologyUrl() | Status |
-|------------------|-----------------------------------|--------|
-| Index.tsx | ✅ | ✅ |
-| Pathologies.tsx | ✅ | ✅ |
-| Parents.tsx | ✅ | ✅ |
-| Programs.tsx | ✅ | ✅ |
-| Telechargements.tsx | ✅ | ✅ |
-| Resources.tsx | ✅ | ✅ |
-| ResourceCard.tsx | ✅ | ✅ |
-| CollectionCard.tsx | ✅ | ✅ |
-| DraggableFavoriteCard.tsx | ✅ | ✅ |
+| Test | Status | Notes |
+|------|--------|-------|
+| Navigation SPA (changement de page) | ✅ | ScrollToTop component |
+| Bouton "Recommencer" (Parcours) | ✅ | window.scrollTo() explicite |
+| Liens footer | ✅ | ScrollTopLink component |
+| Ancres avec offset header | ✅ | 120px offset |
 
 ---
 
-## E) Messages "bientôt disponible" → supprimés
+## E) Contact (mailto)
 
-| Fichier | Ancien message | Nouveau message | Status |
-|---------|---------------|-----------------|--------|
-| Resources.tsx | "sera bientôt disponible" | "Aucune donnée disponible" | ✅ |
-| ResourceCard.tsx | "sera bientôt disponible" | "Aucune donnée disponible" | ✅ |
-| Programs.tsx | "sera bientôt disponible" | "Aucune donnée disponible" | ✅ |
-| Parents.tsx | "Guide bientôt disponible" | "Guide non disponible" | ✅ |
-| PdfDownloadButtons.tsx | "PDF bientôt disponible" | "Données non disponibles" | ✅ |
-| Telechargements.tsx | "PDFs bientôt disponibles" | "Aucun PDF disponible" | ✅ |
+| Test | Status | Notes |
+|------|--------|-------|
+| Formulaire ouvre client mail | ✅ | mailto:docteuraudricbugnard@gmail.com |
+| Sujet pré-rempli | ✅ | "Contact depuis COOLANCE" |
+| Corps avec email + message | ✅ | Formaté proprement |
+| Validation consentement | ✅ | Toast erreur si non coché |
 
 ---
 
-## F) PDF/Print
+## F) UI Fixes
+
+| Test | Status | Notes |
+|------|--------|-------|
+| Photo "Qui suis-je" centrée (tête visible) | ✅ | object-top |
+| Bannière urgence (position) | ✅ | En haut, inline, discret |
+| Menu hamburger position gauche | ✅ | Stable en mode Senior |
+
+---
+
+## G) PDF/Print
 
 | Test | Status | Notes |
 |------|--------|-------|
@@ -85,18 +97,7 @@
 | PDF 4 pages complet | ✅ | Programme 8 semaines inclus |
 | Aperçu PDF modal | ✅ | Fallback HTML si échec |
 | Fallback impression navigateur | ✅ | openPrintableFallback() |
-| Font externe non supportée | ✅ | Helvetica uniquement |
-
----
-
-## G) UX Mobile + Mode Senior
-
-| Test | Desktop | Mobile | Mode Senior |
-|------|---------|--------|-------------|
-| Header stable (pas de chevauchement) | ✅ | ✅ | ⚠️ (à vérifier) |
-| Menu hamburger accessible | ✅ | ✅ | ✅ |
-| Boutons XXL lisibles | n/a | n/a | ✅ |
-| Scroll-to-top après navigation | ✅ | ✅ | ✅ |
+| Boutons PDF avec stopPropagation | ✅ | Ne déclenche pas navigation |
 
 ---
 
@@ -111,14 +112,20 @@
 
 ## Résumé
 
-- ✅ **Redirections V1→V2** : Fonctionnelles pour tous les slugs
-- ✅ **Vidéos** : 5 thèmes, embed lazy-load, fallback YouTube
-- ✅ **Sources** : Affichées sur toutes les pathologies V2
-- ✅ **Liens internes** : Tous migrés vers getPathologyUrl()
-- ✅ **"Bientôt disponible"** : Remplacés par messages explicites
-- ✅ **PDF** : Génération fonctionnelle + fallback HTML
+- ✅ **BUG #1** : Clics vidéos ne naviguent plus vers la page
+- ✅ **BUG #2** : Liens "Lire" pointent vers les bonnes pathologies V2
+- ✅ **Scroll-to-top** : Fonctionnel partout
+- ✅ **Contact** : mailto vers docteuraudricbugnard@gmail.com
+- ✅ **UI** : Photo centrée, bannière OK
+- ✅ **Diagnostics** : /diagnostic/videos + /diagnostic/links disponibles
 - ⚠️ **rhinosinusite-chronique** : Mapping vidéo manquant (pas de vidéos dans JSON)
-- ⚠️ **Mode Senior header** : À tester manuellement
+
+---
+
+## Pages de diagnostic (cachées)
+
+- `/diagnostic/videos` — Vérifie le chargement du JSON vidéos et les thèmes
+- `/diagnostic/links` — Vérifie que tous les liens ressources sont valides
 
 ---
 
