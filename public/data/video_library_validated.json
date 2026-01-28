@@ -1,0 +1,295 @@
+{
+  "video_library": {
+    "metadata": {
+      "version": "1.0",
+      "date_validation": "2026-01-27",
+      "validator": "Médecin MPR/APA + éditeur",
+      "criteres_selection": [
+        "Cohérence avec guidelines HAS/internationales",
+        "Crédibilité institutionnelle (CHU, kinés diplômés, associations reconnues)",
+        "Sécurité patients (avertissements, progression, pas de promesses)",
+        "Accessibilité (sans équipement, seniors-friendly)",
+        "Qualité pédagogique (démo claire, durée optimale)"
+      ]
+    },
+    "themes": [
+      {
+        "theme_id": "arthrose_genou",
+        "theme_nom": "Gonarthrose (Arthrose du genou)",
+        "guideline_reference": "HAS 2014 + OARSI 2019 : exercice thérapeutique = 1ère ligne (avant pharmacologie)",
+        "videos_selectionnees": [
+          {
+            "rang": 1,
+            "titre": "Comment soigner l'arthrose de genoux sans médicament",
+            "chaine": "HemTon Kiné",
+            "url": "https://www.youtube.com/watch?v=IxzkYSPI4qc",
+            "duree": "18:15",
+            "langue": "FR",
+            "annee": 2025,
+            "score_final": "9.5/10",
+            "justification_selection": "Anatomie body-painting très pédagogique + progression 0→avancé + mobilité+renfo+équilibre intégrés. Contrôle douleur explicite, consignes sécurité claires, sans promesse miracle. Conforme OARSI (exercice multimodal).",
+            "phrase_affichage": "Exercices progressifs pour renforcer et soulager le genou. Adaptez l'intensité à votre douleur (échelle 0-3/10 acceptable). Arrêtez si douleur aiguë.",
+            "points_forts": [
+              "Anatomie visuelle (body-painting)",
+              "Progression niveaux 0-avancé",
+              "Gestion douleur explicite",
+              "Sans équipement"
+            ],
+            "cible": "Adulte/Senior",
+            "materiel": "Aucun"
+          },
+          {
+            "rang": 2,
+            "titre": "Arthrose du genou : 9 exercices pour se soulager",
+            "chaine": "Toutpourmasante (Alexandre Auffret, kiné)",
+            "url": "https://www.youtube.com/watch?v=DQfbMjU-W64",
+            "duree": "10:02",
+            "langue": "FR",
+            "annee": 2020,
+            "score_final": "9/10",
+            "justification_selection": "Kiné diplômé + sources scientifiques citées. Programme complet échauffement+renfo+étirements. Démo lente, adapté douleur, très accessible seniors. Conforme HAS (exercice structuré).",
+            "phrase_affichage": "Programme complet 9 exercices validés par kiné. Échauffement obligatoire. Respectez votre douleur (max 3/10). 3×/semaine minimum.",
+            "points_forts": [
+              "Sources scientifiques citées",
+              "Démo très lente et claire",
+              "Programme complet structuré",
+              "Chaise/marche optionnelle"
+            ],
+            "cible": "Senior/Adulte",
+            "materiel": "Chaise (optionnel)"
+          }
+        ]
+      },
+      {
+        "theme_id": "arthrose_hanche",
+        "theme_nom": "Coxarthrose (Arthrose de la hanche)",
+        "guideline_reference": "HAS 2014 + OARSI 2019 : renforcement fessiers + mobilité hanche = priorité",
+        "videos_selectionnees": [
+          {
+            "rang": 1,
+            "titre": "Arthrite: cet exercice stimule HANCHE et FESSIERS",
+            "chaine": "Denis Fortier (Physio Québec)",
+            "url": "https://www.youtube.com/watch?v=qcX91jSxj7w",
+            "duree": "6:59",
+            "langue": "FR",
+            "annee": 2024,
+            "score_final": "9/10",
+            "justification_selection": "Levée latérale ciblée fessiers + mobilité hanche. Avertissement médical complet, contrôle douleur, variantes proposées. Très senior-friendly. Conforme OARSI (renfo fessiers).",
+            "phrase_affichage": "Exercice ciblé pour renforcer les fessiers et soulager la hanche. Progression lente (10-15 répétitions). Arrêtez si douleur > 3/10.",
+            "points_forts": [
+              "Avertissement médical complet",
+              "Variantes progression",
+              "Très senior-friendly",
+              "Sans équipement (coussin optionnel)"
+            ],
+            "cible": "Senior/Adulte",
+            "materiel": "Aucun (coussin optionnel)"
+          },
+          {
+            "rang": 2,
+            "titre": "Des exercices (presque) magiques hanches",
+            "chaine": "Denis Fortier (Physio Québec)",
+            "url": "https://www.youtube.com/watch?v=bDRceAP3XkA",
+            "duree": "7:00",
+            "langue": "FR",
+            "annee": 2024,
+            "score_final": "8.5/10",
+            "justification_selection": "Mobilité hanche complète + fessiers+adducteurs. Progression douce, rythme adapté seniors, consignes claires. Pas de promesse (titre 'presque'). Conforme HAS (mobilité globale).",
+            "phrase_affichage": "Routine douce pour mobiliser la hanche. Mouvements lents et contrôlés. Adaptez l'amplitude à votre confort. Quotidien recommandé.",
+            "points_forts": [
+              "Progression très douce",
+              "Fessiers + adducteurs",
+              "Rythme adapté seniors",
+              "Sans équipement"
+            ],
+            "cible": "Senior",
+            "materiel": "Aucun"
+          }
+        ]
+      },
+      {
+        "theme_id": "lombalgie_chronique",
+        "theme_nom": "Lombalgie chronique (>3 mois)",
+        "guideline_reference": "HAS 2019 : exercice + éducation thérapeutique = 1ère ligne. Pas de repos prolongé.",
+        "videos_selectionnees": [
+          {
+            "rang": 1,
+            "titre": "Lombalgie chronique - exercices pour mon dos",
+            "chaine": "Soline adapte ton sport (APA)",
+            "url": "https://www.youtube.com/watch?v=NpJdmvZJvR0",
+            "duree": "26:00",
+            "langue": "FR",
+            "annee": 2021,
+            "score_final": "9/10",
+            "justification_selection": "Circuit complet : fentes+superman+gainage+hip-thrust. Échauffement inclus, étapes claires, variantes. Progression logique. Conforme HAS (renforcement global + éducation).",
+            "phrase_affichage": "Programme complet 26 min (segmentable). Échauffement obligatoire. Progression sur 4-8 semaines. Douleur légère acceptable (max 3/10).",
+            "points_forts": [
+              "Circuit complet structuré",
+              "Échauffement + variantes",
+              "APA (Activité Physique Adaptée)",
+              "Tapis uniquement"
+            ],
+            "cible": "Adulte/Senior",
+            "materiel": "Tapis (ou sol)"
+          },
+          {
+            "rang": 2,
+            "titre": "McGill exercises + étirements (lombalgies)",
+            "chaine": "AISMT13 (Kiné professionnel)",
+            "url": "Livret PDF + vidéo",
+            "duree": "12-15 min",
+            "langue": "FR",
+            "annee": 2021,
+            "score_final": "9.5/10",
+            "justification_selection": "Protocole McGill validé (Big 3) + références HAS. Gainage scientifique, pas de reproduction douleur. Gold standard lombalgie chronique. Conforme guidelines internationales.",
+            "phrase_affichage": "Protocole McGill validé scientifiquement. 3 exercices de gainage (Bird-dog, Side-plank, Curl-up). Quotidien recommandé. Progression 4-6 semaines.",
+            "points_forts": [
+              "Protocole McGill (gold standard)",
+              "Références HAS citées",
+              "Science-based",
+              "Tapis optionnel"
+            ],
+            "cible": "Adulte",
+            "materiel": "Tapis (optionnel)",
+            "note": "⚠️ Vidéo à valider/remplacer par URL YouTube si livret PDF non accessible en ligne"
+          }
+        ]
+      },
+      {
+        "theme_id": "bpco",
+        "theme_nom": "BPCO (Bronchopneumopathie Chronique Obstructive)",
+        "guideline_reference": "GOLD 2023 + HAS : réhabilitation respiratoire + techniques respiration (lèvres pincées) = essentiel",
+        "videos_selectionnees": [
+          {
+            "rang": 1,
+            "titre": "Exercices respiration MPOC BPCO - Débutant",
+            "chaine": "Denis Fortier (Physio Québec)",
+            "url": "https://www.youtube.com/watch?v=JnZ2wmDc6eM",
+            "duree": "13:57",
+            "langue": "FR",
+            "annee": 2022,
+            "score_final": "9.5/10",
+            "justification_selection": "Respiration lèvres pincées + abdominale + coaching dyspnée. Avertissement médical, pas d'essoufflement excessif, progression lente. Conforme GOLD (techniques respiratoires de base).",
+            "phrase_affichage": "Techniques de respiration pour BPCO. Lèvres pincées (inspire nez, expire bouche). Arrêtez si essoufflement important. Consultez si aggravation.",
+            "points_forts": [
+              "Avertissement médical clair",
+              "Coaching dyspnée intégré",
+              "Progression très lente",
+              "Sans équipement"
+            ],
+            "cible": "Senior/Adulte BPCO",
+            "materiel": "Aucun"
+          },
+          {
+            "rang": 2,
+            "titre": "Technique respiration à lèvres pincées",
+            "chaine": "IUCPQ-ULaval (Institut Universitaire de Cardiologie et Pneumologie de Québec)",
+            "url": "https://www.youtube.com/watch?v=Wg4WxUpq1Yc",
+            "duree": "2:14",
+            "langue": "FR",
+            "annee": 2015,
+            "score_final": "9/10",
+            "justification_selection": "Source hospitalière (CHU). Démonstration ultra-claire technique fondamentale BPCO. Technique validée, courte, sans risque. Conforme GOLD (respiration lèvres pincées = base).",
+            "phrase_affichage": "Technique de base validée par CHU. Inspire par le nez (2 sec), expire lèvres pincées (4 sec). À pratiquer lors de dyspnée ou effort.",
+            "points_forts": [
+              "Source CHU institutionnelle",
+              "Technique fondamentale validée",
+              "Ultra-court et clair",
+              "Sans équipement"
+            ],
+            "cible": "Senior/Adulte BPCO",
+            "materiel": "Aucun"
+          }
+        ]
+      },
+      {
+        "theme_id": "lavage_nez",
+        "theme_nom": "Lavage de nez (DRP Désobstruction Rhino-Pharyngée)",
+        "guideline_reference": "AFSSAPS/ANSM + HAS : lavage sérum physiologique = 1ère ligne rhinosinusite/rhinite. Sécurité enfant++",
+        "videos_selectionnees": [
+          {
+            "rang": 1,
+            "titre": "Lavage nez nouveau-né/petit enfant",
+            "chaine": "CHU Bordeaux",
+            "url": "https://www.youtube.com/watch?v=AsDxqqxFHrw",
+            "duree": "3:53",
+            "langue": "FR",
+            "annee": 2024,
+            "score_final": "10/10",
+            "justification_selection": "Source CHU (gold standard). Pipettes+seringues, technique complète parents-friendly. Sécurité enfant maximale (pas inhalation, mouchage doux, 6-8×/jour). Conforme ANSM/HAS (DRP enfant).",
+            "phrase_affichage": "Technique CHU validée 0-4 ans. Allongez l'enfant, tournez la tête sur le côté. 1 pipette/narine, mouchage doux. 6-8×/jour si rhinite. Consultez si fièvre/gêne respiratoire.",
+            "points_forts": [
+              "Source CHU institutionnelle",
+              "Sécurité enfant maximale",
+              "Parents-friendly",
+              "Pipettes/seringues graduées"
+            ],
+            "cible": "Enfant 0-4 ans",
+            "materiel": "Pipettes ou seringues + sérum physiologique",
+            "securite_enfant": "✓ Pas risque inhalation, position sécurisée, mouchage doux, surveillance adulte"
+          },
+          {
+            "rang": 2,
+            "titre": "Désobstruction Rhino-Pharyngée (DRP)",
+            "chaine": "IFMK Brest (Institut de Formation en Masso-Kinésithérapie)",
+            "url": "https://www.youtube.com/watch?v=TXUif0Vj9P4",
+            "duree": "2:13",
+            "langue": "FR",
+            "annee": 2022,
+            "score_final": "9/10",
+            "justification_selection": "École kiné (formation professionnelle). Étapes claires, sécurité enfant centrée. Parents + kiné peuvent faire. Position sécurisée, pas forcing. Conforme HAS (DRP technique référence).",
+            "phrase_affichage": "Technique DRP validée par école de kinésithérapie. Position latérale, gestes doux. Applicable tous âges enfant. Consultez kiné si technique difficile.",
+            "points_forts": [
+              "École kiné (formation pro)",
+              "Étapes très claires",
+              "Sécurité enfant centrée",
+              "Parents peuvent faire"
+            ],
+            "cible": "Enfant (tous âges)",
+            "materiel": "Pipettes ou seringues + sérum physiologique",
+            "securite_enfant": "✓ Position sécurisée, pas forcing, fermeture bouche ok, gestes douces"
+          }
+        ]
+      }
+    ],
+    "references_guidelines": [
+      {
+        "pathologie": "Arthrose",
+        "guideline": "HAS 2014 - Prise en charge de l'arthrose",
+        "url": "https://www.has-sante.fr/jcms/c_1751281/fr/prise-en-charge-de-l-arthrose",
+        "point_cle": "Exercice thérapeutique = 1ère ligne avant pharmacologie"
+      },
+      {
+        "pathologie": "Arthrose",
+        "guideline": "OARSI 2019 - Guidelines for non-surgical management of knee, hip, and polyarticular osteoarthritis",
+        "url": "https://www.oarsijournal.com/article/S1063-4584(19)31116-1/fulltext",
+        "point_cle": "Exercice multimodal (force + mobilité + équilibre) recommandé"
+      },
+      {
+        "pathologie": "Lombalgie chronique",
+        "guideline": "HAS 2019 - Prise en charge du patient présentant une lombalgie commune",
+        "url": "https://www.has-sante.fr/jcms/c_2961499/fr/prise-en-charge-du-patient-presentant-une-lombalgie-commune",
+        "point_cle": "Exercice + éducation thérapeutique = 1ère ligne. Pas de repos prolongé"
+      },
+      {
+        "pathologie": "BPCO",
+        "guideline": "GOLD 2023 - Global Strategy for Prevention, Diagnosis and Management of COPD",
+        "url": "https://goldcopd.org/2023-gold-report/",
+        "point_cle": "Réhabilitation respiratoire + techniques respiration (lèvres pincées) essentielles"
+      },
+      {
+        "pathologie": "Lavage de nez",
+        "guideline": "AFSSAPS/ANSM - Bon usage des solutions de lavage du nez",
+        "url": "https://ansm.sante.fr/documents/reference/bon-usage-des-solutions-de-lavage-du-nez",
+        "point_cle": "Sérum physiologique = 1ère ligne rhinosinusite/rhinite. Sécurité enfant (pas inhalation)"
+      }
+    ],
+    "notes_importantes": [
+      "⚠️ McGill Protocol (lombalgie) : vérifier disponibilité vidéo YouTube publique ou remplacer par alternative Denis Fortier/Reeducpourtous",
+      "✓ Toutes vidéos sélectionnées = sources institutionnelles (CHU, kinés diplômés, physios reconnus)",
+      "✓ Scores 8.5-10/10 = haute crédibilité + conformité guidelines",
+      "✓ Sécurité enfant (lavage nez) : CHU Bordeaux + IFMK Brest = références absolues",
+      "✓ Sous-titres disponibles (transcription auto YouTube) sur toutes vidéos FR"
+    ]
+  }
+}
