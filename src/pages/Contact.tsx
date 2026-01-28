@@ -33,12 +33,22 @@ const Contact = () => {
 
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Construire le mailto avec le message pré-rempli
+    const subject = encodeURIComponent('Contact depuis COOLANCE');
+    const body = encodeURIComponent(
+      `Message de: ${formData.email}\n\n${formData.message}\n\n---\nEnvoyé depuis le site COOLANCE`
+    );
+    const mailtoUrl = `mailto:docteuraudricbugnard@gmail.com?subject=${subject}&body=${body}`;
     
-    toast.success('Message envoyé. Je vous répondrai dans les meilleurs délais.');
-    setFormData({ email: '', message: '', consent: false });
-    setIsSubmitting(false);
+    // Ouvrir le client mail
+    window.location.href = mailtoUrl;
+    
+    // Confirmer à l'utilisateur
+    setTimeout(() => {
+      toast.success('Votre client mail s\'est ouvert. Envoyez le message pour me contacter.');
+      setFormData({ email: '', message: '', consent: false });
+      setIsSubmitting(false);
+    }, 500);
   };
 
   return (

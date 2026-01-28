@@ -2,7 +2,7 @@
 // FALLBACK IMPRESSION GUIDES — COOLANCE
 // ============================================
 // Génère une page HTML imprimable pour les guides transversaux
-// Utilisé quand le PDF n'est pas généré dynamiquement
+// Template 1 colonne, police lisible, format portrait
 // ============================================
 
 type GuideId = 'poids' | 'tabac' | 'sommeil' | 'bouger';
@@ -145,6 +145,10 @@ const guidesContent: Record<GuideId, GuideContent> = {
   },
 };
 
+/**
+ * Génère le HTML pour un guide avec template 1 colonne, police lisible
+ * Format portrait, optimisé pour l'impression PDF
+ */
 const buildGuideHtml = (guideId: GuideId): string => {
   const guide = guidesContent[guideId];
 
@@ -164,106 +168,166 @@ const buildGuideHtml = (guideId: GuideId): string => {
 </html>`;
   }
 
+  // Template 1 colonne, police lisible (>=12pt), format portrait
   return `<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${escapeHtml(guide.title)} — Coolance</title>
     <style>
-      @page { size: A4; margin: 10mm; }
+      @page { size: A4 portrait; margin: 15mm 12mm; }
       * { box-sizing: border-box; margin: 0; padding: 0; }
       body { 
-        font-family: system-ui, sans-serif; 
-        font-size: 9pt; 
-        line-height: 1.25; 
-        color: #111; 
-        max-width: 190mm; 
-        margin: 0 auto; 
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; 
+        font-size: 13pt; 
+        line-height: 1.5; 
+        color: #222; 
+        max-width: 180mm;
+        margin: 0 auto;
+        padding: 16px;
       }
+      
       header { 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: flex-start;
-        margin-bottom: 6px; 
-        padding-bottom: 5px; 
-        border-bottom: 2px solid #0b5; 
+        margin-bottom: 20px; 
+        padding-bottom: 12px; 
+        border-bottom: 3px solid #16a34a; 
       }
-      h1 { font-size: 15pt; color: #0b5; margin-bottom: 2px; }
-      .subtitle { font-size: 8pt; color: #555; }
-      .brand { text-align: right; font-size: 10pt; font-weight: bold; color: #0b5; }
-      .brand-sub { font-size: 7pt; color: #888; }
+      h1 { 
+        font-size: 22pt; 
+        color: #16a34a; 
+        margin-bottom: 6px; 
+        font-weight: 700;
+      }
+      .subtitle { 
+        font-size: 12pt; 
+        color: #666; 
+        line-height: 1.4;
+      }
+      .brand { 
+        font-size: 11pt; 
+        font-weight: bold; 
+        color: #16a34a; 
+        margin-top: 8px;
+      }
       
-      .two-cols { display: flex; gap: 8px; margin-top: 5px; }
-      .col { flex: 1; }
+      section {
+        margin-bottom: 18px;
+      }
       
-      h2 { font-size: 9pt; color: #0b5; margin: 5px 0 3px; }
+      h2 { 
+        font-size: 14pt; 
+        color: #16a34a; 
+        margin-bottom: 10px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #e5e5e5;
+        font-weight: 600;
+      }
       
-      .card { border: 1px solid #e5e5e5; border-radius: 5px; padding: 5px 7px; margin-bottom: 5px; }
-      .card-action { background: #f0fdf4; border-color: #bbf7d0; }
-      .card-warning { background: #fef3c7; border-color: #fcd34d; }
+      .card { 
+        border: 1px solid #e5e5e5; 
+        border-radius: 8px; 
+        padding: 12px 16px; 
+        margin-bottom: 12px;
+        background: #fafafa;
+      }
+      .card-action { 
+        background: #f0fdf4; 
+        border-color: #86efac; 
+      }
+      .card-warning { 
+        background: #fefce8; 
+        border-color: #fde047; 
+      }
       
-      ul { margin: 0; padding-left: 12px; }
-      li { margin: 1px 0; font-size: 8pt; line-height: 1.2; }
+      ul { 
+        margin: 0; 
+        padding-left: 20px; 
+      }
+      li { 
+        margin: 6px 0; 
+        font-size: 12pt; 
+        line-height: 1.45; 
+      }
+      li::marker {
+        color: #16a34a;
+      }
       
-      .sources { font-size: 7pt; color: #555; margin-top: 4px; }
+      .sources { 
+        font-size: 10pt; 
+        color: #666; 
+        margin-top: 16px;
+        padding-top: 12px;
+        border-top: 1px solid #ddd;
+      }
+      .sources strong {
+        color: #444;
+      }
       
       footer { 
-        margin-top: 5px; 
-        padding-top: 4px; 
-        border-top: 1px solid #ddd; 
-        font-size: 7pt; 
+        margin-top: 20px; 
+        padding-top: 12px; 
+        border-top: 2px solid #16a34a; 
+        font-size: 10pt; 
         color: #666; 
         display: flex; 
-        justify-content: space-between; 
+        justify-content: space-between;
+        align-items: center;
       }
       
-      .print-note { font-size: 7pt; color: #888; margin: 3px 0; }
-      @media print { .print-note { display: none; } }
+      .print-note { 
+        font-size: 11pt; 
+        color: #888; 
+        margin: 10px 0;
+        padding: 8px 12px;
+        background: #f5f5f5;
+        border-radius: 6px;
+        text-align: center;
+      }
+      @media print { 
+        .print-note { display: none; } 
+        body { padding: 0; }
+      }
     </style>
   </head>
   <body>
     <header>
-      <div>
-        <h1>📘 ${escapeHtml(guide.title)}</h1>
-        <p class="subtitle">${escapeHtml(guide.description)}</p>
-      </div>
-      <div class="brand">
-        COOLANCE
-        <div class="brand-sub">Dr Audric Bugnard</div>
-      </div>
+      <h1>📘 ${escapeHtml(guide.title)}</h1>
+      <p class="subtitle">${escapeHtml(guide.description)}</p>
+      <div class="brand">COOLANCE — Dr Audric Bugnard</div>
     </header>
     
-    <p class="print-note">Imprimer → Enregistrer en PDF</p>
+    <p class="print-note">💡 Pour enregistrer en PDF : Imprimer → "Enregistrer en PDF"</p>
     
-    <div class="two-cols">
-      <div class="col">
-        <h2>📋 Dans ce guide</h2>
-        <div class="card">
-          <ul>
-            ${guide.topics.slice(0, 4).map((t) => `<li>${escapeHtml(t)}</li>`).join('')}
-          </ul>
-        </div>
-        
-        <h2>💡 Messages clés</h2>
-        <div class="card card-warning">
-          <ul>
-            ${guide.keyMessages.slice(0, 3).map((m) => `<li>${escapeHtml(m)}</li>`).join('')}
-          </ul>
-        </div>
+    <section>
+      <h2>📋 Dans ce guide</h2>
+      <div class="card">
+        <ul>
+          ${guide.topics.map((t) => `<li>${escapeHtml(t)}</li>`).join('\n          ')}
+        </ul>
       </div>
-      
-      <div class="col">
-        <h2>✅ Plan d'action</h2>
-        <div class="card card-action">
-          <ul>
-            ${guide.actionPlan.slice(0, 4).map((a) => `<li>${escapeHtml(a)}</li>`).join('')}
-          </ul>
-        </div>
-        
-        <div class="sources">
-          📚 ${guide.sources.slice(0, 2).map((s) => escapeHtml(s)).join(' • ')}
-        </div>
+    </section>
+    
+    <section>
+      <h2>💡 Messages clés</h2>
+      <div class="card card-warning">
+        <ul>
+          ${guide.keyMessages.map((m) => `<li>${escapeHtml(m)}</li>`).join('\n          ')}
+        </ul>
       </div>
+    </section>
+    
+    <section>
+      <h2>✅ Plan d'action</h2>
+      <div class="card card-action">
+        <ul>
+          ${guide.actionPlan.map((a) => `<li>${escapeHtml(a)}</li>`).join('\n          ')}
+        </ul>
+      </div>
+    </section>
+    
+    <div class="sources">
+      <strong>📚 Sources :</strong> ${guide.sources.map((s) => escapeHtml(s)).join(' • ')}
     </div>
     
     <footer>

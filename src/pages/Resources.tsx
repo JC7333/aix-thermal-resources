@@ -8,6 +8,7 @@ import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { useToast } from '@/hooks/use-toast';
 import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 import {
   libraryResources,
   quickAnswers,
@@ -40,7 +41,7 @@ const LibraryCard = ({ resource }: { resource: LibraryResource }) => {
     if (!resource.pathologySlug || !hasPdf) {
       toast({
         title: "PDF non disponible",
-        description: "La fiche PDF pour cette ressource sera bientôt disponible.",
+        description: "Aucune donnée disponible pour générer ce PDF.",
         variant: "destructive",
       });
       return;
@@ -65,9 +66,12 @@ const LibraryCard = ({ resource }: { resource: LibraryResource }) => {
     }
   };
 
+  // Déterminer si le lien est valide
+  const hasValidLink = resource.pathologySlug ? hasEvidenceData(resource.pathologySlug) : false;
+  
   const linkTo = resource.pathologySlug 
-    ? `/pathologie/${resource.pathologySlug}` 
-    : `/guides`;
+    ? getPathologyUrl(resource.pathologySlug) 
+    : null;
 
   return (
     <article className="card-medical flex flex-col h-full group">
@@ -97,9 +101,13 @@ const LibraryCard = ({ resource }: { resource: LibraryResource }) => {
 
       {/* Title */}
       <h3 className="font-serif text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-        <Link to={linkTo}>
-          {resource.title}
-        </Link>
+        {linkTo ? (
+          <Link to={linkTo}>
+            {resource.title}
+          </Link>
+        ) : (
+          <span>{resource.title}</span>
+        )}
       </h3>
 
       {/* Summary */}
@@ -121,28 +129,56 @@ const LibraryCard = ({ resource }: { resource: LibraryResource }) => {
 
       {/* Actions */}
       <div className="flex items-center gap-2 pt-3 border-t border-border">
-        <Button asChild variant="default" size="sm" className="flex-1">
-          <Link to={linkTo}>
+        {linkTo ? (
+          <Button asChild variant="default" size="sm" className="flex-1">
+            <Link to={linkTo}>
+              <BookOpen className="w-4 h-4" />
+              Lire
+            </Link>
+          </Button>
+        ) : (
+          <Button variant="outline" size="sm" className="flex-1" disabled>
             <BookOpen className="w-4 h-4" />
-            Lire
-          </Link>
-        </Button>
+            Non disponible
+          </Button>
+        )}
         <Button 
           variant="outline" 
           size="sm"
-          onClick={handlePrint}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handlePrint();
+          }}
           className="px-3"
         >
           <Printer className="w-4 h-4" />
         </Button>
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={handleDownloadPDF}
-          className="px-3"
-        >
-          <Download className="w-4 h-4" />
-        </Button>
+        {hasPdf ? (
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleDownloadPDF();
+            }}
+            disabled={isDownloading}
+            className="px-3"
+          >
+            {isDownloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+          </Button>
+        ) : (
+          <Button 
+            variant="outline" 
+            size="sm"
+            disabled
+            className="px-3"
+            title="PDF non disponible"
+          >
+            <Download className="w-4 h-4" />
+          </Button>
+        )}
       </div>
     </article>
   );
@@ -157,7 +193,7 @@ const QuickAnswerCard = ({ answer }: { answer: typeof quickAnswers[0] }) => {
   };
 
   const linkTo = answer.pathologySlug 
-    ? `/pathologie/${answer.pathologySlug}` 
+    ? getPathologyUrl(answer.pathologySlug) 
     : answer.link || '/guides';
 
   return (

@@ -8,6 +8,7 @@ import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { quickAnswers, pathologies } from '@/content/content';
 import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
 import { useToast } from '@/hooks/use-toast';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 
 const themeButtons = [
   { 
@@ -261,7 +262,7 @@ const Index = () => {
                     </div>
                     <div className="flex-1 min-w-0">
                       <Link 
-                        to={`/pathologies/${pdf.slug}`}
+                        to={getPathologyUrl(pdf.slug)}
                         className={`font-medium text-foreground group-hover:text-primary transition-colors ${seniorMode ? 'text-xl' : ''}`}
                       >
                         {pdf.title}

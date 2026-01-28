@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Resource, Pathology, audienceLabels, resourceTypeLabels } from '@/data/pathologies';
 import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
 import { useToast } from '@/hooks/use-toast';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 
 interface ResourceCardProps {
   resource: Resource;
@@ -31,7 +32,7 @@ export const ResourceCard = ({ resource, pathology, showPathology = true }: Reso
     if (!pathology || !hasPdf) {
       toast({
         title: "PDF non disponible",
-        description: "La fiche PDF pour cette ressource sera bientôt disponible.",
+        description: "Aucune donnée disponible pour générer ce PDF.",
         variant: "destructive",
       });
       return;
@@ -76,7 +77,7 @@ export const ResourceCard = ({ resource, pathology, showPathology = true }: Reso
 
       {showPathology && pathology && (
         <Link
-          to={`/pathologie/${pathology.slug}`}
+          to={getPathologyUrl(pathology.slug)}
           className="text-sm text-primary hover:underline mb-2"
         >
           {pathology.name}
@@ -99,7 +100,7 @@ export const ResourceCard = ({ resource, pathology, showPathology = true }: Reso
           className="text-primary hover:text-primary hover:bg-primary/10"
           onClick={handleDownloadPDF}
           disabled={isDownloading || !hasPdf}
-          title={!hasPdf ? "PDF bientôt disponible" : "Télécharger le PDF"}
+          title={!hasPdf ? "Données non disponibles" : "Télécharger le PDF"}
         >
           {isDownloading ? (
             <Loader2 className="w-4 h-4 mr-1.5 animate-spin" />

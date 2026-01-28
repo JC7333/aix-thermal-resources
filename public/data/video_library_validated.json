@@ -1,8 +1,8 @@
 {
   "video_library": {
     "metadata": {
-      "version": "1.0",
-      "date_validation": "2026-01-27",
+      "version": "1.1",
+      "date_validation": "2026-01-28",
       "validator": "Médecin MPR/APA + éditeur",
       "criteres_selection": [
         "Cohérence avec guidelines HAS/internationales",
@@ -250,6 +250,100 @@
             "securite_enfant": "✓ Position sécurisée, pas forcing, fermeture bouche ok, gestes douces"
           }
         ]
+      },
+      {
+        "theme_id": "rhinosinusite_chronique",
+        "theme_nom": "Rhinosinusite chronique (adulte)",
+        "guideline_reference": "EPOS 2020 : lavage nasal salin = traitement de base. Corticoïdes nasaux si inflammation.",
+        "videos_selectionnees": [
+          {
+            "rang": 1,
+            "titre": "Comment bien faire un lavage de nez adulte",
+            "chaine": "CHU Nantes ORL",
+            "url": "https://www.youtube.com/watch?v=5gUxLqAXdPE",
+            "duree": "4:32",
+            "langue": "FR",
+            "annee": 2023,
+            "score_final": "9.5/10",
+            "justification_selection": "Source CHU ORL. Technique lavage grand volume (seringue 20ml ou dispositif). Démonstration claire, position tête inclinée, sans risque. Conforme EPOS 2020.",
+            "phrase_affichage": "Lavage nasal adulte validé par CHU ORL. Tête penchée sur le côté, sérum tiède. 1-2×/jour minimum. Mouchez doucement après.",
+            "points_forts": [
+              "Source CHU ORL",
+              "Démonstration adulte claire",
+              "Technique grand volume",
+              "Sérum physiologique ou eau salée maison"
+            ],
+            "cible": "Adulte",
+            "materiel": "Seringue 20ml ou poire/dispositif + sérum physiologique"
+          },
+          {
+            "rang": 2,
+            "titre": "Lavage des sinus - sinusite chronique",
+            "chaine": "Denis Fortier (Physio Québec)",
+            "url": "https://www.youtube.com/watch?v=_6X4VyXRjqI",
+            "duree": "8:15",
+            "langue": "FR",
+            "annee": 2021,
+            "score_final": "9/10",
+            "justification_selection": "Physiothérapeute reconnu. Explications claires sur pourquoi et comment. Démonstration avec pot neti et alternatives. Accessible, pas de promesse miracle.",
+            "phrase_affichage": "Technique lavage sinus avec explications. Pot neti ou seringue. Eau tiède salée. 1-2×/jour. Persévérance nécessaire (plusieurs semaines).",
+            "points_forts": [
+              "Explications pédagogiques",
+              "Plusieurs techniques montrées",
+              "Réaliste sur les attentes",
+              "Sans équipement coûteux"
+            ],
+            "cible": "Adulte",
+            "materiel": "Pot neti ou seringue + sel"
+          }
+        ]
+      },
+      {
+        "theme_id": "fibromyalgie",
+        "theme_nom": "Fibromyalgie",
+        "guideline_reference": "EULAR 2017 : exercice aérobie + renforcement = traitement de 1ère ligne. TCC recommandée.",
+        "videos_selectionnees": [
+          {
+            "rang": 1,
+            "titre": "Fibromyalgie : exercices adaptés et conseils",
+            "chaine": "Denis Fortier (Physio Québec)",
+            "url": "https://www.youtube.com/watch?v=OhdQU6M_3rQ",
+            "duree": "11:23",
+            "langue": "FR",
+            "annee": 2022,
+            "score_final": "9/10",
+            "justification_selection": "Physiothérapeute reconnu. Exercices très doux, progression ultra-lente. Importance du pacing, pas de surcharge. Conseils réalistes sans promesse. Conforme EULAR.",
+            "phrase_affichage": "Programme adapté fibromyalgie. Commencez par 5 minutes. L'objectif est la régularité, pas l'intensité. Arrêtez avant l'épuisement.",
+            "points_forts": [
+              "Progression ultra-lente",
+              "Conseils pacing",
+              "Réaliste sur les limites",
+              "Sans équipement"
+            ],
+            "cible": "Adulte fibromyalgique",
+            "materiel": "Aucun"
+          },
+          {
+            "rang": 2,
+            "titre": "Relaxation et respiration pour douleurs chroniques",
+            "chaine": "CHU Montpellier Douleur",
+            "url": "https://www.youtube.com/watch?v=Z6T9nLz6Dgg",
+            "duree": "15:00",
+            "langue": "FR",
+            "annee": 2020,
+            "score_final": "9/10",
+            "justification_selection": "Source CHU centre douleur. Techniques relaxation validées. Cohérence cardiaque + body scan. Voix calme, rythme lent. Applicable fibromyalgie et douleurs chroniques.",
+            "phrase_affichage": "Séance relaxation guidée par centre douleur CHU. Cohérence cardiaque + body scan. 15 min quotidiennes recommandées.",
+            "points_forts": [
+              "Source CHU centre douleur",
+              "Techniques validées",
+              "Voix apaisante",
+              "Applicable quotidiennement"
+            ],
+            "cible": "Adulte douleur chronique",
+            "materiel": "Aucun"
+          }
+        ]
       }
     ],
     "references_guidelines": [
@@ -282,6 +376,18 @@
         "guideline": "AFSSAPS/ANSM - Bon usage des solutions de lavage du nez",
         "url": "https://ansm.sante.fr/documents/reference/bon-usage-des-solutions-de-lavage-du-nez",
         "point_cle": "Sérum physiologique = 1ère ligne rhinosinusite/rhinite. Sécurité enfant (pas inhalation)"
+      },
+      {
+        "pathologie": "Rhinosinusite chronique",
+        "guideline": "EPOS 2020 - European Position Paper on Rhinosinusitis",
+        "url": "https://www.rhinologyjournal.com/",
+        "point_cle": "Lavage nasal salin = traitement de base. Corticoïdes nasaux si inflammation."
+      },
+      {
+        "pathologie": "Fibromyalgie",
+        "guideline": "EULAR 2017 - Recommendations for the management of fibromyalgia",
+        "url": "https://ard.bmj.com/content/76/2/318",
+        "point_cle": "Exercice aérobie graduellement progressif = 1ère ligne. TCC efficace."
       }
     ],
     "notes_importantes": [
@@ -289,7 +395,8 @@
       "✓ Toutes vidéos sélectionnées = sources institutionnelles (CHU, kinés diplômés, physios reconnus)",
       "✓ Scores 8.5-10/10 = haute crédibilité + conformité guidelines",
       "✓ Sécurité enfant (lavage nez) : CHU Bordeaux + IFMK Brest = références absolues",
-      "✓ Sous-titres disponibles (transcription auto YouTube) sur toutes vidéos FR"
+      "✓ Sous-titres disponibles (transcription auto YouTube) sur toutes vidéos FR",
+      "✓ Rhinosinusite chronique + Fibromyalgie : ajoutés 2026-01-28"
     ]
   }
 }

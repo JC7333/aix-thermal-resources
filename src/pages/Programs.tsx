@@ -7,6 +7,7 @@ import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { pathologies, levelLabels, MobilityLevel } from '@/data/pathologies';
 import { downloadPdf4PagesBySlug, hasEvidenceData } from '@/services/pdfService';
 import { useToast } from '@/hooks/use-toast';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 
 const Programs = () => {
   const [downloadingSlug, setDownloadingSlug] = useState<string | null>(null);
@@ -21,7 +22,7 @@ const Programs = () => {
     if (!hasEvidenceData(slug)) {
       toast({
         title: "PDF non disponible",
-        description: "Le programme PDF pour cette pathologie sera bientôt disponible.",
+        description: "Aucune donnée disponible pour ce programme.",
         variant: "destructive",
       });
       return;
@@ -73,7 +74,7 @@ const Programs = () => {
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
                   <div>
                     <Link
-                      to={`/pathologies/${pathology.slug}`}
+                      to={getPathologyUrl(pathology.slug)}
                       className="text-sm text-primary hover:underline flex items-center gap-1"
                     >
                       Voir la fiche complète
@@ -97,7 +98,7 @@ const Programs = () => {
                     ) : (
                       <Download className="w-4 h-4" />
                     )}
-                    {hasPdf ? 'Télécharger les programmes PDF' : 'Bientôt disponible'}
+                    {hasPdf ? 'Télécharger les programmes PDF' : 'Non disponible'}
                   </Button>
                 </div>
 

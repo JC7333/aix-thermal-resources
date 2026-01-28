@@ -458,7 +458,7 @@ const Telechargements = () => {
                   ) : (
                     <div className={`${effectiveReadableMode ? 'p-6' : 'p-4'} bg-muted/30 rounded-lg text-center`}>
                       <p className={`${effectiveReadableMode ? 'text-lg' : 'text-sm'} text-muted-foreground italic`}>
-                        PDFs bientôt disponibles
+                        Aucun PDF disponible pour cette catégorie
                       </p>
                     </div>
                   )}
@@ -466,7 +466,7 @@ const Telechargements = () => {
                   {/* Lien vers page en ligne — masqué en mode frigo */}
                   {!fridgeMode && (
                     <Link 
-                      to={`/pathologies/${pathology.slug}`}
+                      to={`/pathologies/v2/${pathology.slug}`}
                       className={`block text-center text-primary hover:underline ${effectiveReadableMode ? 'text-lg font-medium' : 'text-sm'}`}
                     >
                       Voir la version en ligne →

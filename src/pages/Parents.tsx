@@ -7,6 +7,7 @@ import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { useToast } from '@/hooks/use-toast';
 import { pathologies } from '@/data/pathologies';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 
 const parentTopics = [
   {
@@ -70,8 +71,8 @@ const Parents = () => {
   const handleDownloadPDF = () => {
     if (!pdfAvailable) {
       toast({
-        title: "Guide bientôt disponible",
-        description: "Le guide parents PDF est en cours de préparation. Revenez prochainement.",
+        title: "Guide non disponible",
+        description: "Le guide parents PDF n'est pas encore disponible. Consultez les fiches pathologies individuelles.",
       });
       return;
     }
@@ -146,7 +147,7 @@ const Parents = () => {
 
                   {pathology && (
                     <Link
-                      to={`/pathologies/${topic.slug}`}
+                      to={getPathologyUrl(topic.slug)}
                       className="flex items-center gap-2 text-primary font-medium text-sm hover:underline"
                     >
                       Voir la fiche complète
@@ -201,7 +202,7 @@ const Parents = () => {
               ) : (
                 <Clock className="w-5 h-5" />
               )}
-              {pdfAvailable ? 'Télécharger le guide PDF' : 'Guide bientôt disponible'}
+              {pdfAvailable ? 'Télécharger le guide PDF' : 'Guide non disponible'}
             </Button>
           </div>
         </section>
@@ -216,7 +217,7 @@ const Parents = () => {
               {childPathologies.map((pathology) => (
                 <Link
                   key={pathology.id}
-                  to={`/pathologies/${pathology.slug}`}
+                  to={getPathologyUrl(pathology.slug)}
                   className="card-medical flex items-center gap-4 group"
                 >
                   <div className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center shrink-0">
