@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Printer, CheckCircle, AlertTriangle, ChevronRight, Clock, Zap } from 'lucide-react';
+import { ArrowLeft, Printer, CheckCircle, AlertTriangle, ChevronRight, Clock, Zap, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
@@ -18,10 +18,19 @@ const QuickAnswerCard = ({ answer, seniorMode }: { answer: FullQuickAnswer; seni
     destructive: 'border-destructive/30 hover:border-destructive bg-destructive/5 hover:bg-destructive/10',
   };
 
+  const navigate = useNavigate();
+  
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    logEvent('quick_answer_click', `/reponses-rapides/${answer.slug}`, { id: answer.slug, title: answer.title });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    navigate(`/reponses-rapides/${answer.slug}`);
+  };
+
   return (
-    <Link 
-      to={`/reponses-rapides/${answer.slug}`}
-      onClick={() => logEvent('quick_answer_click', `/reponses-rapides/${answer.slug}`, { id: answer.slug, title: answer.title })}
+    <a 
+      href={`/reponses-rapides/${answer.slug}`}
+      onClick={handleClick}
       className={`flex items-center gap-4 rounded-2xl border-2 transition-all ${colorClasses[answer.color]} group ${seniorMode ? 'p-8' : 'p-6'}`}
     >
       <span className={seniorMode ? 'text-5xl' : 'text-4xl'}>{answer.icon}</span>
@@ -32,7 +41,7 @@ const QuickAnswerCard = ({ answer, seniorMode }: { answer: FullQuickAnswer; seni
         <p className={`text-muted-foreground mt-1 ${seniorMode ? 'text-base' : 'text-sm'}`}>{answer.subtitle}</p>
       </div>
       <ChevronRight className={`text-muted-foreground group-hover:text-primary transition-colors shrink-0 ${seniorMode ? 'w-8 h-8' : 'w-6 h-6'}`} />
-    </Link>
+    </a>
   );
 };
 
@@ -85,6 +94,7 @@ const QuickAnswersList = () => {
 // Detail view component
 const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
   const { seniorMode, titleClass, textClass, buttonSize, iconSize, smallTextClass, subtitleClass } = useSeniorMode();
+  const navigate = useNavigate();
   
   const handlePrint = () => {
     logEvent('print_click', `/reponses-rapides/${answer.slug}`, { title: answer.title });
@@ -115,13 +125,18 @@ const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
 
         {/* Header */}
         <header className={seniorMode ? 'mb-10' : 'mb-8'}>
-          <Link 
-            to="/reponses-rapides" 
+          <a 
+            href="/reponses-rapides"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: 'instant' });
+              navigate('/reponses-rapides');
+            }}
             className={`inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4 transition-colors ${seniorMode ? 'text-lg' : ''}`}
           >
             <ArrowLeft className={iconSize} />
             Retour aux réponses rapides
-          </Link>
+          </a>
           
           <div className={`flex items-center gap-4 ${colorClasses[answer.color]} ${seniorMode ? 'mb-6' : 'mb-4'}`}>
             <span className={seniorMode ? 'text-6xl' : 'text-5xl'}>{answer.icon}</span>
@@ -271,13 +286,13 @@ const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
             Imprimer cette fiche
           </Button>
           <Button 
-            asChild 
             size={buttonSize}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: 'instant' });
+              window.location.href = '/reponses-rapides';
+            }}
           >
-            <Link to="/reponses-rapides">
-              Voir les autres réponses rapides
-            </Link>
+            Voir les autres réponses rapides
           </Button>
         </div>
       </article>
