@@ -16,6 +16,7 @@ import {
   Check,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -288,7 +289,7 @@ export const CollectionCard = ({
                           >
                             <span className="text-xl">{meta.icon}</span>
                             <Link 
-                              to={`/pathologies/${slug}`}
+                              to={getPathologyUrl(slug)}
                               className="flex-1 font-medium text-foreground hover:text-primary transition-colors"
                             >
                               {meta.name}

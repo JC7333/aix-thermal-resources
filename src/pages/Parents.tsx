@@ -7,6 +7,7 @@ import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { useToast } from '@/hooks/use-toast';
 import { pathologies } from '@/data/pathologies';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 
 const parentTopics = [
   {
@@ -146,7 +147,7 @@ const Parents = () => {
 
                   {pathology && (
                     <Link
-                      to={`/pathologies/${topic.slug}`}
+                      to={getPathologyUrl(topic.slug)}
                       className="flex items-center gap-2 text-primary font-medium text-sm hover:underline"
                     >
                       Voir la fiche complète
@@ -216,7 +217,7 @@ const Parents = () => {
               {childPathologies.map((pathology) => (
                 <Link
                   key={pathology.id}
-                  to={`/pathologies/${pathology.slug}`}
+                  to={getPathologyUrl(pathology.slug)}
                   className="card-medical flex items-center gap-4 group"
                 >
                   <div className="w-10 h-10 rounded-lg bg-secondary/20 flex items-center justify-center shrink-0">

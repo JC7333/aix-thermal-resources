@@ -9,6 +9,7 @@ import { useFavorites } from '@/hooks/useFavorites';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { getAllEvidence, type EvidenceData } from '@/data/evidence';
 import { Button } from '@/components/ui/button';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 
 const categoryLabels: Record<string, string> = {
   'rhumatologie': 'Rhumatologie',
@@ -79,7 +80,7 @@ const Pathologies = () => {
               {favoritePathologies.map((pathology) => (
                 <Link
                   key={pathology.slug}
-                  to={`/pathologies/${pathology.slug}`}
+                  to={getPathologyUrl(pathology.slug)}
                   className="card-medical group flex flex-col ring-2 ring-destructive/20"
                 >
                   <div className="flex items-start justify-between mb-3">
@@ -173,7 +174,7 @@ const Pathologies = () => {
                         </span>
                       </div>
 
-                      <Link to={`/pathologies/${pathology.slug}`}>
+                      <Link to={getPathologyUrl(pathology.slug)}>
                         <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                           <span>Voir</span>
                           <ChevronRight className="w-4 h-4 ml-1" />

@@ -7,6 +7,7 @@
 // ============================================
 
 import { Link } from 'react-router-dom';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 import { useSortable } from '@dnd-kit/sortable';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, BookOpen, GripVertical, Calendar, Target } from 'lucide-react';
@@ -189,7 +190,7 @@ export const DraggableFavoriteCard = ({
         </motion.span>
         
         <Link 
-          to={`/pathologies/${pathology.slug}`}
+          to={getPathologyUrl(pathology.slug)}
           className="flex-1 min-w-0"
           onClick={(e) => isDragMode && e.preventDefault()}
         >
@@ -328,7 +329,7 @@ export const DraggableFavoriteCard = ({
       </div>
 
       <Link 
-        to={`/pathologies/${pathology.slug}`} 
+        to={getPathologyUrl(pathology.slug)} 
         className="block mb-4"
         onClick={(e) => isDragMode && e.preventDefault()}
       >
@@ -408,7 +409,7 @@ export const DraggableFavoriteCard = ({
             </div>
             {hasActiveProgress && (
               <Link 
-                to={`/pathologies/${pathology.slug}?tab=programme`}
+                to={`${getPathologyUrl(pathology.slug)}?tab=programme`}
                 className="text-xs text-primary hover:underline mt-2 block"
                 onClick={(e) => isDragMode && e.preventDefault()}
               >
