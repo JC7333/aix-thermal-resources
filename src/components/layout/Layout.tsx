@@ -13,13 +13,14 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
-      <MedicalDisclaimer variant="banner" />
       <Header />
       <main id="main-content" className="flex-1 pt-0">
         {children}
       </main>
       <Footer />
       <FloatingBackToTop />
+      {/* Bandeau légal discret en bas à droite, repliable sur mobile */}
+      <MedicalDisclaimer variant="floating" />
     </div>
   );
 };

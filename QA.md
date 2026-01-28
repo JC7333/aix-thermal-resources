@@ -12,10 +12,11 @@
 | gonarthrose | `/pathologies/gonarthrose` | ✅ `/pathologies/v2/gonarthrose` | ✅ | ✅ | ✅ |
 | coxarthrose | `/pathologies/coxarthrose` | ✅ `/pathologies/v2/coxarthrose` | ✅ | ✅ | ✅ |
 | lombalgie-chronique | `/pathologies/lombalgie-chronique` | ✅ `/pathologies/v2/lombalgie-chronique` | ✅ | ✅ | ✅ |
-| insuffisance-veineuse | `/pathologies/insuffisance-veineuse` | ✅ `/pathologies/v2/insuffisance-veineuse` | ⚠️ (message "en cours") | ✅ | ✅ |
+| insuffisance-veineuse | `/pathologies/insuffisance-veineuse` | ✅ `/pathologies/v2/insuffisance-veineuse` | ✅ (message pro) | ✅ | ✅ |
 | bpco | `/pathologies/bpco` | ✅ `/pathologies/v2/bpco` | ✅ | ✅ | ✅ |
 | otites-repetition-enfant | `/pathologies/otites-repetition-enfant` | ✅ `/pathologies/v2/otites-repetition-enfant` | ✅ | ✅ | ✅ |
-| rhinosinusite-chronique | `/pathologies/rhinosinusite-chronique` | ✅ `/pathologies/v2/rhinosinusite-chronique` | ✅ (lavage_nez) | ✅ | ✅ |
+| rhinosinusite-chronique | `/pathologies/rhinosinusite-chronique` | ✅ `/pathologies/v2/rhinosinusite-chronique` | ✅ | ✅ | ✅ |
+| fibromyalgie | `/pathologies/fibromyalgie` | ✅ `/pathologies/v2/fibromyalgie` | ✅ | ✅ | ✅ |
 | lombalgie (alias) | `/pathologies/lombalgie` | ✅ `/pathologies/v2/lombalgie-chronique` | ✅ | ✅ | ✅ |
 | mal-de-dos (alias) | `/pathologies/mal-de-dos` | ✅ `/pathologies/v2/lombalgie-chronique` | ✅ | ✅ | ✅ |
 | otites (alias) | `/pathologies/otites` | ✅ `/pathologies/v2/otites-repetition-enfant` | ✅ | ✅ | ✅ |
@@ -29,7 +30,7 @@
 | Clic "Voir la vidéo" ne navigue pas | ✅ | stopPropagation() ajouté |
 | Embed YouTube lazy-load au clic | ✅ | youtube-nocookie.com |
 | Fallback "Ouvrir sur YouTube" | ✅ | Nouvel onglet |
-| 5 thèmes détectés dans JSON | ✅ | /diagnostic/videos |
+| 7 thèmes détectés dans JSON | ✅ | /diagnostic/videos |
 
 | Thème | Vidéos dans JSON | Affichage page | Clic embed | Fallback YouTube |
 |-------|------------------|----------------|------------|------------------|
@@ -38,8 +39,9 @@
 | lombalgie_chronique | 2 | ✅ | ✅ | ✅ |
 | bpco | 2 | ✅ | ✅ | ✅ |
 | lavage_nez | 2 | ✅ | ✅ | ✅ |
+| rhinosinusite_chronique | 2 | ✅ | ✅ | ✅ |
+| fibromyalgie | 2 | ✅ | ✅ | ✅ |
 | insuffisance-veineuse | N/A | ✅ (message pro) | — | — |
-| rhinosinusite-chronique | N/A | ✅ (message pro) | — | — |
 
 ---
 
@@ -88,7 +90,7 @@
 | Test | Status | Notes |
 |------|--------|-------|
 | Photo "Qui suis-je" centrée (tête visible) | ✅ | object-top |
-| Bannière urgence (position) | ✅ | En haut, inline, discret |
+| Bannière urgence (position) | ✅ | **Bas-droite, discret, repliable** |
 | Menu hamburger position gauche | ✅ | Stable en mode Senior |
 
 ---
@@ -116,7 +118,16 @@
 
 ---
 
-## I) Performance
+## I) Nouvelles pathologies V2 (2026-01-28)
+
+| Pathologie | Status | Vidéos | Parcours 7j | Parcours 4 sem | Sources |
+|------------|--------|--------|-------------|----------------|---------|
+| Fibromyalgie | ✅ complete | ✅ 2 vidéos | ✅ | ✅ | ✅ 5 sources |
+| Rhinosinusite chronique (vidéos) | ✅ ajoutées | ✅ 2 vidéos | déjà présent | déjà présent | déjà présent |
+
+---
+
+## J) Performance
 
 | Test | Status | Notes |
 |------|--------|-------|
@@ -125,26 +136,25 @@
 
 ---
 
-## J) Pages de diagnostic (cachées)
+## K) Pages de diagnostic (cachées)
 
 | URL | Description | Status |
 |-----|-------------|--------|
-| `/diagnostic/videos` | Vérifie chargement JSON vidéos, thèmes, mapping | ✅ |
+| `/diagnostic/videos` | Vérifie chargement JSON vidéos (7 thèmes), mapping | ✅ |
 | `/diagnostic/links` | Vérifie validité liens ressources (28) | ✅ |
-| `/diagnostic/routes` | Vérifie slugs V2, URL builder, scroll-to-top | ✅ |
+| `/diagnostic/routes` | Vérifie slugs V2 (8 complets), URL builder, scroll-to-top | ✅ |
 
 ---
 
 ## Résumé
 
-- ✅ **BUG #1** : Clics vidéos ne naviguent plus vers la page
-- ✅ **BUG #2** : Liens "Lire" pointent vers les bonnes pathologies V2
+- ✅ **Bandeau légal** : En bas à droite, discret, repliable sur mobile
 - ✅ **Scroll-to-top** : Fonctionnel partout (history.scrollRestoration = manual)
-- ✅ **Contact** : mailto vers docteuraudricbugnard@gmail.com
-- ✅ **UI** : Photo centrée, bannière OK
+- ✅ **Vidéos** : 7 thèmes (rhinosinusite + fibromyalgie ajoutés), embed ne navigue jamais
+- ✅ **Fibromyalgie** : Pathologie V2 complète (exercices, parcours, sources, vidéos)
+- ✅ **Guides** : Format 1 colonne, police 13pt lisible, preview + download HTML
 - ✅ **Diagnostics** : 3 pages disponibles (/diagnostic/videos, /links, /routes)
-- ✅ **Guides** : Format 1 colonne, police lisible, preview + download
-- ✅ **Vidéos N/A** : rhinosinusite-chronique et insuffisance-veineuse affichent message pro (pas de warning)
+- ✅ **Vidéos N/A** : insuffisance-veineuse affiche message pro (pas de warning)
 
 ---
 
