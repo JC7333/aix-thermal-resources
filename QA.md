@@ -146,6 +146,17 @@
 
 ---
 
+## L) Evidence Pack JSON (data-driven)
+
+| Test | Status | Notes |
+|------|--------|-------|
+| Loader `loadEvidencePack()` | ✅ | Avec cache mémoire |
+| Getter `getEvidenceBySlug(slug)` | ✅ | Mapping V2 → JSON keys |
+| Pathologies mappées | ✅ | 10 pathologies (omarthrose → otites) |
+| Sources/red_flags/limitations extraites | ✅ | Typage fort |
+
+---
+
 ## Résumé
 
 - ✅ **Bandeau légal** : En bas à droite, discret, repliable sur mobile
