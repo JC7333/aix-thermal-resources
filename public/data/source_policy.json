@@ -1,0 +1,22 @@
+{
+  "allowed_source_domains": [
+    "has-sante.fr",
+    "who.int",
+    "goldcopd.org",
+    "esvs.org",
+    "ejves.com",
+    "cochranelibrary.com",
+    "pubmed.ncbi.nlm.nih.gov",
+    "pmc.ncbi.nlm.nih.gov",
+    "oarsi.org",
+    "sciencedirect.com",
+    "epos2020.com",
+    "rhinologyjournal.com"
+  ],
+  "blocked_source_domains": [
+    "doctissimo.fr",
+    "sites-commerciaux-thermes.example",
+    "blogs.example"
+  ],
+  "max_sources_per_pathology": 6
+}
