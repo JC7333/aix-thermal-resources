@@ -30,7 +30,9 @@ const VideoCard = ({ video, seniorMode }: VideoCardProps) => {
   const thumbnailUrl = videoId ? getYouTubeThumbnailUrl(videoId, 'hq') : null;
   const embedUrl = videoId ? getYouTubeEmbedUrl(videoId) : null;
   
-  const handlePlayClick = () => {
+  const handlePlayClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (videoId) {
       setShowEmbed(true);
     } else {
@@ -44,7 +46,9 @@ const VideoCard = ({ video, seniorMode }: VideoCardProps) => {
     setShowEmbed(false);
   };
   
-  const handleOpenYouTube = () => {
+  const handleOpenYouTube = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     window.open(video.url, '_blank', 'noopener,noreferrer');
   };
   
