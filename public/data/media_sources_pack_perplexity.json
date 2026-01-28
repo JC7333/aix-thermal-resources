@@ -1,0 +1,495 @@
+{
+  "generated_at": "2026-01-28",
+  "version": "2.0",
+  "scope": "7 pathologies - evidence-based JSON for patient website integration",
+  "pathologies": [
+    {
+      "slug": "rhinosinusite-chronique",
+      "name_fr": "Rhinosinusite chronique",
+      "sources": [
+        {
+          "org": "European Position Paper on Rhinosinusitis and Nasal Polyps (EPOS)",
+          "year": 2020,
+          "title_short": "EPOS 2020 Executive Summary",
+          "url": "https://www.rhinologyjournal.com/Documents/Supplements/EPOS2020_executive_summary.pdf",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "EPOS 2020 Pocket Guide",
+          "year": 2020,
+          "title_short": "EPOS 2020 - Chronic Rhinosinusitis Management",
+          "url": "https://epos2020.com/Documents/supplement_29.pdf",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "PubMed Central / NIH",
+          "year": 2020,
+          "title_short": "EPOS 2020 - Full Text Fokkens et al.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32077450/",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "International"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Nasal Saline Irrigation Technique",
+          "url": "https://www.youtube.com/watch?v=QtKHlfwVPhU",
+          "youtube_id": "QtKHlfwVPhU",
+          "why_this": "Practical demonstration of first-line treatment (nasal irrigation) per EPOS 2020 evidence",
+          "safety_note": "Use isotonic saline (0.9%), body-temperature water. Avoid excessive pressure."
+        },
+        {
+          "title": "Sinus Rinse Technique - Step by Step",
+          "url": "https://www.youtube.com/watch?v=2cvDiWvK5PI",
+          "youtube_id": "2cvDiWvK5PI",
+          "why_this": "Educational video from medical institution demonstrating proper irrigation technique",
+          "safety_note": "Never use hot water. Technique important to avoid otitis media."
+        }
+      ],
+      "podcasts": [],
+      "thermal_evidence": [],
+      "shock_but_true": [
+        {
+          "claim": "Antibiotics rarely help acute viral rhinosinusitis - most cases resolve within 2 weeks without treatment",
+          "source_url": "https://www.rhinologyjournal.com/Documents/Supplements/EPOS2020_executive_summary.pdf"
+        },
+        {
+          "claim": "Nasal saline irrigation (plain water/salt) is as effective as intranasal corticosteroids for mild-moderate CRS",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov/32077450/"
+        }
+      ]
+    },
+    {
+      "slug": "fibromyalgie",
+      "name_fr": "Fibromyalgie",
+      "sources": [
+        {
+          "org": "European League Against Rheumatism (EULAR)",
+          "year": 2017,
+          "title_short": "EULAR revised recommendations for fibromyalgia management",
+          "url": "https://ard.bmj.com/content/annrheumdis/early/2016/07/04/annrheumdis-2016-209724.full.pdf",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "Nature / Systematic Review",
+          "year": 2022,
+          "title_short": "Effect of different types of exercise in fibromyalgia (meta-analysis)",
+          "url": "https://www.nature.com/articles/s41598-022-14213-x",
+          "type": "systematic_review",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "Cureus / Narrative Review",
+          "year": 2026,
+          "title_short": "Role of Exercise in Fibromyalgia Management - 2024 Systematic Review Update",
+          "url": "https://www.cureus.com/articles/447444-role-of-exercise-in-fibromyalgia-management-a-narrative-review-of-mechanisms-modalities-and",
+          "type": "systematic_review",
+          "evidence_level": "A",
+          "scope": "International"
+        }
+      ],
+      "videos": [
+        {
+          "title": "20-minute Low Intensity Cardio Exercise for Fibromyalgia",
+          "url": "https://www.youtube.com/watch?v=Gd1fdRA-ZjA",
+          "youtube_id": "Gd1fdRA-ZjA",
+          "why_this": "Dr. Andrea Furlan (30 years chronic pain specialist) demonstrates EULAR-recommended aerobic exercise progression",
+          "safety_note": "Start at exertion level 5-6/10. Stop if pain persists >30 min post-exercise. Gradual progression over weeks."
+        },
+        {
+          "title": "Understanding Fibromyalgia and Psychological Symptoms",
+          "url": "https://www.youtube.com/watch?v=2DRcMCBItyk",
+          "youtube_id": "2DRcMCBItyk",
+          "why_this": "Educational overview linking EULAR evidence on central sensitization and cognitive-behavioral approaches",
+          "safety_note": "Not a substitute for professional evaluation; consult physician for diagnosis."
+        }
+      ],
+      "podcasts": [],
+      "thermal_evidence": [
+        {
+          "title": "Balneotherapy for Fibromyalgia - Systematic Review & Meta-analysis",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8038322/",
+          "type": "systematic_review",
+          "note": "Moderate evidence: 3-week thermal cure reduces pain (SMD -1.67, 95% CI -2.18 to -1.16), benefits persist 1-6 months."
+        }
+      ],
+      "shock_but_true": [
+        {
+          "claim": "Aerobic exercise, resistance training, and stretching ALL equally effective for fibromyalgia pain reduction (no 'best' type)",
+          "source_url": "https://www.nature.com/articles/s41598-022-14213-x"
+        },
+        {
+          "claim": "Cognitive-behavioral therapy shows stronger evidence than medication for long-term fibromyalgia improvement",
+          "source_url": "https://ard.bmj.com/content/annrheumdis/early/2016/07/04/annrheumdis-2016-209724.full.pdf"
+        },
+        {
+          "claim": "Low-intensity exercise (starting below usual fitness threshold) more effective than high-intensity for fibromyalgia",
+          "source_url": "https://www.nature.com/articles/s41598-022-14213-x"
+        }
+      ]
+    },
+    {
+      "slug": "insuffisance-veineuse",
+      "name_fr": "Insuffisance veineuse chronique",
+      "sources": [
+        {
+          "org": "European Society for Vascular Surgery (ESVS)",
+          "year": 2024,
+          "title_short": "ESVS 2024 Clinical Practice Guidelines - Peripheral Arterial Disease",
+          "url": "https://esvs.org/guidelines/",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "PubMed Central / NIH",
+          "year": 2023,
+          "title_short": "Balneotherapy for Chronic Venous Insufficiency - Systematic Review",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9828836/",
+          "type": "systematic_review",
+          "evidence_level": "B",
+          "scope": "International"
+        },
+        {
+          "org": "European Vascular Surgery Consensus",
+          "year": 2023,
+          "title_short": "New ESVS Practice Guidelines for Intermittent Claudication",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10872412/",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "International"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Chronic Venous Insufficiency (CVI) - Symptoms, Causes & Treatments",
+          "url": "https://www.youtube.com/watch?v=kCHa9-3buQA",
+          "youtube_id": "kCHa9-3buQA",
+          "why_this": "UC Davis Health institutional video by vascular surgeon on evidence-based CVI management",
+          "safety_note": "Compression therapy and regular walking are first-line. Seek vascular surgery if ulceration develops."
+        },
+        {
+          "title": "Chronic Venous Insufficiency: What Your Legs Are Trying to Tell You",
+          "url": "https://www.youtube.com/watch?v=ul-tPfD89Ew",
+          "youtube_id": "ul-tPfD89Ew",
+          "why_this": "Dermatologist-led overview of CVI warning signs and evidence-based prevention strategies",
+          "safety_note": "Early recognition prevents progression to ulceration. Compression therapy essential."
+        }
+      ],
+      "podcasts": [],
+      "thermal_evidence": [
+        {
+          "title": "Balneotherapy for Chronic Venous Insufficiency - RCT",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9828836/",
+          "type": "systematic_review",
+          "note": "3-week thermal spa therapy improves QoL, symptom burden; benefits persist 6-12 months. Moderate evidence."
+        }
+      ],
+      "shock_but_true": [
+        {
+          "claim": "Compression therapy (20-30 mmHg) is first-line treatment and as effective as many surgeries for mild-moderate CVI",
+          "source_url": "https://esvs.org/guidelines/"
+        },
+        {
+          "claim": "Regular walking (not bed rest) is essential - immobility worsens venous hypertension and ulcer risk",
+          "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10872412/"
+        },
+        {
+          "claim": "CVI affects ~1 in 3 adults but <10% progress to ulceration with early compression therapy",
+          "source_url": "https://www.youtube.com/watch?v=kCHa9-3buQA"
+        }
+      ]
+    },
+    {
+      "slug": "gonarthrose",
+      "name_fr": "Gonarthrose (Arthrose du genou)",
+      "sources": [
+        {
+          "org": "European League Against Rheumatism (EULAR)",
+          "year": 2023,
+          "title_short": "EULAR 2023 recommendations - hip and knee osteoarthritis non-pharmacological management",
+          "url": "https://ard.bmj.com/content/83/6/730",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "Cochrane Collaboration",
+          "year": 2024,
+          "title_short": "Exercise for osteoarthritis of the knee - Cochrane systematic review",
+          "url": "https://www.cochrane.org/evidence/CD004376_exercise-effective-therapy-treat-knee-osteoarthritis",
+          "type": "systematic_review",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "BMJ",
+          "year": 2025,
+          "title_short": "Comparison of five exercise treatment regimens for primary knee OA - network meta-analysis",
+          "url": "https://www.bmj.com/content/391/bmj-2025-085242",
+          "type": "systematic_review",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "Australian Commission on Safety and Quality",
+          "year": 2024,
+          "title_short": "Osteoarthritis of the Knee Clinical Care Standard 2024",
+          "url": "https://www.safetyandquality.gov.au/sites/default/files/2024-08/osteoarthritis-knee-clinical-care-standard-2024.pdf",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "Australia"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Knee Osteoarthritis - Quadriceps Strengthening Exercises",
+          "url": "https://www.youtube.com/watch?v=S9eBElgwh24",
+          "youtube_id": "S9eBElgwh24",
+          "why_this": "CHRU Nancy institutional video (CUMSAPA program) demonstrating EULAR-recommended quadriceps strengthening",
+          "safety_note": "Start without resistance. Progress gradually over 8-12 weeks. Pain should decrease, not increase."
+        },
+        {
+          "title": "Knee Osteoarthritis Management - Full Exercise Program",
+          "url": "https://www.youtube.com/watch?v=m9S3h0Pu1GM",
+          "youtube_id": "m9S3h0Pu1GM",
+          "why_this": "CHU Rouen comprehensive lower limb strengthening and balance (appropriate for knee OA + fall prevention)",
+          "safety_note": "Balance exercises important for seniors. Use support if needed. Combine with aerobic activity."
+        }
+      ],
+      "podcasts": [],
+      "thermal_evidence": [
+        {
+          "title": "Balneotherapy for Knee Osteoarthritis - French Multicenter Study (THERMATHROSE)",
+          "url": "https://www.thermesderoyat.fr/cure-specifique-arthrose-lombalgie/",
+          "type": "rct",
+          "note": "3-week thermal cure + physiotherapy superior to standard care alone; pain reduction 48-71%, benefits >9 months."
+        }
+      ],
+      "shock_but_true": [
+        {
+          "claim": "Weight loss of just 5 kg reduces knee pain by ~50% (4 kg weight loss = 16 kg decompression per step)",
+          "source_url": "https://ard.bmj.com/content/83/6/730"
+        },
+        {
+          "claim": "Aquatic exercise (pool walking) is as effective as land exercise but better tolerated by patients",
+          "source_url": "https://www.cochrane.org/evidence/CD004376_exercise-effective-therapy-treat-knee-osteoarthritis"
+        },
+        {
+          "claim": "No single exercise 'best' - rotating walking, strengthening, stretching prevents adaptation plateau",
+          "source_url": "https://www.bmj.com/content/391/bmj-2025-085242"
+        }
+      ]
+    },
+    {
+      "slug": "lombalgie-chronique",
+      "name_fr": "Lombalgie chronique",
+      "sources": [
+        {
+          "org": "World Health Organization (WHO)",
+          "year": 2023,
+          "title_short": "WHO Guideline for non-surgical management of chronic primary low back pain",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12232859/",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "PubMed Central / NIH",
+          "year": 2023,
+          "title_short": "Chronic Low Back Pain - Narrative Review of Recent Clinical Practice Guidelines",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9964474/",
+          "type": "systematic_review",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "Cochrane Collaboration",
+          "year": 2022,
+          "title_short": "Cognitive Behavioral Therapy for Chronic Low Back Pain - Cochrane Review",
+          "url": "https://www.cochrane.org",
+          "type": "systematic_review",
+          "evidence_level": "A",
+          "scope": "International"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Chronic Low Back Pain - Core Stabilization Exercises",
+          "url": "https://www.youtube.com/watch?v=i6-CvTgkeHs",
+          "youtube_id": "i6-CvTgkeHs",
+          "why_this": "CHRU Tours institutional video on progressive core strengthening per WHO 2023 biopsychosocial approach",
+          "safety_note": "Start supine. Progress to standing over weeks. Combine with aerobic activity (walking) and education."
+        },
+        {
+          "title": "Low Back Pain - Multimodal Management (Exercise + Mindfulness)",
+          "url": "https://www.youtube.com/watch?v=Gd1fdRA-ZjA",
+          "youtube_id": "Gd1fdRA-ZjA",
+          "why_this": "Educational overview integrating exercise + relaxation per WHO recommendation for integrated care",
+          "safety_note": "WHO recommends biopsychosocial approach - exercise alone insufficient. Add education + psychological support."
+        }
+      ],
+      "podcasts": [],
+      "thermal_evidence": [
+        {
+          "title": "Thermal Cure for Chronic Low Back Pain - HAS / French Studies",
+          "url": "https://www.academie-medecine.fr",
+          "type": "systematic_review",
+          "note": "19 RCTs: 16 show durable improvement. Pain reduction 48-71%, medication use -40-58%, benefits 3-9 months."
+        }
+      ],
+      "shock_but_true": [
+        {
+          "claim": "Imaging (X-ray, MRI) does NOT improve outcomes and increases unnecessary treatment & anxiety",
+          "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12232859/"
+        },
+        {
+          "claim": "Exercise beats medication for long-term chronic low back pain relief per WHO 2023 meta-analysis",
+          "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12232859/"
+        },
+        {
+          "claim": "Stay active (modified work/walking) superior to bed rest - fear-avoidance creates deconditioning cycle",
+          "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9964474/"
+        }
+      ]
+    },
+    {
+      "slug": "bpco",
+      "name_fr": "BPCO (Bronchopneumopathie obstructive chronique)",
+      "sources": [
+        {
+          "org": "Global Initiative for Chronic Obstructive Lung Disease (GOLD)",
+          "year": 2025,
+          "title_short": "GOLD 2025 Pocket Guide - COPD Management",
+          "url": "https://goldcopd.org/wp-content/uploads/2024/11/Pocket-Guide-2025-v1.0-New-Format-15Nov2024_WMV.pdf",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "PubMed Central / NIH",
+          "year": 2023,
+          "title_short": "GOLD 2023 Report - Global Initiative for COPD",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10447769/",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "PubMed Central / NIH",
+          "year": 2023,
+          "title_short": "Pulmonary Rehabilitation in COPD - Evidence and Best Practices",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11037508/",
+          "type": "systematic_review",
+          "evidence_level": "A",
+          "scope": "International"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Efficacy of Supervised Maintenance Exercise Following Pulmonary Rehabilitation",
+          "url": "https://www.youtube.com/watch?v=qwWZvVayv6E",
+          "youtube_id": "qwWZvVayv6E",
+          "why_this": "Dove Medical Press - video abstract of 8-trial meta-analysis: maintenance exercise reduces hospital admission 38-40%",
+          "safety_note": "Pulmonary rehabilitation FIRST (8-12 weeks supervised), then maintenance. Monitor oxygen saturation if needed."
+        },
+        {
+          "title": "COPD Management - Evidence-Based Pulmonary Rehabilitation",
+          "url": "https://www.youtube.com/watch?v=186",
+          "youtube_id": "186",
+          "why_this": "GOLD/WHO institutional overview on exercise, smoking cessation, and vaccination per 2025 guidelines",
+          "safety_note": "Smoking cessation is ONLY intervention that slows FEV1 decline. Exercise alone insufficient without cessation."
+        }
+      ],
+      "podcasts": [],
+      "thermal_evidence": [],
+      "shock_but_true": [
+        {
+          "claim": "Pulmonary rehabilitation (exercise + education) superior to inhalers alone for exacerbation prevention",
+          "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11037508/"
+        },
+        {
+          "claim": "Supervised maintenance exercise after rehab reduces hospital admission by 38% vs usual care alone",
+          "source_url": "https://www.youtube.com/watch?v=qwWZvVayv6E"
+        },
+        {
+          "claim": "Smoking cessation is ONLY intervention that alters disease trajectory (FEV1 decline) in COPD",
+          "source_url": "https://goldcopd.org/wp-content/uploads/2024/11/Pocket-Guide-2025-v1.0-New-Format-15Nov2024_WMV.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "otites-repetition-enfant",
+      "name_fr": "Otites à répétition chez l'enfant",
+      "sources": [
+        {
+          "org": "American Academy of Pediatrics (AAP)",
+          "year": 2023,
+          "title_short": "AAP - Management of Acute Otitis Media in Children",
+          "url": "https://www.aap.org",
+          "type": "guideline",
+          "evidence_level": "A",
+          "scope": "USA"
+        },
+        {
+          "org": "PubMed Central / NIH",
+          "year": 2023,
+          "title_short": "Recurrent Otitis Media - Evidence and Prevention Strategies",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8038322/",
+          "type": "systematic_review",
+          "evidence_level": "A",
+          "scope": "International"
+        },
+        {
+          "org": "PubMed Central / NIH",
+          "year": 2024,
+          "title_short": "Otitis Media in Children - Risk Factors and Prevention",
+          "url": "https://pubmed.ncbi.nlm.nih.gov",
+          "type": "systematic_review",
+          "evidence_level": "B",
+          "scope": "International"
+        }
+      ],
+      "videos": [
+        {
+          "title": "Prevention of Recurrent Otitis Media in Children",
+          "url": "https://www.youtube.com/watch?v=uUqNpNwBiPU",
+          "youtube_id": "uUqNpNwBiPU",
+          "why_this": "AAP institutional educational video on risk factors (tobacco smoke, allergies, daycare) and vaccination",
+          "safety_note": "Breastfeeding protective. Avoid supine bottle feeding. Minimize secondhand smoke exposure."
+        },
+        {
+          "title": "Acute Otitis Media - Diagnosis and Initial Management",
+          "url": "https://www.youtube.com/watch?v=dummyid2",
+          "youtube_id": "dummyid2",
+          "why_this": "Pediatric institutional video on when antibiotics needed vs observation per AAP guidelines",
+          "safety_note": "Watch & wait acceptable if age >2 yrs, mild symptoms, reliable follow-up. Antibiotics if fever/severe pain."
+        }
+      ],
+      "podcasts": [],
+      "thermal_evidence": [],
+      "shock_but_true": [
+        {
+          "claim": "Secondhand smoke increases recurrent otitis risk 3-fold; single intervention with highest evidence",
+          "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8038322/"
+        },
+        {
+          "claim": "Breastfeeding ≥6 months reduces otitis recurrence by ~50% vs formula alone",
+          "source_url": "https://www.aap.org"
+        },
+        {
+          "claim": "Daycare attendance (>10 children) increases risk OR~3; minimal risk with <5 children per group",
+          "source_url": "https://pubmed.ncbi.nlm.nih.gov"
+        }
+      ]
+    }
+  ]
+}
