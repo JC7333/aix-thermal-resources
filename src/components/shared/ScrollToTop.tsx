@@ -47,10 +47,14 @@ export const ScrollToTop = () => {
       }
     } else if (hasNavigated) {
       // Pas d'ancre et nouvelle page → remonter en haut
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'instant'
+      // Double appel pour garantir le scroll (certains navigateurs ignorent le premier)
+      window.scrollTo(0, 0);
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'instant'
+        });
       });
     }
   }, [pathname, search, hash]);
