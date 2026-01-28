@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -30,10 +31,20 @@ import SocialKit from "./pages/SocialKit";
 import SourcesMethodologie from "./pages/SourcesMethodologie";
 import DiagnosticVideos from "./pages/DiagnosticVideos";
 import DiagnosticLinks from "./pages/DiagnosticLinks";
+import DiagnosticRoutes from "./pages/DiagnosticRoutes";
+import { ScrollToTop } from "@/components/shared/ScrollToTop";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const App = () => {
+  // Disable browser scroll restoration for consistent scroll-to-top behavior
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
+  return (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <AccessibilityProvider>
@@ -41,6 +52,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <ScrollToTop />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/reponses-rapides" element={<ReponsesRapides />} />
@@ -68,6 +80,7 @@ const App = () => (
               <Route path="/sources-methodologie" element={<SourcesMethodologie />} />
               <Route path="/diagnostic/videos" element={<DiagnosticVideos />} />
               <Route path="/diagnostic/links" element={<DiagnosticLinks />} />
+              <Route path="/diagnostic/routes" element={<DiagnosticRoutes />} />
               {/* Route legacy /pathologie/:slug — redirige vers V2 */}
               <Route path="/pathologie/:slug" element={<PathologyPage />} />
               <Route path="/cabinet" element={<QuiSuisJe />} />
@@ -78,6 +91,7 @@ const App = () => (
       </AccessibilityProvider>
     </QueryClientProvider>
   </HelmetProvider>
-);
+  );
+};
 
 export default App;

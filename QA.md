@@ -15,7 +15,7 @@
 | insuffisance-veineuse | `/pathologies/insuffisance-veineuse` | ✅ `/pathologies/v2/insuffisance-veineuse` | ⚠️ (message "en cours") | ✅ | ✅ |
 | bpco | `/pathologies/bpco` | ✅ `/pathologies/v2/bpco` | ✅ | ✅ | ✅ |
 | otites-repetition-enfant | `/pathologies/otites-repetition-enfant` | ✅ `/pathologies/v2/otites-repetition-enfant` | ✅ | ✅ | ✅ |
-| rhinosinusite-chronique | `/pathologies/rhinosinusite-chronique` | ✅ `/pathologies/v2/rhinosinusite-chronique` | ⚠️ (mapping manquant) | ✅ | ⚠️ |
+| rhinosinusite-chronique | `/pathologies/rhinosinusite-chronique` | ✅ `/pathologies/v2/rhinosinusite-chronique` | ✅ (lavage_nez) | ✅ | ✅ |
 | lombalgie (alias) | `/pathologies/lombalgie` | ✅ `/pathologies/v2/lombalgie-chronique` | ✅ | ✅ | ✅ |
 | mal-de-dos (alias) | `/pathologies/mal-de-dos` | ✅ `/pathologies/v2/lombalgie-chronique` | ✅ | ✅ | ✅ |
 | otites (alias) | `/pathologies/otites` | ✅ `/pathologies/v2/otites-repetition-enfant` | ✅ | ✅ | ✅ |
@@ -57,14 +57,16 @@
 
 ---
 
-## D) Scroll-to-top global
+## D) Scroll-to-top global — CORRIGÉ
 
 | Test | Status | Notes |
 |------|--------|-------|
-| Navigation SPA (changement de page) | ✅ | ScrollToTop component |
+| Navigation SPA (changement de page) | ✅ | ScrollToTop component dans BrowserRouter |
+| history.scrollRestoration = manual | ✅ | Configuré dans App.tsx useEffect |
 | Bouton "Recommencer" (Parcours) | ✅ | window.scrollTo() explicite |
 | Liens footer | ✅ | ScrollTopLink component |
 | Ancres avec offset header | ✅ | 120px offset |
+| Page /pathologies → /pathologies/v2/* | ✅ | Arrive EN HAUT |
 
 ---
 
@@ -101,7 +103,18 @@
 
 ---
 
-## H) Performance
+## H) Guides transversaux — STANDARD TABAC
+
+| Guide | 1 colonne | Police ≥12pt | Aperçu HTML | PDF Download | Status |
+|-------|-----------|--------------|-------------|--------------|--------|
+| Poids | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Tabac | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Sommeil | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Bouger | ✅ | ✅ | ✅ | ✅ | ✅ |
+
+---
+
+## I) Performance
 
 | Test | Status | Notes |
 |------|--------|-------|
@@ -110,22 +123,25 @@
 
 ---
 
+## J) Pages de diagnostic (cachées)
+
+| URL | Description | Status |
+|-----|-------------|--------|
+| `/diagnostic/videos` | Vérifie chargement JSON vidéos, thèmes, mapping | ✅ |
+| `/diagnostic/links` | Vérifie validité liens ressources (28) | ✅ |
+| `/diagnostic/routes` | Vérifie slugs V2, URL builder, scroll-to-top | ✅ |
+
+---
+
 ## Résumé
 
 - ✅ **BUG #1** : Clics vidéos ne naviguent plus vers la page
 - ✅ **BUG #2** : Liens "Lire" pointent vers les bonnes pathologies V2
-- ✅ **Scroll-to-top** : Fonctionnel partout
+- ✅ **Scroll-to-top** : Fonctionnel partout (history.scrollRestoration = manual)
 - ✅ **Contact** : mailto vers docteuraudricbugnard@gmail.com
 - ✅ **UI** : Photo centrée, bannière OK
-- ✅ **Diagnostics** : /diagnostic/videos + /diagnostic/links disponibles
-- ⚠️ **rhinosinusite-chronique** : Mapping vidéo manquant (pas de vidéos dans JSON)
-
----
-
-## Pages de diagnostic (cachées)
-
-- `/diagnostic/videos` — Vérifie le chargement du JSON vidéos et les thèmes
-- `/diagnostic/links` — Vérifie que tous les liens ressources sont valides
+- ✅ **Diagnostics** : 3 pages disponibles (/diagnostic/videos, /links, /routes)
+- ✅ **Guides** : Format 1 colonne, police lisible, preview + download
 
 ---
 
