@@ -24,6 +24,7 @@ import { VideoSection } from '@/components/shared/VideoSection';
 import { getEvidencePackV2BySlug, CATEGORIES } from '@/content/evidence/v2';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { logEvent } from '@/services/analytics';
+import { filterSourcesByPolicy } from '@/lib/sourcePolicy';
 import type { EvidencePackV2, Exercise, MedicalProcedure } from '@/content/evidence/v2/types';
 
 // Badge couleur selon niveau de preuve
@@ -610,7 +611,7 @@ const PathologyPageV2 = () => {
                   Sources
                 </h3>
                 <ul className={`space-y-3 ${smallTextClass}`}>
-                  {pack.sources.map((source, idx) => (
+                  {filterSourcesByPolicy(pack.sources, 6).map((source, idx) => (
                     <li key={idx} className="text-muted-foreground">
                       <span className="font-medium text-foreground">{source.org}</span>
                       <span className="text-muted-foreground"> ({source.year})</span>
