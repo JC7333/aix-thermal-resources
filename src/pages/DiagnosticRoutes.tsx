@@ -3,10 +3,10 @@
 // Accessible uniquement via URL /diagnostic/routes
 // ============================================
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
-import { CheckCircle2, XCircle, ArrowRight, MapPin, ScrollText } from 'lucide-react';
+import { CheckCircle2, XCircle, ArrowRight, MapPin, ScrollText, RefreshCw } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,17 +16,25 @@ import {
   getV2Slug,
   SLUG_MIGRATION_MAP 
 } from '@/lib/pathologyRoutes';
-import { getAllEvidence } from '@/data/evidence';
+import { ALL_EVIDENCE_PACKS_V2 } from '@/content/evidence/v2';
 
 const DiagnosticRoutes = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [testSlug, setTestSlug] = useState('');
   const [scrollY, setScrollY] = useState(window.scrollY);
+  
   const [lastNavigation, setLastNavigation] = useState<{ from: string; to: string; scrollBefore: number; scrollAfter: number } | null>(null);
 
-  // Get all V2 evidence data
-  const allEvidence = getAllEvidence();
+  // Get all V2 evidence data - use V2 packs as source of truth
+  const allEvidence = ALL_EVIDENCE_PACKS_V2.filter(p => p.status === 'complete');
+  
+  // Track scroll position in real-time
+  useEffect(() => {
+    const updateScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', updateScroll);
+    return () => window.removeEventListener('scroll', updateScroll);
+  }, []);
 
   // Calculate URL for test slug
   const testUrl = testSlug ? getPathologyUrl(getV2Slug(testSlug)) : '';
@@ -172,7 +180,7 @@ const DiagnosticRoutes = () => {
                     <td className="p-3">
                       <code className="bg-muted px-1 rounded text-sm">{evidence.slug}</code>
                     </td>
-                    <td className="p-3">{evidence.name}</td>
+                    <td className="p-3">{evidence.title}</td>
                     <td className="p-3">
                       <Badge variant="outline">{evidence.category}</Badge>
                     </td>
