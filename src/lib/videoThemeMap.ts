@@ -50,7 +50,7 @@ const SLUG_TO_THEME: Record<string, ThemeMapping> = {
   'otites-repetition-enfant': { themeId: 'lavage_nez', label: 'Lavage de nez enfant' },
   'otites-enfant': { themeId: 'lavage_nez', label: 'Lavage de nez enfant' },
   'lavage-nez': { themeId: 'lavage_nez', label: 'Lavage de nez' },
-  'rhinosinusite-chronique': { themeId: 'lavage_nez', label: 'Lavage de nez' },
+  'rhinosinusite-chronique': { themeId: null, label: 'Rhinosinusite chronique' }, // Pas de vidéos validées pour l'instant
   'rhinite-enfant': { themeId: 'lavage_nez', label: 'Lavage de nez enfant' },
   
   // Pathologies sans vidéos disponibles pour l'instant

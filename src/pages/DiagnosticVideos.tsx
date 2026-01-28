@@ -17,7 +17,7 @@ import {
   type VideoLibrary,
   type VideoTheme 
 } from '@/lib/videoLibrary';
-import { getAvailableThemeIds, getSlugsWithVideos } from '@/lib/videoThemeMap';
+import { getAvailableThemeIds, getSlugsWithVideos, getThemeIdForSlug } from '@/lib/videoThemeMap';
 
 const DiagnosticVideos = () => {
   const [library, setLibrary] = useState<VideoLibrary | null>(null);
@@ -219,9 +219,54 @@ const DiagnosticVideos = () => {
           </div>
         )}
         
+        {/* Pathologies Status */}
+        <div className="bg-card border rounded-xl p-6 mb-6">
+          <h3 className="text-lg font-semibold mb-4">Statut vidéos par pathologie</h3>
+          <div className="space-y-2">
+            {[
+              { slug: 'gonarthrose', label: 'Gonarthrose' },
+              { slug: 'coxarthrose', label: 'Coxarthrose' },
+              { slug: 'lombalgie-chronique', label: 'Lombalgie chronique' },
+              { slug: 'bpco', label: 'BPCO' },
+              { slug: 'otites-repetition-enfant', label: 'Otites enfant' },
+              { slug: 'insuffisance-veineuse', label: 'Insuffisance veineuse' },
+              { slug: 'rhinosinusite-chronique', label: 'Rhinosinusite chronique' },
+            ].map(({ slug, label }) => {
+              const themeId = getThemeIdForSlug(slug);
+              const hasVideos = themeId !== null;
+              return (
+                <div key={slug} className="flex items-center justify-between bg-muted/50 rounded-lg p-3">
+                  <div className="flex items-center gap-3">
+                    <a
+                      href={`/pathologies/v2/${slug}#videos`}
+                      className="text-foreground hover:text-primary transition-colors"
+                    >
+                      {label}
+                    </a>
+                    <code className="text-xs text-muted-foreground">{slug}</code>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {hasVideos ? (
+                      <>
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                        <Badge className="bg-green-100 text-green-700">{themeId}</Badge>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                        <Badge variant="secondary">N/A — pas de vidéos validées</Badge>
+                      </>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Quick Links */}
         <div className="bg-card border rounded-xl p-6">
-          <h3 className="text-lg font-semibold mb-4">Liens rapides pour vérification</h3>
+          <h3 className="text-lg font-semibold mb-4">Liens rapides</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {[
               { slug: 'gonarthrose', label: 'Gonarthrose' },
@@ -229,7 +274,6 @@ const DiagnosticVideos = () => {
               { slug: 'lombalgie-chronique', label: 'Lombalgie' },
               { slug: 'bpco', label: 'BPCO' },
               { slug: 'otites-repetition-enfant', label: 'Otites enfant' },
-              { slug: 'insuffisance-veineuse', label: 'Insuff. veineuse' },
             ].map(({ slug, label }) => (
               <a
                 key={slug}

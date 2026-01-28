@@ -38,6 +38,8 @@
 | lombalgie_chronique | 2 | ✅ | ✅ | ✅ |
 | bpco | 2 | ✅ | ✅ | ✅ |
 | lavage_nez | 2 | ✅ | ✅ | ✅ |
+| insuffisance-veineuse | N/A | ✅ (message pro) | — | — |
+| rhinosinusite-chronique | N/A | ✅ (message pro) | — | — |
 
 ---
 
@@ -142,6 +144,7 @@
 - ✅ **UI** : Photo centrée, bannière OK
 - ✅ **Diagnostics** : 3 pages disponibles (/diagnostic/videos, /links, /routes)
 - ✅ **Guides** : Format 1 colonne, police lisible, preview + download
+- ✅ **Vidéos N/A** : rhinosinusite-chronique et insuffisance-veineuse affichent message pro (pas de warning)
 
 ---
 
