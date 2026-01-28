@@ -28,6 +28,7 @@ import MesFavoris from "./pages/MesFavoris";
 import Admin from "./pages/Admin";
 import SocialKit from "./pages/SocialKit";
 import SourcesMethodologie from "./pages/SourcesMethodologie";
+import DiagnosticVideos from "./pages/DiagnosticVideos";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,7 @@ const App = () => (
               <Route path="/admin" element={<Admin />} />
               <Route path="/social-kit" element={<SocialKit />} />
               <Route path="/sources-methodologie" element={<SourcesMethodologie />} />
+              <Route path="/diagnostic/videos" element={<DiagnosticVideos />} />
               <Route path="/pathologie/:slug" element={<PathologyPage />} />
               <Route path="/cabinet" element={<QuiSuisJe />} />
               <Route path="*" element={<NotFound />} />

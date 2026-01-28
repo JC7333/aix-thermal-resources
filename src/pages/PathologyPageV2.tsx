@@ -20,6 +20,7 @@ import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
 import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
 import { FavoriteButton } from '@/components/shared/FavoriteButton';
+import { VideoSection } from '@/components/shared/VideoSection';
 import { getEvidencePackV2BySlug, CATEGORIES } from '@/content/evidence/v2';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { logEvent } from '@/services/analytics';
@@ -424,7 +425,11 @@ const PathologyPageV2 = () => {
               </section>
             )}
             
-            {/* Section 4: Parcours guidé */}
+            {/* Section 3.5: Vidéos guidées */}
+            {slug && (
+              <VideoSection slug={slug} maxVideos={2} />
+            )}
+            
             {(pack.seven_day_plan.length > 0 || pack.four_week_plan.length > 0) && (
               <section id="parcours">
                 <SectionTitle 
@@ -643,6 +648,7 @@ const PathologyPageV2 = () => {
                 {pack.exercises.length > 0 && (
                   <a href="#exercices" className="block text-muted-foreground hover:text-primary">→ Exercices</a>
                 )}
+                <a href="#videos" className="block text-muted-foreground hover:text-primary">→ Vidéos guidées</a>
                 {(pack.seven_day_plan.length > 0 || pack.four_week_plan.length > 0) && (
                   <a href="#parcours" className="block text-muted-foreground hover:text-primary">→ Parcours guidé</a>
                 )}
