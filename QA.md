@@ -159,14 +159,16 @@
 
 ## Résumé
 
-- ✅ **Bandeau légal** : En bas à droite, discret, repliable sur mobile
-- ✅ **Scroll-to-top** : Fonctionnel partout (history.scrollRestoration = manual)
-- ✅ **Vidéos** : 7 thèmes (rhinosinusite + fibromyalgie ajoutés), embed ne navigue jamais
+- ✅ **Footer urgence** : "📞 Urgence : 15 / 112" visible en bas du footer
+- ✅ **Bandeau légal flottant** : En bas à droite, discret, repliable sur mobile
+- ✅ **Scroll-to-top** : Renforcé avec requestAnimationFrame + double appel
+- ✅ **Vidéos** : 7 thèmes, embed ne navigue jamais (stopPropagation)
 - ✅ **Fibromyalgie** : Pathologie V2 complète (exercices, parcours, sources, vidéos)
 - ✅ **Guides** : Format 1 colonne, police 13pt lisible, preview + download HTML
 - ✅ **Diagnostics** : 3 pages disponibles (/diagnostic/videos, /links, /routes)
 - ✅ **Vidéos N/A** : insuffisance-veineuse affiche message pro (pas de warning)
+- ✅ **Routes V2** : Source de vérité, redirections V1→V2 automatiques
 
 ---
 
-*Dernière mise à jour : 2026-01-28*
+*Dernière mise à jour : 2026-01-28 (patch stabilisation)*
