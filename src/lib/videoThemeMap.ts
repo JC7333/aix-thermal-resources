@@ -19,6 +19,8 @@ export type VideoThemeId =
   | 'lombalgie_chronique' 
   | 'bpco' 
   | 'lavage_nez'
+  | 'rhinosinusite_chronique'
+  | 'fibromyalgie'
   | null;
 
 interface ThemeMapping {
@@ -50,8 +52,9 @@ const SLUG_TO_THEME: Record<string, ThemeMapping> = {
   'otites-repetition-enfant': { themeId: 'lavage_nez', label: 'Lavage de nez enfant' },
   'otites-enfant': { themeId: 'lavage_nez', label: 'Lavage de nez enfant' },
   'lavage-nez': { themeId: 'lavage_nez', label: 'Lavage de nez' },
-  'rhinosinusite-chronique': { themeId: null, label: 'Rhinosinusite chronique' }, // Pas de vidéos validées pour l'instant
+  'rhinosinusite-chronique': { themeId: 'rhinosinusite_chronique', label: 'Rhinosinusite chronique' },
   'rhinite-enfant': { themeId: 'lavage_nez', label: 'Lavage de nez enfant' },
+  'fibromyalgie': { themeId: 'fibromyalgie', label: 'Fibromyalgie' },
   
   // Pathologies sans vidéos disponibles pour l'instant
   'insuffisance-veineuse': { themeId: null, label: 'Insuffisance veineuse' },

@@ -11,6 +11,7 @@ export { insuffisanceVeineuse } from './insuffisance-veineuse';
 export { bpco } from './bpco';
 export { otitesRepetitionEnfant } from './otites-repetition-enfant';
 export { rhinosinusiteChronique } from './rhinosinusite-chronique';
+export { fibromyalgie } from './fibromyalgie';
 
 // Import des packs
 import { gonarthrose } from './gonarthrose';
@@ -20,6 +21,7 @@ import { insuffisanceVeineuse } from './insuffisance-veineuse';
 import { bpco } from './bpco';
 import { otitesRepetitionEnfant } from './otites-repetition-enfant';
 import { rhinosinusiteChronique } from './rhinosinusite-chronique';
+import { fibromyalgie } from './fibromyalgie';
 import { EvidencePackV2, createStubPack } from './types';
 
 // Stubs pour les pathologies à compléter
@@ -47,6 +49,7 @@ export const ALL_EVIDENCE_PACKS_V2: EvidencePackV2[] = [
   bpco,
   otitesRepetitionEnfant,
   rhinosinusiteChronique,
+  fibromyalgie,
   // Stubs
   arthroseCheville,
   arthroseLombaire,
@@ -76,5 +79,5 @@ export const getPacksByCategory = (category: EvidencePackV2['category']): Eviden
   return ALL_EVIDENCE_PACKS_V2.filter(pack => pack.category === category);
 };
 
-export const CONTENT_VERSION_V2 = '2.0.0';
-export const CONTENT_DATE_V2 = '2026-01-27';
+export const CONTENT_VERSION_V2 = '2.1.0';
+export const CONTENT_DATE_V2 = '2026-01-28';
