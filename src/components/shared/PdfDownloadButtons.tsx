@@ -460,7 +460,7 @@ export const PdfDownloadButtons = ({
           </div>
           {!hasEvidence && (
             <p className="text-xs text-muted-foreground mt-3 italic">
-              PDF bientôt disponible pour cette pathologie.
+              Données non disponibles pour cette pathologie.
             </p>
           )}
         </div>

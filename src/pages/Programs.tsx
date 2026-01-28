@@ -22,7 +22,7 @@ const Programs = () => {
     if (!hasEvidenceData(slug)) {
       toast({
         title: "PDF non disponible",
-        description: "Le programme PDF pour cette pathologie sera bientôt disponible.",
+        description: "Aucune donnée disponible pour ce programme.",
         variant: "destructive",
       });
       return;
@@ -98,7 +98,7 @@ const Programs = () => {
                     ) : (
                       <Download className="w-4 h-4" />
                     )}
-                    {hasPdf ? 'Télécharger les programmes PDF' : 'Bientôt disponible'}
+                    {hasPdf ? 'Télécharger les programmes PDF' : 'Non disponible'}
                   </Button>
                 </div>
 

@@ -458,7 +458,7 @@ const Telechargements = () => {
                   ) : (
                     <div className={`${effectiveReadableMode ? 'p-6' : 'p-4'} bg-muted/30 rounded-lg text-center`}>
                       <p className={`${effectiveReadableMode ? 'text-lg' : 'text-sm'} text-muted-foreground italic`}>
-                        PDFs bientôt disponibles
+                        Aucun PDF disponible pour cette catégorie
                       </p>
                     </div>
                   )}
