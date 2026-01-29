@@ -1,0 +1,24 @@
+﻿name: "P1 — Contenu (evidence/médias/guides)"
+description: "Ajout/ajustement contenu (JSON strict, sources allowlist, guides standard)."
+title: "[P1] "
+labels: ["P1", "content"]
+body:
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: "Slug(s) + livrables (sources, vidéos, guide 1 page, etc.)."
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Critères d'acceptation
+      placeholder: |
+        - Page V2 OK
+        - 3–6 sources max
+        - Red flags sourcés
+        - 2 vidéos validées
+        - Guide print/download OK
+    validations:
+      required: true
