@@ -1,0 +1,34 @@
+﻿name: "P0 — Stabilisation (UX/Tech)"
+description: "Bug/régression bloquante (Gate 0/1/2). Patch minimal obligatoire."
+title: "[P0] "
+labels: ["P0", "bug"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexte
+      description: "URL Lovable preview + page(s) + ce qui a changé."
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Étapes de reproduction
+      placeholder: |
+        1) ...
+        2) ...
+        3) ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Attendu
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Observé
+    validations:
+      required: true
