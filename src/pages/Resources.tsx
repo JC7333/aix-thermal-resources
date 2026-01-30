@@ -224,7 +224,7 @@ const Resources = () => {
 
   // Filter and sort resources
   const filteredResources = useMemo(() => {
-    let results = libraryResources.filter((resource) => {
+    const results = libraryResources.filter((resource) => {
       // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
