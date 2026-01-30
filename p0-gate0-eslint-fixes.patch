@@ -1,0 +1,101 @@
+﻿--- a/src/components/ui/command.tsx
++++ b/src/components/ui/command.tsx
+@@ -18,7 +18,7 @@
+ ));
+ Command.displayName = CommandPrimitive.displayName;
+ 
+-interface CommandDialogProps extends DialogProps {}
++type CommandDialogProps = DialogProps;
+ 
+ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
+   return (
+     <Dialog {...props}>
+
+--- a/src/components/ui/textarea.tsx
++++ b/src/components/ui/textarea.tsx
+@@ -2,7 +2,7 @@
+ 
+ import { cn } from "@/lib/utils";
+ 
+-export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
++export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+ 
+ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(({ className, ...props }, ref) => {
+   return (
+
+--- a/src/lib/guidePrintFallback.ts
++++ b/src/lib/guidePrintFallback.ts
+@@ -14,7 +14,7 @@
+ const escapeHtml = (input: string): string =>
+   input
+     .replace(/&/g, '&amp;')
+     .replace(/</g, '&lt;')
+     .replace(/>/g, '&gt;')
+-    .replace(/\"/g, '&quot;')
++    .replace(/"/g, '&quot;')
+     .replace(/'/g, '&#039;');
+
+--- a/src/lib/parcoursPrintFallback.ts
++++ b/src/lib/parcoursPrintFallback.ts
+@@ -12,7 +12,7 @@
+ const escapeHtml = (input: string): string =>
+   input
+     .replace(/&/g, '&amp;')
+     .replace(/</g, '&lt;')
+     .replace(/>/g, '&gt;')
+-    .replace(/\"/g, '&quot;')
++    .replace(/"/g, '&quot;')
+     .replace(/'/g, '&#039;');
+
+--- a/src/lib/printFallback.ts
++++ b/src/lib/printFallback.ts
+@@ -9,7 +9,7 @@
+ const escapeHtml = (input: string): string =>
+   input
+     .replace(/&/g, '&amp;')
+     .replace(/</g, '&lt;')
+     .replace(/>/g, '&gt;')
+-    .replace(/\"/g, '&quot;')
++    .replace(/"/g, '&quot;')
+     .replace(/'/g, '&#039;');
+
+--- a/src/pages/Resources.tsx
++++ b/src/pages/Resources.tsx
+@@ -224,7 +224,7 @@
+ 
+   // Filter and sort resources
+   const filteredResources = useMemo(() => {
+-    let results = libraryResources.filter((resource) => {
++    const results = libraryResources.filter((resource) => {
+       // Search filter
+       if (searchQuery) {
+         const query = searchQuery.toLowerCase();
+
+--- a/tailwind.config.ts
++++ b/tailwind.config.ts
+@@ -1,4 +1,5 @@
+ import type { Config } from "tailwindcss";
++import tailwindcssAnimate from "tailwindcss-animate";
+ 
+ export default {
+   darkMode: ["class"],
+@@ -139,6 +140,6 @@
+       },
+     },
+   },
+-  plugins: [require("tailwindcss-animate")],
++  plugins: [tailwindcssAnimate],
+ } satisfies Config;
+
+--- a/package.json
++++ b/package.json
+@@ -11,7 +11,9 @@
+     "build:dev": "vite build --mode development",
+     "lint": "eslint .",
+     "preview": "vite preview",
+     "test": "vitest run",
+-    "test:watch": "vitest"
++    "test:watch": "vitest",
++    "typecheck": "tsc -p tsconfig.json --noEmit",
++    "gate0": "npm run lint && npm run build && npm run test && npm run typecheck"
+   },
