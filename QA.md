@@ -1,6 +1,6 @@
 # QA — Checklist Fonctionnalités COOLANCE
 
-**Date :** 2026-01-28  
+**Date :** 2026-01-30  
 **Objectif :** V2 = source de vérité unique, UX pro, zéro lien cassé
 
 ---
@@ -157,6 +157,39 @@
 
 ---
 
+## M) Filtrage des sources par policy (2026-01-30) — NOUVEAU
+
+| Test | Status | Notes |
+|------|--------|-------|
+| Source policy définie | ✅ | `src/lib/sourcePolicy.ts` |
+| Domaines autorisés (whitelist) | ✅ | HAS, WHO, Cochrane, PubMed, OARSI, etc. |
+| Domaines bloqués (blacklist) | ✅ | doctissimo.fr, youtube.com, vidal.fr |
+| Max 6 sources par pathologie | ✅ | `filterSourcesByPolicy(sources, 6)` |
+| Appliqué sur PathologyPageV2 | ✅ | Sidebar sources filtrées |
+
+**Domaines whitelist :**
+- `has-sante.fr`, `who.int`, `goldcopd.org`, `esvs.org`, `ejves.com`
+- `cochranelibrary.com`, `pubmed.ncbi.nlm.nih.gov`, `pmc.ncbi.nlm.nih.gov`
+- `oarsi.org`, `sciencedirect.com`, `epos2020.com`, `rhinologyjournal.com`
+- `nice.org.uk`, `ard.bmj.com`, `bmj.com`, `publications.aap.org`
+
+**Domaines blacklist :**
+- `doctissimo.fr`, `youtube.com`, `vidal.fr`, `blogs.example`
+
+---
+
+## N) Sécurité XSS (2026-01-30)
+
+| Test | Status | Notes |
+|------|--------|-------|
+| CodeQL alert `js/xss-through-dom` | ⚠️ À VÉRIFIER | `src/pages/app/Providers.tsx:425` |
+| Fichier présent dans projet | ❌ NON | Potentiellement sur branche stale |
+| Correction recommandée | — | `encodeURIComponent(phone)` avant `tel:` |
+
+**Action requise :** Vérifier si `src/pages/app/Providers.tsx` existe sur la branche `main` GitHub. Si oui, appliquer `encodeURIComponent()` sur le numéro de téléphone.
+
+---
+
 ## Résumé
 
 - ✅ **Footer urgence** : "📞 Urgence : 15 / 112" visible en bas du footer
@@ -168,7 +201,9 @@
 - ✅ **Diagnostics** : 3 pages disponibles (/diagnostic/videos, /links, /routes)
 - ✅ **Vidéos N/A** : insuffisance-veineuse affiche message pro (pas de warning)
 - ✅ **Routes V2** : Source de vérité, redirections V1→V2 automatiques
+- ✅ **Source Policy** : Filtrage domaines (whitelist/blacklist) + max 6 sources
+- ⚠️ **XSS Alert** : À vérifier sur GitHub (fichier non trouvé localement)
 
 ---
 
-*Dernière mise à jour : 2026-01-28 (patch stabilisation)*
+*Dernière mise à jour : 2026-01-30 (ajout source policy + note sécurité XSS)*
