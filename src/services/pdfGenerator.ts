@@ -202,331 +202,393 @@ export const generateOnePage = (pathology: PathologyContent): jsPDF => {
 };
 
 // ============================================
-// PDF 4 PAGES — GUIDE COMPLET STRUCTURÉ
+// PDF 4 PAGES — GUIDE COMPLET (Standard guide-tabac)
+// ============================================
+// 1 colonne, police lisible (11-12pt), cartes, aéré
 // ============================================
 
 export const generateFourPages = (pathology: PathologyContent): jsPDF => {
   const doc = new jsPDF('p', 'mm', 'a4');
-  let y = 16;
+  const SAFE_BOTTOM = PAGE_HEIGHT - 20; // Zone sûre avant pied de page
 
-  // ========== PAGE 1 ==========
+  // Helpers locaux pour le nouveau style
+  const newPage = (pageNum: number): number => {
+    doc.addPage();
+    addBrandHeader(doc, pathology.title, pageNum, 4);
+    addFooter(doc);
+    return 16;
+  };
+
+  const sectionTitle = (title: string, yPos: number): number => {
+    doc.setFontSize(14);
+    doc.setTextColor(...PRIMARY);
+    doc.setFont('helvetica', 'bold');
+    doc.text(title, MARGIN, yPos);
+    // Ligne de séparation sous le titre
+    doc.setDrawColor(220, 225, 230);
+    doc.setLineWidth(0.3);
+    doc.line(MARGIN, yPos + 2, PAGE_WIDTH - MARGIN, yPos + 2);
+    return yPos + 8;
+  };
+
+  const cardStart = (yPos: number, height: number, bgColor: [number, number, number] = BOX_BG): number => {
+    doc.setFillColor(...bgColor);
+    doc.setDrawColor(210, 215, 220);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(MARGIN, yPos, CONTENT_WIDTH, height, 3, 3, 'FD');
+    return yPos;
+  };
+
+  const bodyText = (text: string, x: number, yPos: number, maxWidth?: number): number => {
+    doc.setFontSize(11);
+    doc.setTextColor(...TEXT);
+    doc.setFont('helvetica', 'normal');
+    const lines = doc.splitTextToSize(text, maxWidth || CONTENT_WIDTH - 8);
+    doc.text(lines, x, yPos);
+    return yPos + lines.length * 5;
+  };
+
+  const bulletItem = (text: string, yPos: number, indent: number = 4): number => {
+    doc.setFontSize(11);
+    doc.setTextColor(...TEXT);
+    doc.setFont('helvetica', 'normal');
+    const lines = doc.splitTextToSize(text, CONTENT_WIDTH - indent - 8);
+    doc.text('•', MARGIN + indent, yPos);
+    doc.text(lines, MARGIN + indent + 5, yPos);
+    return yPos + lines.length * 5 + 1;
+  };
+
+  const checkItem = (text: string, yPos: number, indent: number = 4): number => {
+    addCheckbox(doc, MARGIN + indent, yPos, 4);
+    doc.setFontSize(11);
+    doc.setTextColor(...TEXT);
+    doc.setFont('helvetica', 'normal');
+    const lines = doc.splitTextToSize(text, CONTENT_WIDTH - indent - 14);
+    doc.text(lines, MARGIN + indent + 7, yPos);
+    return yPos + lines.length * 5 + 1.5;
+  };
+
+  // ========== PAGE 1 — Comprendre + Conseils ==========
+  let y = 16;
   addBrandHeader(doc, pathology.title, 1, 4);
 
-  doc.setFontSize(18);
+  // Titre principal
+  doc.setFontSize(20);
   doc.setTextColor(...PRIMARY);
   doc.setFont('helvetica', 'bold');
-  doc.text(pathology.title.toUpperCase(), MARGIN, y);
-  y += 5;
-  
-  doc.setFontSize(10);
+  const titleLines = doc.splitTextToSize(pathology.title, CONTENT_WIDTH);
+  doc.text(titleLines, MARGIN, y);
+  y += titleLines.length * 8 + 2;
+
+  doc.setFontSize(11);
   doc.setTextColor(...MUTED);
   doc.setFont('helvetica', 'normal');
-  doc.text(`Guide complet — ${pathology.lastUpdated}`, MARGIN, y);
+  doc.text(`Guide complet — Mis à jour : ${pathology.lastUpdated}`, MARGIN, y);
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...PRIMARY);
+  doc.text('COOLANCE — Dr Audric Bugnard', PAGE_WIDTH - MARGIN - 65, y);
   y += 10;
 
-  // Encadré Niveau 0
-  const level0Plan = pathology.dailyPlans?.find(p => p.level === 0);
-  if (level0Plan && level0Plan.actions) {
-    addBox(doc, MARGIN, y, CONTENT_WIDTH, 30, LEVEL0_BG);
-    
-    doc.setFontSize(11);
-    doc.setTextColor(...SUCCESS);
-    doc.setFont('helvetica', 'bold');
-    doc.text('✓ VERSION TRÈS FACILE (Niveau 0)', MARGIN + 4, y + 6);
-    
-    doc.setFontSize(9);
-    doc.setTextColor(...TEXT);
-    doc.setFont('helvetica', 'italic');
-    doc.text('Pour commencer doucement, en cas de douleur ou fatigue importante.', MARGIN + 4, y + 12);
-    
-    doc.setFont('helvetica', 'normal');
-    let boxY = y + 18;
-    level0Plan.actions.forEach((action) => {
-      addCheckbox(doc, MARGIN + 4, boxY);
-      const lines = doc.splitTextToSize(action, CONTENT_WIDTH - 16);
-      doc.text(lines[0], MARGIN + 10, boxY);
-      boxY += 5;
-    });
-    y += 34;
-  }
+  // Séparateur vert
+  doc.setDrawColor(...PRIMARY);
+  doc.setLineWidth(1);
+  doc.line(MARGIN, y - 4, PAGE_WIDTH - MARGIN, y - 4);
 
   // En résumé
-  y = addSection(doc, 'En résumé', y, '📖');
-  doc.setFontSize(10);
+  y = sectionTitle('📖 En résumé', y);
+  const summaryClean = pathology.quickSummary.replace(/\n\n/g, ' ').replace(/\n/g, ' ');
+  const summaryLines = doc.splitTextToSize(summaryClean, CONTENT_WIDTH - 8);
+  const summaryHeight = Math.min(summaryLines.length, 6) * 5 + 6;
+  cardStart(y, summaryHeight);
+  doc.setFontSize(11);
   doc.setTextColor(...TEXT);
   doc.setFont('helvetica', 'normal');
-  const summaryClean = pathology.quickSummary.replace(/\n\n/g, ' ').replace(/\n/g, ' ');
-  const summaryLines = doc.splitTextToSize(summaryClean, CONTENT_WIDTH);
-  doc.text(summaryLines.slice(0, 6), MARGIN, y);
-  y += Math.min(summaryLines.length, 6) * 4.5 + 6;
+  doc.text(summaryLines.slice(0, 6), MARGIN + 4, y + 5);
+  y += summaryHeight + 6;
 
-  // Ce qui se passe
-  y = addSection(doc, 'Ce qui se passe dans votre corps', y, '🔍');
-  const physioClean = pathology.physiopathology.replace(/\n\n/g, ' ').replace(/\n/g, ' ');
-  const physioLines = doc.splitTextToSize(physioClean, CONTENT_WIDTH);
-  doc.text(physioLines.slice(0, 5), MARGIN, y);
-  y += Math.min(physioLines.length, 5) * 4.5 + 6;
+  // Messages clés (top 5 tips)
+  if (y < SAFE_BOTTOM - 40) {
+    y = sectionTitle('💡 Messages clés', y);
+    const tipsToShow = pathology.top5Tips.slice(0, 4);
+    const tipHeight = tipsToShow.length * 12 + 4;
+    cardStart(y, tipHeight, [254, 252, 232]); // Fond jaune pâle comme card-warning
+    let tipY = y + 5;
+    tipsToShow.forEach((tip) => {
+      doc.setFontSize(11);
+      doc.setTextColor(...TEXT);
+      doc.setFont('helvetica', 'normal');
+      const tipText = `${tip.icon} ${tip.title}`;
+      const tipLines = doc.splitTextToSize(tipText, CONTENT_WIDTH - 10);
+      doc.text(tipLines[0], MARGIN + 4, tipY);
+      tipY += 5;
+      if (tip.description) {
+        doc.setFontSize(10);
+        doc.setTextColor(...MUTED);
+        const descLines = doc.splitTextToSize(tip.description, CONTENT_WIDTH - 14);
+        doc.text(descLines[0], MARGIN + 8, tipY);
+        tipY += 5.5;
+      }
+    });
+    y += tipHeight + 6;
+  }
 
-  // Top 5 conseils
-  y = addSection(doc, 'Mes 5 conseils essentiels', y, '💡');
-  pathology.top5Tips.forEach((tip) => {
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...TEXT);
-    doc.text(`${tip.icon} ${tip.title}`, MARGIN, y);
-    y += 4;
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(...MUTED);
-    const tipLines = doc.splitTextToSize(tip.description, CONTENT_WIDTH - 4);
-    doc.text(tipLines.slice(0, 2), MARGIN + 4, y);
-    y += tipLines.slice(0, 2).length * 4 + 3;
-  });
+  // Plan d'action aujourd'hui
+  if (y < SAFE_BOTTOM - 30) {
+    y = sectionTitle("✅ Plan d'action", y);
+    const normalPlan = pathology.dailyPlans?.find(p => p.level === 1) || pathology.dailyPlans?.[0];
+    if (normalPlan?.actions) {
+      const actionsToShow = normalPlan.actions.slice(0, 5);
+      const actionHeight = actionsToShow.length * 7 + 4;
+      cardStart(y, actionHeight, [240, 253, 244]); // Fond vert pâle comme card-action
+      let actionY = y + 5;
+      actionsToShow.forEach((action) => {
+        actionY = checkItem(action, actionY, 4);
+      });
+      y += actionHeight + 4;
+    }
+  }
 
   addFooter(doc);
 
-  // ========== PAGE 2 ==========
-  doc.addPage();
-  y = 16;
-  addBrandHeader(doc, pathology.title, 2, 4);
+  // ========== PAGE 2 — Plan 7 jours ==========
+  y = newPage(2);
 
-  doc.setFontSize(14);
-  doc.setTextColor(...PRIMARY);
-  doc.setFont('helvetica', 'bold');
-  doc.text('📅 PLAN 7 JOURS', MARGIN, y);
-  y += 8;
+  y = sectionTitle('📅 Plan 7 jours', y);
 
-  // Niveau 0
-  const week0 = pathology.sevenDayPlans.find(p => p.level === 0);
-  if (week0 && week0.days) {
-    addBox(doc, MARGIN, y, CONTENT_WIDTH, 50, LEVEL0_BG);
-    doc.setFontSize(11);
+  // Encadré Niveau 0 (très facile)
+  const week0 = pathology.sevenDayPlans?.find(p => p.level === 0);
+  if (week0?.days) {
+    const dayHeight = week0.days.length * 7 + 12;
+    cardStart(y, dayHeight, LEVEL0_BG);
+
+    doc.setFontSize(12);
     doc.setTextColor(...SUCCESS);
     doc.setFont('helvetica', 'bold');
-    doc.text('NIVEAU 0 — ' + (week0.levelName.split('—')[1]?.trim() || 'Très facile'), MARGIN + 4, y + 6);
-    doc.setFontSize(9);
-    doc.setTextColor(...TEXT);
-    doc.setFont('helvetica', 'normal');
-    let dayY = y + 12;
-    week0.days.forEach((day) => {
-      addCheckbox(doc, MARGIN + 4, dayY, 3);
-      doc.setFont('helvetica', 'bold');
-      doc.text(`${day.day}:`, MARGIN + 9, dayY);
-      doc.setFont('helvetica', 'normal');
-      const actionText = day.actions.slice(0, 2).join(' • ');
-      const lines = doc.splitTextToSize(actionText, CONTENT_WIDTH - 30);
-      doc.text(lines[0], MARGIN + 25, dayY);
-      dayY += 5;
-    });
-    y += 54;
-  }
+    doc.text('Niveau 0 — Très facile', MARGIN + 4, y + 6);
 
-  // Niveau 1
-  const week1 = pathology.sevenDayPlans.find(p => p.level === 1);
-  if (week1 && week1.days) {
-    doc.setFontSize(11);
-    doc.setTextColor(...PRIMARY);
-    doc.setFont('helvetica', 'bold');
-    doc.text('NIVEAU 1 — ' + (week1.levelName.split('—')[1]?.trim() || 'Facile'), MARGIN, y);
-    y += 6;
-    doc.setFontSize(9);
-    doc.setTextColor(...TEXT);
-    doc.setFont('helvetica', 'normal');
-    week1.days.forEach((day) => {
-      addCheckbox(doc, MARGIN, y, 3);
-      doc.setFont('helvetica', 'bold');
-      doc.text(`${day.day}:`, MARGIN + 5, y);
-      doc.setFont('helvetica', 'normal');
-      const actionText = day.actions.slice(0, 2).join(' • ');
-      const lines = doc.splitTextToSize(actionText, CONTENT_WIDTH - 26);
-      doc.text(lines[0], MARGIN + 21, y);
-      y += 5;
-    });
-    y += 6;
-  }
-
-  // Niveaux 2 & 3 (résumé)
-  const week2 = pathology.sevenDayPlans.find(p => p.level === 2);
-  const week3 = pathology.sevenDayPlans.find(p => p.level === 3);
-  if (week2 || week3) {
     doc.setFontSize(10);
-    doc.setTextColor(...PRIMARY);
-    doc.setFont('helvetica', 'bold');
-    doc.text('NIVEAUX SUPÉRIEURS (quand vous progressez)', MARGIN, y);
-    y += 6;
-    doc.setFontSize(9);
-    doc.setTextColor(...MUTED);
+    doc.setTextColor(...TEXT);
+    doc.setFont('helvetica', 'italic');
+    doc.text('Pour commencer en douceur, même si vous avez mal.', MARGIN + 4, y + 12);
+
+    let dayY = y + 18;
     doc.setFont('helvetica', 'normal');
-    if (week2) {
-      doc.text(`• Niveau 2: ${week2.levelName.split('—')[1]?.trim() || 'Normal'}`, MARGIN, y);
-      y += 4;
-    }
-    if (week3) {
-      doc.text(`• Niveau 3: ${week3.levelName.split('—')[1]?.trim() || 'Actif'}`, MARGIN, y);
-    }
+    doc.setFontSize(11);
+    week0.days.forEach((day) => {
+      addCheckbox(doc, MARGIN + 4, dayY, 3.5);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...SUCCESS);
+      doc.text(`${day.day}`, MARGIN + 10, dayY);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(...TEXT);
+      const actionText = day.actions.slice(0, 2).join(' • ');
+      const lines = doc.splitTextToSize(actionText, CONTENT_WIDTH - 40);
+      doc.text(lines[0], MARGIN + 28, dayY);
+      dayY += 7;
+    });
+    y += dayHeight + 6;
   }
 
-  addFooter(doc);
+  // Niveau 1 (facile)
+  const week1 = pathology.sevenDayPlans?.find(p => p.level === 1);
+  if (week1?.days && y < SAFE_BOTTOM - 50) {
+    y = sectionTitle('Niveau 1 — ' + (week1.levelName.split('—')[1]?.trim() || 'Progression'), y);
 
-  // ========== PAGE 3 ==========
-  doc.addPage();
-  y = 16;
-  addBrandHeader(doc, pathology.title, 3, 4);
+    week1.days.forEach((day) => {
+      if (y > SAFE_BOTTOM - 10) return;
+      addCheckbox(doc, MARGIN, y, 3.5);
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...PRIMARY);
+      doc.text(`${day.day}`, MARGIN + 6, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(...TEXT);
+      const actionText = day.actions.slice(0, 2).join(' • ');
+      const lines = doc.splitTextToSize(actionText, CONTENT_WIDTH - 36);
+      doc.text(lines[0], MARGIN + 24, y);
+      y += 7;
+    });
+    y += 4;
+  }
 
-  doc.setFontSize(14);
-  doc.setTextColor(...PRIMARY);
-  doc.setFont('helvetica', 'bold');
-  doc.text('📈 PROGRAMME 8 SEMAINES', MARGIN, y);
-  y += 8;
+  // Note niveaux supérieurs
+  const week2 = pathology.sevenDayPlans?.find(p => p.level === 2);
+  const week3 = pathology.sevenDayPlans?.find(p => p.level === 3);
+  if ((week2 || week3) && y < SAFE_BOTTOM - 15) {
+    doc.setFontSize(10);
+    doc.setTextColor(...MUTED);
+    doc.setFont('helvetica', 'italic');
+    let noteText = 'Niveaux supérieurs disponibles sur coolance.fr';
+    if (week2) noteText = `Niveau 2 : ${week2.levelName.split('—')[1]?.trim() || 'Normal'} • ${noteText}`;
+    doc.text(noteText, MARGIN, y);
+    y += 8;
+  }
+
+  // ========== PAGE 3 — Programme + Nutrition ==========
+  y = newPage(3);
+
+  y = sectionTitle('📈 Programme de progression', y);
 
   pathology.eightWeekPrograms.slice(0, 2).forEach((program) => {
-    const isLevel0 = program.level === 0;
-    if (isLevel0) {
-      addBox(doc, MARGIN, y, CONTENT_WIDTH, 50, LEVEL0_BG);
-      doc.setFontSize(11);
-      doc.setTextColor(...SUCCESS);
-    } else {
-      doc.setFontSize(11);
-      doc.setTextColor(...PRIMARY);
-    }
-    doc.setFont('helvetica', 'bold');
-    const levelTitle = `NIVEAU ${program.level} — ${program.levelName.split('—')[1]?.trim() || ''}`;
-    doc.text(levelTitle, isLevel0 ? MARGIN + 4 : MARGIN, y + (isLevel0 ? 6 : 0));
-    y += isLevel0 ? 12 : 7;
+    if (y > SAFE_BOTTOM - 30) return;
 
-    doc.setFontSize(9);
-    doc.setTextColor(...TEXT);
+    const isLevel0 = program.level === 0;
+    const bgColor: [number, number, number] = isLevel0 ? LEVEL0_BG : BOX_BG;
+
+    doc.setFontSize(12);
+    doc.setTextColor(isLevel0 ? SUCCESS[0] : PRIMARY[0], isLevel0 ? SUCCESS[1] : PRIMARY[1], isLevel0 ? SUCCESS[2] : PRIMARY[2]);
+    doc.setFont('helvetica', 'bold');
+    const levelTitle = `Niveau ${program.level} — ${program.levelName.split('—')[1]?.trim() || ''}`;
+    doc.text(levelTitle, MARGIN, y);
+    y += 7;
+
     program.weeks.forEach((week) => {
+      if (y > SAFE_BOTTOM - 12) return;
+
+      doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
-      doc.text(`${week.week}`, isLevel0 ? MARGIN + 4 : MARGIN, y);
+      doc.setTextColor(...TEXT);
+      doc.text(week.week, MARGIN + 2, y);
+
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(...MUTED);
-      doc.text(`— ${week.focus}`, (isLevel0 ? MARGIN + 4 : MARGIN) + 25, y);
-      y += 4;
+      doc.text(`— ${week.focus}`, MARGIN + 30, y);
+      y += 5;
+
       doc.setTextColor(...TEXT);
+      doc.setFontSize(10);
       week.exercises.slice(0, 2).forEach((ex) => {
-        addCheckbox(doc, isLevel0 ? MARGIN + 6 : MARGIN + 2, y, 2.5);
+        if (y > SAFE_BOTTOM - 6) return;
+        addCheckbox(doc, MARGIN + 4, y, 3);
         const exLines = doc.splitTextToSize(ex, CONTENT_WIDTH - 16);
-        doc.text(exLines[0], (isLevel0 ? MARGIN + 6 : MARGIN + 2) + 5, y);
-        y += 4;
+        doc.text(exLines[0], MARGIN + 10, y);
+        y += 5;
       });
       y += 2;
     });
-    y += isLevel0 ? 6 : 8;
+    y += 6;
   });
-
-  if (pathology.eightWeekPrograms.length > 2) {
-    doc.setFontSize(9);
-    doc.setTextColor(...MUTED);
-    doc.setFont('helvetica', 'italic');
-    doc.text('→ Niveaux 2-3 disponibles sur coolance.fr', MARGIN, y);
-  }
-
-  addFooter(doc);
-
-  // ========== PAGE 4 ==========
-  doc.addPage();
-  y = 16;
-  addBrandHeader(doc, pathology.title, 4, 4);
 
   // Nutrition
-  doc.setFontSize(14);
-  doc.setTextColor(...PRIMARY);
-  doc.setFont('helvetica', 'bold');
-  doc.text('🍽️ NUTRITION FACILE', MARGIN, y);
-  y += 8;
+  if (y < SAFE_BOTTOM - 40) {
+    y = sectionTitle('🍽️ Nutrition', y);
 
-  doc.setFontSize(10);
-  doc.setTextColor(...TEXT);
-  doc.setFont('helvetica', 'bold');
-  doc.text("L'assiette idéale :", MARGIN, y);
-  y += 5;
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'normal');
-  pathology.nutrition.idealPlate.forEach((item) => {
-    const lines = doc.splitTextToSize(`• ${item}`, CONTENT_WIDTH - 4);
-    doc.text(lines, MARGIN + 2, y);
-    y += lines.length * 4;
-  });
-  y += 4;
-
-  doc.setFont('helvetica', 'bold');
-  doc.text('Mes conseils :', MARGIN, y);
-  y += 5;
-  doc.setFont('helvetica', 'normal');
-  pathology.nutrition.tips.forEach((tip) => {
-    const lines = doc.splitTextToSize(`• ${tip}`, CONTENT_WIDTH - 4);
-    doc.text(lines, MARGIN + 2, y);
-    y += lines.length * 4;
-  });
-  y += 8;
-
-  // Plan poussée
-  if (pathology.flareProtocol) {
-    doc.setFontSize(12);
-    doc.setTextColor(...PRIMARY);
+    doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.text('🔥 EN CAS DE CRISE', MARGIN, y);
-    y += 6;
-
-    doc.setFontSize(9);
     doc.setTextColor(...TEXT);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Premières 24h :', MARGIN, y);
-    y += 5;
-    doc.setFont('helvetica', 'normal');
-    pathology.flareProtocol.hours0to24.slice(0, 4).forEach((action) => {
-      const lines = doc.splitTextToSize(`• ${action}`, CONTENT_WIDTH - 4);
-      doc.text(lines[0], MARGIN + 2, y);
-      y += 4;
-    });
-    y += 4;
-
-    doc.setFont('helvetica', 'bold');
-    doc.text('24-48h :', MARGIN, y);
-    y += 5;
-    doc.setFont('helvetica', 'normal');
-    pathology.flareProtocol.hours24to48.slice(0, 3).forEach((action) => {
-      const lines = doc.splitTextToSize(`• ${action}`, CONTENT_WIDTH - 4);
-      doc.text(lines[0], MARGIN + 2, y);
-      y += 4;
-    });
+    doc.text("L'assiette idéale :", MARGIN, y);
     y += 6;
+
+    pathology.nutrition.idealPlate.slice(0, 4).forEach((item) => {
+      if (y > SAFE_BOTTOM - 6) return;
+      y = bulletItem(item, y);
+    });
+    y += 3;
+
+    if (y < SAFE_BOTTOM - 20 && pathology.nutrition.tips.length > 0) {
+      doc.setFont('helvetica', 'bold');
+      doc.text('Conseils pratiques :', MARGIN, y);
+      y += 6;
+      doc.setFont('helvetica', 'normal');
+      pathology.nutrition.tips.slice(0, 3).forEach((tip) => {
+        if (y > SAFE_BOTTOM - 6) return;
+        y = bulletItem(tip, y);
+      });
+    }
+  }
+
+  // ========== PAGE 4 — Crise + Red flags + Sources ==========
+  y = newPage(4);
+
+  // Protocole de crise
+  if (pathology.flareProtocol) {
+    y = sectionTitle('🔥 En cas de crise', y);
+
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...TEXT);
+    doc.text('Premières 24h :', MARGIN, y);
+    y += 6;
+
+    pathology.flareProtocol.hours0to24.slice(0, 4).forEach((action) => {
+      y = bulletItem(action, y);
+    });
+    y += 3;
+
+    if (pathology.flareProtocol.hours24to48.length > 0) {
+      doc.setFont('helvetica', 'bold');
+      doc.text('24-48h :', MARGIN, y);
+      y += 6;
+      doc.setFont('helvetica', 'normal');
+      pathology.flareProtocol.hours24to48.slice(0, 3).forEach((action) => {
+        y = bulletItem(action, y);
+      });
+      y += 3;
+    }
+
+    if (pathology.flareProtocol.resumeActivity) {
+      doc.setFontSize(10);
+      doc.setTextColor(...SUCCESS);
+      doc.setFont('helvetica', 'italic');
+      doc.text(`→ ${pathology.flareProtocol.resumeActivity}`, MARGIN, y);
+      y += 8;
+    }
   }
 
   // Red flags
-  addBox(doc, MARGIN, y, CONTENT_WIDTH, 36, [255, 245, 245]);
+  y = sectionTitle('⚠️ Consultez rapidement si', y);
+  const alertHeight = pathology.alertSigns.length * 7 + 6;
+  cardStart(y, Math.min(alertHeight, 50), [255, 243, 243]); // Fond rouge pâle
+
+  doc.setFontSize(11);
+  doc.setTextColor(...DANGER);
+  doc.setFont('helvetica', 'normal');
+  let alertY2 = y + 5;
+  pathology.alertSigns.slice(0, 6).forEach((sign) => {
+    const lines = doc.splitTextToSize(`⚠ ${sign}`, CONTENT_WIDTH - 10);
+    doc.text(lines[0], MARGIN + 4, alertY2);
+    alertY2 += 6;
+  });
+  y += Math.min(alertHeight, 50) + 4;
+
+  // Urgence
   doc.setFontSize(11);
   doc.setTextColor(...DANGER);
   doc.setFont('helvetica', 'bold');
-  doc.text('⚠️ CONSULTEZ RAPIDEMENT SI :', MARGIN + 4, y + 6);
-  doc.setFontSize(9);
-  doc.setTextColor(...TEXT);
-  doc.setFont('helvetica', 'normal');
-  let alertY = y + 12;
-  pathology.alertSigns.forEach((sign) => {
-    const lines = doc.splitTextToSize(`• ${sign}`, CONTENT_WIDTH - 10);
-    doc.text(lines[0], MARGIN + 4, alertY);
-    alertY += 4;
-  });
-  y += 40;
+  doc.text('En cas de doute ou d\'urgence : appelez le 15 ou le 112.', MARGIN, y);
+  y += 10;
+
+  // Citation / message
+  if (y < SAFE_BOTTOM - 30) {
+    cardStart(y, 16, [254, 249, 195]); // Fond jaune chaleureux
+    doc.setFontSize(10);
+    doc.setTextColor(...TEXT);
+    doc.setFont('helvetica', 'italic');
+    doc.text('« Même 5 minutes par jour, c\'est un grand pas. Votre corps vous remerciera. »', MARGIN + 4, y + 6);
+    doc.setFont('helvetica', 'bold');
+    doc.text('— Dr Audric Bugnard', MARGIN + 4, y + 12);
+    y += 22;
+  }
 
   // Sources
-  doc.setFontSize(8);
+  y = sectionTitle('📚 Sources et références', y);
+  doc.setFontSize(9);
   doc.setTextColor(...MUTED);
-  doc.setFont('helvetica', 'italic');
-  doc.text('Sources :', MARGIN, y);
-  y += 4;
-  pathology.sources.forEach((source) => {
+  doc.setFont('helvetica', 'normal');
+  doc.text('Ces fiches s\'appuient sur des recommandations de sociétés savantes et guidelines internationales.', MARGIN, y);
+  y += 5;
+  pathology.sources.slice(0, 8).forEach((source) => {
+    if (y > SAFE_BOTTOM - 4) return;
     doc.text(`• ${source.name} (${source.year})`, MARGIN + 2, y);
-    y += 3.5;
+    y += 4;
   });
 
-  y += 6;
+  y += 4;
   doc.setFontSize(9);
-  doc.setTextColor(...PRIMARY);
+  doc.setTextColor(...MUTED);
   doc.setFont('helvetica', 'italic');
-  doc.text('En cas de doute, consultez un professionnel de santé. — COOLANCE', MARGIN, y);
+  doc.text(`Dernière mise à jour : ${pathology.lastUpdated}`, MARGIN, y);
 
   addFooter(doc);
 
