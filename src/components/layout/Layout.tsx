@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
-import { Header } from './Header';
-import { Footer } from './Footer';
-import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
-import { ScrollToTop } from '@/components/shared/ScrollToTop';
-import { FloatingBackToTop } from '@/components/shared/FloatingBackToTop';
+import { ReactNode } from "react";
+import { Header } from "./Header";
+import { Footer } from "./Footer";
+import { MedicalDisclaimer } from "@/components/shared/MedicalDisclaimer";
+import { ScrollToTop } from "@/components/shared/ScrollToTop";
+import { FloatingBackToTop } from "@/components/shared/FloatingBackToTop";
 
 interface LayoutProps {
   children: ReactNode;
@@ -11,7 +11,7 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen print:min-h-0 flex flex-col">
       <ScrollToTop />
       <Header />
       <main id="main-content" className="flex-1 pt-0">

@@ -437,6 +437,11 @@
   .p-6, .p-5, .p-4, .p-3 { padding: 4pt !important; }
   .mb-6, .mb-4 { margin-bottom: 3pt !important; }
   
+  /* Prevent blank page 2 caused by min-h-screen */
+  .min-h-screen {
+    min-height: auto !important;
+  }
+
   /* Grid layout for print */
   .lg\:col-span-2 {
     width: 100% !important;
