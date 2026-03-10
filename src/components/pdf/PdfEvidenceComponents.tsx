@@ -112,7 +112,7 @@ interface PdfRedFlagsProps {
 
 export const PdfRedFlags: React.FC<PdfRedFlagsProps> = ({ alerts, compact }) => (
   <View style={pdfStyles.boxDanger}>
-    <Text style={pdfStyles.alertTitle}>🚨 CONSULTEZ RAPIDEMENT SI :</Text>
+    <Text style={pdfStyles.alertTitle}>CONSULTEZ RAPIDEMENT SI :</Text>
     {alerts.slice(0, compact ? 4 : 6).map((alert, idx) => (
       <View key={idx} style={pdfStyles.listItemSmall}>
         <Text style={{ ...pdfStyles.bulletSmall, color: PDF_COLORS.danger }}>•</Text>
@@ -137,7 +137,7 @@ interface PdfSourcesProps {
 export const PdfSources: React.FC<PdfSourcesProps> = ({ sources, lastUpdated }) => (
   <View style={pdfStyles.sourcesContainer}>
     <Text style={{ fontSize: 9, fontWeight: 700, color: PDF_COLORS.primary, marginBottom: 6 }}>
-      📚 Sources scientifiques
+      Sources scientifiques
     </Text>
     {sources.slice(0, 6).map((source, idx) => (
       <View key={idx} style={{ marginBottom: 4 }}>
@@ -183,7 +183,7 @@ export const PdfBodySchema: React.FC<PdfBodySchemaProps> = ({ slug, width = 160,
   return (
     <View style={{ alignItems: 'center', padding: 6, backgroundColor: PDF_COLORS.muted, borderRadius: 6, marginBottom: 8 }}>
       <Text style={{ fontSize: 7, fontWeight: 600, color: PDF_COLORS.primary, marginBottom: 4 }}>
-        🔬 Ce qui se passe dans votre corps
+        Ce qui se passe dans votre corps
       </Text>
       {AnatomyComponent ? (
         <AnatomyComponent width={width} height={height} />
@@ -218,7 +218,7 @@ export const PdfExerciseSchema: React.FC<PdfExerciseSchemaProps> = ({ slug, widt
   return (
     <View style={{ alignItems: 'center', padding: 6, backgroundColor: PDF_COLORS.secondaryLight, borderRadius: 6, marginBottom: 8 }}>
       <Text style={{ fontSize: 7, fontWeight: 600, color: PDF_COLORS.secondary, marginBottom: 4 }}>
-        💪 Exercices recommandés
+        Exercices recommandes
       </Text>
       {ExerciseComponent ? (
         <ExerciseComponent width={width} height={height} />
@@ -245,7 +245,7 @@ interface PdfSevenDayPlanProps {
 export const PdfSevenDayPlan: React.FC<PdfSevenDayPlanProps> = ({ plan, compact }) => (
   <View style={[pdfStyles.boxLevel0, { padding: compact ? 8 : 10 }]}>
     <Text style={{ fontSize: 10, fontWeight: 700, color: PDF_COLORS.secondary, marginBottom: 6 }}>
-      ✨ {plan.levelName}
+      {plan.levelName}
     </Text>
     {plan.days.slice(0, 7).map((day, idx) => (
       <View key={idx} style={{ marginBottom: compact ? 3 : 5 }}>
@@ -274,7 +274,7 @@ interface PdfEightWeekProgramProps {
 export const PdfEightWeekProgram: React.FC<PdfEightWeekProgramProps> = ({ program, compact }) => (
   <View style={[pdfStyles.box, { padding: compact ? 8 : 10 }]}>
     <Text style={{ fontSize: 10, fontWeight: 700, color: PDF_COLORS.secondary, marginBottom: 8 }}>
-      🎯 {program.levelName}
+      {program.levelName}
     </Text>
     {program.weeks.slice(0, 4).map((week, idx) => (
       <View key={idx} style={{ marginBottom: 6 }}>

@@ -275,7 +275,7 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) 
         {/* ===== HEADER ===== */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
-            <Text style={styles.title}>📋 {evidence.name}</Text>
+            <Text style={styles.title}>{evidence.name}</Text>
             <Text style={styles.subtitle}>Fiche pratique • Basée sur les preuves scientifiques</Text>
           </View>
           <View style={styles.headerRight}>
@@ -293,7 +293,6 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) 
             
             {/* En 2 minutes (max 6 puces) */}
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionIcon}>⏱️</Text>
               <Text style={styles.sectionTitle}>En 2 minutes</Text>
             </View>
             <View style={styles.boxPrimary}>
@@ -321,7 +320,6 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) 
 
             {/* Red Flags (max 5) */}
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionIcon}>🚨</Text>
               <Text style={[styles.sectionTitle, { color: PDF_COLORS.danger }]}>Consultez si...</Text>
             </View>
             <View style={styles.boxDanger}>
@@ -342,7 +340,6 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) 
             
             {/* Plan 7 jours (1 ligne par jour) */}
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionIcon}>📅</Text>
               <Text style={styles.sectionTitle}>Plan 7 jours</Text>
             </View>
             {sevenDayPlan ? (
@@ -372,7 +369,6 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) 
 
             {/* Ce qui aide vraiment (Top 5 condensé) */}
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionIcon}>💡</Text>
               <Text style={styles.sectionTitle}>Ce qui aide vraiment</Text>
             </View>
             <View style={styles.boxNeutral}>
@@ -393,7 +389,7 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) 
             {/* Conseil pratique */}
             <View style={[styles.boxGreen, { marginTop: 10 }]}>
               <Text style={{ fontSize: 9, fontWeight: 600, color: PDF_COLORS.secondary, textAlign: 'center' }}>
-                ✨ Même 5 minutes par jour, c'est un grand pas !
+                Meme 5 minutes par jour, c'est un grand pas !
               </Text>
             </View>
           </View>
@@ -401,7 +397,7 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) 
 
         {/* ===== SOURCES (inline) ===== */}
         <Text style={styles.sourcesText}>
-          📚 Sources : {evidence.sources.slice(0, 2).map(s => `${s.org} (${s.year})`).join(' • ')}
+          Sources : {evidence.sources.slice(0, 2).map(s => `${s.org} (${s.year})`).join(' • ')}
         </Text>
 
         {/* ===== FOOTER ===== */}
