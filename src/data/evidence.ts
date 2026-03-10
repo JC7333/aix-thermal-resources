@@ -59,6 +59,12 @@ const SLUG_ALIASES: Record<string, string> = {
   'otites-repetition-enfant': 'otites-a-repetition-enfant',
 };
 
+// Noms d'affichage corrigés pour les alias
+// Quand un slug V2 est résolu via alias, on veut le nom V2 (plus précis)
+const DISPLAY_NAME_OVERRIDES: Record<string, string> = {
+  'arthrose': 'Gonarthrose (arthrose du genou)',
+};
+
 /**
  * Retourne toutes les données evidence-based
  */
@@ -77,6 +83,10 @@ export const getEvidenceBySlug = (slug: string): EvidenceData | undefined => {
   // Si introuvable, essayer avec l'alias
   if (!evidence && SLUG_ALIASES[slug]) {
     evidence = evidenceData.find((item) => item.slug === SLUG_ALIASES[slug]);
+    // Appliquer le nom d'affichage override si disponible
+    if (evidence && DISPLAY_NAME_OVERRIDES[evidence.slug]) {
+      evidence = { ...evidence, name: DISPLAY_NAME_OVERRIDES[evidence.slug] };
+    }
   }
   
   if (!evidence) {
