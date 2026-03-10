@@ -51,6 +51,14 @@ export interface EvidenceData {
 
 const evidenceData: EvidenceData[] = evidencePack as EvidenceData[];
 
+// Alias de slugs : V2 slug → V1 slug (evidence-pack.json)
+// Permet aux pages V2 d'accéder aux données V1
+const SLUG_ALIASES: Record<string, string> = {
+  'gonarthrose': 'arthrose',
+  'insuffisance-veineuse': 'insuffisance-veineuse-chronique',
+  'otites-repetition-enfant': 'otites-a-repetition-enfant',
+};
+
 /**
  * Retourne toutes les données evidence-based
  */
@@ -63,7 +71,13 @@ export const getAllEvidence = (): EvidenceData[] => {
  * Affiche un warning si slug introuvable
  */
 export const getEvidenceBySlug = (slug: string): EvidenceData | undefined => {
-  const evidence = evidenceData.find((item) => item.slug === slug);
+  // Chercher d'abord avec le slug exact
+  let evidence = evidenceData.find((item) => item.slug === slug);
+  
+  // Si introuvable, essayer avec l'alias
+  if (!evidence && SLUG_ALIASES[slug]) {
+    evidence = evidenceData.find((item) => item.slug === SLUG_ALIASES[slug]);
+  }
   
   if (!evidence) {
     console.warn(`[evidence.ts] Slug introuvable: "${slug}". Slugs disponibles: ${getAllSlugs().join(', ')}`);
