@@ -5,15 +5,18 @@
 // pour le plan personnalisé du parcours guidé
 // ============================================
 
-const DISCLAIMER = 'Information éducative — ne remplace pas un avis médical. Urgence : 15/112.';
+import { printViaIframe, downloadHtmlFallback } from "@/lib/printViaIframe";
+
+const DISCLAIMER =
+  "Information éducative — ne remplace pas un avis médical. Urgence : 15/112.";
 
 const escapeHtml = (input: string): string =>
   input
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 interface ParcoursPlan {
   objective: string;
@@ -24,11 +27,11 @@ interface ParcoursPlan {
   savedAt: string;
 }
 
-const PLAN_STORAGE_KEY = 'coolance_parcours_plan';
+const PLAN_STORAGE_KEY = "coolance_parcours_plan";
 
 export function getSavedPlan(): ParcoursPlan | null {
-  if (typeof window === 'undefined') return null;
-  
+  if (typeof window === "undefined") return null;
+
   try {
     const saved = localStorage.getItem(PLAN_STORAGE_KEY);
     if (!saved) return null;
@@ -40,16 +43,16 @@ export function getSavedPlan(): ParcoursPlan | null {
 
 const buildPlanHtml = (plan: ParcoursPlan): string => {
   // Limiter pour 1 page A4
-  const todayActions = plan.today.slice(0, 3).map(a => 
-    a.length > 55 ? a.substring(0, 52) + '...' : a
-  );
-  const weekPlan = plan.weekPlan.slice(0, 4).map(d => 
-    d.length > 60 ? d.substring(0, 57) + '...' : d
-  );
+  const todayActions = plan.today
+    .slice(0, 3)
+    .map((a) => (a.length > 55 ? a.substring(0, 52) + "..." : a));
+  const weekPlan = plan.weekPlan
+    .slice(0, 4)
+    .map((d) => (d.length > 60 ? d.substring(0, 57) + "..." : d));
 
-  const savedDate = new Date(plan.savedAt).toLocaleDateString('fr-FR', {
-    day: 'numeric',
-    month: 'short',
+  const savedDate = new Date(plan.savedAt).toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "short",
   });
 
   return `<!doctype html>
@@ -136,12 +139,16 @@ const buildPlanHtml = (plan: ParcoursPlan): string => {
       <div class="col">
         <h2>✅ Aujourd'hui</h2>
         <div class="card card-action">
-          ${todayActions.map((action) => `
+          ${todayActions
+            .map(
+              (action) => `
             <div class="action-item">
               <div class="checkbox"></div>
               <span class="action-text">${escapeHtml(action)}</span>
             </div>
-          `).join('')}
+          `,
+            )
+            .join("")}
         </div>
         
         <h2>🚨 Consultez si...</h2>
@@ -158,12 +165,14 @@ const buildPlanHtml = (plan: ParcoursPlan): string => {
       <div class="col">
         <h2>📅 Plan 7 jours</h2>
         <div class="card card-neutral">
-          ${weekPlan.map((day) => {
-            const parts = day.split(':');
-            const label = parts[0]?.trim() || '';
-            const content = parts.slice(1).join(':').trim() || day;
-            return `<div class="day-row"><strong>${escapeHtml(label)}</strong> ${escapeHtml(content)}</div>`;
-          }).join('')}
+          ${weekPlan
+            .map((day) => {
+              const parts = day.split(":");
+              const label = parts[0]?.trim() || "";
+              const content = parts.slice(1).join(":").trim() || day;
+              return `<div class="day-row"><strong>${escapeHtml(label)}</strong> ${escapeHtml(content)}</div>`;
+            })
+            .join("")}
         </div>
         
         <h2>💡 Conseil</h2>
@@ -205,29 +214,21 @@ const buildNoPlanHtml = (): string => {
 export function openParcoursPrintFallback(params: {
   autoPrint?: boolean;
 }): boolean {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === "undefined") return false;
 
   const { autoPrint = false } = params;
 
   const plan = getSavedPlan();
   const html = plan ? buildPlanHtml(plan) : buildNoPlanHtml();
-  
-  const w = window.open('', '_blank', 'noopener,noreferrer');
-  if (!w) return false;
-
-  w.document.open();
-  w.document.write(html);
-  w.document.close();
 
   if (autoPrint && plan) {
-    setTimeout(() => {
-      try {
-        w.focus();
-        w.print();
-      } catch {
-        // no-op
-      }
-    }, 250);
+    // Impression via iframe cachée — pas de window.open, pas de blocage Chrome
+    printViaIframe(html, {
+      onError: () => downloadHtmlFallback(html, "mon-plan-coolance.html"),
+    });
+  } else {
+    // Téléchargement direct du fichier HTML (pas de popup)
+    downloadHtmlFallback(html, "mon-plan-coolance.html");
   }
 
   return true;

@@ -1,16 +1,18 @@
-import { getEvidenceBySlug } from '@/data/evidence';
+import { getEvidenceBySlug } from "@/data/evidence";
+import { printViaIframe, downloadHtmlFallback } from "@/lib/printViaIframe";
 
-type Variant = '1page' | '4pages';
+type Variant = "1page" | "4pages";
 
-const DISCLAIMER = 'Information éducative — ne remplace pas un avis médical. Urgence : 15/112.';
+const DISCLAIMER =
+  "Information éducative — ne remplace pas un avis médical. Urgence : 15/112.";
 
 const escapeHtml = (input: string): string =>
   input
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 const buildHtml = (slug: string, variant: Variant): string => {
   const evidence = getEvidenceBySlug(slug);
@@ -37,23 +39,26 @@ const buildHtml = (slug: string, variant: Variant): string => {
   }
 
   const sources = (evidence.sources ?? []).slice(0, 3);
-  const recos = (evidence.recommendations ?? []).map(r => r.text);
+  const recos = (evidence.recommendations ?? []).map((r) => r.text);
   const redFlags = (evidence.red_flags ?? []).slice(0, 4);
 
   // Limiter le contenu pour 1 page A4
-  const maxRecos = variant === '1page' ? 4 : 5;
-  const recosToShow = recos.slice(0, maxRecos).map(r => {
-    const short = r.split(':')[0].trim();
-    return short.length > 55 ? short.substring(0, 52) + '...' : short;
+  const maxRecos = variant === "1page" ? 4 : 5;
+  const recosToShow = recos.slice(0, maxRecos).map((r) => {
+    const short = r.split(":")[0].trim();
+    return short.length > 55 ? short.substring(0, 52) + "..." : short;
   });
 
   // Résumé court
-  const shortSummary = evidence.summary.length > 180 
-    ? evidence.summary.substring(0, 177) + '...' 
-    : evidence.summary;
+  const shortSummary =
+    evidence.summary.length > 180
+      ? evidence.summary.substring(0, 177) + "..."
+      : evidence.summary;
 
   // Plan 7 jours compact
-  const sevenDayPlan = evidence.sevenDayPlans?.find(p => p.level === 0) || evidence.sevenDayPlans?.[0];
+  const sevenDayPlan =
+    evidence.sevenDayPlans?.find((p) => p.level === 0) ||
+    evidence.sevenDayPlans?.[0];
 
   const planHtml = sevenDayPlan
     ? `
@@ -63,15 +68,16 @@ const buildHtml = (slug: string, variant: Variant): string => {
           ${sevenDayPlan.days
             .slice(0, 7)
             .map((d, i) => {
-              const action = d.actions[0] || '';
-              const shortAction = action.length > 38 ? action.substring(0, 35) + '...' : action;
+              const action = d.actions[0] || "";
+              const shortAction =
+                action.length > 38 ? action.substring(0, 35) + "..." : action;
               return `<div class="day"><strong>J${i + 1}</strong> ${escapeHtml(shortAction)}</div>`;
             })
-            .join('')}
+            .join("")}
         </div>
       </div>
     `
-    : '';
+    : "";
 
   return `<!doctype html>
 <html lang="fr">
@@ -159,23 +165,23 @@ const buildHtml = (slug: string, variant: Variant): string => {
         <h2><span class="icon">✅</span> Plan d'action</h2>
         <div class="card card-action">
           <ul>
-            ${recosToShow.map((t) => `<li>${escapeHtml(t)}</li>`).join('')}
+            ${recosToShow.map((t) => `<li>${escapeHtml(t)}</li>`).join("")}
           </ul>
         </div>
         
-        ${variant === '4pages' ? planHtml : ''}
+        ${variant === "4pages" ? planHtml : ""}
       </div>
       
       <div class="col">
         <h2><span class="icon">🚨</span> Consultez si...</h2>
         <div class="card card-warn">
           <ul>
-            ${redFlags.map((t) => `<li>${escapeHtml(t)}</li>`).join('')}
+            ${redFlags.map((t) => `<li>${escapeHtml(t)}</li>`).join("")}
           </ul>
           <p style="font-size: 7pt; font-weight: bold; color: #dc2626; margin-top: 3px;">→ Urgence : 15 / 112</p>
         </div>
         
-        ${variant === '1page' ? planHtml : ''}
+        ${variant === "1page" ? planHtml : ""}
         
         <h2><span class="icon">💡</span> Conseil</h2>
         <div class="card" style="background: #fef3c7; border-color: #fcd34d;">
@@ -183,7 +189,7 @@ const buildHtml = (slug: string, variant: Variant): string => {
         </div>
         
         <div class="sources">
-          📚 ${sources.map(s => `${escapeHtml(s.org)} (${s.year})`).join(' • ')}
+          📚 ${sources.map((s) => `${escapeHtml(s.org)} (${s.year})`).join(" • ")}
         </div>
       </div>
     </div>
@@ -201,27 +207,21 @@ export function openPrintableFallback(params: {
   variant: Variant;
   autoPrint?: boolean;
 }): boolean {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === "undefined") return false;
 
   const { slug, variant, autoPrint = false } = params;
 
   const html = buildHtml(slug, variant);
-  const w = window.open('', '_blank', 'noopener,noreferrer');
-  if (!w) return false;
-
-  w.document.open();
-  w.document.write(html);
-  w.document.close();
 
   if (autoPrint) {
-    setTimeout(() => {
-      try {
-        w.focus();
-        w.print();
-      } catch {
-        // no-op
-      }
-    }, 250);
+    // Impression via iframe cachée — pas de window.open, pas de blocage Chrome
+    printViaIframe(html, {
+      onError: () =>
+        downloadHtmlFallback(html, `coolance-${slug}-${variant}.html`),
+    });
+  } else {
+    // Téléchargement direct du fichier HTML (pas de popup)
+    downloadHtmlFallback(html, `coolance-${slug}-${variant}.html`);
   }
 
   return true;
