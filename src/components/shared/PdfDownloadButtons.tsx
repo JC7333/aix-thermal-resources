@@ -338,7 +338,10 @@ export const PdfDownloadButtons = ({
   };
 
   // Choix de l'action : preview ou download direct
-  const handleAction = (type: "1page" | "4pages") => {
+  const handleAction = (type: "1page" | "4pages", e?: React.MouseEvent) => {
+    // Empêcher la propagation vers un parent Link/card cliquable
+    e?.stopPropagation();
+    e?.preventDefault();
     if (showPreview) {
       handlePreview(type);
     } else {
@@ -396,7 +399,7 @@ export const PdfDownloadButtons = ({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => handleAction("1page")}
+            onClick={(e) => handleAction("1page", e)}
             disabled={loading !== null || !hasEvidence}
             className="relative"
           >
@@ -415,7 +418,7 @@ export const PdfDownloadButtons = ({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => handleAction("4pages")}
+            onClick={(e) => handleAction("4pages", e)}
             disabled={loading !== null || !hasEvidence}
             className="relative"
           >
@@ -489,7 +492,7 @@ export const PdfDownloadButtons = ({
             <Button
               variant="outline"
               className="w-full justify-start"
-              onClick={() => handleAction("1page")}
+              onClick={(e) => handleAction("1page", e)}
               disabled={loading !== null || !hasEvidence}
             >
               {loading === "1page" ? (
@@ -507,7 +510,7 @@ export const PdfDownloadButtons = ({
             <Button
               variant="default"
               className="w-full justify-start"
-              onClick={() => handleAction("4pages")}
+              onClick={(e) => handleAction("4pages", e)}
               disabled={loading !== null || !hasEvidence}
             >
               {loading === "4pages" ? (
@@ -577,7 +580,7 @@ export const PdfDownloadButtons = ({
         <Button
           variant="outline"
           className={`flex-1 gap-2 ${buttonHeight} ${textSize} ${className}`}
-          onClick={() => handleAction("1page")}
+          onClick={(e) => handleAction("1page", e)}
           disabled={loading !== null || !hasEvidence}
         >
           {loading === "1page" ? (
@@ -593,7 +596,7 @@ export const PdfDownloadButtons = ({
         <Button
           variant="default"
           className={`flex-1 gap-2 ${buttonHeight} ${textSize}`}
-          onClick={() => handleAction("4pages")}
+          onClick={(e) => handleAction("4pages", e)}
           disabled={loading !== null || !hasEvidence}
         >
           {loading === "4pages" ? (
@@ -647,7 +650,7 @@ export const PdfDownloadButtons = ({
       <div className={`flex flex-wrap gap-3 ${className}`}>
         <Button
           variant="outline"
-          onClick={() => handleAction("1page")}
+          onClick={(e) => handleAction("1page", e)}
           disabled={loading !== null || !hasEvidence}
           className="gap-2"
         >
@@ -665,7 +668,7 @@ export const PdfDownloadButtons = ({
         </Button>
         <Button
           variant="default"
-          onClick={() => handleAction("4pages")}
+          onClick={(e) => handleAction("4pages", e)}
           disabled={loading !== null || !hasEvidence}
           className="gap-2"
         >

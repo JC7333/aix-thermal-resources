@@ -1,16 +1,24 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { Instagram, Facebook, Mail } from 'lucide-react';
+import { Link, useNavigate } from "react-router-dom";
+import { Instagram, Facebook, Mail } from "lucide-react";
 
 // Composant Link qui scroll vers le haut
-const ScrollTopLink = ({ to, children, className }: { to: string; children: React.ReactNode; className?: string }) => {
+const ScrollTopLink = ({
+  to,
+  children,
+  className,
+}: {
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+}) => {
   const navigate = useNavigate();
-  
+
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, behavior: "instant" });
     navigate(to);
   };
-  
+
   return (
     <a href={to} onClick={handleClick} className={className}>
       {children}
@@ -26,34 +34,39 @@ export const Footer = () => {
           {/* Brand */}
           <div>
             <div className="mb-4">
-              <p className="font-serif text-2xl font-bold text-white">COOLANCE</p>
-              <p className="text-sm text-white/70 mt-1">par le Dr Audric Bugnard</p>
+              <p className="font-serif text-2xl font-bold text-white">
+                COOLANCE
+              </p>
+              <p className="text-sm text-white/70 mt-1">
+                par le Dr Audric Bugnard
+              </p>
             </div>
             <p className="text-sm text-white/70 leading-relaxed">
-              Des plans simples, imprimables, pour reprendre la main sur votre santé au quotidien.
+              Des plans simples, imprimables, pour reprendre la main sur votre
+              santé au quotidien.
             </p>
-            
+
             {/* Social Icons */}
             <div className="flex items-center gap-4 mt-6">
-              <a 
-                href="https://instagram.com/coolance.sante" 
-                target="_blank" 
+              <a
+                href="https://instagram.com/coolance.sante"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
                 aria-label="Suivre sur Instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
-              <a 
-                href="https://facebook.com/coolance.sante" 
-                target="_blank" 
+              <a
+                href="https://facebook.com/coolance.sante"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
                 aria-label="Suivre sur Facebook"
               >
                 <Facebook className="w-5 h-5" />
               </a>
-              <ScrollTopLink 
+              <ScrollTopLink
                 to="/contact"
                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
               >
@@ -67,32 +80,50 @@ export const Footer = () => {
             <h3 className="font-serif text-lg font-bold mb-4">Navigation</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <ScrollTopLink to="/parcours" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink
+                  to="/parcours"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
                   Parcours guidé
                 </ScrollTopLink>
               </li>
               <li>
-                <ScrollTopLink to="/reponses-rapides" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink
+                  to="/reponses-rapides"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
                   Réponses rapides
                 </ScrollTopLink>
               </li>
               <li>
-                <ScrollTopLink to="/telechargements" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink
+                  to="/telechargements"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
                   Téléchargements PDF
                 </ScrollTopLink>
               </li>
               <li>
-                <ScrollTopLink to="/pathologies" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink
+                  to="/pathologies"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
                   Pathologies
                 </ScrollTopLink>
               </li>
               <li>
-                <ScrollTopLink to="/parents" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink
+                  to="/parents"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
                   Espace Parents
                 </ScrollTopLink>
               </li>
               <li>
-                <ScrollTopLink to="/social" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink
+                  to="/social"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
                   Nous suivre
                 </ScrollTopLink>
               </li>
@@ -104,27 +135,42 @@ export const Footer = () => {
             <h3 className="font-serif text-lg font-bold mb-4">Informations</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <ScrollTopLink to="/qui-suis-je" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink
+                  to="/qui-suis-je"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
                   Qui suis-je ?
                 </ScrollTopLink>
               </li>
               <li>
-                <ScrollTopLink to="/sources-methodologie" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink
+                  to="/sources-methodologie"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
                   Sources & Méthodologie
                 </ScrollTopLink>
               </li>
               <li>
-                <ScrollTopLink to="/contact" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink
+                  to="/contact"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
                   Contact
                 </ScrollTopLink>
               </li>
               <li>
-                <ScrollTopLink to="/mentions-legales" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink
+                  to="/mentions-legales"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
                   Mentions légales
                 </ScrollTopLink>
               </li>
               <li>
-                <ScrollTopLink to="/confidentialite" className="text-white/80 hover:text-white transition-colors">
+                <ScrollTopLink
+                  to="/confidentialite"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
                   Politique de confidentialité
                 </ScrollTopLink>
               </li>
@@ -135,11 +181,16 @@ export const Footer = () => {
         {/* Bottom */}
         <div className="mt-10 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
-            <p>© 2024 COOLANCE — par le Dr Audric Bugnard. Tous droits réservés.</p>
+            <p>
+              © {new Date().getFullYear()} COOLANCE — par le Dr Audric Bugnard.
+              Tous droits réservés.
+            </p>
             <p className="text-center md:text-right flex items-center gap-2">
               <span>📞 Urgence : 15 / 112</span>
               <span className="hidden sm:inline">•</span>
-              <span className="text-white/50">Informations générales — Ne remplace pas un avis médical</span>
+              <span className="text-white/50">
+                Informations générales — Ne remplace pas un avis médical
+              </span>
             </p>
           </div>
         </div>
