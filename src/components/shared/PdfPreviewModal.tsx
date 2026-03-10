@@ -5,19 +5,37 @@
 // Indique si le PDF provient du cache
 // ============================================
 
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Download, X, Loader2, FileText, Book, ZoomIn, ZoomOut, Printer, Zap, RefreshCw } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { Badge } from '@/components/ui/badge';
+import { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import {
+  Download,
+  X,
+  Loader2,
+  FileText,
+  Book,
+  ZoomIn,
+  ZoomOut,
+  Printer,
+  Zap,
+  RefreshCw,
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
+import { printViaIframe } from "@/lib/printViaIframe";
 
 interface PdfPreviewModalProps {
   isOpen: boolean;
   onClose: () => void;
   pdfBlob: Blob | null;
   filename: string;
-  type: '1page' | '4pages';
+  type: "1page" | "4pages";
   isLoading: boolean;
   onDownload: () => void;
   fromCache?: boolean;
@@ -62,7 +80,7 @@ export const PdfPreviewModal = ({
   const handleZoomOut = () => setZoom((prev) => Math.max(prev - 25, 50));
 
   const handlePrint = () => {
-    if (!pdfBlob || !pdfUrl) {
+    if (!pdfBlob) {
       toast({
         title: "Impression impossible",
         description: "Le PDF n'est pas encore chargé.",
@@ -74,40 +92,30 @@ export const PdfPreviewModal = ({
     setIsPrinting(true);
 
     try {
-      // Ouvrir le PDF dans un nouvel onglet pour impression
-      // C'est synchrone donc pas bloqué par popup blocker
-      const printWindow = window.open(pdfUrl, '_blank');
-      if (printWindow) {
-        // Attendre que le PDF soit chargé puis lancer l'impression
-        printWindow.onload = () => {
-          setTimeout(() => {
-            try {
-              printWindow.focus();
-              printWindow.print();
-            } catch {
-              // L'utilisateur peut imprimer manuellement depuis l'onglet
-            }
-          }, 500);
-        };
-        toast({
-          title: "Impression lancée",
-          description: "Le PDF s'ouvre dans un nouvel onglet pour impression.",
-        });
-      } else {
-        // Fallback : télécharger le PDF
-        const link = document.createElement('a');
-        link.href = pdfUrl;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        toast({
-          title: "PDF téléchargé",
-          description: "Ouvrez le fichier téléchargé pour l'imprimer.",
-        });
-      }
+      // Impression via iframe cachée — pas de window.open, pas de blocage Chrome
+      printViaIframe(pdfBlob, {
+        onError: () => {
+          // Fallback : télécharger le PDF
+          const url = URL.createObjectURL(pdfBlob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          toast({
+            title: "PDF téléchargé",
+            description: "Ouvrez le fichier téléchargé pour l'imprimer.",
+          });
+        },
+      });
+      toast({
+        title: "Impression lancée",
+        description: "La boîte de dialogue d'impression va s'ouvrir.",
+      });
     } catch (error) {
-      console.error('Erreur impression:', error);
+      console.error("Erreur impression:", error);
       toast({
         title: "Erreur d'impression",
         description: "Téléchargez le PDF et imprimez-le manuellement.",
@@ -125,24 +133,24 @@ export const PdfPreviewModal = ({
         <DialogHeader className="px-6 py-4 border-b bg-muted/30">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              {type === '1page' ? (
+              {type === "1page" ? (
                 <FileText className="w-5 h-5 text-primary" />
               ) : (
                 <Book className="w-5 h-5 text-primary" />
               )}
               <DialogTitle className="text-lg font-serif">
-                Aperçu — {type === '1page' ? 'Fiche 1 page' : 'Guide 4 pages'}
+                Aperçu — {type === "1page" ? "Fiche 1 page" : "Guide 4 pages"}
               </DialogTitle>
               {/* Badge indicateur cache avec temps de génération */}
               {pdfBlob && !isLoading && (
                 <div className="flex items-center gap-2 animate-scale-in">
-                  <Badge 
-                    key={fromCache ? 'cache' : 'generated'}
-                    variant={fromCache ? "secondary" : "outline"} 
+                  <Badge
+                    key={fromCache ? "cache" : "generated"}
+                    variant={fromCache ? "secondary" : "outline"}
                     className={`text-xs gap-1 transition-all duration-300 ${
-                      fromCache 
-                        ? 'bg-secondary/20 text-secondary border-secondary/30' 
-                        : 'bg-accent/20 text-accent-foreground border-accent/30'
+                      fromCache
+                        ? "bg-secondary/20 text-secondary border-secondary/30"
+                        : "bg-accent/20 text-accent-foreground border-accent/30"
                     }`}
                   >
                     {fromCache ? (
@@ -159,13 +167,14 @@ export const PdfPreviewModal = ({
                   </Badge>
                   {/* Temps de génération */}
                   {generationTime !== null && generationTime !== undefined && (
-                    <span className={`text-xs font-mono ${
-                      fromCache ? 'text-secondary' : 'text-muted-foreground'
-                    }`}>
-                      {generationTime < 1000 
-                        ? `${generationTime}ms` 
-                        : `${(generationTime / 1000).toFixed(1)}s`
-                      }
+                    <span
+                      className={`text-xs font-mono ${
+                        fromCache ? "text-secondary" : "text-muted-foreground"
+                      }`}
+                    >
+                      {generationTime < 1000
+                        ? `${generationTime}ms`
+                        : `${(generationTime / 1000).toFixed(1)}s`}
                       {fromCache && generationTime < 50 && (
                         <span className="ml-1 text-secondary">⚡</span>
                       )}
@@ -211,23 +220,26 @@ export const PdfPreviewModal = ({
                   <FileText className="w-8 h-8 text-primary animate-scale-in" />
                 </div>
               </div>
-              
+
               {/* Texte de progression */}
               <div className="text-center space-y-2">
-                <p className="text-foreground font-medium">Génération du PDF en cours...</p>
+                <p className="text-foreground font-medium">
+                  Génération du PDF en cours...
+                </p>
                 <p className="text-sm text-muted-foreground">
-                  {type === '1page' ? 'Fiche 1 page' : 'Guide complet 4 pages'}
+                  {type === "1page" ? "Fiche 1 page" : "Guide complet 4 pages"}
                 </p>
               </div>
-              
+
               {/* Barre de progression animée */}
               <div className="w-64 max-w-full">
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div 
+                  <div
                     className="h-full bg-gradient-to-r from-primary via-primary/80 to-primary rounded-full animate-pulse"
                     style={{
-                      width: '100%',
-                      animation: 'progress-indeterminate 1.5s ease-in-out infinite',
+                      width: "100%",
+                      animation:
+                        "progress-indeterminate 1.5s ease-in-out infinite",
                     }}
                   />
                 </div>
@@ -239,7 +251,7 @@ export const PdfPreviewModal = ({
                   }
                 `}</style>
               </div>
-              
+
               {/* Étapes de génération */}
               <div className="flex items-center gap-6 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1">
@@ -257,17 +269,20 @@ export const PdfPreviewModal = ({
               </div>
             </div>
           ) : pdfUrl ? (
-            <div 
+            <div
               className="flex justify-center"
-              style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }}
+              style={{
+                transform: `scale(${zoom / 100})`,
+                transformOrigin: "top center",
+              }}
             >
               {/* Utiliser iframe pour meilleure compatibilité PDF */}
               <iframe
                 src={`${pdfUrl}#toolbar=1&navpanes=0`}
                 className="w-full max-w-[210mm] bg-white shadow-xl rounded-sm border"
-                style={{ 
-                  height: type === '1page' ? '297mm' : 'calc(297mm * 4)',
-                  minHeight: '600px',
+                style={{
+                  height: type === "1page" ? "297mm" : "calc(297mm * 4)",
+                  minHeight: "600px",
                 }}
                 title="Aperçu PDF"
               />
@@ -276,7 +291,10 @@ export const PdfPreviewModal = ({
             <div className="h-full flex flex-col items-center justify-center gap-4 text-muted-foreground">
               <FileText className="w-12 h-12 opacity-50" />
               <p>Impossible de charger l'aperçu</p>
-              <p className="text-sm">Le PDF a bien été généré. Cliquez sur "Télécharger" pour l'obtenir.</p>
+              <p className="text-sm">
+                Le PDF a bien été généré. Cliquez sur "Télécharger" pour
+                l'obtenir.
+              </p>
             </div>
           )}
         </div>
@@ -290,9 +308,9 @@ export const PdfPreviewModal = ({
             </Button>
             {/* Bouton Régénérer - visible uniquement si cache et callback disponible */}
             {fromCache && onRegenerate && (
-              <Button 
+              <Button
                 variant="ghost"
-                onClick={onRegenerate} 
+                onClick={onRegenerate}
                 disabled={isLoading}
                 className="gap-2 text-muted-foreground hover:text-foreground"
               >
@@ -302,9 +320,9 @@ export const PdfPreviewModal = ({
             )}
           </div>
           <div className="flex gap-2">
-            <Button 
+            <Button
               variant="outline"
-              onClick={handlePrint} 
+              onClick={handlePrint}
               disabled={!pdfBlob || isLoading || isPrinting}
               className="gap-2"
             >
@@ -315,8 +333,8 @@ export const PdfPreviewModal = ({
               )}
               Imprimer
             </Button>
-            <Button 
-              onClick={onDownload} 
+            <Button
+              onClick={onDownload}
               disabled={!pdfBlob || isLoading}
               className="gap-2"
             >

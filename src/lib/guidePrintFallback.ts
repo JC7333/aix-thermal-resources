@@ -5,17 +5,20 @@
 // Template 1 colonne, police lisible, format portrait
 // ============================================
 
-type GuideId = 'poids' | 'tabac' | 'sommeil' | 'bouger';
+import { printViaIframe, downloadHtmlFallback } from "@/lib/printViaIframe";
 
-const DISCLAIMER = 'Information éducative — ne remplace pas un avis médical. Urgence : 15/112.';
+type GuideId = "poids" | "tabac" | "sommeil" | "bouger";
+
+const DISCLAIMER =
+  "Information éducative — ne remplace pas un avis médical. Urgence : 15/112.";
 
 const escapeHtml = (input: string): string =>
   input
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 interface GuideContent {
   title: string;
@@ -28,119 +31,123 @@ interface GuideContent {
 
 const guidesContent: Record<GuideId, GuideContent> = {
   poids: {
-    title: 'Gérer son poids durablement',
-    description: 'Des conseils pratiques et progressifs pour atteindre un poids santé, sans régime restrictif.',
+    title: "Gérer son poids durablement",
+    description:
+      "Des conseils pratiques et progressifs pour atteindre un poids santé, sans régime restrictif.",
     topics: [
-      'Pourquoi les régimes restrictifs échouent',
-      'L\'assiette équilibrée au quotidien',
-      'Bouger sans se faire mal',
-      'Gérer les fringales',
-      'Dormir pour maigrir',
+      "Pourquoi les régimes restrictifs échouent",
+      "L'assiette équilibrée au quotidien",
+      "Bouger sans se faire mal",
+      "Gérer les fringales",
+      "Dormir pour maigrir",
     ],
     keyMessages: [
-      'Perdre 5% de son poids apporte déjà des bénéfices mesurables sur la santé',
-      'Les régimes très restrictifs provoquent l\'effet yoyo dans 80% des cas',
-      'Manger lentement (20 min) favorise la satiété',
-      'Marcher 30 min/jour équivaut à ~150 kcal dépensées',
+      "Perdre 5% de son poids apporte déjà des bénéfices mesurables sur la santé",
+      "Les régimes très restrictifs provoquent l'effet yoyo dans 80% des cas",
+      "Manger lentement (20 min) favorise la satiété",
+      "Marcher 30 min/jour équivaut à ~150 kcal dépensées",
     ],
     actionPlan: [
-      'Aujourd\'hui : noter ce que je mange (sans jugement)',
-      'Cette semaine : ajouter un légume à chaque repas',
-      'Marcher 10 min après le déjeuner',
-      'Éviter les boissons sucrées',
-      'Dormir suffisamment (7-8h)',
+      "Aujourd'hui : noter ce que je mange (sans jugement)",
+      "Cette semaine : ajouter un légume à chaque repas",
+      "Marcher 10 min après le déjeuner",
+      "Éviter les boissons sucrées",
+      "Dormir suffisamment (7-8h)",
     ],
     sources: [
-      'OMS – Obésité et surpoids (2024)',
-      'HAS – Surpoids et obésité de l\'adulte (2022)',
-      'Santé Publique France – Manger Bouger',
+      "OMS – Obésité et surpoids (2024)",
+      "HAS – Surpoids et obésité de l'adulte (2022)",
+      "Santé Publique France – Manger Bouger",
     ],
   },
   tabac: {
-    title: 'Arrêter le tabac',
-    description: 'Une approche progressive et bienveillante pour se libérer du tabac.',
+    title: "Arrêter le tabac",
+    description:
+      "Une approche progressive et bienveillante pour se libérer du tabac.",
     topics: [
-      'Comprendre sa dépendance',
-      'Préparer son arrêt',
-      'Les substituts nicotiniques',
-      'Gérer les envies',
-      'Éviter la rechute',
+      "Comprendre sa dépendance",
+      "Préparer son arrêt",
+      "Les substituts nicotiniques",
+      "Gérer les envies",
+      "Éviter la rechute",
     ],
     keyMessages: [
-      'Après 20 min sans fumer, la tension et le pouls reviennent à la normale',
-      'Après 1 an, le risque cardiovasculaire est divisé par 2',
-      'Les substituts nicotiniques doublent les chances de succès',
-      'La rechute fait partie du parcours (5-7 tentatives en moyenne)',
+      "Après 20 min sans fumer, la tension et le pouls reviennent à la normale",
+      "Après 1 an, le risque cardiovasculaire est divisé par 2",
+      "Les substituts nicotiniques doublent les chances de succès",
+      "La rechute fait partie du parcours (5-7 tentatives en moyenne)",
     ],
     actionPlan: [
-      'Fixer une date d\'arrêt dans les 2 semaines',
-      'Identifier mes déclencheurs (café, stress, ennui)',
-      'Consulter pour des substituts nicotiniques adaptés',
-      'Préparer des alternatives (eau, chewing-gum, marche)',
-      'Prévenir mon entourage',
+      "Fixer une date d'arrêt dans les 2 semaines",
+      "Identifier mes déclencheurs (café, stress, ennui)",
+      "Consulter pour des substituts nicotiniques adaptés",
+      "Préparer des alternatives (eau, chewing-gum, marche)",
+      "Prévenir mon entourage",
     ],
     sources: [
-      'Tabac Info Service (France)',
-      'Cochrane – Nicotine replacement therapy (2018)',
-      'HAS – Arrêt de la consommation de tabac (2014)',
+      "Tabac Info Service (France)",
+      "Cochrane – Nicotine replacement therapy (2018)",
+      "HAS – Arrêt de la consommation de tabac (2014)",
     ],
   },
   sommeil: {
-    title: 'Améliorer son sommeil',
-    description: 'Retrouver un sommeil réparateur avec des habitudes simples et efficaces.',
+    title: "Améliorer son sommeil",
+    description:
+      "Retrouver un sommeil réparateur avec des habitudes simples et efficaces.",
     topics: [
-      'L\'hygiène du sommeil',
-      'Préparer sa nuit',
-      'Gérer les réveils nocturnes',
-      'Alimentation et sommeil',
-      'Quand consulter',
+      "L'hygiène du sommeil",
+      "Préparer sa nuit",
+      "Gérer les réveils nocturnes",
+      "Alimentation et sommeil",
+      "Quand consulter",
     ],
     keyMessages: [
-      'La régularité des horaires est plus importante que la durée',
-      'Les écrans avant le coucher retardent l\'endormissement de 30-60 min',
-      'La température idéale de la chambre est 18-19°C',
-      'L\'insomnie chronique (>3 mois) nécessite une prise en charge',
+      "La régularité des horaires est plus importante que la durée",
+      "Les écrans avant le coucher retardent l'endormissement de 30-60 min",
+      "La température idéale de la chambre est 18-19°C",
+      "L'insomnie chronique (>3 mois) nécessite une prise en charge",
     ],
     actionPlan: [
-      'Se coucher et se lever à heures fixes',
-      'Arrêter les écrans 1h avant le coucher',
-      'Éviter café/thé après 14h',
-      'Sortir à la lumière le matin (20 min)',
-      'Si réveil nocturne > 20 min : se lever et lire',
+      "Se coucher et se lever à heures fixes",
+      "Arrêter les écrans 1h avant le coucher",
+      "Éviter café/thé après 14h",
+      "Sortir à la lumière le matin (20 min)",
+      "Si réveil nocturne > 20 min : se lever et lire",
     ],
     sources: [
-      'SFRMS – Recommandations insomnie (2022)',
-      'Sleep Foundation – Sleep Hygiene',
-      'HAS – Prise en charge de l\'insomnie (2006)',
+      "SFRMS – Recommandations insomnie (2022)",
+      "Sleep Foundation – Sleep Hygiene",
+      "HAS – Prise en charge de l'insomnie (2006)",
     ],
   },
   bouger: {
-    title: 'Reprendre une activité physique',
-    description: 'Bouger en douceur quand on a mal, qu\'on est essoufflé ou qu\'on n\'a plus l\'habitude.',
+    title: "Reprendre une activité physique",
+    description:
+      "Bouger en douceur quand on a mal, qu'on est essoufflé ou qu'on n'a plus l'habitude.",
     topics: [
-      'Pourquoi bouger quand on a mal',
-      'Commencer très progressivement',
-      'Exercices niveau 0 (très facile)',
-      'Exercices niveau 1 à 3',
-      'Intégrer le mouvement au quotidien',
+      "Pourquoi bouger quand on a mal",
+      "Commencer très progressivement",
+      "Exercices niveau 0 (très facile)",
+      "Exercices niveau 1 à 3",
+      "Intégrer le mouvement au quotidien",
     ],
     keyMessages: [
-      'Bouger réduit les douleurs chroniques (dos, arthrose)',
-      '10 min d\'activité x 3/jour = 30 min quotidiennes',
-      'L\'essoufflement léger est normal et bénéfique',
-      'Progresser de 10% par semaine maximum',
+      "Bouger réduit les douleurs chroniques (dos, arthrose)",
+      "10 min d'activité x 3/jour = 30 min quotidiennes",
+      "L'essoufflement léger est normal et bénéfique",
+      "Progresser de 10% par semaine maximum",
     ],
     actionPlan: [
-      'Aujourd\'hui : marcher 5 min autour de chez moi',
-      'Demain : monter un étage à pied',
-      'Cette semaine : 10 min de marche 3 fois',
-      'Noter mes progrès dans un carnet',
-      'Célébrer chaque petite victoire',
+      "Aujourd'hui : marcher 5 min autour de chez moi",
+      "Demain : monter un étage à pied",
+      "Cette semaine : 10 min de marche 3 fois",
+      "Noter mes progrès dans un carnet",
+      "Célébrer chaque petite victoire",
     ],
     sources: [
-      'OMS – Recommandations activité physique (2020)',
-      'HAS – Prescription d\'activité physique (2022)',
-      'Cochrane – Exercise for chronic pain (2017)',
+      "OMS – Recommandations activité physique (2020)",
+      "HAS – Prescription d'activité physique (2022)",
+      "Cochrane – Exercise for chronic pain (2017)",
     ],
   },
 };
@@ -303,7 +310,7 @@ const buildGuideHtml = (guideId: GuideId): string => {
       <h2>📋 Dans ce guide</h2>
       <div class="card">
         <ul>
-          ${guide.topics.map((t) => `<li>${escapeHtml(t)}</li>`).join('\n          ')}
+          ${guide.topics.map((t) => `<li>${escapeHtml(t)}</li>`).join("\n          ")}
         </ul>
       </div>
     </section>
@@ -312,7 +319,7 @@ const buildGuideHtml = (guideId: GuideId): string => {
       <h2>💡 Messages clés</h2>
       <div class="card card-warning">
         <ul>
-          ${guide.keyMessages.map((m) => `<li>${escapeHtml(m)}</li>`).join('\n          ')}
+          ${guide.keyMessages.map((m) => `<li>${escapeHtml(m)}</li>`).join("\n          ")}
         </ul>
       </div>
     </section>
@@ -321,13 +328,13 @@ const buildGuideHtml = (guideId: GuideId): string => {
       <h2>✅ Plan d'action</h2>
       <div class="card card-action">
         <ul>
-          ${guide.actionPlan.map((a) => `<li>${escapeHtml(a)}</li>`).join('\n          ')}
+          ${guide.actionPlan.map((a) => `<li>${escapeHtml(a)}</li>`).join("\n          ")}
         </ul>
       </div>
     </section>
     
     <div class="sources">
-      <strong>📚 Sources :</strong> ${guide.sources.map((s) => escapeHtml(s)).join(' • ')}
+      <strong>📚 Sources :</strong> ${guide.sources.map((s) => escapeHtml(s)).join(" • ")}
     </div>
     
     <footer>
@@ -342,50 +349,28 @@ export function openGuidePrintFallback(params: {
   guideId: string;
   autoPrint?: boolean;
 }): boolean {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === "undefined") return false;
 
   const { guideId, autoPrint = false } = params;
 
-  const validIds = ['poids', 'tabac', 'sommeil', 'bouger'];
+  const validIds = ["poids", "tabac", "sommeil", "bouger"];
   if (!validIds.includes(guideId)) return false;
 
   const html = buildGuideHtml(guideId as GuideId);
-  
-  // Use Blob URL approach to avoid popup blockers
-  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  
-  const w = window.open(url, '_blank');
-  if (!w) {
-    // Fallback: download as file
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `guide-${guideId}.html`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    return true;
-  }
 
-  // Clean up URL after page loads
-  w.onload = () => {
-    URL.revokeObjectURL(url);
-    if (autoPrint) {
-      setTimeout(() => {
-        try {
-          w.focus();
-          w.print();
-        } catch {
-          // no-op
-        }
-      }, 300);
-    }
-  };
+  if (autoPrint) {
+    // Impression via iframe cachée — pas de window.open, pas de blocage Chrome
+    printViaIframe(html, {
+      onError: () => downloadHtmlFallback(html, `guide-${guideId}.html`),
+    });
+  } else {
+    // Téléchargement direct du fichier HTML (pas de popup)
+    downloadHtmlFallback(html, `guide-${guideId}.html`);
+  }
 
   return true;
 }
 
 export function isGuideAvailable(guideId: string): boolean {
-  return ['poids', 'tabac', 'sommeil', 'bouger'].includes(guideId);
+  return ["poids", "tabac", "sommeil", "bouger"].includes(guideId);
 }
