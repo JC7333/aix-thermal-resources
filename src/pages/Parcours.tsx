@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, Printer, Check, Activity, Scale, Cigarette, Wind, Heart, Baby, Smile } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
@@ -7,6 +8,7 @@ import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { logEvent } from '@/services/analytics';
 import { openParcoursPrintFallback } from '@/lib/parcoursPrintFallback';
 import { useToast } from '@/hooks/use-toast';
+import { getPathologyUrl } from '@/lib/pathologyRoutes';
 
 type Objective = 'douleur' | 'poids' | 'tabac' | 'souffle' | 'jambes' | 'orl-enfant' | 'bouche';
 type Level = 0 | 1 | 2 | 3;
@@ -34,6 +36,17 @@ const levelDescriptions = [
   { level: 2, label: 'Mobilité correcte', description: 'Je peux marcher 15-30 min sans trop de difficulté' },
   { level: 3, label: 'Bonne mobilité', description: 'Je suis relativement actif(ve)' },
 ];
+
+// Mapping des objectifs vers les slugs V2 (null = pas de page V2 disponible)
+const objectiveToSlug: Record<Objective, string | null> = {
+  'douleur': 'gonarthrose',          // Géré séparément (choix genou / dos)
+  'poids': null,                      // Pas de page V2 dédiée
+  'tabac': null,                      // Pas de page V2 dédiée
+  'souffle': 'bpco',
+  'jambes': 'insuffisance-veineuse',
+  'orl-enfant': 'otites-repetition-enfant',
+  'bouche': null,                     // Pas de page V2 encore
+};
 
 const getActionsForObjective = (objective: Objective, level: Level): { today: string[]; weekPlan: string[] } => {
   const plans: Record<Objective, { today: string[]; weekPlan: string[] }> = {
@@ -417,8 +430,47 @@ const Parcours = () => {
                 </p>
               </div>
 
+              {/* Link to full V2 pathology page — specific for douleur, generic for others */}
+              {selectedObjective === 'douleur' && (
+                <div className="mt-6 p-4 bg-primary/5 rounded-xl border-2 border-primary/20 no-print">
+                  <p className={`font-semibold text-primary mb-3 text-center ${seniorMode ? 'text-xl' : 'text-lg'}`}>
+                    Allez plus loin
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button asChild size={seniorMode ? 'xl' : 'lg'} className="flex-1">
+                      <Link to={getPathologyUrl('gonarthrose')} className="gap-2">
+                        Arthrose du genou
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </Button>
+                    <Button asChild size={seniorMode ? 'xl' : 'lg'} variant="outline" className="flex-1">
+                      <Link to={getPathologyUrl('lombalgie-chronique')} className="gap-2">
+                        Mal de dos
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              )}
+              {selectedObjective && selectedObjective !== 'douleur' && objectiveToSlug[selectedObjective] && (
+                <div className="mt-6 p-4 bg-primary/5 rounded-xl border-2 border-primary/20 text-center no-print">
+                  <p className={`font-semibold text-primary mb-3 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
+                    Allez plus loin
+                  </p>
+                  <p className={`text-muted-foreground mb-4 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+                    Podcasts, exercices illustrés, fiches imprimables, sources scientifiques
+                  </p>
+                  <Button asChild size={seniorMode ? 'xl' : 'lg'}>
+                    <Link to={getPathologyUrl(objectiveToSlug[selectedObjective]!)} className="gap-2">
+                      Voir le guide complet
+                      <ArrowRight className="w-5 h-5" />
+                    </Link>
+                  </Button>
+                </div>
+              )}
+
               {/* Actions */}
-              <div className="flex flex-col sm:flex-row gap-3 no-print">
+              <div className="flex flex-col sm:flex-row gap-3 no-print mt-6">
                 <Button onClick={handlePrint} variant="pdf" size={buttonSize} className={`flex-1 ${seniorMode ? 'h-14 text-lg' : ''}`}>
                   <Printer className={iconSize} />
                   Imprimer mon plan
