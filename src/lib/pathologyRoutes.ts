@@ -1,75 +1,57 @@
-// ============================================
-// PATHOLOGY ROUTES — Fonctions centralisées pour les URLs de pathologies
-// ============================================
-
 /**
- * Génère l'URL canonique pour une page pathologie.
- * Toutes les pathologies utilisent désormais la version V2.
+ * pathologyRoutes.ts
+ * Source de vérité pour les URLs et slugs des pathologies V2.
  */
-export function getPathologyUrl(slug: string, anchor?: string): string {
-  const base = `/pathologies/v2/${slug}`;
-  return anchor ? `${base}#${anchor}` : base;
-}
+
+// ─── URL builder ─────────────────────────────────────────────────────────────
 
 /**
- * Génère l'URL de la liste des pathologies
+ * Builds the URL for a V2 pathology page.
+ * Route pattern: /pathologies/v2/:slug
  */
-export function getPathologiesListUrl(): string {
-  return '/pathologies';
-}
+export const getPathologyUrl = (slug: string): string => {
+  return `/pathologies/v2/${slug}`;
+};
+
+// ─── Valid V2 slugs ───────────────────────────────────────────────────────────
 
 /**
- * Vérifie si un slug de pathologie existe dans le système V2
+ * Exhaustive list of slugs that have a published V2 page.
+ * Keep in sync with ALL_EVIDENCE_PACKS_V2 (status: 'complete').
  */
-export function isValidPathologySlug(slug: string): boolean {
-  // Liste des slugs V2 valides
-  const validSlugs = [
-    'gonarthrose',
-    'coxarthrose',
-    'lombalgie-chronique',
-    'insuffisance-veineuse',
-    'bpco',
-    'otites-repetition-enfant',
-    'rhinosinusite-chronique',
-    // Stubs (en cours de rédaction)
-    'arthrose-cheville-pied',
-    'arthrose-lombaire',
-    'arthrose-cervicale',
-    'arthrose-digitale',
-    'omarthrose',
-    'tendinopathie-coiffe',
-    'lymphoedeme',
-    'asthme',
-    'rhinite-chronique',
-    'lichen-plan-buccal',
-    'glossodynie',
-    'gingivites',
-    'sequelles-post-radiques',
-  ];
-  return validSlugs.includes(slug);
-}
+export const VALID_V2_SLUGS: readonly string[] = [
+  'gonarthrose',
+  'coxarthrose',
+  'lombalgie-chronique',
+  'insuffisance-veineuse',
+  'bpco',
+  'otites-repetition-enfant',
+  'rhinosinusite-chronique',
+] as const;
 
 /**
- * Mapping des anciens slugs V1 vers les nouveaux slugs V2
- * Si un slug V1 existe dans ce mapping, il sera redirigé vers le slug V2 correspondant
+ * Returns true if the slug has a published V2 page.
+ */
+export const isValidPathologySlug = (slug: string): boolean => {
+  return (VALID_V2_SLUGS as readonly string[]).includes(slug);
+};
+
+// ─── V1 → V2 migration ───────────────────────────────────────────────────────
+
+/**
+ * Map of old V1 slugs to their canonical V2 counterparts.
+ * Add an entry whenever a slug is renamed between versions.
  */
 export const SLUG_MIGRATION_MAP: Record<string, string> = {
-  // Les slugs V1 qui doivent être redirigés vers des slugs V2 différents
-  // Format: 'ancien-slug': 'nouveau-slug'
-  'arthrose': 'gonarthrose', // Si l'ancien slug était générique
-  'lombalgie': 'lombalgie-chronique',
-  'mal-de-dos': 'lombalgie-chronique',
-  'veines': 'insuffisance-veineuse',
-  'jambes-lourdes': 'insuffisance-veineuse',
-  'otites': 'otites-repetition-enfant',
-  'otites-enfant': 'otites-repetition-enfant',
-  'rhinite': 'rhinosinusite-chronique',
-  'sinusite': 'rhinosinusite-chronique',
+  // Exemples — décommenter si un renommage a eu lieu :
+  // 'arthrose-genou': 'gonarthrose',
+  // 'mal-de-dos': 'lombalgie-chronique',
 };
 
 /**
- * Obtient le slug V2 à partir d'un slug (gère les migrations)
+ * Returns the canonical V2 slug for a given input slug.
+ * Falls back to the original slug if no migration entry exists.
  */
-export function getV2Slug(slug: string): string {
-  return SLUG_MIGRATION_MAP[slug] || slug;
-}
+export const getV2Slug = (slug: string): string => {
+  return SLUG_MIGRATION_MAP[slug] ?? slug;
+};

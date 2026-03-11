@@ -11,12 +11,82 @@ import {
   type AnalyticsStats 
 } from '@/services/analytics';
 
+// PRO data types and reader
+interface ProResponse {
+  slug: string;
+  timestamp: number;
+  painScore: number;
+  functionScore: number;
+  helpfulness: 'yes' | 'somewhat' | 'no';
+}
+
+const getProResponses = (): ProResponse[] => {
+  try {
+    const stored = localStorage.getItem('coolance_pro_responses');
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+interface ProStats {
+  totalResponses: number;
+  avgPainScore: number;
+  avgFunctionScore: number;
+  helpfulnessBreakdown: { yes: number; somewhat: number; no: number };
+  byPathology: { slug: string; count: number; avgPain: number; avgFunction: number }[];
+  last30Days: ProResponse[];
+}
+
+const calculateProStats = (): ProStats => {
+  const responses = getProResponses();
+  const total = responses.length;
+
+  if (total === 0) {
+    return {
+      totalResponses: 0,
+      avgPainScore: 0,
+      avgFunctionScore: 0,
+      helpfulnessBreakdown: { yes: 0, somewhat: 0, no: 0 },
+      byPathology: [],
+      last30Days: [],
+    };
+  }
+
+  const avgPain = responses.reduce((sum, r) => sum + r.painScore, 0) / total;
+  const avgFunction = responses.reduce((sum, r) => sum + r.functionScore, 0) / total;
+
+  const helpfulness = { yes: 0, somewhat: 0, no: 0 };
+  responses.forEach(r => { helpfulness[r.helpfulness]++; });
+
+  // Group by pathology
+  const bySlug: Record<string, ProResponse[]> = {};
+  responses.forEach(r => {
+    if (!bySlug[r.slug]) bySlug[r.slug] = [];
+    bySlug[r.slug].push(r);
+  });
+  const byPathology = Object.entries(bySlug).map(([slug, resps]) => ({
+    slug,
+    count: resps.length,
+    avgPain: resps.reduce((s, r) => s + r.painScore, 0) / resps.length,
+    avgFunction: resps.reduce((s, r) => s + r.functionScore, 0) / resps.length,
+  })).sort((a, b) => b.count - a.count);
+
+  // Last 30 days
+  const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+  const last30Days = responses.filter(r => r.timestamp >= thirtyDaysAgo);
+
+  return { totalResponses: total, avgPainScore: avgPain, avgFunctionScore: avgFunction, helpfulnessBreakdown: helpfulness, byPathology, last30Days };
+};
+
 const Stats = () => {
   const [stats, setStats] = useState<AnalyticsStats | null>(null);
+  const [proStats, setProStats] = useState<ProStats | null>(null);
   const [showConfirmClear, setShowConfirmClear] = useState(false);
 
   const refreshStats = () => {
     setStats(calculateStats());
+    setProStats(calculateProStats());
   };
 
   useEffect(() => {
@@ -26,12 +96,22 @@ const Stats = () => {
   const getDateString = () => new Date().toISOString().split('T')[0];
 
   const handleExport = () => {
-    const json = exportAnalyticsJson();
-    const blob = new Blob([json], { type: 'application/json' });
+    const analyticsJson = exportAnalyticsJson();
+    const proResponses = getProResponses();
+    const proStatsData = calculateProStats();
+
+    const fullExport = {
+      ...JSON.parse(analyticsJson),
+      proResponses,
+      proStats: proStatsData,
+      exportedAt: new Date().toISOString(),
+    };
+
+    const blob = new Blob([JSON.stringify(fullExport, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `analytics_${getDateString()}.json`;
+    a.download = `coolance_data_${getDateString()}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -394,6 +474,115 @@ const Stats = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* PRO — Patient Reported Outcomes */}
+        {proStats && proStats.totalResponses > 0 && (
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-600" />
+                Questionnaires patients (PRO)
+              </CardTitle>
+              <CardDescription>
+                Donnees anonymisees — {proStats.totalResponses} reponse{proStats.totalResponses > 1 ? 's' : ''}
+                {proStats.last30Days.length > 0 && ` (${proStats.last30Days.length} sur les 30 derniers jours)`}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {/* Summary cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div className="bg-red-50 rounded-xl p-4 text-center">
+                  <p className="text-sm text-red-600 font-medium">Douleur moyenne</p>
+                  <p className="text-3xl font-bold text-red-700">{proStats.avgPainScore.toFixed(1)}</p>
+                  <p className="text-xs text-red-500">sur 10</p>
+                </div>
+                <div className="bg-blue-50 rounded-xl p-4 text-center">
+                  <p className="text-sm text-blue-600 font-medium">Fonction moyenne</p>
+                  <p className="text-3xl font-bold text-blue-700">{proStats.avgFunctionScore.toFixed(1)}</p>
+                  <p className="text-xs text-blue-500">sur 10</p>
+                </div>
+                <div className="bg-green-50 rounded-xl p-4 text-center">
+                  <p className="text-sm text-green-600 font-medium">Contenu utile</p>
+                  <p className="text-3xl font-bold text-green-700">
+                    {proStats.totalResponses > 0
+                      ? Math.round((proStats.helpfulnessBreakdown.yes / proStats.totalResponses) * 100)
+                      : 0}%
+                  </p>
+                  <p className="text-xs text-green-500">repondent "oui"</p>
+                </div>
+              </div>
+
+              {/* Helpfulness breakdown */}
+              <div className="mb-6">
+                <p className="text-sm font-medium text-muted-foreground mb-2">Utilite du contenu</p>
+                <div className="flex gap-2 h-8 rounded-full overflow-hidden">
+                  {proStats.helpfulnessBreakdown.yes > 0 && (
+                    <div
+                      className="bg-green-500 flex items-center justify-center text-white text-xs font-bold"
+                      style={{ width: `${(proStats.helpfulnessBreakdown.yes / proStats.totalResponses) * 100}%` }}
+                    >
+                      Oui ({proStats.helpfulnessBreakdown.yes})
+                    </div>
+                  )}
+                  {proStats.helpfulnessBreakdown.somewhat > 0 && (
+                    <div
+                      className="bg-amber-400 flex items-center justify-center text-white text-xs font-bold"
+                      style={{ width: `${(proStats.helpfulnessBreakdown.somewhat / proStats.totalResponses) * 100}%` }}
+                    >
+                      Un peu ({proStats.helpfulnessBreakdown.somewhat})
+                    </div>
+                  )}
+                  {proStats.helpfulnessBreakdown.no > 0 && (
+                    <div
+                      className="bg-red-400 flex items-center justify-center text-white text-xs font-bold"
+                      style={{ width: `${(proStats.helpfulnessBreakdown.no / proStats.totalResponses) * 100}%` }}
+                    >
+                      Non ({proStats.helpfulnessBreakdown.no})
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* By pathology */}
+              {proStats.byPathology.length > 0 && (
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground mb-3">Par pathologie</p>
+                  <div className="space-y-3">
+                    {proStats.byPathology.map((p) => (
+                      <div key={p.slug} className="flex items-center justify-between bg-muted rounded-lg p-3">
+                        <div>
+                          <p className="font-medium text-sm">{p.slug}</p>
+                          <p className="text-xs text-muted-foreground">{p.count} reponse{p.count > 1 ? 's' : ''}</p>
+                        </div>
+                        <div className="flex gap-4 text-sm">
+                          <span className="text-red-600">Douleur: {p.avgPain.toFixed(1)}</span>
+                          <span className="text-blue-600">Fonction: {p.avgFunction.toFixed(1)}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
+
+        {/* PRO empty state */}
+        {proStats && proStats.totalResponses === 0 && (
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-muted-foreground" />
+                Questionnaires patients (PRO)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground text-center py-8">
+                Aucune reponse PRO pour le moment. Les patients peuvent remplir le questionnaire en bas de chaque page pathologie.
+              </p>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Footer note */}
         <div className="mt-8 text-center">
