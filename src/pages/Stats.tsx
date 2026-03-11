@@ -111,7 +111,7 @@ const Stats = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `coolance_data_${getDateString()}.json`;
+    a.download = `etuve_data_${getDateString()}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };

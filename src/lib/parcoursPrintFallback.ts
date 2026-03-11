@@ -224,11 +224,11 @@ export function openParcoursPrintFallback(params: {
   if (autoPrint && plan) {
     // Impression via iframe cachée — pas de window.open, pas de blocage Chrome
     printViaIframe(html, {
-      onError: () => downloadHtmlFallback(html, "mon-plan-coolance.html"),
+      onError: () => downloadHtmlFallback(html, "mon-plan-etuve.html"),
     });
   } else {
     // Téléchargement direct du fichier HTML (pas de popup)
-    downloadHtmlFallback(html, "mon-plan-coolance.html");
+    downloadHtmlFallback(html, "mon-plan-etuve.html");
   }
 
   return true;
