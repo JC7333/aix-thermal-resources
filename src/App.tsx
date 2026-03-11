@@ -26,12 +26,13 @@ import ReponsesRapides from "./pages/ReponsesRapides";
 import Telechargements from "./pages/Telechargements";
 import Stats from "./pages/Stats";
 import MesFavoris from "./pages/MesFavoris";
-import Admin from "./pages/Admin";
-import SocialKit from "./pages/SocialKit";
+// Routes internes masquées en production
+// import Admin from "./pages/Admin";
+// import SocialKit from "./pages/SocialKit";
 import SourcesMethodologie from "./pages/SourcesMethodologie";
-import DiagnosticVideos from "./pages/DiagnosticVideos";
-import DiagnosticLinks from "./pages/DiagnosticLinks";
-import DiagnosticRoutes from "./pages/DiagnosticRoutes";
+// import DiagnosticVideos from "./pages/DiagnosticVideos";
+// import DiagnosticLinks from "./pages/DiagnosticLinks";
+// import DiagnosticRoutes from "./pages/DiagnosticRoutes";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import QrLanding from "./pages/QrLanding";
 import Programme from "./pages/Programme";
@@ -83,27 +84,25 @@ const App = () => {
                 <Route path="/mentions-legales" element={<MentionsLegales />} />
                 <Route path="/confidentialite" element={<Confidentialite />} />
                 <Route path="/stats" element={<Stats />} />
+                {/* Routes internes — masquées en production
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/social-kit" element={<SocialKit />} />
+                <Route path="/diagnostic/videos" element={<DiagnosticVideos />} />
+                <Route path="/diagnostic/links" element={<DiagnosticLinks />} />
+                <Route path="/diagnostic/routes" element={<DiagnosticRoutes />} />
+                */}
                 <Route
                   path="/sources-methodologie"
                   element={<SourcesMethodologie />}
-                />
-                <Route
-                  path="/diagnostic/videos"
-                  element={<DiagnosticVideos />}
-                />
-                <Route path="/diagnostic/links" element={<DiagnosticLinks />} />
-                <Route
-                  path="/diagnostic/routes"
-                  element={<DiagnosticRoutes />}
                 />
                 {/* QR landing pages — traçage des scans en cabine thermale */}
                 <Route path="/qr/:slug" element={<QrLanding />} />
                 <Route path="/le-programme" element={<Programme />} />
                 {/* Route legacy /pathologie/:slug — redirige vers V2 */}
                 <Route path="/pathologie/:slug" element={<PathologyPage />} />
+                {/* Route interne masquée en production
                 <Route path="/cabinet" element={<QuiSuisJe />} />
+                */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
