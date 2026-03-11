@@ -34,66 +34,83 @@ import DiagnosticLinks from "./pages/DiagnosticLinks";
 import DiagnosticRoutes from "./pages/DiagnosticRoutes";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import QrLanding from "./pages/QrLanding";
+import Programme from "./pages/Programme";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   // Disable browser scroll restoration for consistent scroll-to-top behavior
   useEffect(() => {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
     }
   }, []);
 
   return (
-  <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
-      <AccessibilityProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/reponses-rapides" element={<ReponsesRapides />} />
-              <Route path="/reponses-rapides/:slug" element={<ReponsesRapides />} />
-              <Route path="/parcours" element={<Parcours />} />
-              <Route path="/ressources" element={<Resources />} />
-              <Route path="/pathologies" element={<Pathologies />} />
-              <Route path="/pathologies/:slug" element={<PathologyPage />} />
-              {/* Routes V2 pour les nouveaux packs evidence-based */}
-              <Route path="/pathologies/v2/:slug" element={<PathologyPageV2 />} />
-              <Route path="/programmes" element={<Programs />} />
-              <Route path="/guides" element={<Guides />} />
-              <Route path="/parents" element={<Parents />} />
-              <Route path="/telechargements" element={<Telechargements />} />
-              <Route path="/favoris" element={<MesFavoris />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/qui-suis-je" element={<QuiSuisJe />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/social" element={<Social />} />
-              <Route path="/mentions-legales" element={<MentionsLegales />} />
-              <Route path="/confidentialite" element={<Confidentialite />} />
-              <Route path="/stats" element={<Stats />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/social-kit" element={<SocialKit />} />
-              <Route path="/sources-methodologie" element={<SourcesMethodologie />} />
-              <Route path="/diagnostic/videos" element={<DiagnosticVideos />} />
-              <Route path="/diagnostic/links" element={<DiagnosticLinks />} />
-              <Route path="/diagnostic/routes" element={<DiagnosticRoutes />} />
-              {/* QR landing pages — traçage des scans en cabine thermale */}
-              <Route path="/qr/:slug" element={<QrLanding />} />
-              {/* Route legacy /pathologie/:slug — redirige vers V2 */}
-              <Route path="/pathologie/:slug" element={<PathologyPage />} />
-              <Route path="/cabinet" element={<QuiSuisJe />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AccessibilityProvider>
-    </QueryClientProvider>
-  </HelmetProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <AccessibilityProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <ScrollToTop />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/reponses-rapides" element={<ReponsesRapides />} />
+                <Route
+                  path="/reponses-rapides/:slug"
+                  element={<ReponsesRapides />}
+                />
+                <Route path="/parcours" element={<Parcours />} />
+                <Route path="/ressources" element={<Resources />} />
+                <Route path="/pathologies" element={<Pathologies />} />
+                <Route path="/pathologies/:slug" element={<PathologyPage />} />
+                {/* Routes V2 pour les nouveaux packs evidence-based */}
+                <Route
+                  path="/pathologies/v2/:slug"
+                  element={<PathologyPageV2 />}
+                />
+                <Route path="/programmes" element={<Programs />} />
+                <Route path="/guides" element={<Guides />} />
+                <Route path="/parents" element={<Parents />} />
+                <Route path="/telechargements" element={<Telechargements />} />
+                <Route path="/favoris" element={<MesFavoris />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/qui-suis-je" element={<QuiSuisJe />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/social" element={<Social />} />
+                <Route path="/mentions-legales" element={<MentionsLegales />} />
+                <Route path="/confidentialite" element={<Confidentialite />} />
+                <Route path="/stats" element={<Stats />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/social-kit" element={<SocialKit />} />
+                <Route
+                  path="/sources-methodologie"
+                  element={<SourcesMethodologie />}
+                />
+                <Route
+                  path="/diagnostic/videos"
+                  element={<DiagnosticVideos />}
+                />
+                <Route path="/diagnostic/links" element={<DiagnosticLinks />} />
+                <Route
+                  path="/diagnostic/routes"
+                  element={<DiagnosticRoutes />}
+                />
+                {/* QR landing pages — traçage des scans en cabine thermale */}
+                <Route path="/qr/:slug" element={<QrLanding />} />
+                <Route path="/le-programme" element={<Programme />} />
+                {/* Route legacy /pathologie/:slug — redirige vers V2 */}
+                <Route path="/pathologie/:slug" element={<PathologyPage />} />
+                <Route path="/cabinet" element={<QuiSuisJe />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </AccessibilityProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 };
 
