@@ -380,22 +380,22 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
       { title: 'Confort', items: ['Chaleur le matin pour les raideurs', 'Glace si gonflement après effort'] },
     ],
     'lombalgie-chronique': [
-      { title: 'Activite', items: ['Évitez le repos prolongé', 'Marche, natation ou vélo', 'Reprise progressive'] },
+      { title: 'Activité', items: ['Évitez le repos prolongé', 'Marche, natation ou vélo', 'Reprise progressive'] },
       { title: 'Posture', items: ['Écran à hauteur des yeux', 'Pause debout toutes les heures', 'Chaise adaptée au bureau'] },
       { title: 'Stress', items: ['Le stress contracte les muscles du dos', 'Respiration lente aide', 'Sommeil régulier'] },
     ],
     'insuffisance-veineuse-chronique': [
       { title: 'Compression', items: ['Bas de compression dès le matin', 'Retirer le soir au coucher', 'Renouveler tous les 6 mois'] },
       { title: 'Mouvement', items: ['Marche 30 min/jour minimum', 'Évitez de rester debout immobile', 'Exercices mollets au bureau'] },
-      { title: 'Elevation', items: ['Jambes surélevées 15 min le soir', 'Coussin sous les pieds au lit', 'Douche fraîche sur les jambes'] },
+      { title: 'Élévation', items: ['Jambes surélevées 15 min le soir', 'Coussin sous les pieds au lit', 'Douche fraîche sur les jambes'] },
     ],
     'bpco': [
       { title: 'Tabac', items: ['Arrêt du tabac = action n°1', 'Aide disponible (patch, suivi)', 'Gain immédiat sur les symptômes'] },
       { title: 'Respiration', items: ['Lèvres pincées pour mieux expirer', 'Inspirer par le nez, expirer par la bouche', 'Prendre son temps'] },
-      { title: 'Activite', items: ['Marche fractionnée : 5 min + pause', 'Réhabilitation respiratoire recommandée', 'Renforcement doux des bras'] },
+      { title: 'Activité', items: ['Marche fractionnée : 5 min + pause', 'Réhabilitation respiratoire recommandée', 'Renforcement doux des bras'] },
     ],
     'otites-a-repetition-enfant': [
-      { title: 'Hygiene', items: ['Lavage des mains régulier', 'Nez propre (sérum physiologique)', 'Jouets nettoyés souvent'] },
+      { title: 'Hygiène', items: ['Lavage des mains régulier', 'Nez propre (sérum physiologique)', 'Jouets nettoyés souvent'] },
       { title: 'Environnement', items: ['Zéro tabagisme passif', 'Aérer la maison 2x/jour', 'Éviter les lieux enfumés'] },
       { title: 'Alimentation', items: ['Allaitement protecteur si possible', 'Biberon position semi-assise', 'Éviter la crèche si possible avant 1 an'] },
     ],
