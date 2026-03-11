@@ -156,8 +156,8 @@ const Index = () => {
               Des plans simples, imprimables,<br />pour reprendre la main.
             </h1>
             <p className={`text-white/90 leading-relaxed max-w-2xl mx-auto ${seniorMode ? 'text-xl md:text-2xl mb-10' : 'text-lg md:text-xl mb-8'}`}>
-              Douleur, poids, souffle, jambes, enfants : je vous guide avec des actions concrètes, 
-              adaptées à votre niveau de mobilité.
+              Exercices adaptés, fiches imprimables, podcasts audio.
+              Tout est basé sur les recommandations scientifiques.
             </p>
 
             <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 ${seniorMode ? 'mb-10' : 'mb-8'}`}>
@@ -192,29 +192,11 @@ const Index = () => {
         </div>
       </section>
 
-      {/* 6 Theme Buttons */}
+      {/* Section thèmes supprimée — les pathology cards V2 sont plus directes
       <section id="themes" className={`bg-background ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <h2 className={`font-serif font-bold text-foreground text-center ${seniorMode ? 'text-3xl md:text-4xl mb-10' : 'text-2xl md:text-3xl mb-8'}`}>
-              Quel est votre sujet ?
-            </h2>
-            <div className={`grid grid-cols-2 md:grid-cols-3 ${seniorMode ? 'gap-6 lg:gap-8' : 'gap-4 lg:gap-6'}`}>
-              {themeButtons.map((theme) => (
-                <Link
-                  key={theme.id}
-                  to={theme.href}
-                  className={`flex flex-col items-center justify-center rounded-2xl transition-all duration-200 ${theme.color} border-2 border-transparent hover:border-current group ${seniorMode ? 'p-8 lg:p-10' : 'p-6 lg:p-8'}`}
-                >
-                  <theme.icon className={seniorMode ? 'w-14 h-14 lg:w-16 lg:h-16 mb-4' : 'w-10 h-10 lg:w-12 lg:h-12 mb-3'} />
-                  <span className={`font-serif font-bold ${seniorMode ? 'text-xl lg:text-2xl' : 'text-lg lg:text-xl'}`}>{theme.label}</span>
-                  <span className={`opacity-80 ${seniorMode ? 'text-base' : 'text-sm'}`}>{theme.sublabel}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
+        ...
       </section>
+      */}
 
       {/* Start in 30 seconds */}
       <section id="guided-path" className={`warm-section ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
@@ -289,51 +271,11 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Quick Answers Preview */}
+      {/* Section réponses rapides supprimée — les patients accèdent au contenu V2 directement
       <section id="resources" className={`bg-background ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <div className={`flex items-center justify-between ${seniorMode ? 'mb-10' : 'mb-8'}`}>
-              <div>
-                <h2 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'}`}>
-                  Réponses rapides
-                </h2>
-                <p className={`text-muted-foreground mt-1 ${seniorMode ? 'text-lg' : ''}`}>Une réponse en 20 secondes</p>
-              </div>
-              <Button asChild variant="outline" size={buttonSize}>
-                <Link to="/reponses-rapides" className="gap-2">
-                  Voir tout
-                  <ArrowRight className={iconSize} />
-                </Link>
-              </Button>
-            </div>
-
-            <div className={seniorMode ? 'grid grid-cols-1 lg:grid-cols-3 gap-6' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'}>
-              {quickAnswers.slice(0, 3).map((answer) => (
-                <Link
-                  key={answer.slug}
-                  to={`/reponses-rapides/${answer.slug}`}
-                  className={`card-medical hover:shadow-lg transition-shadow group ${seniorMode ? 'border-2 p-6' : ''}`}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className={`rounded-xl flex items-center justify-center shrink-0 bg-${answer.color}/10 ${seniorMode ? 'w-14 h-14' : 'w-12 h-12'}`}>
-                      <span className={seniorMode ? 'text-3xl' : 'text-2xl'}>{answer.icon}</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className={`font-serif font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
-                        {answer.title}
-                      </h3>
-                      <p className={`text-muted-foreground mt-1 ${seniorMode ? 'text-base' : 'text-sm'}`}>
-                        {answer.subtitle}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
+        ...
       </section>
+      */}
 
       {/* Top PDFs */}
       <section id="downloads" className={`warm-section ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>

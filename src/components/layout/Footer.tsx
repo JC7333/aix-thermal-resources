@@ -81,6 +81,14 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li>
                 <ScrollTopLink
+                  to="/le-programme"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
+                  Le Programme
+                </ScrollTopLink>
+              </li>
+              <li>
+                <ScrollTopLink
                   to="/parcours"
                   className="text-white/80 hover:text-white transition-colors"
                 >
@@ -125,6 +133,34 @@ export const Footer = () => {
                   className="text-white/80 hover:text-white transition-colors"
                 >
                   Nous suivre
+                </ScrollTopLink>
+              </li>
+              <li className="mt-4 pt-4 border-t border-white/10">
+                <p className="text-white/50 text-xs uppercase tracking-wider mb-2">Pathologies</p>
+              </li>
+              <li>
+                <ScrollTopLink to="/pathologies/v2/gonarthrose" className="text-white/80 hover:text-white transition-colors">
+                  Arthrose du genou
+                </ScrollTopLink>
+              </li>
+              <li>
+                <ScrollTopLink to="/pathologies/v2/lombalgie-chronique" className="text-white/80 hover:text-white transition-colors">
+                  Lombalgie chronique
+                </ScrollTopLink>
+              </li>
+              <li>
+                <ScrollTopLink to="/pathologies/v2/insuffisance-veineuse" className="text-white/80 hover:text-white transition-colors">
+                  Insuffisance veineuse
+                </ScrollTopLink>
+              </li>
+              <li>
+                <ScrollTopLink to="/pathologies/v2/bpco" className="text-white/80 hover:text-white transition-colors">
+                  BPCO
+                </ScrollTopLink>
+              </li>
+              <li>
+                <ScrollTopLink to="/pathologies/v2/otites-repetition-enfant" className="text-white/80 hover:text-white transition-colors">
+                  Otites enfant
                 </ScrollTopLink>
               </li>
             </ul>
@@ -186,7 +222,7 @@ export const Footer = () => {
               Tous droits réservés.
             </p>
             <p className="text-center md:text-right flex items-center gap-2">
-              <span>📞 Urgence : 15 / 112</span>
+              <span>Urgence : 15 / 112</span>
               <span className="hidden sm:inline">•</span>
               <span className="text-white/50">
                 Informations générales — Ne remplace pas un avis médical

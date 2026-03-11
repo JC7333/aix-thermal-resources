@@ -265,37 +265,9 @@ const PathologyPageV2 = () => {
     return <Navigate to="/pathologies" replace />;
   }
   
-  // Si c'est un stub, afficher un message approprié
+  // Si c'est un stub, rediriger vers /pathologies (pas de placeholder "en cours de rédaction")
   if (pack.status === 'stub') {
-    return (
-      <Layout>
-        <div className="container mx-auto px-4 py-8">
-          <Breadcrumb
-            items={[
-              { label: 'Pathologies', href: '/pathologies' },
-              { label: getCategoryLabel(pack.category) },
-              { label: pack.title },
-            ]}
-          />
-          <div className="max-w-2xl mx-auto text-center py-16">
-            <span className="text-6xl mb-6 block">{pack.icon}</span>
-            <h1 className={`${titleClass} mb-4`}>{pack.title}</h1>
-            <p className={`${textClass} text-muted-foreground mb-6`}>
-              {pack.definition.summary}
-            </p>
-            <Badge variant="secondary" className="text-sm">
-              Fiche en cours de rédaction
-            </Badge>
-            <p className={`${smallTextClass} text-muted-foreground mt-4`}>
-              Cette fiche sera complétée prochainement avec des informations validées par des sources médicales de référence.
-            </p>
-            <Link to="/pathologies">
-              <Button className="mt-6">← Retour aux pathologies</Button>
-            </Link>
-          </div>
-        </div>
-      </Layout>
-    );
+    return <Navigate to="/pathologies" replace />;
   }
   
   const handlePrint = () => {
@@ -412,8 +384,8 @@ const PathologyPageV2 = () => {
               </section>
             )}
             
-            {/* Section 2.5: Podcast Coolance */}
-            {podcastData && (
+            {/* Section 2.5: Podcast Coolance — affiché uniquement si au moins un épisode a un audioUrl */}
+            {podcastData && podcastData.episodes.some(ep => ep.audioUrl) && (
               <section id="podcast" className="mt-8 mb-8">
                 <PodcastPlayer
                   pathologyName={podcastData.pathologyName}

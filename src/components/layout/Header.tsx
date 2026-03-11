@@ -6,11 +6,9 @@ import {
   ZoomIn,
   Eye,
   Compass,
-  Zap,
   BookOpen,
   Layers,
-  Map,
-  Baby,
+  Download,
   User,
   Heart,
 } from "lucide-react";
@@ -20,12 +18,9 @@ import { useFavorites } from "@/hooks/useFavorites";
 
 const navigation = [
   { name: "Le Programme", href: "/le-programme", icon: BookOpen },
-  { name: "Parcours guidé", href: "/parcours", icon: Compass, highlight: true },
-  { name: "Réponses rapides", href: "/reponses-rapides", icon: Zap },
-  { name: "Ressources", href: "/ressources", icon: BookOpen },
   { name: "Pathologies", href: "/pathologies", icon: Layers },
-  { name: "Guides", href: "/guides", icon: Map },
-  { name: "Parents", href: "/parents", icon: Baby },
+  { name: "Mon parcours", href: "/parcours", icon: Compass, highlight: true },
+  { name: "Téléchargements", href: "/telechargements", icon: Download },
   { name: "Qui suis-je", href: "/qui-suis-je", icon: User },
 ];
 
