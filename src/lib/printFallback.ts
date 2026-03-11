@@ -83,7 +83,7 @@ const buildHtml = (slug: string, variant: Variant): string => {
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <title>${escapeHtml(evidence.name)} — Coolance</title>
+    <title>${escapeHtml(evidence.name)} — Étuve</title>
     <style>
       @page { size: A4; margin: 10mm; }
       * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -148,7 +148,7 @@ const buildHtml = (slug: string, variant: Variant): string => {
         <div class="meta">Fiche pratique • MAJ ${escapeHtml(evidence.lastUpdated)}</div>
       </div>
       <div class="brand">
-        COOLANCE
+        ÉTUVE
         <div class="brand-sub">Dr Audric Bugnard</div>
       </div>
     </header>
@@ -196,7 +196,7 @@ const buildHtml = (slug: string, variant: Variant): string => {
     
     <footer>
       <span>${escapeHtml(DISCLAIMER)}</span>
-      <span>coolance.fr</span>
+      <span>etuve.fr</span>
     </footer>
   </body>
 </html>`;
@@ -217,11 +217,11 @@ export function openPrintableFallback(params: {
     // Impression via iframe cachée — pas de window.open, pas de blocage Chrome
     printViaIframe(html, {
       onError: () =>
-        downloadHtmlFallback(html, `coolance-${slug}-${variant}.html`),
+        downloadHtmlFallback(html, `etuve-${slug}-${variant}.html`),
     });
   } else {
     // Téléchargement direct du fichier HTML (pas de popup)
-    downloadHtmlFallback(html, `coolance-${slug}-${variant}.html`);
+    downloadHtmlFallback(html, `etuve-${slug}-${variant}.html`);
   }
 
   return true;

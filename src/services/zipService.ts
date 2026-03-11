@@ -1,5 +1,5 @@
 // ============================================
-// SERVICE ZIP — COOLANCE
+// SERVICE ZIP — ÉTUVE
 // ============================================
 // Génération d'archives ZIP pour le téléchargement groupé
 // Utilise JSZip pour créer les archives côté client
@@ -128,7 +128,7 @@ export const generateCategoryZip = async (
   // Nom du fichier ZIP
   const categorySlug = category.replace(/[^a-z0-9]/gi, '-').toLowerCase();
   const date = new Date().toISOString().split('T')[0];
-  const filename = `coolance-${categorySlug}-${date}.zip`;
+  const filename = `etuve-${categorySlug}-${date}.zip`;
 
   onProgress?.({
     current: totalOperations,
@@ -239,7 +239,7 @@ export const generateAllPdfsZip = async (
   const pdfCount = Object.keys(zip.files).length;
   
   const date = new Date().toISOString().split('T')[0];
-  const filename = `coolance-tous-les-pdfs-${date}.zip`;
+  const filename = `etuve-tous-les-pdfs-${date}.zip`;
 
   onProgress?.({
     current: totalOperations,

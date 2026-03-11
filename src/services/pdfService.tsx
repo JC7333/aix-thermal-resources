@@ -1,5 +1,5 @@
 // ============================================
-// SERVICE PDF — COOLANCE
+// SERVICE PDF — ÉTUVE
 // ============================================
 // Génération et téléchargement des PDFs premium
 // Utilise @react-pdf/renderer pour un rendu de qualité
@@ -279,10 +279,10 @@ export const downloadPdf = (blob: Blob, filename: string): void => {
 
 /**
  * Génère le nom de fichier standardisé
- * Format: coolance-[slug]-[type].pdf
+ * Format: etuve-[slug]-[type].pdf
  */
 export const getPdfFilename = (slug: string, type: '1page' | '4pages'): string => {
-  return `coolance-${slug}-${type}.pdf`;
+  return `etuve-${slug}-${type}.pdf`;
 };
 
 // ============================================

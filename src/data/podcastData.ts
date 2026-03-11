@@ -1,5 +1,5 @@
 // ============================================
-// DONNÉES PODCASTS COOLANCE
+// DONNÉES PODCASTS ÉTUVE
 // ============================================
 // Format hybride (comité IA) :
 // - 1 tronc "Essentiel" (18-20 min) : messages clés
