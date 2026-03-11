@@ -543,7 +543,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
             </Text>
           </View>
           <View style={styles.headerRight}>
-            <Text style={styles.brand}>COOLANCE</Text>
+            <Text style={styles.brand}>ÉTUVE</Text>
             <Text style={styles.brandSub}>Dr Audric Bugnard</Text>
           </View>
         </View>
@@ -625,7 +625,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Exercices & Progression</Text>
-          <Text style={styles.brand}>COOLANCE</Text>
+          <Text style={styles.brand}>ÉTUVE</Text>
         </View>
 
         {/* Titre section exercices */}
@@ -838,7 +838,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Habitudes du quotidien</Text>
-          <Text style={styles.brand}>COOLANCE</Text>
+          <Text style={styles.brand}>ÉTUVE</Text>
         </View>
 
         {/* Habitudes par catégorie */}
@@ -979,7 +979,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Alertes & Sources</Text>
-          <Text style={styles.brand}>COOLANCE</Text>
+          <Text style={styles.brand}>ÉTUVE</Text>
         </View>
 
         {/* Red Flags */}
@@ -1061,7 +1061,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
             Des plans simples, pour reprendre la main sur votre santé.
           </Text>
           <Text style={styles.finalSubtext}>
-            coolance.fr • Dr Audric Bugnard • Mise à jour :{" "}
+            etuve.fr • Dr Audric Bugnard • Mise à jour :{" "}
             {evidence.lastUpdated}
           </Text>
         </View>

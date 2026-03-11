@@ -1,5 +1,5 @@
 // ============================================
-// COMPOSANTS PDF EVIDENCE-BASED — COOLANCE
+// COMPOSANTS PDF EVIDENCE-BASED — ÉTUVE
 // ============================================
 // Composants réutilisables pour générer les PDFs
 // à partir des données evidence-pack.json
@@ -28,7 +28,7 @@ export const PdfHeader: React.FC<PdfHeaderProps> = ({ title, subtitle, date, com
       {subtitle && <Text style={pdfStyles.subtitle}>{subtitle}</Text>}
     </View>
     <View style={{ alignItems: 'flex-end' }}>
-      <Text style={pdfStyles.brandName}>COOLANCE</Text>
+      <Text style={pdfStyles.brandName}>ÉTUVE</Text>
       <Text style={pdfStyles.brandSub}>par le Dr Audric Bugnard</Text>
       {date && <Text style={[pdfStyles.dateTag, { marginTop: 4 }]}>{date}</Text>}
     </View>
@@ -310,7 +310,7 @@ export const PdfFooter: React.FC<PdfFooterProps> = ({ pageNumber, totalPages, co
       Informations générales — ne remplace pas un avis médical. Urgence : 15 / 112
     </Text>
     <Text style={pdfStyles.footerText}>
-      coolance.fr {pageNumber && totalPages ? `• ${pageNumber}/${totalPages}` : ''}
+      etuve.fr {pageNumber && totalPages ? `• ${pageNumber}/${totalPages}` : ''}
     </Text>
   </View>
 );

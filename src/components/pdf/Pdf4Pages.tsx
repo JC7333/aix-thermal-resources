@@ -90,7 +90,7 @@ export const Pdf4Pages: React.FC<Pdf4PagesProps> = ({ pathology }) => {
         <View style={pdfStyles.header}>
           <Text style={pdfStyles.titleSmall}>{pathology.title} — Plan 7 jours</Text>
           <View style={{ alignItems: 'flex-end' }}>
-            <Text style={pdfStyles.brandName}>COOLANCE</Text>
+            <Text style={pdfStyles.brandName}>ÉTUVE</Text>
           </View>
         </View>
 
@@ -127,7 +127,7 @@ export const Pdf4Pages: React.FC<Pdf4PagesProps> = ({ pathology }) => {
         <View style={pdfStyles.header}>
           <Text style={pdfStyles.titleSmall}>{pathology.title} — Programme 8 semaines</Text>
           <View style={{ alignItems: 'flex-end' }}>
-            <Text style={pdfStyles.brandName}>COOLANCE</Text>
+            <Text style={pdfStyles.brandName}>ÉTUVE</Text>
           </View>
         </View>
 
@@ -163,7 +163,7 @@ export const Pdf4Pages: React.FC<Pdf4PagesProps> = ({ pathology }) => {
         <View style={pdfStyles.header}>
           <Text style={pdfStyles.titleSmall}>{pathology.title} — Conseils complémentaires</Text>
           <View style={{ alignItems: 'flex-end' }}>
-            <Text style={pdfStyles.brandName}>COOLANCE</Text>
+            <Text style={pdfStyles.brandName}>ÉTUVE</Text>
           </View>
         </View>
 
@@ -201,7 +201,7 @@ export const Pdf4Pages: React.FC<Pdf4PagesProps> = ({ pathology }) => {
             Des plans simples, pour reprendre la main sur votre santé.
           </Text>
           <Text style={{ fontSize: 8, color: PDF_COLORS.textMuted, marginTop: 4 }}>
-            coolance.fr — par le Dr Audric Bugnard
+            etuve.fr — par le Dr Audric Bugnard
           </Text>
         </View>
 
