@@ -8,13 +8,34 @@
     "readingTime": 8,
     "lastUpdated": "2025-01-15",
     "recommendations": [
-      { "text": "Exercice thérapeutique personnalisé (renforcement + cardio doux) : c'est le socle du traitement non médicamenteux.", "evidence": "Élevé (guideline + SR)" },
-      { "text": "Séances supervisées au départ si peur de bouger, douleurs fortes ou mauvaise technique.", "evidence": "Modéré (guideline)" },
-      { "text": "Perte de poids si surpoids/obésité : même une baisse modeste aide, ~10% est souvent plus efficace que 5%.", "evidence": "Modéré (guideline)" },
-      { "text": "Programme structuré 'exercice + éducation + changement d'habitudes' (pacing, objectifs, suivi).", "evidence": "Modéré (guideline)" },
-      { "text": "Aides à la marche si besoin (canne, bâton) pour diminuer la charge et sécuriser.", "evidence": "Modéré (guideline)" },
-      { "text": "Thérapie manuelle uniquement EN PLUS de l'exercice (pas seule).", "evidence": "Faible à modéré (guideline)" },
-      { "text": "Plan anti-découragement : micro-objectifs (5-10 min/j), progression lente, suivi douleur/fatigue.", "evidence": "Consensus (mise en pratique)" }
+      {
+        "text": "Exercice thérapeutique personnalisé (renforcement + cardio doux) : c'est le socle du traitement non médicamenteux.",
+        "evidence": "Élevé (guideline + SR)"
+      },
+      {
+        "text": "Séances supervisées au départ si peur de bouger, douleurs fortes ou mauvaise technique.",
+        "evidence": "Modéré (guideline)"
+      },
+      {
+        "text": "Perte de poids si surpoids/obésité : même une baisse modeste aide, ~10% est souvent plus efficace que 5%.",
+        "evidence": "Modéré (guideline)"
+      },
+      {
+        "text": "Programme structuré 'exercice + éducation + changement d'habitudes' (pacing, objectifs, suivi).",
+        "evidence": "Modéré (guideline)"
+      },
+      {
+        "text": "Aides à la marche si besoin (canne, bâton) pour diminuer la charge et sécuriser.",
+        "evidence": "Modéré (guideline)"
+      },
+      {
+        "text": "Thérapie manuelle uniquement EN PLUS de l'exercice (pas seule).",
+        "evidence": "Faible à modéré (guideline)"
+      },
+      {
+        "text": "Plan anti-découragement : micro-objectifs (5-10 min/j), progression lente, suivi douleur/fatigue.",
+        "evidence": "Consensus (mise en pratique)"
+      }
     ],
     "red_flags": [
       "Douleur aiguë très intense + articulation chaude/rouge + fièvre.",
@@ -23,34 +44,170 @@
       "Déformation brutale, blocage complet, perte de fonction majeure."
     ],
     "sources": [
-      { "title": "Osteoarthritis in over 16s: diagnosis and management (NG226) – Recommendations", "org": "NICE", "year": 2022, "url": "https://www.nice.org.uk/guidance/ng226/chapter/Recommendations" },
-      { "title": "Exercise for osteoarthritis of the knee (CD004376)", "org": "Cochrane", "year": 2024, "url": "https://www.cochrane.org/CD004376/CENTRALED_exercise-effective-therapy-treat-knee-osteoarthritis" }
+      {
+        "title": "Osteoarthritis in over 16s: diagnosis and management (NG226) – Recommendations",
+        "org": "NICE",
+        "year": 2022,
+        "url": "https://www.nice.org.uk/guidance/ng226/chapter/Recommendations"
+      },
+      {
+        "title": "Exercise for osteoarthritis of the knee (CD004376)",
+        "org": "Cochrane",
+        "year": 2024,
+        "url": "https://www.cochrane.org/CD004376/CENTRALED_exercise-effective-therapy-treat-knee-osteoarthritis"
+      },
+      {
+        "title": "2019 Guidelines for the management of osteoarthritis of the hand, hip, and knee",
+        "org": "OARSI",
+        "year": 2019,
+        "url": "https://doi.org/10.1016/j.joca.2019.06.011",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Prise en charge de l'arthrose - Recommandations",
+        "org": "HAS",
+        "year": 2022,
+        "url": "https://www.has-sante.fr/jcms/p_3376490/fr/les-messages-cles-arthrose-peripherique",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Weight loss reduces knee-joint loads in overweight and obese older adults with knee osteoarthritis",
+        "org": "Arthritis & Rheumatism (Messier et al.)",
+        "year": 2005,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/15986358/",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Exercise for osteoarthritis of the hip (Review)",
+        "org": "Cochrane",
+        "year": 2014,
+        "url": "https://doi.org/10.1002/14651858.CD007912.pub2",
+        "evidenceLevel": "high"
+      }
     ],
     "sevenDayPlans": [
       {
         "level": 0,
         "levelName": "Très facile",
         "days": [
-          { "day": "Jour 1", "actions": ["5 min de marche lente (même sur place)", "3 flexions douces du genou assis", "1 pause 'debout' de 2 min"] },
-          { "day": "Jour 2", "actions": ["5 min de marche", "5 flexions douces", "Étirement mollet 30 sec chaque jambe"] },
-          { "day": "Jour 3", "actions": ["7 min de marche", "5 flexions + 5 extensions jambe tendue", "Repos actif : changer de position toutes les 30 min"] },
-          { "day": "Jour 4", "actions": ["7 min de marche", "6 flexions + 6 extensions", "1 min d'équilibre sur une jambe (avec appui)"] },
-          { "day": "Jour 5", "actions": ["8 min de marche", "8 flexions + 8 extensions", "Étirements 2 min"] },
-          { "day": "Jour 6", "actions": ["10 min de marche", "10 répétitions exercices", "Auto-massage 2 min"] },
-          { "day": "Jour 7", "actions": ["10 min de marche ou repos actif", "Bilan : noter douleur et fatigue", "Planifier semaine 2"] }
+          {
+            "day": "Jour 1",
+            "actions": [
+              "5 min de marche lente (même sur place)",
+              "3 flexions douces du genou assis",
+              "1 pause 'debout' de 2 min"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "5 min de marche",
+              "5 flexions douces",
+              "Étirement mollet 30 sec chaque jambe"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "7 min de marche",
+              "5 flexions + 5 extensions jambe tendue",
+              "Repos actif : changer de position toutes les 30 min"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "7 min de marche",
+              "6 flexions + 6 extensions",
+              "1 min d'équilibre sur une jambe (avec appui)"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "8 min de marche",
+              "8 flexions + 8 extensions",
+              "Étirements 2 min"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "10 min de marche",
+              "10 répétitions exercices",
+              "Auto-massage 2 min"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "10 min de marche ou repos actif",
+              "Bilan : noter douleur et fatigue",
+              "Planifier semaine 2"
+            ]
+          }
         ]
       },
       {
         "level": 1,
         "levelName": "Facile",
         "days": [
-          { "day": "Jour 1", "actions": ["10 min de marche", "10 flexions + 10 extensions", "2 min d'étirements"] },
-          { "day": "Jour 2", "actions": ["12 min de marche", "12 répétitions + mini-squats assistés (5x)", "Équilibre 1 min chaque jambe"] },
-          { "day": "Jour 3", "actions": ["15 min de marche", "15 répétitions", "Vélo d'appartement 5 min si disponible"] },
-          { "day": "Jour 4", "actions": ["15 min de marche", "2 séries de 10 répétitions", "3 min d'étirements"] },
-          { "day": "Jour 5", "actions": ["20 min de marche fractionnée", "2 séries de 12 répétitions", "Renforcement avec élastique 5 min"] },
-          { "day": "Jour 6", "actions": ["20 min de marche ou vélo", "3 séries de 10 répétitions", "Auto-massage 3 min"] },
-          { "day": "Jour 7", "actions": ["Marche plaisir 20-30 min", "Étirements complets 5 min", "Bilan de la semaine"] }
+          {
+            "day": "Jour 1",
+            "actions": [
+              "10 min de marche",
+              "10 flexions + 10 extensions",
+              "2 min d'étirements"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "12 min de marche",
+              "12 répétitions + mini-squats assistés (5x)",
+              "Équilibre 1 min chaque jambe"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "15 min de marche",
+              "15 répétitions",
+              "Vélo d'appartement 5 min si disponible"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "15 min de marche",
+              "2 séries de 10 répétitions",
+              "3 min d'étirements"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "20 min de marche fractionnée",
+              "2 séries de 12 répétitions",
+              "Renforcement avec élastique 5 min"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "20 min de marche ou vélo",
+              "3 séries de 10 répétitions",
+              "Auto-massage 3 min"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Marche plaisir 20-30 min",
+              "Étirements complets 5 min",
+              "Bilan de la semaine"
+            ]
+          }
         ]
       }
     ],
@@ -59,20 +216,84 @@
         "level": 0,
         "levelName": "Très facile",
         "weeks": [
-          { "week": "Semaine 1-2", "focus": "Reprendre confiance", "exercises": ["Marche 5-10 min/jour", "Flexions douces assis 5x", "Changer de position régulièrement"] },
-          { "week": "Semaine 3-4", "focus": "Régularité", "exercises": ["Marche 10-15 min/jour", "Flexions + extensions 10x", "Équilibre avec appui 1 min"] },
-          { "week": "Semaine 5-6", "focus": "Renforcement léger", "exercises": ["Marche 15-20 min/jour", "2 séries de 10 répétitions", "Mini-squats assistés 5x"] },
-          { "week": "Semaine 7-8", "focus": "Autonomie", "exercises": ["Marche 20 min/jour minimum", "3 séries de 10 répétitions", "Programme d'entretien quotidien établi"] }
+          {
+            "week": "Semaine 1-2",
+            "focus": "Reprendre confiance",
+            "exercises": [
+              "Marche 5-10 min/jour",
+              "Flexions douces assis 5x",
+              "Changer de position régulièrement"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Régularité",
+            "exercises": [
+              "Marche 10-15 min/jour",
+              "Flexions + extensions 10x",
+              "Équilibre avec appui 1 min"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Renforcement léger",
+            "exercises": [
+              "Marche 15-20 min/jour",
+              "2 séries de 10 répétitions",
+              "Mini-squats assistés 5x"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Autonomie",
+            "exercises": [
+              "Marche 20 min/jour minimum",
+              "3 séries de 10 répétitions",
+              "Programme d'entretien quotidien établi"
+            ]
+          }
         ]
       },
       {
         "level": 1,
         "levelName": "Facile",
         "weeks": [
-          { "week": "Semaine 1-2", "focus": "Base solide", "exercises": ["Marche 15-20 min/jour", "Flexions + extensions 2x15", "Étirements 5 min"] },
-          { "week": "Semaine 3-4", "focus": "Endurance", "exercises": ["Marche 25-30 min/jour", "Renforcement 3x12", "Vélo ou natation 1x/sem"] },
-          { "week": "Semaine 5-6", "focus": "Force", "exercises": ["Marche 30 min/jour", "Squats progressifs 3x10", "Élastiques ou poids légers"] },
-          { "week": "Semaine 7-8", "focus": "Maintien", "exercises": ["Activité cardio 30 min 3x/sem", "Renforcement 2-3x/sem", "Programme autonome établi"] }
+          {
+            "week": "Semaine 1-2",
+            "focus": "Base solide",
+            "exercises": [
+              "Marche 15-20 min/jour",
+              "Flexions + extensions 2x15",
+              "Étirements 5 min"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Endurance",
+            "exercises": [
+              "Marche 25-30 min/jour",
+              "Renforcement 3x12",
+              "Vélo ou natation 1x/sem"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Force",
+            "exercises": [
+              "Marche 30 min/jour",
+              "Squats progressifs 3x10",
+              "Élastiques ou poids légers"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Maintien",
+            "exercises": [
+              "Activité cardio 30 min 3x/sem",
+              "Renforcement 2-3x/sem",
+              "Programme autonome établi"
+            ]
+          }
         ]
       }
     ]
@@ -86,13 +307,34 @@
     "readingTime": 8,
     "lastUpdated": "2025-01-15",
     "recommendations": [
-      { "text": "Rester actif et reprendre progressivement les activités : éviter le repos prolongé.", "evidence": "Élevé (guidelines)" },
-      { "text": "Programme d'exercices (aérobie, renforcement, mobilité, mind-body) adapté aux capacités.", "evidence": "Élevé (guidelines)" },
-      { "text": "Auto-gestion : comprendre la douleur, plan de reprise, objectifs réalistes, suivi simple.", "evidence": "Modéré (guideline)" },
-      { "text": "Approche psycho-comportementale si peur du mouvement / anxiété / évitement (CBT, mindfulness, etc.).", "evidence": "Modéré (guidelines)" },
-      { "text": "Thérapie manuelle uniquement dans un 'package' incluant exercice (pas isolée).", "evidence": "Modéré (guideline)" },
-      { "text": "Hygiène de vie 'anti-inflammation pratique' : sommeil, poids, marche quotidienne, réduction sédentarité.", "evidence": "Consensus (mise en pratique)" },
-      { "text": "Stratégie 'petits pas' : 10 minutes d'activité, 1-2 fois/j, augmentation hebdomadaire.", "evidence": "Consensus (adhésion)" }
+      {
+        "text": "Rester actif et reprendre progressivement les activités : éviter le repos prolongé.",
+        "evidence": "Élevé (guidelines)"
+      },
+      {
+        "text": "Programme d'exercices (aérobie, renforcement, mobilité, mind-body) adapté aux capacités.",
+        "evidence": "Élevé (guidelines)"
+      },
+      {
+        "text": "Auto-gestion : comprendre la douleur, plan de reprise, objectifs réalistes, suivi simple.",
+        "evidence": "Modéré (guideline)"
+      },
+      {
+        "text": "Approche psycho-comportementale si peur du mouvement / anxiété / évitement (CBT, mindfulness, etc.).",
+        "evidence": "Modéré (guidelines)"
+      },
+      {
+        "text": "Thérapie manuelle uniquement dans un 'package' incluant exercice (pas isolée).",
+        "evidence": "Modéré (guideline)"
+      },
+      {
+        "text": "Hygiène de vie 'anti-inflammation pratique' : sommeil, poids, marche quotidienne, réduction sédentarité.",
+        "evidence": "Consensus (mise en pratique)"
+      },
+      {
+        "text": "Stratégie 'petits pas' : 10 minutes d'activité, 1-2 fois/j, augmentation hebdomadaire.",
+        "evidence": "Consensus (adhésion)"
+      }
     ],
     "red_flags": [
       "Troubles urinaires/rétention, anesthésie en selle, déficit moteur progressif (urgence).",
@@ -101,35 +343,169 @@
       "Sciatique hyperalgique avec déficit moteur."
     ],
     "sources": [
-      { "title": "Low back pain and sciatica in over 16s: assessment and management (NG59) – Non-pharmacological interventions", "org": "NICE", "year": 2016, "url": "https://www.nice.org.uk/guidance/ng59/chapter/recommendations" },
-      { "title": "WHO guideline for non-surgical management of chronic primary low back pain in adults", "org": "World Health Organization", "year": 2023, "url": "https://www.who.int/publications/i/item/9789240081789" },
-      { "title": "Noninvasive Treatments for Acute, Subacute, and Chronic Low Back Pain", "org": "American College of Physicians", "year": 2017, "url": "https://pubmed.ncbi.nlm.nih.gov/28192789/" }
+      {
+        "title": "Low back pain and sciatica in over 16s: assessment and management (NG59) – Non-pharmacological interventions",
+        "org": "NICE",
+        "year": 2016,
+        "url": "https://www.nice.org.uk/guidance/ng59/chapter/recommendations"
+      },
+      {
+        "title": "WHO guideline for non-surgical management of chronic primary low back pain in adults",
+        "org": "World Health Organization",
+        "year": 2023,
+        "url": "https://www.who.int/publications/i/item/9789240081789"
+      },
+      {
+        "title": "Noninvasive Treatments for Acute, Subacute, and Chronic Low Back Pain",
+        "org": "American College of Physicians",
+        "year": 2017,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28192789/"
+      },
+      {
+        "title": "Exercice thérapeutique pour la lombalgie chronique (Revue)",
+        "org": "Cochrane",
+        "year": 2021,
+        "url": "https://doi.org/10.1002/14651858.CD009790.pub2",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Prise en charge du patient présentant une lombalgie commune",
+        "org": "HAS",
+        "year": 2019,
+        "url": "https://www.has-sante.fr/jcms/c_2961499/fr/prise-en-charge-du-patient-presentant-une-lombalgie-commune",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Patient education for low back pain (Review)",
+        "org": "Cochrane",
+        "year": 2023,
+        "url": "https://doi.org/10.1002/14651858.CD004057.pub5",
+        "evidenceLevel": "high"
+      }
     ],
     "sevenDayPlans": [
       {
         "level": 0,
         "levelName": "Très facile",
         "days": [
-          { "day": "Jour 1", "actions": ["Marche lente 5 min", "Position 'soulagement' 5 min (allongé genoux pliés)", "Respiration abdominale 2 min"] },
-          { "day": "Jour 2", "actions": ["Marche 5-7 min", "Bascule du bassin allongé 5x", "Étirement psoas 30 sec/côté"] },
-          { "day": "Jour 3", "actions": ["Marche 7 min", "Bascule bassin 8x + pont fessier 5x", "Respiration 3 min"] },
-          { "day": "Jour 4", "actions": ["Marche 8 min", "Pont fessier 8x + gainage ventral 10 sec", "Étirements 2 min"] },
-          { "day": "Jour 5", "actions": ["Marche 10 min", "Gainage 15 sec + exercices plancher", "Repos actif : alterner positions"] },
-          { "day": "Jour 6", "actions": ["Marche 10 min", "Séance complète 10 min", "Auto-massage 3 min"] },
-          { "day": "Jour 7", "actions": ["Marche plaisir 10-15 min", "Bilan douleur/fatigue", "Planifier semaine 2"] }
+          {
+            "day": "Jour 1",
+            "actions": [
+              "Marche lente 5 min",
+              "Position 'soulagement' 5 min (allongé genoux pliés)",
+              "Respiration abdominale 2 min"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "Marche 5-7 min",
+              "Bascule du bassin allongé 5x",
+              "Étirement psoas 30 sec/côté"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "Marche 7 min",
+              "Bascule bassin 8x + pont fessier 5x",
+              "Respiration 3 min"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "Marche 8 min",
+              "Pont fessier 8x + gainage ventral 10 sec",
+              "Étirements 2 min"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "Marche 10 min",
+              "Gainage 15 sec + exercices plancher",
+              "Repos actif : alterner positions"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "Marche 10 min",
+              "Séance complète 10 min",
+              "Auto-massage 3 min"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Marche plaisir 10-15 min",
+              "Bilan douleur/fatigue",
+              "Planifier semaine 2"
+            ]
+          }
         ]
       },
       {
         "level": 1,
         "levelName": "Facile",
         "days": [
-          { "day": "Jour 1", "actions": ["Marche 15 min", "Gainage 20 sec + pont 10x", "Étirements 3 min"] },
-          { "day": "Jour 2", "actions": ["Marche 15 min", "Renforcement dos 2x10", "Mobilité colonne 5 min"] },
-          { "day": "Jour 3", "actions": ["Marche 20 min", "Gainage latéral 15 sec/côté", "Vélo ou natation 10 min"] },
-          { "day": "Jour 4", "actions": ["Marche 20 min", "Circuit complet 15 min", "Relaxation 5 min"] },
-          { "day": "Jour 5", "actions": ["Marche 25 min", "Renforcement avec élastique", "Étirements complets"] },
-          { "day": "Jour 6", "actions": ["Activité cardio 25 min", "Gainage 30 sec toutes positions", "Auto-massage"] },
-          { "day": "Jour 7", "actions": ["Activité plaisir 30 min", "Bilan de la semaine", "Objectifs semaine 2"] }
+          {
+            "day": "Jour 1",
+            "actions": [
+              "Marche 15 min",
+              "Gainage 20 sec + pont 10x",
+              "Étirements 3 min"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "Marche 15 min",
+              "Renforcement dos 2x10",
+              "Mobilité colonne 5 min"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "Marche 20 min",
+              "Gainage latéral 15 sec/côté",
+              "Vélo ou natation 10 min"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "Marche 20 min",
+              "Circuit complet 15 min",
+              "Relaxation 5 min"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "Marche 25 min",
+              "Renforcement avec élastique",
+              "Étirements complets"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "Activité cardio 25 min",
+              "Gainage 30 sec toutes positions",
+              "Auto-massage"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Activité plaisir 30 min",
+              "Bilan de la semaine",
+              "Objectifs semaine 2"
+            ]
+          }
         ]
       }
     ],
@@ -138,20 +514,84 @@
         "level": 0,
         "levelName": "Très facile",
         "weeks": [
-          { "week": "Semaine 1-2", "focus": "Reprendre en douceur", "exercises": ["Marche 5-10 min/jour", "Positions antalgiques", "Respiration abdominale"] },
-          { "week": "Semaine 3-4", "focus": "Mobilité", "exercises": ["Marche 10-15 min/jour", "Bascule bassin + pont fessier", "Étirements quotidiens"] },
-          { "week": "Semaine 5-6", "focus": "Renforcement léger", "exercises": ["Marche 15-20 min/jour", "Gainage 15-20 sec", "Circuit doux 10 min"] },
-          { "week": "Semaine 7-8", "focus": "Autonomie", "exercises": ["Marche 20 min/jour", "Programme complet 15 min", "Routine établie"] }
+          {
+            "week": "Semaine 1-2",
+            "focus": "Reprendre en douceur",
+            "exercises": [
+              "Marche 5-10 min/jour",
+              "Positions antalgiques",
+              "Respiration abdominale"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Mobilité",
+            "exercises": [
+              "Marche 10-15 min/jour",
+              "Bascule bassin + pont fessier",
+              "Étirements quotidiens"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Renforcement léger",
+            "exercises": [
+              "Marche 15-20 min/jour",
+              "Gainage 15-20 sec",
+              "Circuit doux 10 min"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Autonomie",
+            "exercises": [
+              "Marche 20 min/jour",
+              "Programme complet 15 min",
+              "Routine établie"
+            ]
+          }
         ]
       },
       {
         "level": 1,
         "levelName": "Facile",
         "weeks": [
-          { "week": "Semaine 1-2", "focus": "Fondations", "exercises": ["Marche 15-20 min/jour", "Gainage + pont 2x10", "Étirements 5 min"] },
-          { "week": "Semaine 3-4", "focus": "Endurance", "exercises": ["Marche 25-30 min/jour", "Renforcement 3x12", "Cardio alternatif 1x/sem"] },
-          { "week": "Semaine 5-6", "focus": "Force du tronc", "exercises": ["Activité cardio 30 min", "Gainage 45 sec toutes positions", "Exercices fonctionnels"] },
-          { "week": "Semaine 7-8", "focus": "Maintien long terme", "exercises": ["Sport régulier 3x/sem", "Renforcement 2x/sem", "Programme autonome"] }
+          {
+            "week": "Semaine 1-2",
+            "focus": "Fondations",
+            "exercises": [
+              "Marche 15-20 min/jour",
+              "Gainage + pont 2x10",
+              "Étirements 5 min"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Endurance",
+            "exercises": [
+              "Marche 25-30 min/jour",
+              "Renforcement 3x12",
+              "Cardio alternatif 1x/sem"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Force du tronc",
+            "exercises": [
+              "Activité cardio 30 min",
+              "Gainage 45 sec toutes positions",
+              "Exercices fonctionnels"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Maintien long terme",
+            "exercises": [
+              "Sport régulier 3x/sem",
+              "Renforcement 2x/sem",
+              "Programme autonome"
+            ]
+          }
         ]
       }
     ]
@@ -165,13 +605,34 @@
     "readingTime": 7,
     "lastUpdated": "2025-01-15",
     "recommendations": [
-      { "text": "Compression médicale (bas/chaussettes) si symptômes (jambes lourdes, oedème) : pilier de base.", "evidence": "Élevé (guideline)" },
-      { "text": "Marche quotidienne + 'pompe du mollet' (exercices simples) pour améliorer le retour veineux.", "evidence": "Modéré (guideline)" },
-      { "text": "Élévation des jambes (courtes sessions dans la journée) si oedème/sensation de lourdeur.", "evidence": "Consensus (pratique clinique)" },
-      { "text": "Réduction du temps immobile debout/assis : pauses actives toutes les 30-60 minutes.", "evidence": "Consensus (mécanisme + guideline)" },
-      { "text": "Poids : si surpoids, objectif progressif (même modeste) pour diminuer la pression veineuse.", "evidence": "Consensus (facteurs de risque)" },
-      { "text": "Soins de peau (hydratation, prévention eczéma/plaies), vigilance en cas de dermite ocre.", "evidence": "Modéré (guideline)" },
-      { "text": "Chaussures confort + éviter vêtements très serrés au pli inguinal/genou si oedème.", "evidence": "Consensus (pratique)" }
+      {
+        "text": "Compression médicale (bas/chaussettes) si symptômes (jambes lourdes, oedème) : pilier de base.",
+        "evidence": "Élevé (guideline)"
+      },
+      {
+        "text": "Marche quotidienne + 'pompe du mollet' (exercices simples) pour améliorer le retour veineux.",
+        "evidence": "Modéré (guideline)"
+      },
+      {
+        "text": "Élévation des jambes (courtes sessions dans la journée) si oedème/sensation de lourdeur.",
+        "evidence": "Consensus (pratique clinique)"
+      },
+      {
+        "text": "Réduction du temps immobile debout/assis : pauses actives toutes les 30-60 minutes.",
+        "evidence": "Consensus (mécanisme + guideline)"
+      },
+      {
+        "text": "Poids : si surpoids, objectif progressif (même modeste) pour diminuer la pression veineuse.",
+        "evidence": "Consensus (facteurs de risque)"
+      },
+      {
+        "text": "Soins de peau (hydratation, prévention eczéma/plaies), vigilance en cas de dermite ocre.",
+        "evidence": "Modéré (guideline)"
+      },
+      {
+        "text": "Chaussures confort + éviter vêtements très serrés au pli inguinal/genou si oedème.",
+        "evidence": "Consensus (pratique)"
+      }
     ],
     "red_flags": [
       "Douleur brutale unilatérale du mollet + gonflement important (phlébite à exclure).",
@@ -180,20 +641,109 @@
       "Oedème rapidement progressif ou très asymétrique."
     ],
     "sources": [
-      { "title": "ESVS 2022 Clinical Practice Guidelines on the Management of Chronic Venous Disease of the Lower Limbs", "org": "European Society for Vascular Surgery (ESVS)", "year": 2022, "url": "https://www.sciencedirect.com/science/article/pii/S1078588421009795" }
+      {
+        "title": "ESVS 2022 Clinical Practice Guidelines on the Management of Chronic Venous Disease of the Lower Limbs",
+        "org": "European Society for Vascular Surgery (ESVS)",
+        "year": 2022,
+        "url": "https://www.sciencedirect.com/science/article/pii/S1078588421009795"
+      },
+      {
+        "title": "Compression stockings for preventing deep vein thrombosis",
+        "org": "Cochrane",
+        "year": 2021,
+        "url": "https://doi.org/10.1002/14651858.CD001484.pub4",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Compression for venous leg ulcers (Review)",
+        "org": "Cochrane",
+        "year": 2021,
+        "url": "https://doi.org/10.1002/14651858.CD013397.pub2",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Guide du parcours de soins - Maladie veineuse chronique",
+        "org": "HAS",
+        "year": 2014,
+        "url": "https://www.has-sante.fr/jcms/c_1092016/fr/ald-n-5-insuffisance-cardiaque",
+        "evidenceLevel": "moderate"
+      },
+      {
+        "title": "Recommandations de bonne pratique pour la prise en charge de la maladie veineuse chronique",
+        "org": "Société Française de Phlébologie",
+        "year": 2021,
+        "url": "https://www.jmv-journal.com/",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Physical activity and chronic venous insufficiency: a systematic review",
+        "org": "Phlebology (Adesanya et al.)",
+        "year": 2022,
+        "url": "https://doi.org/10.1177/02683555221096188",
+        "evidenceLevel": "moderate"
+      }
     ],
     "sevenDayPlans": [
       {
         "level": 0,
         "levelName": "Très facile",
         "days": [
-          { "day": "Jour 1", "actions": ["Marche 5 min", "Pompe mollet assis 10x", "Surélever jambes 5 min"] },
-          { "day": "Jour 2", "actions": ["Marche 7 min", "Pompe mollet 15x", "Douche fraîche jambes 1 min"] },
-          { "day": "Jour 3", "actions": ["Marche 10 min", "Flexions pieds 20x", "Jambes surélevées 10 min"] },
-          { "day": "Jour 4", "actions": ["Marche 10 min", "Exercices mollets 2x15", "Hydratation peau"] },
-          { "day": "Jour 5", "actions": ["Marche 12 min", "Circuit jambes 5 min", "Surélévation 10 min"] },
-          { "day": "Jour 6", "actions": ["Marche 15 min", "Exercices complets 10 min", "Auto-massage drainant"] },
-          { "day": "Jour 7", "actions": ["Marche plaisir 15 min", "Bilan sensations", "Planifier semaine 2"] }
+          {
+            "day": "Jour 1",
+            "actions": [
+              "Marche 5 min",
+              "Pompe mollet assis 10x",
+              "Surélever jambes 5 min"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "Marche 7 min",
+              "Pompe mollet 15x",
+              "Douche fraîche jambes 1 min"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "Marche 10 min",
+              "Flexions pieds 20x",
+              "Jambes surélevées 10 min"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "Marche 10 min",
+              "Exercices mollets 2x15",
+              "Hydratation peau"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "Marche 12 min",
+              "Circuit jambes 5 min",
+              "Surélévation 10 min"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "Marche 15 min",
+              "Exercices complets 10 min",
+              "Auto-massage drainant"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Marche plaisir 15 min",
+              "Bilan sensations",
+              "Planifier semaine 2"
+            ]
+          }
         ]
       }
     ],
@@ -202,10 +752,42 @@
         "level": 0,
         "levelName": "Très facile",
         "weeks": [
-          { "week": "Semaine 1-2", "focus": "Habitudes de base", "exercises": ["Marche 5-10 min/jour", "Pompe mollet 2x/jour", "Surélévation soir"] },
-          { "week": "Semaine 3-4", "focus": "Régularité", "exercises": ["Marche 15 min/jour", "Exercices mollets 3x15", "Compression si prescrite"] },
-          { "week": "Semaine 5-6", "focus": "Drainage actif", "exercises": ["Marche 20 min/jour", "Circuit complet 10 min", "Auto-massage drainant"] },
-          { "week": "Semaine 7-8", "focus": "Maintien", "exercises": ["Marche 20-30 min/jour", "Routine quotidienne établie", "Soins peau réguliers"] }
+          {
+            "week": "Semaine 1-2",
+            "focus": "Habitudes de base",
+            "exercises": [
+              "Marche 5-10 min/jour",
+              "Pompe mollet 2x/jour",
+              "Surélévation soir"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Régularité",
+            "exercises": [
+              "Marche 15 min/jour",
+              "Exercices mollets 3x15",
+              "Compression si prescrite"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Drainage actif",
+            "exercises": [
+              "Marche 20 min/jour",
+              "Circuit complet 10 min",
+              "Auto-massage drainant"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Maintien",
+            "exercises": [
+              "Marche 20-30 min/jour",
+              "Routine quotidienne établie",
+              "Soins peau réguliers"
+            ]
+          }
         ]
       }
     ]
@@ -219,13 +801,34 @@
     "readingTime": 9,
     "lastUpdated": "2025-01-15",
     "recommendations": [
-      { "text": "Arrêt du tabac : action n°1 (gain sur symptômes et progression).", "evidence": "Élevé (guidelines)" },
-      { "text": "Réhabilitation respiratoire (programme structuré) : améliore dyspnée, capacité d'effort, qualité de vie.", "evidence": "Élevé (SR/guidelines)" },
-      { "text": "Activité physique régulière (marche fractionnée, renforcement doux) même hors réhab.", "evidence": "Modéré à élevé (guidelines)" },
-      { "text": "Techniques respiratoires : expiration lèvres pincées, pacing à l'effort.", "evidence": "Modéré (guidelines/pratique)" },
-      { "text": "Nutrition : éviter fonte musculaire (apports protéiques) / gérer surpoids selon profil.", "evidence": "Modéré (guidelines)" },
-      { "text": "Vaccinations recommandées (réduction exacerbations selon recommandations nationales).", "evidence": "Élevé (guidelines)" },
-      { "text": "Plan d'action écrit : reconnaître exacerbation, quoi faire, quand appeler.", "evidence": "Modéré (self-management)" }
+      {
+        "text": "Arrêt du tabac : action n°1 (gain sur symptômes et progression).",
+        "evidence": "Élevé (guidelines)"
+      },
+      {
+        "text": "Réhabilitation respiratoire (programme structuré) : améliore dyspnée, capacité d'effort, qualité de vie.",
+        "evidence": "Élevé (SR/guidelines)"
+      },
+      {
+        "text": "Activité physique régulière (marche fractionnée, renforcement doux) même hors réhab.",
+        "evidence": "Modéré à élevé (guidelines)"
+      },
+      {
+        "text": "Techniques respiratoires : expiration lèvres pincées, pacing à l'effort.",
+        "evidence": "Modéré (guidelines/pratique)"
+      },
+      {
+        "text": "Nutrition : éviter fonte musculaire (apports protéiques) / gérer surpoids selon profil.",
+        "evidence": "Modéré (guidelines)"
+      },
+      {
+        "text": "Vaccinations recommandées (réduction exacerbations selon recommandations nationales).",
+        "evidence": "Élevé (guidelines)"
+      },
+      {
+        "text": "Plan d'action écrit : reconnaître exacerbation, quoi faire, quand appeler.",
+        "evidence": "Modéré (self-management)"
+      }
     ],
     "red_flags": [
       "Aggravation rapide de l'essoufflement au repos, lèvres bleues, confusion.",
@@ -234,20 +837,109 @@
       "Exacerbation non contrôlée malgré mesures habituelles."
     ],
     "sources": [
-      { "title": "Global Strategy for the Diagnosis, Management, and Prevention of COPD (Report)", "org": "GOLD (Global Initiative for Chronic Obstructive Lung Disease)", "year": 2025, "url": "https://goldcopd.org/" }
+      {
+        "title": "Global Strategy for the Diagnosis, Management, and Prevention of COPD (Report)",
+        "org": "GOLD (Global Initiative for Chronic Obstructive Lung Disease)",
+        "year": 2025,
+        "url": "https://goldcopd.org/"
+      },
+      {
+        "title": "Guide du parcours de soins - Bronchopneumopathie chronique obstructive (BPCO)",
+        "org": "HAS",
+        "year": 2019,
+        "url": "https://www.has-sante.fr/jcms/c_1242507/fr/guide-du-parcours-de-soins-bronchopneumopathie-chronique-obstructive-bpco",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Pulmonary rehabilitation for chronic obstructive pulmonary disease (Review)",
+        "org": "Cochrane",
+        "year": 2015,
+        "url": "https://doi.org/10.1002/14651858.CD003793.pub3",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Choix et durées d'antibiothérapie dans les EABPCO",
+        "org": "HAS",
+        "year": 2024,
+        "url": "https://www.has-sante.fr/jcms/p_3528903/fr/choix-et-durees-d-antibiotherapie-eabpco",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Self-management for patients with chronic obstructive pulmonary disease (Review)",
+        "org": "Cochrane",
+        "year": 2022,
+        "url": "https://doi.org/10.1002/14651858.CD002990.pub4",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Smoking cessation for people with chronic obstructive pulmonary disease (Review)",
+        "org": "Cochrane",
+        "year": 2016,
+        "url": "https://doi.org/10.1002/14651858.CD010744.pub2",
+        "evidenceLevel": "high"
+      }
     ],
     "sevenDayPlans": [
       {
         "level": 0,
         "levelName": "Très facile",
         "days": [
-          { "day": "Jour 1", "actions": ["Marche 3 min avec pauses", "Respiration lèvres pincées 5x", "Étirements bras 2 min"] },
-          { "day": "Jour 2", "actions": ["Marche 5 min fractionnée", "Respiration diaphragmatique 3 min", "Exercices bras assis 5x"] },
-          { "day": "Jour 3", "actions": ["Marche 5-7 min", "Respiration 5 min", "Lever de chaise 5x"] },
-          { "day": "Jour 4", "actions": ["Marche 7 min", "Technique du pacing", "Exercices bras + jambes"] },
-          { "day": "Jour 5", "actions": ["Marche 8 min", "Respiration contrôlée effort", "Renforcement léger 5 min"] },
-          { "day": "Jour 6", "actions": ["Marche 10 min fractionnée", "Séance complète 10 min", "Relaxation"] },
-          { "day": "Jour 7", "actions": ["Activité plaisir adaptée", "Bilan essoufflement", "Planifier semaine 2"] }
+          {
+            "day": "Jour 1",
+            "actions": [
+              "Marche 3 min avec pauses",
+              "Respiration lèvres pincées 5x",
+              "Étirements bras 2 min"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "Marche 5 min fractionnée",
+              "Respiration diaphragmatique 3 min",
+              "Exercices bras assis 5x"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "Marche 5-7 min",
+              "Respiration 5 min",
+              "Lever de chaise 5x"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "Marche 7 min",
+              "Technique du pacing",
+              "Exercices bras + jambes"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "Marche 8 min",
+              "Respiration contrôlée effort",
+              "Renforcement léger 5 min"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "Marche 10 min fractionnée",
+              "Séance complète 10 min",
+              "Relaxation"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Activité plaisir adaptée",
+              "Bilan essoufflement",
+              "Planifier semaine 2"
+            ]
+          }
         ]
       }
     ],
@@ -256,10 +948,42 @@
         "level": 0,
         "levelName": "Très facile",
         "weeks": [
-          { "week": "Semaine 1-2", "focus": "Techniques de base", "exercises": ["Marche 3-5 min/jour", "Respiration lèvres pincées", "Pacing à l'effort"] },
-          { "week": "Semaine 3-4", "focus": "Endurance légère", "exercises": ["Marche 7-10 min/jour", "Respiration diaphragmatique", "Exercices assis 10 min"] },
-          { "week": "Semaine 5-6", "focus": "Renforcement", "exercises": ["Marche 10-15 min/jour", "Lever de chaise 2x10", "Exercices bras avec poids légers"] },
-          { "week": "Semaine 7-8", "focus": "Autonomie", "exercises": ["Marche 15-20 min/jour", "Programme complet 15 min", "Gestion autonome exacerbations"] }
+          {
+            "week": "Semaine 1-2",
+            "focus": "Techniques de base",
+            "exercises": [
+              "Marche 3-5 min/jour",
+              "Respiration lèvres pincées",
+              "Pacing à l'effort"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Endurance légère",
+            "exercises": [
+              "Marche 7-10 min/jour",
+              "Respiration diaphragmatique",
+              "Exercices assis 10 min"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Renforcement",
+            "exercises": [
+              "Marche 10-15 min/jour",
+              "Lever de chaise 2x10",
+              "Exercices bras avec poids légers"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Autonomie",
+            "exercises": [
+              "Marche 15-20 min/jour",
+              "Programme complet 15 min",
+              "Gestion autonome exacerbations"
+            ]
+          }
         ]
       }
     ]
@@ -273,12 +997,30 @@
     "readingTime": 6,
     "lastUpdated": "2025-01-15",
     "recommendations": [
-      { "text": "Réduire l'exposition à la fumée (tabac passif) : objectif prioritaire.", "evidence": "Élevé (facteur de risque reconnu)" },
-      { "text": "Hygiène respiratoire : lavage des mains, limiter contacts en période épidémique si possible.", "evidence": "Consensus (prévention infections)" },
-      { "text": "Xylitol (chewing-gum/sirop selon âge) : peut réduire la survenue d'otites chez certains enfants, effet variable.", "evidence": "Modéré (SR)" },
-      { "text": "Évaluer audition + langage si otites fréquentes / suspicion d'épanchement chronique.", "evidence": "Élevé (guideline)" },
-      { "text": "Discussion ORL si critères : aérateurs transtympaniques (grommets) selon indications.", "evidence": "Élevé (guideline)" },
-      { "text": "Limiter pacifier/tétine prolongée et optimiser sommeil/obstruction nasale si concerné.", "evidence": "Consensus (facteurs associés)" }
+      {
+        "text": "Réduire l'exposition à la fumée (tabac passif) : objectif prioritaire.",
+        "evidence": "Élevé (facteur de risque reconnu)"
+      },
+      {
+        "text": "Hygiène respiratoire : lavage des mains, limiter contacts en période épidémique si possible.",
+        "evidence": "Consensus (prévention infections)"
+      },
+      {
+        "text": "Xylitol (chewing-gum/sirop selon âge) : peut réduire la survenue d'otites chez certains enfants, effet variable.",
+        "evidence": "Modéré (SR)"
+      },
+      {
+        "text": "Évaluer audition + langage si otites fréquentes / suspicion d'épanchement chronique.",
+        "evidence": "Élevé (guideline)"
+      },
+      {
+        "text": "Discussion ORL si critères : aérateurs transtympaniques (grommets) selon indications.",
+        "evidence": "Élevé (guideline)"
+      },
+      {
+        "text": "Limiter pacifier/tétine prolongée et optimiser sommeil/obstruction nasale si concerné.",
+        "evidence": "Consensus (facteurs associés)"
+      }
     ],
     "red_flags": [
       "Douleur importante + fièvre élevée persistante ou enfant très abattu.",
@@ -287,21 +1029,152 @@
       "Moins de 3 mois avec fièvre et suspicion d'infection."
     ],
     "sources": [
-      { "title": "Clinical Practice Guideline: Tympanostomy Tubes in Children (Update)", "org": "AAO-HNSF", "year": 2022, "url": "https://www.entnet.org/quality-practice/quality-products/clinical-practice-guidelines/tympanostomy-tubes-in-children/" },
-      { "title": "Xylitol for preventing acute otitis media in children up to 12 years of age (CD007095)", "org": "Cochrane", "year": 2016, "url": "https://www.cochrane.org/evidence/CD007095_xylitol-sugar-supplement-preventing-middle-ear-infection-children-12-years-age" }
+      {
+        "title": "Clinical Practice Guideline: Tympanostomy Tubes in Children (Update)",
+        "org": "AAO-HNSF",
+        "year": 2022,
+        "url": "https://www.entnet.org/quality-practice/quality-products/clinical-practice-guidelines/tympanostomy-tubes-in-children/"
+      },
+      {
+        "title": "Xylitol for preventing acute otitis media in children up to 12 years of age (CD007095)",
+        "org": "Cochrane",
+        "year": 2016,
+        "url": "https://www.cochrane.org/evidence/CD007095_xylitol-sugar-supplement-preventing-middle-ear-infection-children-12-years-age"
+      },
+      {
+        "title": "Antibiotics for acute otitis media in children (Review)",
+        "org": "Cochrane",
+        "year": 2015,
+        "url": "https://doi.org/10.1002/14651858.CD000219.pub4",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Clinical Practice Guideline: Acute Otitis Media",
+        "org": "AAP (American Academy of Pediatrics)",
+        "year": 2013,
+        "url": "https://doi.org/10.1542/peds.2012-3488",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Otite moyenne aiguë de l'enfant - Recommandations",
+        "org": "HAS / SPILF",
+        "year": 2016,
+        "url": "https://www.has-sante.fr/jcms/c_2722754/fr/otite-moyenne-aigue-de-l-enfant",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Pneumococcal vaccines for preventing acute otitis media in children (Review)",
+        "org": "Cochrane",
+        "year": 2019,
+        "url": "https://doi.org/10.1002/14651858.CD001480.pub5",
+        "evidenceLevel": "high"
+      }
     ],
     "sevenDayPlans": [
       {
         "level": 0,
         "levelName": "Prévention quotidienne",
         "days": [
-          { "day": "Jour 1", "actions": ["Lavage mains enfant 4x/jour", "Lavage nasal sérum physiologique", "Vérifier environnement sans fumée"] },
-          { "day": "Jour 2", "actions": ["Lavage mains ritualisé", "Lavage nasal matin/soir", "Aération chambre 10 min"] },
-          { "day": "Jour 3", "actions": ["Hygiène mains", "Lavage nasal", "Réduire tétine si concerné"] },
-          { "day": "Jour 4", "actions": ["Routine hygiène", "Lavage nasal", "Vérifier humidité chambre"] },
-          { "day": "Jour 5", "actions": ["Hygiène mains", "Lavage nasal", "Introduire xylitol si adapté"] },
-          { "day": "Jour 6", "actions": ["Routine complète", "Surveiller signes d'otite", "Éviter contacts malades"] },
-          { "day": "Jour 7", "actions": ["Bilan de la semaine", "Ajuster routine si besoin", "Noter fréquence épisodes"] }
+          {
+            "day": "Jour 1",
+            "actions": [
+              "Lavage mains enfant 4x/jour",
+              "Lavage nasal sérum physiologique",
+              "Vérifier environnement sans fumée"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "Lavage mains ritualisé",
+              "Lavage nasal matin/soir",
+              "Aération chambre 10 min"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "Hygiène mains",
+              "Lavage nasal",
+              "Réduire tétine si concerné"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "Routine hygiène",
+              "Lavage nasal",
+              "Vérifier humidité chambre"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "Hygiène mains",
+              "Lavage nasal",
+              "Introduire xylitol si adapté"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "Routine complète",
+              "Surveiller signes d'otite",
+              "Éviter contacts malades"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Bilan de la semaine",
+              "Ajuster routine si besoin",
+              "Noter fréquence épisodes"
+            ]
+          }
+        ]
+      }
+    ],
+    "eightWeekPrograms": [
+      {
+        "level": 0,
+        "levelName": "Prévention quotidienne",
+        "weeks": [
+          {
+            "week": "Semaine 1-2",
+            "focus": "Installer les habitudes",
+            "exercises": [
+              "Lavage mains enfant 4x/jour",
+              "Lavage nasal matin et soir si enrhumé",
+              "Aérer la maison 10 min 2x/jour"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Renforcer la routine",
+            "exercises": [
+              "Lavage mains ritualisé (école/repas/jeux)",
+              "Lavage nasal systématique si nez bouché",
+              "Jouets nettoyés 1x/semaine"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Prévention active",
+            "exercises": [
+              "Xylitol si adapté à l'âge (sirop ou gomme)",
+              "Vérifier calendrier vaccinal",
+              "Biberon toujours en position semi-assise"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Bilan et maintien",
+            "exercises": [
+              "Évaluer la fréquence des otites sur les 8 semaines",
+              "Consultation ORL si otites persistent",
+              "Maintenir toutes les habitudes acquises"
+            ]
+          }
         ]
       }
     ]
