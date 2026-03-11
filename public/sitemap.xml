@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://coolance.fr/</loc><priority>1.0</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://coolance.fr/le-programme</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://coolance.fr/pathologies/v2/gonarthrose</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://coolance.fr/pathologies/v2/lombalgie-chronique</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://coolance.fr/pathologies/v2/insuffisance-veineuse</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://coolance.fr/pathologies/v2/bpco</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://coolance.fr/pathologies/v2/otites-repetition-enfant</loc><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://coolance.fr/parcours</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://coolance.fr/telechargements</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://coolance.fr/qui-suis-je</loc><priority>0.6</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://coolance.fr/faq</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://coolance.fr/mentions-legales</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
+</urlset>
