@@ -84,7 +84,7 @@ export const Header = () => {
             )}
           </button>
 
-          {/* Logo - Brand COOLANCE */}
+          {/* Logo - Brand ÉTUVE */}
           <Link to="/" className="flex items-center shrink-0">
             <div className="flex flex-col">
               <span
@@ -93,7 +93,7 @@ export const Header = () => {
                 ${seniorMode ? "text-lg sm:text-xl md:text-2xl" : "text-xl sm:text-2xl lg:text-3xl"}
               `}
               >
-                COOLANCE
+                ÉTUVE
               </span>
               <span
                 className={`
