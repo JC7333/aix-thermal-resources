@@ -8,13 +8,13 @@
 // Page 4 : Red flags + sources + date MAJ
 // ============================================
 
-import React from 'react';
-import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
-import { PDF_COLORS, PDF_FONT_FAMILY } from './PdfStyles';
-import { PdfBodySchema } from './PdfEvidenceComponents';
-import { ExerciseDiagramsByLevel } from './diagrams/ExerciseDiagramsLevels';
-import { getDiagramsBySlug } from './diagrams/DiagramsMapping';
-import type { EvidenceData } from '@/data/evidence';
+import React from "react";
+import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
+import { PDF_COLORS, PDF_FONT_FAMILY } from "./PdfStyles";
+import { PdfBodySchema } from "./PdfEvidenceComponents";
+import { ExerciseDiagramsByLevel } from "./diagrams/ExerciseDiagramsLevels";
+import { getDiagramsBySlug } from "./diagrams/DiagramsMapping";
+import type { EvidenceData } from "@/data/evidence";
 
 // Styles premium 4 pages - optimisés senior
 const styles = StyleSheet.create({
@@ -22,16 +22,16 @@ const styles = StyleSheet.create({
     fontFamily: PDF_FONT_FAMILY,
     fontSize: 10,
     color: PDF_COLORS.text,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     padding: 32,
     paddingBottom: 50,
   },
-  
+
   // Header avec numéro de page
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 16,
     paddingBottom: 12,
     borderBottomWidth: 3,
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   headerRight: {
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   brand: {
     fontSize: 16,
@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
 
   // Section avec picto
   sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 16,
     marginBottom: 10,
   },
@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
 
   // Layout
   twoColumns: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   column: {
-    width: '48%',
+    width: "48%",
   },
 
   // Box styles
@@ -114,21 +114,21 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   boxGreen: {
-    backgroundColor: '#e8f5ef',
+    backgroundColor: "#e8f5ef",
     borderRadius: 8,
     padding: 12,
     borderWidth: 2,
     borderColor: PDF_COLORS.secondary,
   },
   boxDanger: {
-    backgroundColor: '#fce8ea',
+    backgroundColor: "#fce8ea",
     borderRadius: 8,
     padding: 14,
     borderLeftWidth: 5,
     borderLeftColor: PDF_COLORS.danger,
   },
   boxAccent: {
-    backgroundColor: '#fdf6e9',
+    backgroundColor: "#fdf6e9",
     borderRadius: 8,
     padding: 12,
     borderLeftWidth: 4,
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
 
   // Listes
   bulletItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 6,
   },
   bulletIcon: {
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     color: PDF_COLORS.text,
   },
   numberedItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 8,
   },
   numberBadge: {
@@ -160,8 +160,8 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     backgroundColor: PDF_COLORS.secondaryLight,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 10,
   },
   numberText: {
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
 
   // Plan 7 jours
   dayCard: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderRadius: 6,
     padding: 8,
     marginBottom: 6,
@@ -180,8 +180,8 @@ const styles = StyleSheet.create({
     borderColor: PDF_COLORS.border,
   },
   dayHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 4,
   },
   dayLabel: {
@@ -205,9 +205,9 @@ const styles = StyleSheet.create({
     borderBottomColor: PDF_COLORS.border,
   },
   weekHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 4,
   },
   weekLabel: {
@@ -229,9 +229,9 @@ const styles = StyleSheet.create({
 
   // Checklist
   checklistRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 6,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   },
   checkbox: {
     width: 14,
@@ -250,15 +250,15 @@ const styles = StyleSheet.create({
 
   // Tableau jours
   weekTable: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 12,
     padding: 10,
     backgroundColor: PDF_COLORS.muted,
     borderRadius: 6,
   },
   weekDay: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   weekDayLabel: {
     fontSize: 9,
@@ -272,12 +272,12 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1.5,
     borderColor: PDF_COLORS.border,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
 
   // Red flags
   alertItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 8,
   },
   alertBullet: {
@@ -318,13 +318,13 @@ const styles = StyleSheet.create({
 
   // Footer
   footer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
     left: 32,
     right: 32,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingTop: 10,
     borderTopWidth: 1,
     borderTopColor: PDF_COLORS.border,
@@ -345,19 +345,19 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: PDF_COLORS.primaryLight,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   finalText: {
     fontSize: 13,
     fontWeight: 700,
     color: PDF_COLORS.primary,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 6,
   },
   finalSubtext: {
     fontSize: 9,
     color: PDF_COLORS.textMuted,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 
@@ -365,39 +365,151 @@ interface PdfEvidence4PagesProps {
   evidence: EvidenceData;
 }
 
-export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }) => {
+export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
+  evidence,
+}) => {
   // Données
-  const sevenDayPlanLevel0 = evidence.sevenDayPlans?.find(p => p.level === 0);
-  const sevenDayPlanLevel1 = evidence.sevenDayPlans?.find(p => p.level === 1);
-  const eightWeekLevel0 = evidence.eightWeekPrograms?.find(p => p.level === 0);
-  const eightWeekLevel1 = evidence.eightWeekPrograms?.find(p => p.level === 1);
+  const sevenDayPlanLevel0 = evidence.sevenDayPlans?.find((p) => p.level === 0);
+  const sevenDayPlanLevel1 = evidence.sevenDayPlans?.find((p) => p.level === 1);
+  const eightWeekLevel0 = evidence.eightWeekPrograms?.find(
+    (p) => p.level === 0,
+  );
+  const eightWeekLevel1 = evidence.eightWeekPrograms?.find(
+    (p) => p.level === 1,
+  );
 
   // Conseils pratiques par pathologie
-  const habitsByPathology: Record<string, { title: string; items: string[] }[]> = {
-    'arthrose': [
-      { title: 'Bouger', items: ['Marche quotidienne, même 10 min', 'Changez de position chaque heure', 'Préférez escaliers si possible'] },
-      { title: 'Poids', items: ['Chaque kilo perdu = 4 kg de moins sur les genoux', 'Objectif réaliste : -5% sur 6 mois'] },
-      { title: 'Confort', items: ['Chaleur le matin pour les raideurs', 'Glace si gonflement après effort'] },
+  const habitsByPathology: Record<
+    string,
+    { title: string; items: string[] }[]
+  > = {
+    arthrose: [
+      {
+        title: "Bouger",
+        items: [
+          "Marche quotidienne, même 10 min",
+          "Changez de position chaque heure",
+          "Préférez escaliers si possible",
+        ],
+      },
+      {
+        title: "Poids",
+        items: [
+          "Chaque kilo perdu = 4 kg de moins sur les genoux",
+          "Objectif réaliste : -5% sur 6 mois",
+        ],
+      },
+      {
+        title: "Confort",
+        items: [
+          "Chaleur le matin pour les raideurs",
+          "Glace si gonflement après effort",
+        ],
+      },
     ],
-    'lombalgie-chronique': [
-      { title: 'Activité', items: ['Évitez le repos prolongé', 'Marche, natation ou vélo', 'Reprise progressive'] },
-      { title: 'Posture', items: ['Écran à hauteur des yeux', 'Pause debout toutes les heures', 'Chaise adaptée au bureau'] },
-      { title: 'Stress', items: ['Le stress contracte les muscles du dos', 'Respiration lente aide', 'Sommeil régulier'] },
+    "lombalgie-chronique": [
+      {
+        title: "Activité",
+        items: [
+          "Évitez le repos prolongé",
+          "Marche, natation ou vélo",
+          "Reprise progressive",
+        ],
+      },
+      {
+        title: "Posture",
+        items: [
+          "Écran à hauteur des yeux",
+          "Pause debout toutes les heures",
+          "Chaise adaptée au bureau",
+        ],
+      },
+      {
+        title: "Stress",
+        items: [
+          "Le stress contracte les muscles du dos",
+          "Respiration lente aide",
+          "Sommeil régulier",
+        ],
+      },
     ],
-    'insuffisance-veineuse-chronique': [
-      { title: 'Compression', items: ['Bas de compression dès le matin', 'Retirer le soir au coucher', 'Renouveler tous les 6 mois'] },
-      { title: 'Mouvement', items: ['Marche 30 min/jour minimum', 'Évitez de rester debout immobile', 'Exercices mollets au bureau'] },
-      { title: 'Élévation', items: ['Jambes surélevées 15 min le soir', 'Coussin sous les pieds au lit', 'Douche fraîche sur les jambes'] },
+    "insuffisance-veineuse-chronique": [
+      {
+        title: "Compression",
+        items: [
+          "Bas de compression dès le matin",
+          "Retirer le soir au coucher",
+          "Renouveler tous les 6 mois",
+        ],
+      },
+      {
+        title: "Mouvement",
+        items: [
+          "Marche 30 min/jour minimum",
+          "Évitez de rester debout immobile",
+          "Exercices mollets au bureau",
+        ],
+      },
+      {
+        title: "Élévation",
+        items: [
+          "Jambes surélevées 15 min le soir",
+          "Coussin sous les pieds au lit",
+          "Douche fraîche sur les jambes",
+        ],
+      },
     ],
-    'bpco': [
-      { title: 'Tabac', items: ['Arrêt du tabac = action n°1', 'Aide disponible (patch, suivi)', 'Gain immédiat sur les symptômes'] },
-      { title: 'Respiration', items: ['Lèvres pincées pour mieux expirer', 'Inspirer par le nez, expirer par la bouche', 'Prendre son temps'] },
-      { title: 'Activité', items: ['Marche fractionnée : 5 min + pause', 'Réhabilitation respiratoire recommandée', 'Renforcement doux des bras'] },
+    bpco: [
+      {
+        title: "Tabac",
+        items: [
+          "Arrêt du tabac = action n°1",
+          "Aide disponible (patch, suivi)",
+          "Gain immédiat sur les symptômes",
+        ],
+      },
+      {
+        title: "Respiration",
+        items: [
+          "Lèvres pincées pour mieux expirer",
+          "Inspirer par le nez, expirer par la bouche",
+          "Prendre son temps",
+        ],
+      },
+      {
+        title: "Activité",
+        items: [
+          "Marche fractionnée : 5 min + pause",
+          "Réhabilitation respiratoire recommandée",
+          "Renforcement doux des bras",
+        ],
+      },
     ],
-    'otites-a-repetition-enfant': [
-      { title: 'Hygiène', items: ['Lavage des mains régulier', 'Nez propre (sérum physiologique)', 'Jouets nettoyés souvent'] },
-      { title: 'Environnement', items: ['Zéro tabagisme passif', 'Aérer la maison 2x/jour', 'Éviter les lieux enfumés'] },
-      { title: 'Alimentation', items: ['Allaitement protecteur si possible', 'Biberon position semi-assise', 'Éviter la crèche si possible avant 1 an'] },
+    "otites-a-repetition-enfant": [
+      {
+        title: "Hygiène",
+        items: [
+          "Lavage des mains régulier",
+          "Nez propre (sérum physiologique)",
+          "Jouets nettoyés souvent",
+        ],
+      },
+      {
+        title: "Environnement",
+        items: [
+          "Zéro tabagisme passif",
+          "Aérer la maison 2x/jour",
+          "Éviter les lieux enfumés",
+        ],
+      },
+      {
+        title: "Alimentation",
+        items: [
+          "Allaitement protecteur si possible",
+          "Biberon position semi-assise",
+          "Éviter la crèche si possible avant 1 an",
+        ],
+      },
     ],
   };
 
@@ -405,12 +517,17 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
 
   // Résumé en puces courtes
   const summaryBullets = evidence.summary
-    .split('\n')
-    .filter(line => line.trim())
+    .split("\n")
+    .filter((line) => line.trim())
     .slice(0, 3)
-    .flatMap(p => p.split(/(?<=[.!?])\s+/).filter(s => s.trim()).slice(0, 2))
+    .flatMap((p) =>
+      p
+        .split(/(?<=[.!?])\s+/)
+        .filter((s) => s.trim())
+        .slice(0, 2),
+    )
     .slice(0, 5)
-    .map(s => s.trim().replace(/\.$/, ''));
+    .map((s) => s.trim().replace(/\.$/, ""));
 
   return (
     <Document>
@@ -421,7 +538,9 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
         <View style={styles.header}>
           <View>
             <Text style={styles.headerTitle}>{evidence.name}</Text>
-            <Text style={styles.headerSubtitle}>Guide complet • Basé sur les preuves scientifiques</Text>
+            <Text style={styles.headerSubtitle}>
+              Guide complet • Basé sur les preuves scientifiques
+            </Text>
           </View>
           <View style={styles.headerRight}>
             <Text style={styles.brand}>COOLANCE</Text>
@@ -444,7 +563,9 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
 
         {/* Ce qui se passe dans votre corps */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Ce qui se passe dans votre corps</Text>
+          <Text style={styles.sectionTitle}>
+            Ce qui se passe dans votre corps
+          </Text>
         </View>
         <View style={styles.twoColumns}>
           <View style={styles.column}>
@@ -452,18 +573,35 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
           </View>
           <View style={styles.column}>
             <View style={styles.boxNeutral}>
-              <Text style={{ fontSize: 11, fontWeight: 700, color: PDF_COLORS.primary, marginBottom: 10 }}>
+              <Text
+                style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  color: PDF_COLORS.primary,
+                  marginBottom: 10,
+                }}
+              >
                 Ce qui aide vraiment
               </Text>
               {evidence.recommendations.slice(0, 5).map((rec, idx) => {
-                const shortText = rec.text.split(':')[0].trim();
-                const displayText = shortText.length > 45 ? shortText.substring(0, 42) + '...' : shortText;
+                const shortText = rec.text.split(":")[0].trim();
+                const displayText =
+                  shortText.length > 65
+                    ? shortText.substring(0, 62) + "..."
+                    : shortText;
                 return (
                   <View key={idx} style={styles.numberedItem}>
                     <View style={styles.numberBadge}>
                       <Text style={styles.numberText}>{idx + 1}</Text>
                     </View>
-                    <Text style={{ flex: 1, fontSize: 9, color: PDF_COLORS.text, lineHeight: 1.4 }}>
+                    <Text
+                      style={{
+                        flex: 1,
+                        fontSize: 9,
+                        color: PDF_COLORS.text,
+                        lineHeight: 1.4,
+                      }}
+                    >
                       {displayText}
                     </Text>
                   </View>
@@ -474,7 +612,9 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Information éducative — ne remplace pas un avis médical</Text>
+          <Text style={styles.footerText}>
+            Information éducative — ne remplace pas un avis médical
+          </Text>
           <Text style={styles.footerPage}>1 / 4</Text>
         </View>
       </Page>
@@ -490,7 +630,9 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
 
         {/* Titre section exercices */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Exercices adaptés — 3 niveaux au choix</Text>
+          <Text style={styles.sectionTitle}>
+            Exercices adaptés — 3 niveaux au choix
+          </Text>
         </View>
 
         {/* 3 schémas d'exercices par niveau */}
@@ -498,35 +640,82 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
           {(() => {
             const diagramInfo = getDiagramsBySlug(evidence.slug);
             if (!diagramInfo) return null;
-            
-            const Level0Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level0 as keyof typeof ExerciseDiagramsByLevel];
-            const Level1Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level1 as keyof typeof ExerciseDiagramsByLevel];
-            const Level2Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level2 as keyof typeof ExerciseDiagramsByLevel];
-            const Level3Component = ExerciseDiagramsByLevel[diagramInfo.exerciseLevels.level3 as keyof typeof ExerciseDiagramsByLevel];
+
+            const Level0Component =
+              ExerciseDiagramsByLevel[
+                diagramInfo.exerciseLevels
+                  .level0 as keyof typeof ExerciseDiagramsByLevel
+              ];
+            const Level1Component =
+              ExerciseDiagramsByLevel[
+                diagramInfo.exerciseLevels
+                  .level1 as keyof typeof ExerciseDiagramsByLevel
+              ];
+            const Level2Component =
+              ExerciseDiagramsByLevel[
+                diagramInfo.exerciseLevels
+                  .level2 as keyof typeof ExerciseDiagramsByLevel
+              ];
+            const Level3Component =
+              ExerciseDiagramsByLevel[
+                diagramInfo.exerciseLevels
+                  .level3 as keyof typeof ExerciseDiagramsByLevel
+              ];
 
             return (
               <View>
                 {/* Niveau 0 - Vert */}
                 {Level0Component && (
-                  <View style={{ alignItems: 'center', padding: 2, backgroundColor: '#e8f5ef', borderRadius: 4, marginBottom: 2 }}>
+                  <View
+                    style={{
+                      alignItems: "center",
+                      padding: 2,
+                      backgroundColor: "#e8f5ef",
+                      borderRadius: 4,
+                      marginBottom: 2,
+                    }}
+                  >
                     <Level0Component width={350} height={45} />
                   </View>
                 )}
                 {/* Niveau 1 - Bleu */}
                 {Level1Component && (
-                  <View style={{ alignItems: 'center', padding: 2, backgroundColor: PDF_COLORS.primaryLight, borderRadius: 4, marginBottom: 2 }}>
+                  <View
+                    style={{
+                      alignItems: "center",
+                      padding: 2,
+                      backgroundColor: PDF_COLORS.primaryLight,
+                      borderRadius: 4,
+                      marginBottom: 2,
+                    }}
+                  >
                     <Level1Component width={350} height={45} />
                   </View>
                 )}
                 {/* Niveau 2 - Orange */}
                 {Level2Component && (
-                  <View style={{ alignItems: 'center', padding: 2, backgroundColor: '#fdf6e9', borderRadius: 4, marginBottom: 2 }}>
+                  <View
+                    style={{
+                      alignItems: "center",
+                      padding: 2,
+                      backgroundColor: "#fdf6e9",
+                      borderRadius: 4,
+                      marginBottom: 2,
+                    }}
+                  >
                     <Level2Component width={350} height={45} />
                   </View>
                 )}
                 {/* Niveau 3 - Violet */}
                 {Level3Component && (
-                  <View style={{ alignItems: 'center', padding: 2, backgroundColor: '#f3e8ff', borderRadius: 4 }}>
+                  <View
+                    style={{
+                      alignItems: "center",
+                      padding: 2,
+                      backgroundColor: "#f3e8ff",
+                      borderRadius: 4,
+                    }}
+                  >
                     <Level3Component width={350} height={45} />
                   </View>
                 )}
@@ -537,7 +726,9 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
 
         {/* Plans 7 jours par niveau */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Plan 7 jours — Choisissez votre niveau</Text>
+          <Text style={styles.sectionTitle}>
+            Plan 7 jours — Choisissez votre niveau
+          </Text>
         </View>
 
         <View style={styles.twoColumns}>
@@ -545,18 +736,34 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
           <View style={styles.column}>
             {sevenDayPlanLevel0 && (
               <View style={styles.boxGreen}>
-                <Text style={{ fontSize: 11, fontWeight: 700, color: PDF_COLORS.secondary, marginBottom: 8 }}>
+                <Text
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: PDF_COLORS.secondary,
+                    marginBottom: 8,
+                  }}
+                >
                   {sevenDayPlanLevel0.levelName}
                 </Text>
                 {sevenDayPlanLevel0.days.slice(0, 5).map((day, idx) => (
                   <View key={idx} style={styles.dayCard}>
                     <Text style={styles.dayLabel}>{day.day}</Text>
                     {day.actions.slice(0, 1).map((action, aIdx) => (
-                      <Text key={aIdx} style={styles.dayAction}>• {action}</Text>
+                      <Text key={aIdx} style={styles.dayAction}>
+                        • {action}
+                      </Text>
                     ))}
                   </View>
                 ))}
-                <Text style={{ fontSize: 8, color: PDF_COLORS.textMuted, fontStyle: 'italic', marginTop: 4 }}>
+                <Text
+                  style={{
+                    fontSize: 8,
+                    color: PDF_COLORS.textMuted,
+                    fontStyle: "italic",
+                    marginTop: 4,
+                  }}
+                >
                   + Jours 6-7 : progression similaire
                 </Text>
               </View>
@@ -567,18 +774,34 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
           <View style={styles.column}>
             {sevenDayPlanLevel1 && (
               <View style={styles.boxNeutral}>
-                <Text style={{ fontSize: 11, fontWeight: 700, color: PDF_COLORS.primary, marginBottom: 8 }}>
+                <Text
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: PDF_COLORS.primary,
+                    marginBottom: 8,
+                  }}
+                >
                   {sevenDayPlanLevel1.levelName}
                 </Text>
                 {sevenDayPlanLevel1.days.slice(0, 5).map((day, idx) => (
                   <View key={idx} style={styles.dayCard}>
                     <Text style={styles.dayLabel}>{day.day}</Text>
                     {day.actions.slice(0, 1).map((action, aIdx) => (
-                      <Text key={aIdx} style={styles.dayAction}>• {action}</Text>
+                      <Text key={aIdx} style={styles.dayAction}>
+                        • {action}
+                      </Text>
                     ))}
                   </View>
                 ))}
-                <Text style={{ fontSize: 8, color: PDF_COLORS.textMuted, fontStyle: 'italic', marginTop: 4 }}>
+                <Text
+                  style={{
+                    fontSize: 8,
+                    color: PDF_COLORS.textMuted,
+                    fontStyle: "italic",
+                    marginTop: 4,
+                  }}
+                >
                   + Jours 6-7 : progression similaire
                 </Text>
               </View>
@@ -588,13 +811,23 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
 
         {/* Conseil */}
         <View style={[styles.boxAccent, { marginTop: 8 }]}>
-          <Text style={{ fontSize: 9, fontWeight: 600, color: PDF_COLORS.accent, textAlign: 'center' }}>
-            Commencez par "Très facile". Même 5 minutes par jour, c'est un grand pas !
+          <Text
+            style={{
+              fontSize: 9,
+              fontWeight: 600,
+              color: PDF_COLORS.accent,
+              textAlign: "center",
+            }}
+          >
+            Commencez par "Très facile". Même 5 minutes par jour, c'est un grand
+            pas !
           </Text>
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Information éducative — ne remplace pas un avis médical</Text>
+          <Text style={styles.footerText}>
+            Information éducative — ne remplace pas un avis médical
+          </Text>
           <Text style={styles.footerPage}>2 / 4</Text>
         </View>
       </Page>
@@ -613,7 +846,14 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
           <View style={styles.column}>
             {habits.slice(0, 2).map((category, idx) => (
               <View key={idx} style={[styles.boxNeutral, { marginBottom: 12 }]}>
-                <Text style={{ fontSize: 11, fontWeight: 700, color: PDF_COLORS.primary, marginBottom: 8 }}>
+                <Text
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: PDF_COLORS.primary,
+                    marginBottom: 8,
+                  }}
+                >
                   {category.title}
                 </Text>
                 {category.items.map((item, iIdx) => (
@@ -628,7 +868,14 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
           <View style={styles.column}>
             {habits.slice(2, 3).map((category, idx) => (
               <View key={idx} style={[styles.boxNeutral, { marginBottom: 12 }]}>
-                <Text style={{ fontSize: 11, fontWeight: 700, color: PDF_COLORS.primary, marginBottom: 8 }}>
+                <Text
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: PDF_COLORS.primary,
+                    marginBottom: 8,
+                  }}
+                >
                   {category.title}
                 </Text>
                 {category.items.map((item, iIdx) => (
@@ -651,7 +898,14 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
           <View style={styles.column}>
             {eightWeekLevel0 && (
               <View style={styles.boxGreen}>
-                <Text style={{ fontSize: 10, fontWeight: 700, color: PDF_COLORS.secondary, marginBottom: 8 }}>
+                <Text
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: PDF_COLORS.secondary,
+                    marginBottom: 8,
+                  }}
+                >
                   {eightWeekLevel0.levelName}
                 </Text>
                 {eightWeekLevel0.weeks.slice(0, 4).map((week, idx) => (
@@ -661,7 +915,9 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
                       <Text style={styles.weekFocus}>{week.focus}</Text>
                     </View>
                     {week.exercises.slice(0, 2).map((ex, eIdx) => (
-                      <Text key={eIdx} style={styles.weekExercise}>• {ex}</Text>
+                      <Text key={eIdx} style={styles.weekExercise}>
+                        • {ex}
+                      </Text>
                     ))}
                   </View>
                 ))}
@@ -671,7 +927,14 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
           <View style={styles.column}>
             {eightWeekLevel1 && (
               <View style={styles.boxNeutral}>
-                <Text style={{ fontSize: 10, fontWeight: 700, color: PDF_COLORS.primary, marginBottom: 8 }}>
+                <Text
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: PDF_COLORS.primary,
+                    marginBottom: 8,
+                  }}
+                >
                   {eightWeekLevel1.levelName}
                 </Text>
                 {eightWeekLevel1.weeks.slice(0, 4).map((week, idx) => (
@@ -681,7 +944,9 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
                       <Text style={styles.weekFocus}>{week.focus}</Text>
                     </View>
                     {week.exercises.slice(0, 2).map((ex, eIdx) => (
-                      <Text key={eIdx} style={styles.weekExercise}>• {ex}</Text>
+                      <Text key={eIdx} style={styles.weekExercise}>
+                        • {ex}
+                      </Text>
                     ))}
                   </View>
                 ))}
@@ -692,7 +957,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
 
         {/* Checklist semaine */}
         <View style={styles.weekTable}>
-          {['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].map((day, idx) => (
+          {["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].map((day, idx) => (
             <View key={idx} style={styles.weekDay}>
               <Text style={styles.weekDayLabel}>{day}</Text>
               <View style={styles.weekDayBox} />
@@ -701,7 +966,9 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Information éducative — ne remplace pas un avis médical</Text>
+          <Text style={styles.footerText}>
+            Information éducative — ne remplace pas un avis médical
+          </Text>
           <Text style={styles.footerPage}>3 / 4</Text>
         </View>
       </Page>
@@ -717,7 +984,9 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
 
         {/* Red Flags */}
         <View style={styles.sectionHeader}>
-          <Text style={[styles.sectionTitle, { color: PDF_COLORS.danger }]}>Consultez rapidement si...</Text>
+          <Text style={[styles.sectionTitle, { color: PDF_COLORS.danger }]}>
+            Consultez rapidement si...
+          </Text>
         </View>
         <View style={styles.boxDanger}>
           {evidence.red_flags.map((flag, idx) => (
@@ -726,8 +995,22 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
               <Text style={styles.alertText}>{flag}</Text>
             </View>
           ))}
-          <View style={{ marginTop: 10, paddingTop: 10, borderTopWidth: 1, borderTopColor: PDF_COLORS.danger + '40' }}>
-            <Text style={{ fontSize: 12, fontWeight: 700, color: PDF_COLORS.danger, textAlign: 'center' }}>
+          <View
+            style={{
+              marginTop: 10,
+              paddingTop: 10,
+              borderTopWidth: 1,
+              borderTopColor: PDF_COLORS.danger + "40",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: PDF_COLORS.danger,
+                textAlign: "center",
+              }}
+            >
               En cas d'urgence : 15 ou 112
             </Text>
           </View>
@@ -740,8 +1023,12 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
         <View style={styles.boxNeutral}>
           {evidence.sources.map((source, idx) => (
             <View key={idx} style={styles.sourceItem}>
-              <Text style={styles.sourceTitle}>{idx + 1}. {source.title}</Text>
-              <Text style={styles.sourceOrg}>{source.org}, {source.year}</Text>
+              <Text style={styles.sourceTitle}>
+                {idx + 1}. {source.title}
+              </Text>
+              <Text style={styles.sourceOrg}>
+                {source.org}, {source.year}
+              </Text>
               {source.url && <Text style={styles.sourceUrl}>{source.url}</Text>}
             </View>
           ))}
@@ -749,12 +1036,22 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
 
         {/* Note méthodologique */}
         <View style={[styles.boxAccent, { marginTop: 12 }]}>
-          <Text style={{ fontSize: 9, fontWeight: 600, color: PDF_COLORS.accent, marginBottom: 4 }}>
+          <Text
+            style={{
+              fontSize: 9,
+              fontWeight: 600,
+              color: PDF_COLORS.accent,
+              marginBottom: 4,
+            }}
+          >
             A propos des niveaux de preuve
           </Text>
-          <Text style={{ fontSize: 8, color: PDF_COLORS.text, lineHeight: 1.4 }}>
-            "Élevé" = recommandation forte basée sur des études de qualité. "Modéré" = bonne pratique clinique. 
-            Si besoin, parlez-en à un professionnel de santé.
+          <Text
+            style={{ fontSize: 8, color: PDF_COLORS.text, lineHeight: 1.4 }}
+          >
+            "Élevé" = recommandation forte basée sur des études de qualité.
+            "Modéré" = bonne pratique clinique. Si besoin, parlez-en à un
+            professionnel de santé.
           </Text>
         </View>
 
@@ -764,12 +1061,15 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({ evidence }
             Des plans simples, pour reprendre la main sur votre santé.
           </Text>
           <Text style={styles.finalSubtext}>
-            coolance.fr • Dr Audric Bugnard • Mise à jour : {evidence.lastUpdated}
+            coolance.fr • Dr Audric Bugnard • Mise à jour :{" "}
+            {evidence.lastUpdated}
           </Text>
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Information éducative — ne remplace pas un avis médical</Text>
+          <Text style={styles.footerText}>
+            Information éducative — ne remplace pas un avis médical
+          </Text>
           <Text style={styles.footerPage}>4 / 4</Text>
         </View>
       </Page>
