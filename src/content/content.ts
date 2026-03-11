@@ -1,5 +1,5 @@
 // ============================================
-// CONTENT FACTORY — CONTENU CENTRALISÉ COOLANCE
+// CONTENT FACTORY — CONTENU CENTRALISÉ ÉTUVE
 // ============================================
 // Ce fichier centralise TOUT le contenu du site.
 // Ajouter une pathologie = ajouter une entrée ici.

@@ -1,5 +1,5 @@
 // ============================================
-// MENU AJOUT À COLLECTION — COOLANCE
+// MENU AJOUT À COLLECTION — ÉTUVE
 // ============================================
 
 import { useState } from 'react';

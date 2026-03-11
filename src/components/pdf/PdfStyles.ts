@@ -1,5 +1,5 @@
 // ============================================
-// DESIGN SYSTEM PDF — COOLANCE
+// DESIGN SYSTEM PDF — ÉTUVE
 // ============================================
 // Styles cohérents pour tous les PDFs générés
 // Police lisible seniors, marges confort, couleurs harmonieuses

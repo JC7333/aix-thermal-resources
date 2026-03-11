@@ -1,5 +1,5 @@
 // ============================================
-// SECTION COLLECTIONS — COOLANCE
+// SECTION COLLECTIONS — ÉTUVE
 // ============================================
 
 import { useMemo } from 'react';

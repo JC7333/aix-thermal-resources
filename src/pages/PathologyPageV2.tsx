@@ -384,7 +384,7 @@ const PathologyPageV2 = () => {
               </section>
             )}
             
-            {/* Section 2.5: Podcast Coolance — affiché uniquement si au moins un épisode a un audioUrl */}
+            {/* Section 2.5: Podcast Étuve — affiché uniquement si au moins un épisode a un audioUrl */}
             {podcastData && podcastData.episodes.some(ep => ep.audioUrl) && (
               <section id="podcast" className="mt-8 mb-8">
                 <PodcastPlayer
