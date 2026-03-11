@@ -26,6 +26,9 @@ import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { logEvent } from '@/services/analytics';
 import { filterSourcesByPolicy } from '@/lib/sourcePolicy';
 import type { EvidencePackV2, Exercise, MedicalProcedure } from '@/content/evidence/v2/types';
+import PodcastPlayer from '@/components/shared/PodcastPlayer';
+import ProQuestionnaire from '@/components/shared/ProQuestionnaire';
+import { getPodcastBySlug } from '@/data/podcastData';
 
 // Badge couleur selon niveau de preuve
 const evidenceBadgeClass = (level: string) => {
@@ -250,6 +253,7 @@ const PathologyPageV2 = () => {
   const { seniorMode, titleClass, subtitleClass, textClass, smallTextClass, buttonSize, iconSize, iconSizeLg, cardClass, cardPadding, badgeClass } = useSeniorMode();
   
   const pack = slug ? getEvidencePackV2BySlug(slug) : undefined;
+  const podcastData = getPodcastBySlug(slug || '');
   
   useEffect(() => {
     if (slug) {
@@ -408,6 +412,16 @@ const PathologyPageV2 = () => {
               </section>
             )}
             
+            {/* Section 2.5: Podcast Coolance */}
+            {podcastData && (
+              <section id="podcast" className="mt-8 mb-8">
+                <PodcastPlayer
+                  pathologyName={podcastData.pathologyName}
+                  episodes={podcastData.episodes}
+                />
+              </section>
+            )}
+
             {/* Section 3: Exercices */}
             {pack.exercises.length > 0 && (
               <section id="exercices">
@@ -576,6 +590,11 @@ const PathologyPageV2 = () => {
                 </div>
               </section>
             )}
+
+            {/* PRO Questionnaire — PECAN */}
+            <section className="mt-12 mb-8">
+              <ProQuestionnaire slug={slug || ''} pathologyName={pack.title} />
+            </section>
           </div>
           
           {/* Sidebar */}

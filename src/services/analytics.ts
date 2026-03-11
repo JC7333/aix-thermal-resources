@@ -1,16 +1,21 @@
 // Analytics service - RGPD compliant, no health data
 // Tracks anonymous usage events only
 
-export type EventName = 
-  | 'wizard_start' 
-  | 'wizard_complete' 
-  | 'quick_answer_click' 
+export type EventName =
+  | 'wizard_start'
+  | 'wizard_complete'
+  | 'quick_answer_click'
   | 'pdf_download'
   | 'pdf_download_1page'
   | 'pdf_download_4pages'
   | 'zip_download'
   | 'print_click'
-  | 'page_view';
+  | 'page_view'
+  | 'podcast_play'
+  | 'podcast_complete'
+  | 'pro_submitted'
+  | 'video_click'
+  | 'exercise_viewed';
 
 export interface AnalyticsEvent {
   eventName: EventName;
