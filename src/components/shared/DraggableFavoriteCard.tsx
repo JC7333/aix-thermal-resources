@@ -1,5 +1,5 @@
 // ============================================
-// CARTE FAVORI DRAGGABLE — COOLANCE
+// CARTE FAVORI DRAGGABLE — ÉTUVE
 // ============================================
 // Carte de pathologie favorite avec support drag & drop
 // Animations fluides avec framer-motion

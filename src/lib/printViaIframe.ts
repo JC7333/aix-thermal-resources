@@ -1,5 +1,5 @@
 // ============================================
-// IMPRESSION VIA IFRAME CACHÉE — COOLANCE
+// IMPRESSION VIA IFRAME CACHÉE — ÉTUVE
 // ============================================
 // Remplace window.open() pour éviter le blocage
 // "Cette page a été bloquée par Chrome"

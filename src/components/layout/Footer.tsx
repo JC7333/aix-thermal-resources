@@ -35,7 +35,7 @@ export const Footer = () => {
           <div>
             <div className="mb-4">
               <p className="font-serif text-2xl font-bold text-white">
-                COOLANCE
+                ÉTUVE
               </p>
               <p className="text-sm text-white/70 mt-1">
                 par le Dr Audric Bugnard
@@ -49,7 +49,7 @@ export const Footer = () => {
             {/* Social Icons */}
             <div className="flex items-center gap-4 mt-6">
               <a
-                href="https://instagram.com/coolance.sante"
+                href="https://instagram.com/etuve.sante"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
@@ -58,7 +58,7 @@ export const Footer = () => {
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="https://facebook.com/coolance.sante"
+                href="https://facebook.com/etuve.sante"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
@@ -218,7 +218,7 @@ export const Footer = () => {
         <div className="mt-10 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
             <p>
-              © {new Date().getFullYear()} COOLANCE — par le Dr Audric Bugnard.
+              © {new Date().getFullYear()} ÉTUVE — par le Dr Audric Bugnard.
               Tous droits réservés.
             </p>
             <p className="text-center md:text-right flex items-center gap-2">

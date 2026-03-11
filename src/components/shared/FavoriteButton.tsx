@@ -1,5 +1,5 @@
 // ============================================
-// BOUTON FAVORI — COOLANCE
+// BOUTON FAVORI — ÉTUVE
 // ============================================
 // Bouton pour ajouter/retirer une pathologie des favoris
 // Avec animation et feedback visuel

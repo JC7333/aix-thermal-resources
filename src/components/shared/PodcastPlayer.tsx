@@ -131,7 +131,7 @@ const PodcastPlayer: React.FC<PodcastPlayerProps> = ({ pathologyName, episodes }
     <div className="rounded-xl border-2 border-primary/20 bg-primary/5 p-4 sm:p-6">
       {/* Header */}
       <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-3">
-        Podcast Coolance — {pathologyName}
+        Podcast Étuve — {pathologyName}
       </p>
 
       {/* Main / Essential episode */}

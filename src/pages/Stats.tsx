@@ -161,7 +161,7 @@ const Stats = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `coolance-stats-agregees-${getDateString()}.csv`;
+    a.download = `etuve-stats-agregees-${getDateString()}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -183,7 +183,7 @@ const Stats = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `coolance-stats-brutes-${getDateString()}.csv`;
+    a.download = `etuve-stats-brutes-${getDateString()}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };

@@ -1,5 +1,5 @@
 // ============================================
-// FALLBACK IMPRESSION PARCOURS — COOLANCE
+// FALLBACK IMPRESSION PARCOURS — ÉTUVE
 // ============================================
 // Génère une page HTML imprimable strictement 1 page A4
 // pour le plan personnalisé du parcours guidé
@@ -59,7 +59,7 @@ const buildPlanHtml = (plan: ParcoursPlan): string => {
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <title>Mon plan — Coolance</title>
+    <title>Mon plan — Étuve</title>
     <style>
       @page { size: A4; margin: 10mm; }
       * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -127,7 +127,7 @@ const buildPlanHtml = (plan: ParcoursPlan): string => {
         <p class="subtitle">${escapeHtml(plan.objectiveLabel)} — Niveau ${plan.level}</p>
       </div>
       <div class="brand">
-        COOLANCE
+        ÉTUVE
         <div class="brand-sub">Dr Audric Bugnard</div>
         <div class="date-badge">${escapeHtml(savedDate)}</div>
       </div>
@@ -184,7 +184,7 @@ const buildPlanHtml = (plan: ParcoursPlan): string => {
     
     <footer>
       <span>${escapeHtml(DISCLAIMER)}</span>
-      <span>coolance.fr</span>
+      <span>etuve.fr</span>
     </footer>
   </body>
 </html>`;

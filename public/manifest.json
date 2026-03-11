@@ -1,7 +1,7 @@
 {
-  "name": "Coolance - Education Therapeutique",
-  "short_name": "Coolance",
-  "description": "Conseils sante evidence-based pour patients en cure thermale",
+  "name": "Étuve — Éducation Thérapeutique",
+  "short_name": "Étuve",
+  "description": "Programme d’éducation thérapeutique pour patients en cure thermale",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -9,9 +9,9 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/favicon.ico",
-      "sizes": "64x64",
-      "type": "image/x-icon"
+      "src": "/etuve-favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ],
   "categories": ["health", "medical", "education"]

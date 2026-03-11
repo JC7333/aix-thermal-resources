@@ -30,7 +30,7 @@ const SocialKit = () => {
   const [filterType, setFilterType] = useState<string>('all');
 
   const allSlugs = getAllSlugsWithContent();
-  const baseUrl = 'https://coolance.fr';
+  const baseUrl = 'https://etuve.fr';
   const DISCLAIMER = '⚠️ Information éducative — ne remplace pas un avis médical. Urgence 15/112.';
   const MAX_HASHTAGS = 5;
 

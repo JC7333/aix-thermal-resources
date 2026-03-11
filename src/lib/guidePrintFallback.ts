@@ -1,5 +1,5 @@
 // ============================================
-// FALLBACK IMPRESSION GUIDES — COOLANCE
+// FALLBACK IMPRESSION GUIDES — ÉTUVE
 // ============================================
 // Génère une page HTML imprimable pour les guides transversaux
 // Template 1 colonne, police lisible, format portrait
@@ -181,7 +181,7 @@ const buildGuideHtml = (guideId: GuideId): string => {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>${escapeHtml(guide.title)} — Coolance</title>
+    <title>${escapeHtml(guide.title)} — Étuve</title>
     <style>
       @page { size: A4 portrait; margin: 15mm 12mm; }
       * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -301,7 +301,7 @@ const buildGuideHtml = (guideId: GuideId): string => {
     <header>
       <h1>📘 ${escapeHtml(guide.title)}</h1>
       <p class="subtitle">${escapeHtml(guide.description)}</p>
-      <div class="brand">COOLANCE — Dr Audric Bugnard</div>
+      <div class="brand">ÉTUVE — Dr Audric Bugnard</div>
     </header>
     
     <p class="print-note">💡 Pour enregistrer en PDF : Imprimer → "Enregistrer en PDF"</p>
@@ -339,7 +339,7 @@ const buildGuideHtml = (guideId: GuideId): string => {
     
     <footer>
       <span>${escapeHtml(DISCLAIMER)}</span>
-      <span>coolance.fr</span>
+      <span>etuve.fr</span>
     </footer>
   </body>
 </html>`;

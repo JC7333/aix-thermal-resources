@@ -60,7 +60,7 @@ const ProQuestionnaire: React.FC<ProQuestionnaireProps> = ({ slug, pathologyName
       <div className="rounded-xl border-2 border-green-200 bg-green-50 p-6 text-center">
         <p className="text-lg font-bold text-green-800 mb-2">Merci pour votre retour !</p>
         <p className="text-sm text-green-600">
-          Vos réponses sont anonymes et nous aident à améliorer Coolance.
+          Vos réponses sont anonymes et nous aident à améliorer Étuve.
         </p>
       </div>
     );
@@ -99,7 +99,7 @@ const ProQuestionnaire: React.FC<ProQuestionnaireProps> = ({ slug, pathologyName
     <div className="rounded-xl border-2 border-primary/20 bg-white p-4 sm:p-6">
       <p className="text-lg font-bold text-primary mb-1">Votre avis compte</p>
       <p className="text-sm text-gray-500 mb-6">
-        3 questions rapides, anonymes, pour améliorer Coolance.
+        3 questions rapides, anonymes, pour améliorer Étuve.
       </p>
 
       <ScoreSelector

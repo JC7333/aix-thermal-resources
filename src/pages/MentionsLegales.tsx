@@ -18,13 +18,13 @@ const MentionsLegales = () => {
                 Éditeur du site
               </h2>
               <p className="text-foreground mb-2">
-                <strong>COOLANCE</strong>
+                <strong>ÉTUVE</strong>
                 <br />
                 Site d'information en santé
                 <br />
                 par le Dr Audric Bugnard
               </p>
-              <p className="text-foreground">Email : contact@coolance.fr</p>
+              <p className="text-foreground">Email : contact@etuve.fr</p>
             </section>
 
             <section className="mb-8">
@@ -114,7 +114,7 @@ const MentionsLegales = () => {
                 Données collectées
               </h2>
               <p className="text-foreground mb-4">
-                Coolance ne collecte aucune donnée personnelle identifiable.
+                Étuve ne collecte aucune donnée personnelle identifiable.
                 Aucun compte utilisateur n'est nécessaire pour utiliser le site.
               </p>
               <h3 className="font-serif text-xl font-bold text-foreground mb-3">
@@ -149,7 +149,7 @@ const MentionsLegales = () => {
                 Intelligence artificielle
               </h3>
               <p className="text-foreground">
-                Les voix des podcasts Coolance sont générées par intelligence
+                Les voix des podcasts Étuve sont générées par intelligence
                 artificielle (ElevenLabs). Les scripts sont intégralement
                 rédigés et validés par le Dr Audric Bugnard, médecin. Aucune IA
                 ne produit de contenu médical sans validation humaine préalable.

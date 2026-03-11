@@ -1,5 +1,5 @@
 // ============================================
-// BANNIÈRE IMPORT FAVORIS — COOLANCE
+// BANNIÈRE IMPORT FAVORIS — ÉTUVE
 // ============================================
 // Affichée quand des favoris sont importés via URL
 // ============================================

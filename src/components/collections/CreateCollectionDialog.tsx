@@ -1,5 +1,5 @@
 // ============================================
-// DIALOG CRÉATION COLLECTION — COOLANCE
+// DIALOG CRÉATION COLLECTION — ÉTUVE
 // ============================================
 
 import { useState } from 'react';

@@ -1,5 +1,5 @@
 // ============================================
-// PAGE MES FAVORIS — COOLANCE
+// PAGE MES FAVORIS — ÉTUVE
 // ============================================
 // Page dédiée à la gestion des pathologies favorites
 // Avec tri, filtres, drag & drop et options d'organisation

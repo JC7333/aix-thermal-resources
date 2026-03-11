@@ -1,5 +1,5 @@
 // ============================================
-// HOOK COLLECTIONS — COOLANCE
+// HOOK COLLECTIONS — ÉTUVE
 // ============================================
 // Gestion des collections de favoris personnalisées
 // Stockage localStorage, conforme RGPD

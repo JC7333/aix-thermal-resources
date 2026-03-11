@@ -1,5 +1,5 @@
 // ============================================
-// BANNIÈRE IMPORT COLLECTION — COOLANCE
+// BANNIÈRE IMPORT COLLECTION — ÉTUVE
 // ============================================
 
 import { useState, useEffect } from 'react';

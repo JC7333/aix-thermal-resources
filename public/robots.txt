@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://coolance.fr/sitemap.xml
+Sitemap: https://etuve.fr/sitemap.xml

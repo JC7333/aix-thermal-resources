@@ -1,5 +1,5 @@
 // ============================================
-// HOOK FAVORIS — COOLANCE
+// HOOK FAVORIS — ÉTUVE
 // ============================================
 // Gestion des pathologies favorites en localStorage
 // Conforme RGPD : aucune donnée de santé, juste des slugs
@@ -58,7 +58,7 @@ export const exportFavoritesAsJson = (favorites: string[]): string => {
   const exportData = {
     favorites,
     exportedAt: new Date().toISOString(),
-    source: 'COOLANCE - Dr Audric Bugnard',
+    source: 'ÉTUVE - Dr Audric Bugnard',
   };
   return JSON.stringify(exportData, null, 2);
 };
@@ -72,7 +72,7 @@ export const downloadFavoritesJson = (favorites: string[]): void => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = `coolance-favoris-${new Date().toISOString().split('T')[0]}.json`;
+  link.download = `etuve-favoris-${new Date().toISOString().split('T')[0]}.json`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

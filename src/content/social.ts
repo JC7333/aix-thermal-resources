@@ -1,5 +1,5 @@
 // ============================================
-// SOCIAL FACTORY — COOLANCE
+// SOCIAL FACTORY — ÉTUVE
 // ============================================
 // Contenus IG/FB générés à partir de l'Evidence Pack
 // 30 posts + 8 reels + 12 carrousels
@@ -54,7 +54,7 @@ export const posts30: SocialPost[] = [
       'Le repos prolongé aggrave les douleurs'
     ],
     actionDuJour: 'Faites 5 flexions douces du genou, assis sur une chaise',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/arthrose',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/arthrose',
     hashtags: ['arthrose', 'sante', 'exercice', 'bienetre', 'senior'],
     type: 'normal'
   },
@@ -68,7 +68,7 @@ export const posts30: SocialPost[] = [
       'Chaque petit mouvement compte'
     ],
     actionDuJour: 'Levez-vous et faites 3 pas, c\'est tout pour aujourd\'hui',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/arthrose',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/arthrose',
     hashtags: ['arthrose', 'motivation', 'petitspas', 'sante', 'courage'],
     type: 'anti-decouragement'
   },
@@ -82,7 +82,7 @@ export const posts30: SocialPost[] = [
       'Marcher + manger équilibré suffit souvent'
     ],
     actionDuJour: 'Buvez un verre d\'eau avant chaque repas',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/arthrose',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/arthrose',
     hashtags: ['arthrose', 'poids', 'nutrition', 'sante', 'articulations'],
     type: 'normal'
   },
@@ -96,7 +96,7 @@ export const posts30: SocialPost[] = [
       'Marche lente 10 minutes'
     ],
     actionDuJour: 'Faites 10 flexions assis, doucement, sans forcer',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/arthrose',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/arthrose',
     hashtags: ['arthrose', 'genou', 'exercices', 'kine', 'sante'],
     type: 'normal'
   },
@@ -110,7 +110,7 @@ export const posts30: SocialPost[] = [
       'L\'important c\'est la régularité, pas la durée'
     ],
     actionDuJour: 'Marchez 2 minutes, même sur place. C\'est suffisant',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/arthrose',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/arthrose',
     hashtags: ['arthrose', 'petitspas', 'motivation', 'facile', 'senior'],
     type: 'anti-decouragement'
   },
@@ -124,7 +124,7 @@ export const posts30: SocialPost[] = [
       'Utilisez-la du côté opposé à la douleur'
     ],
     actionDuJour: 'Essayez de marcher avec un bâton de randonnée',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/arthrose',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/arthrose',
     hashtags: ['arthrose', 'canne', 'marche', 'autonomie', 'sante'],
     type: 'normal'
   },
@@ -140,7 +140,7 @@ export const posts30: SocialPost[] = [
       'Même 5 min de marche aide'
     ],
     actionDuJour: 'Marchez 5 minutes, doucement',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/lombalgie-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/lombalgie-chronique',
     hashtags: ['maldedos', 'lombalgie', 'bouger', 'sante', 'dos'],
     type: 'normal'
   },
@@ -154,7 +154,7 @@ export const posts30: SocialPost[] = [
       'Commencez par des mouvements très doux'
     ],
     actionDuJour: 'Basculez doucement le bassin, allongé, 5 fois',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/lombalgie-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/lombalgie-chronique',
     hashtags: ['maldedos', 'peur', 'confiance', 'petitspas', 'courage'],
     type: 'anti-decouragement'
   },
@@ -168,7 +168,7 @@ export const posts30: SocialPost[] = [
       'Augmentez de 5 sec par semaine'
     ],
     actionDuJour: 'Gainage ventral 15 sec, puis repos',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/lombalgie-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/lombalgie-chronique',
     hashtags: ['gainage', 'dos', 'renforcement', 'exercice', 'sante'],
     type: 'normal'
   },
@@ -182,7 +182,7 @@ export const posts30: SocialPost[] = [
       'À faire quand la douleur monte'
     ],
     actionDuJour: 'Respirez lentement par le ventre pendant 2 min',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/lombalgie-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/lombalgie-chronique',
     hashtags: ['respiration', 'maldedos', 'relaxation', 'sante', 'zen'],
     type: 'normal'
   },
@@ -196,7 +196,7 @@ export const posts30: SocialPost[] = [
       'La régularité bat l\'intensité'
     ],
     actionDuJour: 'Un seul pont fessier. C\'est suffisant pour aujourd\'hui',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/lombalgie-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/lombalgie-chronique',
     hashtags: ['maldedos', 'fatigue', 'petitspas', 'courage', 'motivation'],
     type: 'anti-decouragement'
   },
@@ -210,7 +210,7 @@ export const posts30: SocialPost[] = [
       'Mettez un rappel sur votre téléphone'
     ],
     actionDuJour: 'Levez-vous et étirez-vous 30 secondes',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/lombalgie-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/lombalgie-chronique',
     hashtags: ['posture', 'bureau', 'maldedos', 'prevention', 'sante'],
     type: 'normal'
   },
@@ -226,7 +226,7 @@ export const posts30: SocialPost[] = [
       'Évitez de rester immobile longtemps'
     ],
     actionDuJour: 'Marchez 10 min, même doucement',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/insuffisance-veineuse-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/insuffisance-veineuse-chronique',
     hashtags: ['jambes', 'circulation', 'marche', 'veines', 'sante'],
     type: 'normal'
   },
@@ -240,7 +240,7 @@ export const posts30: SocialPost[] = [
       'Répétez 15 fois, 2x par jour'
     ],
     actionDuJour: '15 montées sur pointes, assis ou debout',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/insuffisance-veineuse-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/insuffisance-veineuse-chronique',
     hashtags: ['jambes', 'exercice', 'mollets', 'circulation', 'facile'],
     type: 'normal'
   },
@@ -254,7 +254,7 @@ export const posts30: SocialPost[] = [
       'C\'est déjà efficace'
     ],
     actionDuJour: 'Jambes surélevées 10 min devant la télé',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/insuffisance-veineuse-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/insuffisance-veineuse-chronique',
     hashtags: ['jambes', 'repos', 'petitspas', 'fatigue', 'sante'],
     type: 'anti-decouragement'
   },
@@ -268,7 +268,7 @@ export const posts30: SocialPost[] = [
       'Demandez conseil pour la bonne taille'
     ],
     actionDuJour: 'Mettez vos bas avant de vous lever',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/insuffisance-veineuse-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/insuffisance-veineuse-chronique',
     hashtags: ['contention', 'jambes', 'veines', 'conseil', 'sante'],
     type: 'normal'
   },
@@ -282,7 +282,7 @@ export const posts30: SocialPost[] = [
       'Effet décongestionnant immédiat'
     ],
     actionDuJour: 'Finissez votre douche par 30 sec d\'eau fraîche sur les jambes',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/insuffisance-veineuse-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/insuffisance-veineuse-chronique',
     hashtags: ['jambes', 'douche', 'circulation', 'astuce', 'ete'],
     type: 'normal'
   },
@@ -296,7 +296,7 @@ export const posts30: SocialPost[] = [
       'Surveillez les petites blessures'
     ],
     actionDuJour: 'Appliquez une crème sur vos jambes ce soir',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/insuffisance-veineuse-chronique',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/insuffisance-veineuse-chronique',
     hashtags: ['peau', 'jambes', 'soin', 'hydratation', 'sante'],
     type: 'normal'
   },
@@ -312,7 +312,7 @@ export const posts30: SocialPost[] = [
       'Demandez de l\'aide, c\'est normal'
     ],
     actionDuJour: 'Parlez à votre médecin de l\'arrêt du tabac',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/bpco',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/bpco',
     hashtags: ['bpco', 'tabac', 'arreter', 'souffle', 'sante'],
     type: 'normal'
   },
@@ -326,7 +326,7 @@ export const posts30: SocialPost[] = [
       'Ça ralentit la respiration et calme l\'essoufflement'
     ],
     actionDuJour: '5 respirations lèvres pincées, maintenant',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/bpco',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/bpco',
     hashtags: ['bpco', 'respiration', 'souffle', 'technique', 'sante'],
     type: 'normal'
   },
@@ -340,7 +340,7 @@ export const posts30: SocialPost[] = [
       'Chaque pas compte pour vos poumons'
     ],
     actionDuJour: 'Marchez 3 min, avec une pause si besoin',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/bpco',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/bpco',
     hashtags: ['bpco', 'marche', 'peur', 'petitspas', 'courage'],
     type: 'anti-decouragement'
   },
@@ -354,7 +354,7 @@ export const posts30: SocialPost[] = [
       'Planifiez les efforts dans la journée'
     ],
     actionDuJour: 'Faites 5 min d\'activité, puis reposez-vous',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/bpco',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/bpco',
     hashtags: ['bpco', 'effort', 'pacing', 'energie', 'sante'],
     type: 'normal'
   },
@@ -368,7 +368,7 @@ export const posts30: SocialPost[] = [
       'Parlez-en à votre médecin'
     ],
     actionDuJour: 'Vérifiez vos vaccinations',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/bpco',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/bpco',
     hashtags: ['bpco', 'vaccin', 'prevention', 'poumons', 'sante'],
     type: 'normal'
   },
@@ -382,7 +382,7 @@ export const posts30: SocialPost[] = [
       'Demain sera peut-être plus facile'
     ],
     actionDuJour: 'Bougez les bras 1 min, assis',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/bpco',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/bpco',
     hashtags: ['bpco', 'fatigue', 'petitspas', 'motivation', 'courage'],
     type: 'anti-decouragement'
   },
@@ -398,7 +398,7 @@ export const posts30: SocialPost[] = [
       'Simple et efficace'
     ],
     actionDuJour: 'Lavez le nez de votre enfant ce soir',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/otites-enfants',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/otites-enfants',
     hashtags: ['otite', 'enfant', 'nez', 'parent', 'sante'],
     type: 'normal'
   },
@@ -412,7 +412,7 @@ export const posts30: SocialPost[] = [
       'Gonflement derrière l\'oreille'
     ],
     actionDuJour: 'En cas de doute, consultez rapidement',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/otites-enfants',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/otites-enfants',
     hashtags: ['otite', 'urgence', 'enfant', 'parent', 'medecin'],
     type: 'normal'
   },
@@ -426,7 +426,7 @@ export const posts30: SocialPost[] = [
       'Ça s\'améliore souvent avec l\'âge'
     ],
     actionDuJour: 'Respirez. Vous faites de votre mieux',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/otites-enfants',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/otites-enfants',
     hashtags: ['otite', 'parent', 'culpabilite', 'courage', 'soutien'],
     type: 'anti-decouragement'
   },
@@ -440,7 +440,7 @@ export const posts30: SocialPost[] = [
       'Objectif : zéro fumée autour de l\'enfant'
     ],
     actionDuJour: 'Fumez uniquement à l\'extérieur, loin de l\'enfant',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/otites-enfants',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/otites-enfants',
     hashtags: ['tabac', 'enfant', 'otite', 'prevention', 'sante'],
     type: 'normal'
   },
@@ -454,7 +454,7 @@ export const posts30: SocialPost[] = [
       'Ça diminue généralement vers 3-4 ans'
     ],
     actionDuJour: 'Continuez le lavage de nez régulier',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/otites-enfants',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/otites-enfants',
     hashtags: ['creche', 'otite', 'enfant', 'immunite', 'parent'],
     type: 'normal'
   },
@@ -468,7 +468,7 @@ export const posts30: SocialPost[] = [
       'Demandez de l\'aide autour de vous'
     ],
     actionDuJour: 'Reposez-vous quand l\'enfant dort',
-    cta: '📄 PDF frigo gratuit sur coolance.fr/pathologies/otites-enfants',
+    cta: '📄 PDF frigo gratuit sur etuve.fr/pathologies/otites-enfants',
     hashtags: ['parent', 'fatigue', 'soutien', 'courage', 'otite'],
     type: 'anti-decouragement'
   }
@@ -597,7 +597,7 @@ export const carrousels12: Carousel[] = [
       { title: '2. Renforcez en douceur', content: 'Flexions, extensions, squats légers. Adaptez à votre niveau.' },
       { title: '3. Gérez votre poids', content: 'Chaque kilo en moins soulage vos articulations.' },
       { title: '4. N\'ayez pas peur', content: 'La douleur ne veut pas dire que vous vous abîmez.' },
-      { title: '📄 PDF frigo gratuit', content: 'coolance.fr/pathologies/arthrose' }
+      { title: '📄 PDF frigo gratuit', content: 'etuve.fr/pathologies/arthrose' }
     ],
     hashtags: ['arthrose', 'exercice', 'sante', 'conseil', 'senior'],
     type: 'normal'
@@ -611,7 +611,7 @@ export const carrousels12: Carousel[] = [
       { title: 'Jour 3-4', content: '7 min de marche + 10 répétitions + étirements' },
       { title: 'Jour 5-6', content: '10 min de marche + 15 répétitions + auto-massage' },
       { title: 'Jour 7', content: 'Bilan : notez douleur et fatigue. Planifiez la suite.' },
-      { title: '📄 Téléchargez le plan complet', content: 'PDF frigo gratuit sur coolance.fr/pathologies/arthrose' }
+      { title: '📄 Téléchargez le plan complet', content: 'PDF frigo gratuit sur etuve.fr/pathologies/arthrose' }
     ],
     hashtags: ['arthrose', 'programme', 'exercice', '7jours', 'senior'],
     type: 'normal'
@@ -625,7 +625,7 @@ export const carrousels12: Carousel[] = [
       { title: 'Pas de culpabilité', content: 'Les mauvais jours font partie du parcours' },
       { title: 'Chaque geste compte', content: 'Même 3 flexions, c\'est mieux que rien' },
       { title: 'Soyez patient(e)', content: 'Les progrès prennent des semaines, pas des jours' },
-      { title: '📄 PDF frigo gratuit', content: 'coolance.fr/pathologies/arthrose' }
+      { title: '📄 PDF frigo gratuit', content: 'etuve.fr/pathologies/arthrose' }
     ],
     hashtags: ['arthrose', 'motivation', 'petitspas', 'courage', 'senior'],
     type: 'anti-decouragement'
@@ -639,7 +639,7 @@ export const carrousels12: Carousel[] = [
       { title: '❌ Avoir peur de bouger', content: 'Votre dos est solide, bougez progressivement' },
       { title: '❌ Attendre que ça passe', content: 'L\'exercice actif aide plus que l\'attente' },
       { title: '❌ Forcer trop vite', content: 'Progression lente = résultats durables' },
-      { title: '📄 PDF frigo gratuit', content: 'coolance.fr/pathologies/lombalgie-chronique' }
+      { title: '📄 PDF frigo gratuit', content: 'etuve.fr/pathologies/lombalgie-chronique' }
     ],
     hashtags: ['maldedos', 'lombalgie', 'erreurs', 'conseil', 'sante'],
     type: 'normal'
@@ -653,7 +653,7 @@ export const carrousels12: Carousel[] = [
       { title: 'Commencez par 10 sec', content: 'C\'est suffisant pour débuter' },
       { title: 'Respirez normalement', content: 'Ne bloquez pas votre respiration' },
       { title: 'Ajoutez 5 sec/semaine', content: 'Progression lente = progression sûre' },
-      { title: '📄 PDF frigo gratuit', content: 'coolance.fr/pathologies/lombalgie-chronique' }
+      { title: '📄 PDF frigo gratuit', content: 'etuve.fr/pathologies/lombalgie-chronique' }
     ],
     hashtags: ['gainage', 'dos', 'exercice', 'debutant', 'renforcement'],
     type: 'normal'
@@ -667,7 +667,7 @@ export const carrousels12: Carousel[] = [
       { title: 'Respiration abdominale', content: '3 min de respiration lente par le ventre' },
       { title: 'Micro-mouvements', content: 'Bascule douce du bassin, allongé, sans forcer' },
       { title: 'Patience', content: 'Les mauvais jours passent. Demain sera peut-être mieux.' },
-      { title: '📄 PDF frigo gratuit', content: 'coolance.fr/pathologies/lombalgie-chronique' }
+      { title: '📄 PDF frigo gratuit', content: 'etuve.fr/pathologies/lombalgie-chronique' }
     ],
     hashtags: ['maldedos', 'douleur', 'soulagement', 'petitspas', 'courage'],
     type: 'anti-decouragement'
@@ -681,7 +681,7 @@ export const carrousels12: Carousel[] = [
       { title: '2. Exercice mollets', content: '15 montées sur pointes, 2x/jour' },
       { title: '3. Surélevez les jambes', content: '10 min le soir, jambes au-dessus du cœur' },
       { title: '4. Douche fraîche', content: 'Eau fraîche de bas en haut, 1 min' },
-      { title: '📄 PDF frigo gratuit', content: 'coolance.fr/pathologies/insuffisance-veineuse-chronique' }
+      { title: '📄 PDF frigo gratuit', content: 'etuve.fr/pathologies/insuffisance-veineuse-chronique' }
     ],
     hashtags: ['jambes', 'circulation', 'routine', 'exercice', 'sante'],
     type: 'normal'
@@ -695,7 +695,7 @@ export const carrousels12: Carousel[] = [
       { title: 'Jambes surélevées', content: '10 min devant la télé, c\'est efficace' },
       { title: 'Auto-massage', content: 'De la cheville vers le genou, doucement' },
       { title: 'C\'est déjà bien', content: 'Faites ce que vous pouvez, c\'est suffisant' },
-      { title: '📄 PDF frigo gratuit', content: 'coolance.fr/pathologies/insuffisance-veineuse-chronique' }
+      { title: '📄 PDF frigo gratuit', content: 'etuve.fr/pathologies/insuffisance-veineuse-chronique' }
     ],
     hashtags: ['jambes', 'fatigue', 'petitspas', 'repos', 'sante'],
     type: 'anti-decouragement'
@@ -709,7 +709,7 @@ export const carrousels12: Carousel[] = [
       { title: '2. Activité physique', content: 'Marche fractionnée, à votre rythme, avec pauses' },
       { title: '3. Respiration lèvres pincées', content: 'Technique simple pour calmer l\'essoufflement' },
       { title: '4. Vaccinations à jour', content: 'Grippe, COVID, pneumocoque : ça protège' },
-      { title: '📄 PDF frigo gratuit', content: 'coolance.fr/pathologies/bpco' }
+      { title: '📄 PDF frigo gratuit', content: 'etuve.fr/pathologies/bpco' }
     ],
     hashtags: ['bpco', 'poumons', 'respiration', 'tabac', 'sante'],
     type: 'normal'
@@ -723,7 +723,7 @@ export const carrousels12: Carousel[] = [
       { title: 'Lèvres pincées', content: 'Expirez lentement comme dans une paille' },
       { title: 'Position penchée', content: 'Mains sur les cuisses, ça aide à récupérer' },
       { title: 'N\'ayez pas peur', content: 'L\'essoufflement n\'est pas dangereux' },
-      { title: '📄 PDF frigo gratuit', content: 'coolance.fr/pathologies/bpco' }
+      { title: '📄 PDF frigo gratuit', content: 'etuve.fr/pathologies/bpco' }
     ],
     hashtags: ['bpco', 'essoufflement', 'respiration', 'calme', 'technique'],
     type: 'anti-decouragement'
@@ -737,7 +737,7 @@ export const carrousels12: Carousel[] = [
       { title: '2. Zéro tabac passif', content: 'La fumée irrite les voies respiratoires' },
       { title: '3. Allaitement si possible', content: 'Protège le système immunitaire' },
       { title: '4. Patience', content: 'Ça s\'améliore souvent vers 3-4 ans' },
-      { title: '📄 PDF frigo gratuit', content: 'coolance.fr/pathologies/otites-enfants' }
+      { title: '📄 PDF frigo gratuit', content: 'etuve.fr/pathologies/otites-enfants' }
     ],
     hashtags: ['otite', 'enfant', 'prevention', 'parent', 'conseil'],
     type: 'normal'
@@ -751,7 +751,7 @@ export const carrousels12: Carousel[] = [
       { title: 'Pas de culpabilité', content: 'Ce n\'est pas un manque d\'hygiène' },
       { title: 'La crèche, c\'est normal', content: 'Les enfants en collectivité sont plus exposés' },
       { title: 'Ça va s\'améliorer', content: 'Le système immunitaire se renforce avec l\'âge' },
-      { title: '📄 PDF frigo gratuit', content: 'coolance.fr/pathologies/otites-enfants' }
+      { title: '📄 PDF frigo gratuit', content: 'etuve.fr/pathologies/otites-enfants' }
     ],
     hashtags: ['otite', 'parent', 'culpabilite', 'soutien', 'courage'],
     type: 'anti-decouragement'

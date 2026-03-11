@@ -1,33 +1,20 @@
-const CACHE_NAME = 'coolance-v1';
-const PRECACHE_URLS = ['/', '/le-programme', '/parcours'];
-
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS))
-  );
+const CACHE_NAME = 'etuve-v1';
+const PRECACHE = ['/', '/le-programme', '/parcours',
+  '/pathologies/v2/gonarthrose', '/pathologies/v2/lombalgie-chronique',
+  '/pathologies/v2/insuffisance-veineuse', '/pathologies/v2/bpco',
+  '/pathologies/v2/otites-repetition-enfant'];
+self.addEventListener('install', (e) => {
+  e.waitUntil(caches.open(CACHE_NAME).then((c) => c.addAll(PRECACHE)));
   self.skipWaiting();
 });
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((names) =>
-      Promise.all(names.filter((n) => n !== CACHE_NAME).map((n) => caches.delete(n)))
-    )
-  );
+self.addEventListener('activate', (e) => {
+  e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))));
   self.clients.claim();
 });
-
-self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET' || event.request.url.includes('plausible.io')) return;
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        if (response.ok) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-        }
-        return response;
-      })
-      .catch(() => caches.match(event.request).then((r) => r || caches.match('/')))
+self.addEventListener('fetch', (e) => {
+  if (e.request.method !== 'GET' || e.request.url.includes('plausible.io')) return;
+  e.respondWith(
+    fetch(e.request).then((r) => { if (r.ok) { const c = r.clone(); caches.open(CACHE_NAME).then((ca) => ca.put(e.request, c)); } return r; })
+    .catch(() => caches.match(e.request).then((r) => r || caches.match('/')))
   );
 });

@@ -1,5 +1,5 @@
 // ============================================
-// BOUTON TÉLÉCHARGEMENT ZIP — COOLANCE
+// BOUTON TÉLÉCHARGEMENT ZIP — ÉTUVE
 // ============================================
 // Composant pour télécharger tous les PDFs d'une catégorie en ZIP
 // Avec progression et estimation du temps

@@ -1,5 +1,5 @@
 // ============================================
-// MODALE PRÉVISUALISATION PDF — COOLANCE
+// MODALE PRÉVISUALISATION PDF — ÉTUVE
 // ============================================
 // Affiche un aperçu du PDF avant téléchargement ou impression
 // Indique si le PDF provient du cache

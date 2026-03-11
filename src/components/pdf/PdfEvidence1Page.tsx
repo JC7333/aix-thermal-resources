@@ -279,7 +279,7 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) 
             <Text style={styles.subtitle}>Fiche pratique • Basée sur les preuves scientifiques</Text>
           </View>
           <View style={styles.headerRight}>
-            <Text style={styles.brand}>COOLANCE</Text>
+            <Text style={styles.brand}>ÉTUVE</Text>
             <Text style={styles.brandSub}>Dr Audric Bugnard</Text>
             <Text style={styles.dateBadge}>MAJ {evidence.lastUpdated}</Text>
           </View>
@@ -406,7 +406,7 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({ evidence }) 
             Information éducative — ne remplace pas un avis médical
           </Text>
           <Text style={styles.footerText}>
-            coolance.fr
+            etuve.fr
           </Text>
         </View>
       </Page>

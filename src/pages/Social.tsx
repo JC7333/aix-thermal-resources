@@ -18,7 +18,7 @@ const Social = () => {
 
         <div className="max-w-2xl mx-auto text-center">
           <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Suivez COOLANCE
+            Suivez ÉTUVE
           </h1>
           <p className="text-lg text-muted-foreground mb-8">
             Retrouvez-moi sur les réseaux pour des conseils quotidiens, 
@@ -44,11 +44,11 @@ const Social = () => {
               </div>
               <h2 className="font-serif text-xl font-bold text-foreground mb-2">Instagram</h2>
               <p className="text-muted-foreground text-sm mb-4">
-                @coolance.sante
+                @etuve.sante
               </p>
               <Button asChild size="lg" className="w-full">
                 <a 
-                  href="https://instagram.com/coolance.sante" 
+                  href="https://instagram.com/etuve.sante" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="gap-2"
@@ -66,11 +66,11 @@ const Social = () => {
               </div>
               <h2 className="font-serif text-xl font-bold text-foreground mb-2">Facebook</h2>
               <p className="text-muted-foreground text-sm mb-4">
-                COOLANCE Santé
+                ÉTUVE Santé
               </p>
               <Button asChild size="lg" className="w-full">
                 <a 
-                  href="https://facebook.com/coolance.sante" 
+                  href="https://facebook.com/etuve.sante" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="gap-2"

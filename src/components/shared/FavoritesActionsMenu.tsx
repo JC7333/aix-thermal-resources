@@ -1,5 +1,5 @@
 // ============================================
-// MENU ACTIONS FAVORIS — COOLANCE
+// MENU ACTIONS FAVORIS — ÉTUVE
 // ============================================
 // Dropdown avec options export/partage des favoris
 // ============================================
@@ -208,7 +208,7 @@ export const FavoritesActionsMenu = ({ className = '' }: FavoritesActionsMenuPro
           <DialogHeader>
             <DialogTitle>Importer des favoris</DialogTitle>
             <DialogDescription>
-              Sélectionnez un fichier JSON exporté depuis COOLANCE.
+              Sélectionnez un fichier JSON exporté depuis ÉTUVE.
               Les favoris seront ajoutés à votre liste existante.
             </DialogDescription>
           </DialogHeader>

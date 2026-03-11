@@ -1,5 +1,5 @@
 // ============================================
-// PACK VISUELS SVG — COOLANCE
+// PACK VISUELS SVG — ÉTUVE
 // ============================================
 // Diagrammes simples pour les PDFs
 // Style : trait fin, minimal, noir/gris, lisible niveau collège

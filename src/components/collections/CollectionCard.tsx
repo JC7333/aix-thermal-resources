@@ -1,5 +1,5 @@
 // ============================================
-// CARTE COLLECTION — COOLANCE
+// CARTE COLLECTION — ÉTUVE
 // ============================================
 
 import { useState } from 'react';

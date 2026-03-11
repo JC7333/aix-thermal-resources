@@ -1,5 +1,5 @@
 // ============================================
-// HOOK PDF PRELOAD — COOLANCE
+// HOOK PDF PRELOAD — ÉTUVE
 // ============================================
 // Précharge les PDFs en arrière-plan pour améliorer
 // la réactivité de l'interface utilisateur

@@ -125,10 +125,10 @@ const QuiSuisJe = () => {
           </div>
 
           <div className="text-center">
-            <p className="text-muted-foreground mb-4">Suivez COOLANCE sur les réseaux</p>
+            <p className="text-muted-foreground mb-4">Suivez ÉTUVE sur les réseaux</p>
             <div className="flex justify-center gap-4">
               <a 
-                href="https://instagram.com/coolance.sante" 
+                href="https://instagram.com/etuve.sante" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"
@@ -136,7 +136,7 @@ const QuiSuisJe = () => {
                 <Instagram className="w-6 h-6" />
               </a>
               <a 
-                href="https://facebook.com/coolance.sante" 
+                href="https://facebook.com/etuve.sante" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors"

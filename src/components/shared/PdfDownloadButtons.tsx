@@ -1,5 +1,5 @@
 // ============================================
-// BOUTONS PDF — COOLANCE
+// BOUTONS PDF — ÉTUVE
 // ============================================
 // Composant réutilisable pour les boutons de téléchargement PDF
 // Avec prévisualisation modale avant téléchargement
