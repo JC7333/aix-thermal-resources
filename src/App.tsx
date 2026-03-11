@@ -33,6 +33,7 @@ import DiagnosticVideos from "./pages/DiagnosticVideos";
 import DiagnosticLinks from "./pages/DiagnosticLinks";
 import DiagnosticRoutes from "./pages/DiagnosticRoutes";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
+import QrLanding from "./pages/QrLanding";
 
 const queryClient = new QueryClient();
 
@@ -81,6 +82,8 @@ const App = () => {
               <Route path="/diagnostic/videos" element={<DiagnosticVideos />} />
               <Route path="/diagnostic/links" element={<DiagnosticLinks />} />
               <Route path="/diagnostic/routes" element={<DiagnosticRoutes />} />
+              {/* QR landing pages — traçage des scans en cabine thermale */}
+              <Route path="/qr/:slug" element={<QrLanding />} />
               {/* Route legacy /pathologie/:slug — redirige vers V2 */}
               <Route path="/pathologie/:slug" element={<PathologyPage />} />
               <Route path="/cabinet" element={<QuiSuisJe />} />

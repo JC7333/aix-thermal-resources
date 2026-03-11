@@ -15,7 +15,8 @@ export type EventName =
   | 'podcast_complete'
   | 'pro_submitted'
   | 'video_click'
-  | 'exercise_viewed';
+  | 'exercise_viewed'
+  | 'qr_scan';
 
 export interface AnalyticsEvent {
   eventName: EventName;

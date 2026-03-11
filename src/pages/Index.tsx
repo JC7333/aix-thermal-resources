@@ -62,11 +62,54 @@ const themeButtons = [
 ];
 
 const topPDFs = [
-  { title: 'Plan arthrose 7 jours', category: 'Rhumatologie', slug: 'arthrose' },
+  { title: 'Plan arthrose 7 jours', category: 'Rhumatologie', slug: 'gonarthrose' },
   { title: 'Plan lombalgie 7 jours', category: 'Rhumatologie', slug: 'lombalgie-chronique' },
-  { title: 'Jambes légères - 5 actions', category: 'Veino-lymphatique', slug: 'insuffisance-veineuse-chronique' },
+  { title: 'Jambes légères - 5 actions', category: 'Veino-lymphatique', slug: 'insuffisance-veineuse' },
   { title: 'BPCO - Respirer mieux', category: 'Respiratoire', slug: 'bpco' },
-  { title: 'Otites enfant - Prévention', category: 'Parents', slug: 'otites-a-repetition-enfant' },
+  { title: 'Otites enfant - Prévention', category: 'Parents', slug: 'otites-repetition-enfant' },
+];
+
+const mainPathologies = [
+  {
+    slug: 'gonarthrose',
+    name: 'Arthrose du genou',
+    description: 'Exercices adaptés, plans 7 jours et 8 semaines, conseils quotidiens',
+    icon: Bone,
+    color: 'border-primary/30 hover:border-primary',
+    badge: 'Rhumatologie',
+  },
+  {
+    slug: 'lombalgie-chronique',
+    name: 'Lombalgie chronique',
+    description: 'Comprendre la douleur, bouger sans peur, programme progressif',
+    icon: Activity,
+    color: 'border-primary/30 hover:border-primary',
+    badge: 'Rhumatologie',
+  },
+  {
+    slug: 'insuffisance-veineuse',
+    name: 'Insuffisance veineuse',
+    description: 'Compression, pompe du mollet, élévation, soins de peau',
+    icon: Heart,
+    color: 'border-secondary/30 hover:border-secondary',
+    badge: 'Veino-lymphatique',
+  },
+  {
+    slug: 'bpco',
+    name: 'BPCO',
+    description: "Techniques respiratoires, marche fractionnée, plan d'action",
+    icon: Wind,
+    color: 'border-trust-teal/30 hover:border-trust-teal',
+    badge: 'Respiratoire',
+  },
+  {
+    slug: 'otites-repetition-enfant',
+    name: 'Otites enfant',
+    description: "Prévention, hygiène, quand consulter l'ORL",
+    icon: Baby,
+    color: 'border-accent/30 hover:border-accent',
+    badge: 'Parents',
+  },
 ];
 
 const Index = () => {
@@ -116,7 +159,23 @@ const Index = () => {
               Douleur, poids, souffle, jambes, enfants : je vous guide avec des actions concrètes, 
               adaptées à votre niveau de mobilité.
             </p>
-            
+
+            <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 ${seniorMode ? 'mb-10' : 'mb-8'}`}>
+              <Button asChild size="xl" className="bg-white text-primary hover:bg-white/90 font-bold shadow-lg">
+                <Link to="/parcours" className="gap-2">
+                  <Compass className="w-5 h-5" />
+                  Mon plan personnalisé
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </Button>
+              <Button asChild size="xl" variant="heroOutline">
+                <Link to="#pathologies" className="gap-2">
+                  <FileText className="w-5 h-5" />
+                  Choisir ma pathologie
+                </Link>
+              </Button>
+            </div>
+
             {/* Senior Mode CTA */}
             {!seniorMode && (
               <div className="mb-8 p-4 bg-white/10 rounded-xl backdrop-blur-sm inline-block">
@@ -179,6 +238,52 @@ const Index = () => {
                   <ArrowRight className={iconSize} />
                 </Link>
               </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5 Main Pathologies — Direct V2 access */}
+      <section id="pathologies" className={`bg-background ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-3xl md:text-4xl mb-4' : 'text-2xl md:text-3xl mb-3'}`}>
+                Votre pathologie
+              </h2>
+              <p className={`text-muted-foreground ${seniorMode ? 'text-xl' : 'text-lg'}`}>
+                Podcasts, exercices adaptés, fiches imprimables, sources scientifiques
+              </p>
+            </div>
+            <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ${seniorMode ? 'gap-6' : 'gap-4'}`}>
+              {mainPathologies.map((patho) => (
+                <Link
+                  key={patho.slug}
+                  to={getPathologyUrl(patho.slug)}
+                  className={`group rounded-2xl border-2 bg-card transition-all duration-200 hover:shadow-lg ${patho.color} ${seniorMode ? 'p-6' : 'p-5'}`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className={`rounded-xl bg-muted flex items-center justify-center flex-shrink-0 ${seniorMode ? 'w-14 h-14' : 'w-12 h-12'}`}>
+                      <patho.icon className={`text-primary ${seniorMode ? 'w-7 h-7' : 'w-6 h-6'}`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                        {patho.badge}
+                      </span>
+                      <h3 className={`font-bold text-foreground leading-tight mt-1 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
+                        {patho.name}
+                      </h3>
+                      <p className={`text-muted-foreground mt-1 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+                        {patho.description}
+                      </p>
+                      <span className={`inline-flex items-center gap-1 font-semibold text-primary mt-3 group-hover:gap-2 transition-all ${seniorMode ? 'text-base' : 'text-sm'}`}>
+                        Découvrir
+                        <ArrowRight className="w-4 h-4" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
