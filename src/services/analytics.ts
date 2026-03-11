@@ -80,6 +80,15 @@ export const logEvent = (
   };
   
   storeEvent(event);
+
+  // Plausible custom event (if available)
+  try {
+    if (typeof window !== 'undefined' && (window as any).plausible) {
+      (window as any).plausible(eventName, { props: metadata || {} });
+    }
+  } catch {
+    // Plausible not loaded — ignore silently
+  }
   
   // Debug in development
   if (import.meta.env.DEV) {
