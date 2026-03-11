@@ -34,9 +34,9 @@ const Contact = () => {
     setIsSubmitting(true);
     
     // Construire le mailto avec le message pré-rempli
-    const subject = encodeURIComponent('Contact depuis COOLANCE');
+    const subject = encodeURIComponent('Contact depuis ÉTUVE');
     const body = encodeURIComponent(
-      `Message de: ${formData.email}\n\n${formData.message}\n\n---\nEnvoyé depuis le site COOLANCE`
+      `Message de: ${formData.email}\n\n${formData.message}\n\n---\nEnvoyé depuis le site ÉTUVE`
     );
     const mailtoUrl = `mailto:docteuraudricbugnard@gmail.com?subject=${subject}&body=${body}`;
     

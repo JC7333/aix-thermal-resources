@@ -26,7 +26,7 @@ const Programme = () => {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className={seniorMode ? "mb-14" : "mb-10"}>
-            <h1 className={titleClass}>Le Programme Coolance</h1>
+            <h1 className={titleClass}>Le Programme Étuve</h1>
             <p className={`${subtitleClass} mt-4 max-w-3xl`}>
               Un programme d'éducation thérapeutique du patient conçu par un
               médecin thermaliste, basé sur les recommandations scientifiques
@@ -34,18 +34,18 @@ const Programme = () => {
             </p>
           </div>
 
-          {/* What is Coolance */}
+          {/* What is Étuve */}
           <section className={seniorMode ? "mb-14" : "mb-10"}>
             <h2
               className={`font-serif font-bold text-foreground ${seniorMode ? "text-2xl mb-6" : "text-xl mb-4"}`}
             >
-              Qu'est-ce que Coolance ?
+              Qu'est-ce que Étuve ?
             </h2>
             <div
               className={`bg-primary/5 rounded-2xl border-2 border-primary/20 ${seniorMode ? "p-8" : "p-6"}`}
             >
               <p className={`${textClass} leading-relaxed`}>
-                Coolance est un programme d'éducation thérapeutique numérique
+                Étuve est un programme d'éducation thérapeutique numérique
                 pour les patients en cure thermale. Il vous accompagne avant,
                 pendant et après votre cure avec des outils concrets : fiches
                 imprimables, exercices adaptés à votre niveau, podcasts audio,
@@ -133,7 +133,7 @@ const Programme = () => {
             <div className="space-y-4">
               <p className={`${textClass} leading-relaxed`}>
                 Chaque conseil, chaque exercice, chaque recommandation de
-                Coolance est basé sur des études de haute qualité
+                Étuve est basé sur des études de haute qualité
                 méthodologique. Nos sources incluent :
               </p>
               <div
@@ -223,7 +223,7 @@ const Programme = () => {
               className={`bg-muted rounded-2xl ${seniorMode ? "p-8" : "p-6"}`}
             >
               <p className={`${textClass} leading-relaxed`}>
-                Coolance a été conçu par le <strong>Dr Audric Bugnard</strong>,
+                Étuve a été conçu par le <strong>Dr Audric Bugnard</strong>,
                 médecin généraliste et thermaliste à Aix-les-Bains (Savoie). Le
                 contenu médical est intégralement rédigé et validé par un
                 médecin, en conformité avec les recommandations des sociétés
