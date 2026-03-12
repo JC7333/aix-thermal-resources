@@ -4,8 +4,10 @@
 // ============================================
 
 export { gonarthroseParcours } from './gonarthrose';
+export { lombalgieParcours } from './lombalgie-chronique';
 
 /** Pathologies avec parcours 21 jours disponible */
 export const PARCOURS_AVAILABLE: string[] = [
   'gonarthrose',
+  'lombalgie-chronique',
 ];

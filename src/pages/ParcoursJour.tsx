@@ -20,8 +20,10 @@ async function loadParcours(slug: string): Promise<ParcoursContent | null> {
         const mod = await import('@/content/parcours/gonarthrose');
         return mod.gonarthroseParcours;
       }
-      // Sprint 4+ : ajouter les autres pathologies ici
-      // case 'lombalgie-chronique': { const mod = await import('@/content/parcours/lombalgie-chronique'); return mod.lombalgieParcours; }
+      case 'lombalgie-chronique': {
+        const mod = await import('@/content/parcours/lombalgie-chronique');
+        return mod.lombalgieParcours;
+      }
       default:
         return null;
     }
