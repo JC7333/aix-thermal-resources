@@ -10,6 +10,7 @@ import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
 import { useToast } from '@/hooks/use-toast';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import { JsonLd } from '@/components/shared/JsonLd';
 
 const themeButtons = [
   { 
@@ -150,6 +151,19 @@ const Index = () => {
   };
   return (
     <Layout>
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "MedicalOrganization",
+        "name": "Étuve",
+        "url": "https://etuve.fr",
+        "description": "Programme d'éducation thérapeutique pour patients en cure thermale",
+        "founder": {
+          "@type": "Person",
+          "name": "Dr Audric Bugnard",
+          "jobTitle": "Médecin généraliste et thermaliste"
+        },
+        "areaServed": { "@type": "Place", "name": "Aix-les-Bains, France" }
+      }} />
       {/* Hero Section - Product focused */}
       <section id="hero" className={`hero-gradient text-white ${seniorMode ? 'py-20 lg:py-28' : 'py-16 lg:py-24'}`}>
         <div className="container mx-auto px-4">

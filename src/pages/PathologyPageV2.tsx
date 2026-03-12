@@ -30,6 +30,7 @@ import PodcastPlayer from '@/components/shared/PodcastPlayer';
 import ProQuestionnaire from '@/components/shared/ProQuestionnaire';
 import { getPodcastBySlug } from '@/data/podcastData';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import { JsonLd } from '@/components/shared/JsonLd';
 
 // Badge couleur selon niveau de preuve
 const evidenceBadgeClass = (level: string) => {
@@ -279,6 +280,20 @@ const PathologyPageV2 = () => {
   
   return (
     <Layout>
+      {pack && (
+        <JsonLd data={{
+          "@context": "https://schema.org",
+          "@type": "MedicalWebPage",
+          "name": pack.title,
+          "description": "Programme d'\''éducation thérapeutique",
+          "url": "https://etuve.fr/pathologies/v2/" + (slug || ''),
+          "inLanguage": "fr",
+          "isAccessibleForFree": true,
+          "author": { "@type": "Person", "name": "Dr Audric Bugnard", "jobTitle": "Médecin thermaliste" },
+          "about": { "@type": "MedicalCondition", "name": pack.title },
+          "dateModified": pack.updated_at
+        }} />
+      )}
       <div className="container mx-auto px-4 py-6 lg:py-8">
         {/* Breadcrumb */}
         <div className="no-print">
