@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+﻿import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
   Download,
@@ -50,6 +50,7 @@ import { useToast } from "@/hooks/use-toast";
 import { logEvent } from "@/services/analytics";
 import { openPrintableFallback } from "@/lib/printFallback";
 import { printViaIframe } from "@/lib/printViaIframe";
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 // ============================================
 // FILTRES THÉMATIQUES
@@ -139,6 +140,7 @@ const Telechargements = () => {
 
   // Synchronisation avec le Mode Senior global
   const { seniorMode: readableMode } = useAccessibility();
+  usePageTitle('Téléchargements');
 
   // En mode frigo, on force le mode lisible
   const effectiveReadableMode = readableMode || fridgeMode;

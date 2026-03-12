@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Instagram, Facebook } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
 import drAudricPhoto from '@/assets/dr-audric-bugnard.jpg';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 const principles = [
   {
@@ -31,6 +32,7 @@ const principles = [
 
 const QuiSuisJe = () => {
   const { seniorMode, titleClass, textClass, buttonSize, smallTextClass, subtitleClass, iconSize } = useSeniorMode();
+  usePageTitle('Dr Audric Bugnard');
   
   return (
     <Layout>

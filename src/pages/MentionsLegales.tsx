@@ -1,7 +1,9 @@
-import { Layout } from "@/components/layout/Layout";
+﻿import { Layout } from "@/components/layout/Layout";
 import { Breadcrumb } from "@/components/shared/Breadcrumb";
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 const MentionsLegales = () => {
+  usePageTitle('Mentions légales');
   return (
     <Layout>
       <div className="container mx-auto px-4 py-6 lg:py-8">

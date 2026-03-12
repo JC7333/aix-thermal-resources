@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, Printer, Check, Activity, Scale, Cigarette, Wind, Heart, Baby, Smile } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { logEvent } from '@/services/analytics';
 import { openParcoursPrintFallback } from '@/lib/parcoursPrintFallback';
 import { useToast } from '@/hooks/use-toast';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 type Objective = 'douleur' | 'poids' | 'tabac' | 'souffle' | 'jambes' | 'orl-enfant' | 'bouche';
 type Level = 0 | 1 | 2 | 3;
@@ -178,6 +179,7 @@ const Parcours = () => {
   const [selectedLevel, setSelectedLevel] = useState<Level | null>(null);
   const { seniorMode, titleClass, textClass, buttonSize, iconSize, smallTextClass } = useSeniorMode();
   const { toast } = useToast();
+  usePageTitle('Mon parcours');
 
   // Track wizard start on mount
   useEffect(() => {

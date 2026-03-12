@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import { Baby, Thermometer, Ear, HeartPulse, Download, ChevronRight, AlertTriangle, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
@@ -8,6 +8,7 @@ import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { useToast } from '@/hooks/use-toast';
 import { pathologies } from '@/data/pathologies';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 const parentTopics = [
   {
@@ -64,6 +65,7 @@ const Parents = () => {
   const childPathologies = pathologies.filter(p => p.audience === 'enfant');
   const { seniorMode, titleClass, textClass, buttonSize, gridCols, smallTextClass, iconSize, iconSizeLg } = useSeniorMode();
   const { toast } = useToast();
+  usePageTitle('Espace Parents');
 
   // PDF not available yet - show informational toast
   const pdfAvailable = false;

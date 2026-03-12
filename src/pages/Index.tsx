@@ -9,6 +9,7 @@ import { quickAnswers, pathologies } from '@/content/content';
 import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
 import { useToast } from '@/hooks/use-toast';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 const themeButtons = [
   { 
@@ -117,6 +118,7 @@ const Index = () => {
   const { titleClass, textClass, subtitleClass, buttonSize, iconSize, iconSizeLg, gridCols, smallTextClass } = useSeniorMode();
   const [downloadingSlug, setDownloadingSlug] = useState<string | null>(null);
   const { toast } = useToast();
+  usePageTitle();
 
   const handleDownloadPdf = async (slug: string) => {
     if (!hasEvidenceData(slug)) {

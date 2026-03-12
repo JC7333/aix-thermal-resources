@@ -1,4 +1,4 @@
-// ============================================
+﻿// ============================================
 // PATHOLOGY PAGE V2 — 7 SECTIONS STANDARDISÉES
 // Template Evidence-Based Medicine
 // ============================================
@@ -29,6 +29,7 @@ import type { EvidencePackV2, Exercise, MedicalProcedure } from '@/content/evide
 import PodcastPlayer from '@/components/shared/PodcastPlayer';
 import ProQuestionnaire from '@/components/shared/ProQuestionnaire';
 import { getPodcastBySlug } from '@/data/podcastData';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 // Badge couleur selon niveau de preuve
 const evidenceBadgeClass = (level: string) => {
@@ -254,6 +255,7 @@ const PathologyPageV2 = () => {
   
   const pack = slug ? getEvidencePackV2BySlug(slug) : undefined;
   const podcastData = getPodcastBySlug(slug || '');
+  usePageTitle(pack?.title);
   
   useEffect(() => {
     if (slug) {
