@@ -163,6 +163,9 @@ export const Footer = () => {
                   Otites enfant
                 </ScrollTopLink>
               </li>
+              <li><ScrollTopLink to="/pathologies/v2/coxarthrose" className="text-white/80 hover:text-white transition-colors">Coxarthrose (hanche)</ScrollTopLink></li>
+              <li><ScrollTopLink to="/pathologies/v2/asthme" className="text-white/80 hover:text-white transition-colors">Asthme</ScrollTopLink></li>
+              <li><ScrollTopLink to="/pathologies/v2/tendinopathie-coiffe" className="text-white/80 hover:text-white transition-colors">Épaule (coiffe)</ScrollTopLink></li>
             </ul>
           </div>
 

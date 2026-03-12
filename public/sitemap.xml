@@ -11,4 +11,10 @@
   <url><loc>https://etuve.fr/telechargements</loc><priority>0.7</priority></url>
   <url><loc>https://etuve.fr/qui-suis-je</loc><priority>0.6</priority></url>
   <url><loc>https://etuve.fr/mentions-legales</loc><priority>0.3</priority></url>
+  <url><loc>https://etuve.fr/pathologies/v2/coxarthrose</loc><priority>0.9</priority></url>
+  <url><loc>https://etuve.fr/pathologies/v2/fibromyalgie</loc><priority>0.9</priority></url>
+  <url><loc>https://etuve.fr/pathologies/v2/rhinosinusite-chronique</loc><priority>0.8</priority></url>
+  <url><loc>https://etuve.fr/pathologies/v2/tendinopathie-coiffe</loc><priority>0.9</priority></url>
+  <url><loc>https://etuve.fr/pathologies/v2/arthrose-digitale</loc><priority>0.8</priority></url>
+  <url><loc>https://etuve.fr/pathologies/v2/asthme</loc><priority>0.9</priority></url>
 </urlset>

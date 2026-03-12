@@ -12,6 +12,9 @@ export { bpco } from './bpco';
 export { otitesRepetitionEnfant } from './otites-repetition-enfant';
 export { rhinosinusiteChronique } from './rhinosinusite-chronique';
 export { fibromyalgie } from './fibromyalgie';
+export { tendinopathieCoiffe } from './tendinopathie-coiffe';
+export { arthroseDigitale } from './arthrose-digitale';
+export { asthmeComplete as asthme } from './asthme';
 
 // Import des packs
 import { gonarthrose } from './gonarthrose';
@@ -22,17 +25,17 @@ import { bpco } from './bpco';
 import { otitesRepetitionEnfant } from './otites-repetition-enfant';
 import { rhinosinusiteChronique } from './rhinosinusite-chronique';
 import { fibromyalgie } from './fibromyalgie';
+import { tendinopathieCoiffe } from './tendinopathie-coiffe';
+import { arthroseDigitale } from './arthrose-digitale';
+import { asthmeComplete as asthme } from './asthme';
 import { EvidencePackV2, createStubPack } from './types';
 
 // Stubs pour les pathologies à compléter
 export const arthroseCheville = createStubPack('arthrose-cheville-pied', 'Arthrose cheville/pied', 'rhumatologie', 'arthrose');
 export const arthroseLombaire = createStubPack('arthrose-lombaire', 'Arthrose lombaire (rachis)', 'rhumatologie', 'arthrose');
 export const arthroseCervicale = createStubPack('arthrose-cervicale', 'Arthrose cervicale (rachis)', 'rhumatologie', 'arthrose');
-export const arthroseDigitale = createStubPack('arthrose-digitale', 'Arthrose digitale / main', 'rhumatologie', 'arthrose');
 export const omarthrose = createStubPack('omarthrose', 'Omarthrose (épaule)', 'rhumatologie', 'arthrose');
-export const tendinopathieCoiffe = createStubPack('tendinopathie-coiffe', 'Tendinopathies de coiffe', 'rhumatologie');
 export const lymphoedeme = createStubPack('lymphoedeme', 'Lymphœdème / séquelles érysipèle', 'veino-lymphatique');
-export const asthme = createStubPack('asthme', 'Asthme', 'respiratoire-orl');
 export const rhiniteChronique = createStubPack('rhinite-chronique', 'Rhinite chronique / allergique', 'respiratoire-orl');
 export const lichenPlanBuccal = createStubPack('lichen-plan-buccal', 'Lichen plan buccal', 'muqueuses-buccales');
 export const glossodynie = createStubPack('glossodynie', 'Glossodynie', 'muqueuses-buccales');
