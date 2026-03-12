@@ -28,6 +28,18 @@ async function loadParcours(slug: string): Promise<ParcoursContent | null> {
         const mod = await import('@/content/parcours/coxarthrose');
         return mod.coxarthroseParcours;
       }
+      case 'fibromyalgie': {
+        const mod = await import('@/content/parcours/fibromyalgie');
+        return mod.fibromyalgieParcours;
+      }
+      case 'tendinopathie-coiffe': {
+        const mod = await import('@/content/parcours/tendinopathie-coiffe');
+        return mod.tendinopathieCoiffeParcours;
+      }
+      case 'arthrose-digitale': {
+        const mod = await import('@/content/parcours/arthrose-digitale');
+        return mod.arthroseDigitaleParcours;
+      }
       default:
         return null;
     }
