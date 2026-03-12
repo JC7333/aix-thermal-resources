@@ -21,6 +21,8 @@ const Programs = lazy(() => import("./pages/Programs"));
 const Parcours = lazy(() => import("./pages/Parcours"));
 const ParcoursAccueil = lazy(() => import("./pages/ParcoursAccueil"));
 const ParcoursBep = lazy(() => import("./pages/ParcoursBep"));
+const ParcoursJour = lazy(() => import("./pages/ParcoursJour"));
+const ParcoursBilan = lazy(() => import("./pages/ParcoursBilan"));
 const Guides = lazy(() => import("./pages/Guides"));
 const Parents = lazy(() => import("./pages/Parents"));
 const FAQ = lazy(() => import("./pages/FAQ"));
@@ -73,6 +75,8 @@ const App = () => {
                   />
                   <Route path="/parcours/:slug" element={<ParcoursAccueil />} />
                   <Route path="/parcours/:slug/bep" element={<ParcoursBep />} />
+                  <Route path="/parcours/:slug/jour/:day" element={<ParcoursJour />} />
+                  <Route path="/parcours/:slug/bilan" element={<ParcoursBilan />} />
                   <Route path="/parcours" element={<Parcours />} />
                   <Route path="/ressources" element={<Resources />} />
                   <Route path="/pathologies" element={<Pathologies />} />
