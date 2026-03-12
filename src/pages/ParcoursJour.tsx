@@ -40,6 +40,18 @@ async function loadParcours(slug: string): Promise<ParcoursContent | null> {
         const mod = await import('@/content/parcours/arthrose-digitale');
         return mod.arthroseDigitaleParcours;
       }
+      case 'bpco': {
+        const mod = await import('@/content/parcours/bpco');
+        return mod.bpcoParcours;
+      }
+      case 'asthme': {
+        const mod = await import('@/content/parcours/asthme');
+        return mod.asthmeParcours;
+      }
+      case 'insuffisance-veineuse': {
+        const mod = await import('@/content/parcours/insuffisance-veineuse');
+        return mod.insuffisanceVeineuseParcours;
+      }
       default:
         return null;
     }
