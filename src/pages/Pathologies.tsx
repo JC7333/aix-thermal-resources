@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import { Clock, ChevronRight, BookOpen, Shield, FileText, Heart } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
@@ -10,6 +10,7 @@ import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { Button } from '@/components/ui/button';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
 import { ALL_EVIDENCE_PACKS_V2, type EvidencePackV2 } from '@/content/evidence/v2';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 // Mapping catégories
 const categoryLabels: Record<string, string> = {
@@ -35,6 +36,7 @@ const Pathologies = () => {
   
   const { favorites, isFavorite } = useFavorites();
   const { seniorMode, titleClass, textClass, gridCols, smallTextClass, iconSize } = useSeniorMode();
+  usePageTitle('Pathologies');
   
   // Grouper les pathologies par catégorie
   const groupedPathologies = allEvidence.reduce((acc, evidence) => {

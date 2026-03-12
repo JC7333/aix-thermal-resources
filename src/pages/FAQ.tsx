@@ -1,8 +1,9 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 interface FAQItem {
   id: string;
@@ -96,6 +97,7 @@ const categoryLabels: Record<string, string> = {
 
 const FAQ = () => {
   const [openItems, setOpenItems] = useState<string[]>([]);
+  usePageTitle('Questions fréquentes');
   const { seniorMode, titleClass, textClass, subtitleClass, smallTextClass, iconSize } = useSeniorMode();
 
   const toggleItem = (id: string) => {

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import {
   ArrowRight,
   BookOpen,
@@ -13,10 +13,12 @@ import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { Breadcrumb } from "@/components/shared/Breadcrumb";
 import { useSeniorMode } from "@/hooks/useSeniorMode";
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 const Programme = () => {
   const { seniorMode, titleClass, textClass, subtitleClass, buttonSize } =
     useSeniorMode();
+  usePageTitle('Le Programme');
 
   return (
     <Layout>
