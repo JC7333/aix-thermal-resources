@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { generateToken, saveToken } from '@/lib/parcoursToken';
 import { createParcours, saveProAssessment } from '@/services/parcoursService';
-import { KOOS_PS_ITEMS, KOOS_PS_LEVELS, KOOS_PS_INTROS, KOOS_PS_INTRO_DEFAULT, calculateKoosPsScore } from '@/content/parcours/koosPs';
+import { KOOS_PS_ITEMS, KOOS_PS_LEVELS, KOOS_PS_INTROS, KOOS_PS_INTRO_DEFAULT, calculateKoosPsScore, KOOS_PS_SLUGS } from '@/content/parcours/koosPs';
 import type { BepData, ProAssessment } from '@/content/parcours/types';
 import { ArrowRight, ArrowLeft, Copy, CheckCircle2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -43,15 +43,18 @@ const ParcoursBep = () => {
 
   if (!slug) return null;
 
+  const useKoosPs = KOOS_PS_SLUGS.includes(slug);
+
   // ============================================
   // NAVIGATION — 10 étapes, 1 question par écran
   // ============================================
 
-  const steps: Step[] = [
+  const allSteps: Step[] = [
     'age', 'duration', 'previous-cure', 'goal', 'free-text',
     'pro-douleur', 'pro-koos-1', 'pro-koos-2', 'pro-confiance',
     'result',
   ];
+  const steps = useKoosPs ? allSteps : allSteps.filter(s => !s.startsWith('pro-koos'));
   const currentIndex = steps.indexOf(step);
   const progress = Math.round((currentIndex / (steps.length - 1)) * 100);
 
@@ -109,11 +112,10 @@ const ParcoursBep = () => {
       const parcoursId = await createParcours(newToken, slug, bepData);
 
       if (parcoursId) {
-        const koosScores = koosItems as number[];
         const pro: ProAssessment = {
           painScore: painScore!,
-          koosPsItems: koosScores,
-          koosPsTotal: calculateKoosPsScore(koosScores),
+          koosPsItems: useKoosPs ? (koosItems as number[]) : [],
+          koosPsTotal: useKoosPs ? calculateKoosPsScore(koosItems as number[]) : 0,
           confidenceScore: confidenceScore!,
         };
         await saveProAssessment(parcoursId, 'T0', pro);
@@ -417,15 +419,17 @@ const ParcoursBep = () => {
             </div>
 
             {/* Scores */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className={`grid ${useKoosPs ? 'grid-cols-3' : 'grid-cols-2'} gap-4`}>
               <div className="p-4 rounded-xl bg-red-50 border border-red-200">
                 <p className="text-sm text-red-600 font-medium">Douleur</p>
                 <p className="text-3xl font-bold text-red-700">{painScore}<span className="text-lg">/10</span></p>
               </div>
-              <div className="p-4 rounded-xl bg-blue-50 border border-blue-200">
-                <p className="text-sm text-blue-600 font-medium">Fonction</p>
-                <p className="text-3xl font-bold text-blue-700">{calculateKoosPsScore(koosItems as number[])}<span className="text-lg">/100</span></p>
-              </div>
+              {useKoosPs && (
+                <div className="p-4 rounded-xl bg-blue-50 border border-blue-200">
+                  <p className="text-sm text-blue-600 font-medium">Fonction</p>
+                  <p className="text-3xl font-bold text-blue-700">{calculateKoosPsScore(koosItems as number[])}<span className="text-lg">/100</span></p>
+                </div>
+              )}
               <div className="p-4 rounded-xl bg-green-50 border border-green-200">
                 <p className="text-sm text-green-600 font-medium">Confiance</p>
                 <p className="text-3xl font-bold text-green-700">{confidenceScore}<span className="text-lg">/10</span></p>
