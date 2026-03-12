@@ -10,12 +10,15 @@ import {
   KOOS_PS_INTROS,
   KOOS_PS_INTRO_DEFAULT,
   calculateKoosPsScore,
+  KOOS_PS_SLUGS,
 } from '@/content/parcours/koosPs';
+import { pdf } from '@react-pdf/renderer';
+import { BilanPdf } from '@/components/parcours/BilanPdf';
 import { NrsScale } from '@/components/parcours/NrsScale';
 import { KoosItem } from '@/components/parcours/KoosItem';
 import type { ProAssessment } from '@/content/parcours/types';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 type Step = 'intro' | 'pro-douleur' | 'pro-koos-1' | 'pro-koos-2' | 'pro-confiance' | 'result';
@@ -94,6 +97,8 @@ const ParcoursBilan = () => {
   // Early return APRÈS tous les hooks
   if (!slug) return null;
 
+  const useKoosPs = slug ? KOOS_PS_SLUGS.includes(slug) : false;
+
   const koosIntro = KOOS_PS_INTROS[slug] || KOOS_PS_INTRO_DEFAULT;
   const t1Function = calculateKoosPsScore(koosItems as number[]);
 
@@ -107,11 +112,10 @@ const ParcoursBilan = () => {
     setSaving(true);
     try {
       if (stored?.parcoursId) {
-        const koosScores = koosItems as number[];
         const pro: ProAssessment = {
           painScore: painScore!,
-          koosPsItems: koosScores,
-          koosPsTotal: calculateKoosPsScore(koosScores),
+          koosPsItems: useKoosPs ? (koosItems as number[]) : [],
+          koosPsTotal: useKoosPs ? calculateKoosPsScore(koosItems as number[]) : 0,
           confidenceScore: confidenceScore!,
         };
         await saveProAssessment(stored.parcoursId, 'T1', pro);
@@ -123,6 +127,50 @@ const ParcoursBilan = () => {
       toast({ title: 'Erreur', description: 'Impossible de sauvegarder.', variant: 'destructive' });
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    try {
+      const pathologieTitles: Record<string, string> = {
+        'gonarthrose': 'Arthrose du genou',
+        'lombalgie-chronique': 'Lombalgie chronique',
+        'coxarthrose': 'Arthrose de la hanche',
+        'fibromyalgie': 'Fibromyalgie',
+        'tendinopathie-coiffe': "Tendinopathie de l'épaule",
+        'arthrose-digitale': 'Arthrose des mains',
+        'bpco': 'BPCO',
+        'asthme': 'Asthme',
+        'insuffisance-veineuse': 'Insuffisance veineuse',
+        'rhinosinusite-chronique': 'Rhinosinusite chronique',
+        'otites-repetition-enfant': 'Otites enfant',
+      };
+
+      const blob = await pdf(
+        <BilanPdf
+          pathologie={pathologieTitles[slug!] || slug!}
+          token={stored?.token || ''}
+          date={new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+          painT0={t0Scores?.pain ?? null}
+          painT1={painScore!}
+          functionT0={useKoosPs ? (t0Scores?.function ?? null) : null}
+          functionT1={useKoosPs ? t1Function : null}
+          confidenceT0={t0Scores?.confidence ?? null}
+          confidenceT1={confidenceScore!}
+        />
+      ).toBlob();
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `bilan-etuve-${slug}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      toast({ title: 'PDF téléchargé !' });
+    } catch (e) {
+      console.error('[PDF] Generation failed:', e);
+      toast({ title: 'Erreur', description: 'Impossible de générer le PDF.', variant: 'destructive' });
     }
   };
 
@@ -292,13 +340,15 @@ const ParcoursBilan = () => {
                 unit="/10"
                 lowerIsBetter
               />
-              <ScoreCompare
-                label="Difficulté fonctionnelle"
-                t0={t0Scores?.function ?? null}
-                t1={t1Function}
-                unit="/100"
-                lowerIsBetter
-              />
+              {useKoosPs && (
+                <ScoreCompare
+                  label="Difficulté fonctionnelle"
+                  t0={t0Scores?.function ?? null}
+                  t1={t1Function}
+                  unit="/100"
+                  lowerIsBetter
+                />
+              )}
               <ScoreCompare
                 label="Confiance"
                 t0={t0Scores?.confidence ?? null}
@@ -335,6 +385,11 @@ const ParcoursBilan = () => {
               <p className="text-muted-foreground">• Étirements après chaque séance</p>
             </div>
 
+            <Button size="lg" variant="outline" onClick={handleDownloadPdf} className="w-full text-lg py-6 gap-2">
+              <Download className="w-5 h-5" />
+              Télécharger mon bilan (PDF)
+            </Button>
+
             <Link to={`/parcours/${slug}`}>
               <Button variant="outline" size="lg" className="w-full text-lg py-6">
                 Retour à mon parcours
@@ -346,7 +401,8 @@ const ParcoursBilan = () => {
   };
 
   // Navigation
-  const steps: Step[] = ['intro', 'pro-douleur', 'pro-koos-1', 'pro-koos-2', 'pro-confiance', 'result'];
+  const allSteps: Step[] = ['intro', 'pro-douleur', 'pro-koos-1', 'pro-koos-2', 'pro-confiance', 'result'];
+  const steps = useKoosPs ? allSteps : allSteps.filter(s => !s.startsWith('pro-koos'));
   const currentIndex = steps.indexOf(step);
 
   const canNext = (): boolean => {
