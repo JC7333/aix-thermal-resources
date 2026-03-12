@@ -1,7 +1,6 @@
 ﻿import { ReactNode } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import { MedicalDisclaimer } from "@/components/shared/MedicalDisclaimer";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 import { FloatingBackToTop } from "@/components/shared/FloatingBackToTop";
 import { InstallPrompt } from '@/components/shared/InstallPrompt';
@@ -21,8 +20,6 @@ export const Layout = ({ children }: LayoutProps) => {
       </main>
       <Footer />
       <FloatingBackToTop />
-      {/* Bandeau légal discret en bas à droite, repliable sur mobile */}
-      <MedicalDisclaimer variant="floating" />
       <InstallPrompt />
     </div>
   );
