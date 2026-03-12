@@ -1,67 +1,16 @@
 ﻿import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Download, Compass, ZoomIn, Heart, Bone, Wind, Cigarette, Activity, Baby, CircleDot, FileText, Loader2 } from 'lucide-react';
+import { ArrowRight, Download, Compass, ZoomIn, Heart, Bone, Wind, Activity, Baby, FileText, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
 import { useSeniorMode } from '@/hooks/useSeniorMode';
-import { quickAnswers, pathologies } from '@/content/content';
+import { pathologies } from '@/content/content';
 import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
 import { useToast } from '@/hooks/use-toast';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { JsonLd } from '@/components/shared/JsonLd';
-
-const themeButtons = [
-  { 
-    id: 'douleur', 
-    label: 'Douleur', 
-    sublabel: 'Arthrose / Dos',
-    icon: Bone, 
-    color: 'bg-primary/10 text-primary hover:bg-primary/20',
-    href: '/reponses-rapides/arthrose-dos'
-  },
-  { 
-    id: 'poids', 
-    label: 'Poids', 
-    sublabel: 'Sans se décourager',
-    icon: Heart, 
-    color: 'bg-secondary/20 text-secondary hover:bg-secondary/30',
-    href: '/reponses-rapides/perdre-poids'
-  },
-  { 
-    id: 'tabac', 
-    label: 'Tabac', 
-    sublabel: 'Plan simple',
-    icon: Cigarette, 
-    color: 'bg-accent/20 text-accent hover:bg-accent/30',
-    href: '/reponses-rapides/arreter-fumer'
-  },
-  { 
-    id: 'souffle', 
-    label: 'Souffle', 
-    sublabel: 'Asthme / BPCO',
-    icon: Wind, 
-    color: 'bg-trust-teal/20 text-trust-teal hover:bg-trust-teal/30',
-    href: '/reponses-rapides/essoufflement'
-  },
-  { 
-    id: 'jambes', 
-    label: 'Jambes', 
-    sublabel: 'Lourdes / Gonflées',
-    icon: Activity, 
-    color: 'bg-primary/10 text-primary hover:bg-primary/20',
-    href: '/reponses-rapides/jambes-lourdes'
-  },
-  { 
-    id: 'parents', 
-    label: 'Parents ORL', 
-    sublabel: 'Otites / Angines',
-    icon: Baby, 
-    color: 'bg-secondary/20 text-secondary hover:bg-secondary/30',
-    href: '/reponses-rapides/otite-angine-enfant'
-  },
-];
 
 const topPDFs = [
   { title: 'Plan arthrose 7 jours', category: 'Rhumatologie', slug: 'gonarthrose' },
@@ -116,7 +65,7 @@ const mainPathologies = [
 
 const Index = () => {
   const { seniorMode, toggleSeniorMode } = useAccessibility();
-  const { titleClass, textClass, subtitleClass, buttonSize, iconSize, iconSizeLg, gridCols, smallTextClass } = useSeniorMode();
+  const { buttonSize, iconSize } = useSeniorMode();
   const [downloadingSlug, setDownloadingSlug] = useState<string | null>(null);
   const { toast } = useToast();
   usePageTitle();
@@ -294,6 +243,41 @@ const Index = () => {
       */}
 
       {/* Top PDFs */}
+
+      {/* Evidence-based + IA signal */}
+      <section className={`bg-muted/50 ${seniorMode ? 'py-8' : 'py-6'}`}>
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className={`flex flex-wrap items-center justify-center ${seniorMode ? 'gap-8' : 'gap-6'} text-muted-foreground`}>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className={seniorMode ? 'text-base' : 'text-sm'}>Sources HAS, Cochrane, NICE</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+                <span className={seniorMode ? 'text-base' : 'text-sm'}>6 à 10 sources par pathologie</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+                </svg>
+                <span className={seniorMode ? 'text-base' : 'text-sm'}>Validé par un médecin thermaliste</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                </svg>
+                <span className={seniorMode ? 'text-base' : 'text-sm'}>Podcasts générés par IA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="downloads" className={`warm-section ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -314,7 +298,6 @@ const Index = () => {
 
             <div className={seniorMode ? 'space-y-4' : 'space-y-3'}>
               {topPDFs.map((pdf, index) => {
-                const pathology = pathologies.find(p => p.slug === pdf.slug);
                 return (
                   <div
                     key={index}
