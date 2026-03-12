@@ -71,3 +71,13 @@ export const KOOS_PS_INTROS: Record<string, string> = {
 
 /** Fallback si slug non trouvé */
 export const KOOS_PS_INTRO_DEFAULT = "Quel degré de difficulté avez-vous pour les activités suivantes ?";
+
+/**
+ * Slugs qui utilisent le KOOS-PS complet.
+ * Les autres pathologies utilisent le mode "EVA-only" (douleur + confiance uniquement).
+ */
+export const KOOS_PS_SLUGS: string[] = [
+  'gonarthrose',
+  'lombalgie-chronique',
+  'coxarthrose',
+];
