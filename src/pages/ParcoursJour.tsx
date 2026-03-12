@@ -24,6 +24,10 @@ async function loadParcours(slug: string): Promise<ParcoursContent | null> {
         const mod = await import('@/content/parcours/lombalgie-chronique');
         return mod.lombalgieParcours;
       }
+      case 'coxarthrose': {
+        const mod = await import('@/content/parcours/coxarthrose');
+        return mod.coxarthroseParcours;
+      }
       default:
         return null;
     }
