@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { logEvent } from '@/services/analytics';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 
 const QrLanding = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -11,6 +12,14 @@ const QrLanding = () => {
     if (slug) {
       // Log QR scan event
       logEvent('qr_scan', `/qr/${slug}`, { slug, source: 'thermal_cabin' });
+
+      // Log to Supabase if configured
+      if (isSupabaseConfigured() && supabase) {
+        supabase.from('qr_scans').insert({
+          slug,
+          source: 'thermal_cabin',
+        }).then(() => {}).catch(() => {});
+      }
 
       // Redirect to V2 pathology page
       const targetUrl = getPathologyUrl(slug);

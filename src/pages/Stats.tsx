@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { BarChart3, Users, Download, CheckCircle, MousePointer, Trash2, FileJson, RefreshCw, FileSpreadsheet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,6 +38,61 @@ interface ProStats {
   byPathology: { slug: string; count: number; avgPain: number; avgFunction: number }[];
   last30Days: ProResponse[];
 }
+
+const fetchSupabaseProStats = async (): Promise<ProStats | null> => {
+  if (!isSupabaseConfigured() || !supabase) return null;
+
+  try {
+    const { data, error } = await supabase
+      .from('pro_responses')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(5000);
+
+    if (error || !data) return null;
+
+    const total = data.length;
+    if (total === 0) return null;
+
+    const avgPain = data.reduce((s: number, r: any) => s + r.pain_score, 0) / total;
+    const avgFunction = data.reduce((s: number, r: any) => s + r.function_score, 0) / total;
+
+    const helpfulness = { yes: 0, somewhat: 0, no: 0 };
+    data.forEach((r: any) => { helpfulness[r.helpfulness as keyof typeof helpfulness]++; });
+
+    const bySlug: Record<string, any[]> = {};
+    data.forEach((r: any) => {
+      if (!bySlug[r.slug]) bySlug[r.slug] = [];
+      bySlug[r.slug].push(r);
+    });
+    const byPathology = Object.entries(bySlug).map(([slug, resps]) => ({
+      slug,
+      count: resps.length,
+      avgPain: resps.reduce((s: number, r: any) => s + r.pain_score, 0) / resps.length,
+      avgFunction: resps.reduce((s: number, r: any) => s + r.function_score, 0) / resps.length,
+    })).sort((a, b) => b.count - a.count);
+
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    const last30 = data.filter((r: any) => r.created_at >= thirtyDaysAgo);
+
+    return {
+      totalResponses: total,
+      avgPainScore: avgPain,
+      avgFunctionScore: avgFunction,
+      helpfulnessBreakdown: helpfulness,
+      byPathology,
+      last30Days: last30.map((r: any) => ({
+        slug: r.slug,
+        timestamp: new Date(r.created_at).getTime(),
+        painScore: r.pain_score,
+        functionScore: r.function_score,
+        helpfulness: r.helpfulness,
+      })),
+    };
+  } catch {
+    return null;
+  }
+};
 
 const calculateProStats = (): ProStats => {
   const responses = getProResponses();
@@ -84,13 +140,20 @@ const Stats = () => {
   const [proStats, setProStats] = useState<ProStats | null>(null);
   const [showConfirmClear, setShowConfirmClear] = useState(false);
 
-  const refreshStats = () => {
+  const refreshStats = async () => {
     setStats(calculateStats());
-    setProStats(calculateProStats());
+
+    // Tenter Supabase pour les PRO
+    const supabasePro = await fetchSupabaseProStats();
+    if (supabasePro) {
+      setProStats(supabasePro);
+    } else {
+      setProStats(calculateProStats());
+    }
   };
 
   useEffect(() => {
-    refreshStats();
+    void refreshStats();
   }, []);
 
   const getDateString = () => new Date().toISOString().split('T')[0];
@@ -484,7 +547,8 @@ const Stats = () => {
                 Questionnaires patients (PRO)
               </CardTitle>
               <CardDescription>
-                Donnees anonymisees — {proStats.totalResponses} reponse{proStats.totalResponses > 1 ? 's' : ''}
+                {isSupabaseConfigured() ? '🟢 Données centralisées (Supabase)' : '🟡 Données locales uniquement'}{' '}
+                — {proStats.totalResponses} réponse{proStats.totalResponses > 1 ? 's' : ''}
                 {proStats.last30Days.length > 0 && ` (${proStats.last30Days.length} sur les 30 derniers jours)`}
               </CardDescription>
             </CardHeader>
