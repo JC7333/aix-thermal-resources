@@ -52,6 +52,14 @@ async function loadParcours(slug: string): Promise<ParcoursContent | null> {
         const mod = await import('@/content/parcours/insuffisance-veineuse');
         return mod.insuffisanceVeineuseParcours;
       }
+      case 'rhinosinusite-chronique': {
+        const mod = await import('@/content/parcours/rhinosinusite-chronique');
+        return mod.rhinosinusiteParcours;
+      }
+      case 'otites-repetition-enfant': {
+        const mod = await import('@/content/parcours/otites-repetition-enfant');
+        return mod.otitesEnfantParcours;
+      }
       default:
         return null;
     }
