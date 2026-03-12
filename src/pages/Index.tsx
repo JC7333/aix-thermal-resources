@@ -24,7 +24,15 @@ const mainPathologies = [
   {
     slug: 'gonarthrose',
     name: 'Arthrose du genou',
-    description: 'Exercices adaptés, plans 7 jours et 8 semaines, conseils quotidiens',
+    description: 'Exercices, plans 7 jours et 8 semaines',
+    icon: Bone,
+    color: 'border-primary/30 hover:border-primary',
+    badge: 'Rhumatologie',
+  },
+  {
+    slug: 'coxarthrose',
+    name: 'Arthrose de la hanche',
+    description: 'Mobilité, renforcement, gestion du poids',
     icon: Bone,
     color: 'border-primary/30 hover:border-primary',
     badge: 'Rhumatologie',
@@ -32,7 +40,15 @@ const mainPathologies = [
   {
     slug: 'lombalgie-chronique',
     name: 'Lombalgie chronique',
-    description: 'Comprendre la douleur, bouger sans peur, programme progressif',
+    description: 'Comprendre la douleur, bouger sans peur',
+    icon: Activity,
+    color: 'border-primary/30 hover:border-primary',
+    badge: 'Rhumatologie',
+  },
+  {
+    slug: 'tendinopathie-coiffe',
+    name: 'Épaule (coiffe)',
+    description: 'Rééducation, renforcement, posture',
     icon: Activity,
     color: 'border-primary/30 hover:border-primary',
     badge: 'Rhumatologie',
@@ -40,7 +56,7 @@ const mainPathologies = [
   {
     slug: 'insuffisance-veineuse',
     name: 'Insuffisance veineuse',
-    description: 'Compression, pompe du mollet, élévation, soins de peau',
+    description: 'Compression, pompe du mollet, soins de peau',
     icon: Heart,
     color: 'border-secondary/30 hover:border-secondary',
     badge: 'Veino-lymphatique',
@@ -48,7 +64,15 @@ const mainPathologies = [
   {
     slug: 'bpco',
     name: 'BPCO',
-    description: "Techniques respiratoires, marche fractionnée, plan d'action",
+    description: 'Techniques respiratoires, marche fractionnée',
+    icon: Wind,
+    color: 'border-trust-teal/30 hover:border-trust-teal',
+    badge: 'Respiratoire',
+  },
+  {
+    slug: 'asthme',
+    name: 'Asthme',
+    description: "Contrôle, exercice adapté, plan d'action",
     icon: Wind,
     color: 'border-trust-teal/30 hover:border-trust-teal',
     badge: 'Respiratoire',
@@ -56,7 +80,7 @@ const mainPathologies = [
   {
     slug: 'otites-repetition-enfant',
     name: 'Otites enfant',
-    description: "Prévention, hygiène, quand consulter l'ORL",
+    description: 'Prévention, hygiène, quand consulter',
     icon: Baby,
     color: 'border-accent/30 hover:border-accent',
     badge: 'Parents',
@@ -202,7 +226,7 @@ const Index = () => {
                 Podcasts, exercices adaptés, fiches imprimables, sources scientifiques
               </p>
             </div>
-            <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ${seniorMode ? 'gap-6' : 'gap-4'}`}>
+            <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 ${seniorMode ? 'gap-6' : 'gap-4'}`}>
               {mainPathologies.map((patho) => (
                 <Link
                   key={patho.slug}
