@@ -39,6 +39,14 @@ interface ProStats {
   last30Days: ProResponse[];
 }
 
+interface SupabaseProRow {
+  slug: string;
+  pain_score: number;
+  function_score: number;
+  helpfulness: 'yes' | 'somewhat' | 'no';
+  created_at: string;
+}
+
 const fetchSupabaseProStats = async (): Promise<ProStats | null> => {
   if (!isSupabaseConfigured() || !supabase) return null;
 
@@ -54,26 +62,26 @@ const fetchSupabaseProStats = async (): Promise<ProStats | null> => {
     const total = data.length;
     if (total === 0) return null;
 
-    const avgPain = data.reduce((s: number, r: any) => s + r.pain_score, 0) / total;
-    const avgFunction = data.reduce((s: number, r: any) => s + r.function_score, 0) / total;
+    const avgPain = data.reduce((s: number, r: SupabaseProRow) => s + r.pain_score, 0) / total;
+    const avgFunction = data.reduce((s: number, r: SupabaseProRow) => s + r.function_score, 0) / total;
 
     const helpfulness = { yes: 0, somewhat: 0, no: 0 };
-    data.forEach((r: any) => { helpfulness[r.helpfulness as keyof typeof helpfulness]++; });
+    data.forEach((r: SupabaseProRow) => { helpfulness[r.helpfulness as keyof typeof helpfulness]++; });
 
-    const bySlug: Record<string, any[]> = {};
-    data.forEach((r: any) => {
+    const bySlug: Record<string, SupabaseProRow[]> = {};
+    data.forEach((r: SupabaseProRow) => {
       if (!bySlug[r.slug]) bySlug[r.slug] = [];
       bySlug[r.slug].push(r);
     });
     const byPathology = Object.entries(bySlug).map(([slug, resps]) => ({
       slug,
       count: resps.length,
-      avgPain: resps.reduce((s: number, r: any) => s + r.pain_score, 0) / resps.length,
-      avgFunction: resps.reduce((s: number, r: any) => s + r.function_score, 0) / resps.length,
+      avgPain: resps.reduce((s: number, r: SupabaseProRow) => s + r.pain_score, 0) / resps.length,
+      avgFunction: resps.reduce((s: number, r: SupabaseProRow) => s + r.function_score, 0) / resps.length,
     })).sort((a, b) => b.count - a.count);
 
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-    const last30 = data.filter((r: any) => r.created_at >= thirtyDaysAgo);
+    const last30 = data.filter((r: SupabaseProRow) => r.created_at >= thirtyDaysAgo);
 
     return {
       totalResponses: total,
@@ -81,7 +89,7 @@ const fetchSupabaseProStats = async (): Promise<ProStats | null> => {
       avgFunctionScore: avgFunction,
       helpfulnessBreakdown: helpfulness,
       byPathology,
-      last30Days: last30.map((r: any) => ({
+      last30Days: last30.map((r: SupabaseProRow) => ({
         slug: r.slug,
         timestamp: new Date(r.created_at).getTime(),
         painScore: r.pain_score,

@@ -285,7 +285,7 @@ const PathologyPageV2 = () => {
           "@context": "https://schema.org",
           "@type": "MedicalWebPage",
           "name": pack.title,
-          "description": "Programme d'\''éducation thérapeutique",
+          "description": "Programme d'''éducation thérapeutique",
           "url": "https://etuve.fr/pathologies/v2/" + (slug || ''),
           "inLanguage": "fr",
           "isAccessibleForFree": true,

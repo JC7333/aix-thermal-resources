@@ -3,7 +3,7 @@ import { Download, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export const InstallPrompt = () => {
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export const InstallPrompt = () => {
 
   const handleDismiss = () => {
     setShowPrompt(false);
-    try { sessionStorage.setItem('etuve_install_dismissed', '1'); } catch {}
+    try { sessionStorage.setItem('etuve_install_dismissed', '1'); } catch (_) { /* sessionStorage indisponible */ }
   };
 
   if (!showPrompt) return null;

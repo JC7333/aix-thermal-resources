@@ -64,7 +64,7 @@ const ProQuestionnaire: React.FC<ProQuestionnaireProps> = ({ slug, pathologyName
       helpfulness: helpfulness!,
     };
     await storeProResponse(response);
-    logEvent('pro_submitted' as any, undefined, {
+    logEvent('pro_submitted' as Parameters<typeof logEvent>[0], undefined, {
       slug,
       painScore: String(painScore),
       functionScore: String(functionScore),

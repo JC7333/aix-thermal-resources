@@ -83,9 +83,10 @@ export const logEvent = (
   storeEvent(event);
 
   // Plausible custom event (if available)
+  type WindowWithPlausible = Window & { plausible?: (event: string, options?: { props?: Record<string, string> }) => void };
   try {
-    if (typeof window !== 'undefined' && (window as any).plausible) {
-      (window as any).plausible(eventName, { props: metadata || {} });
+    if (typeof window !== 'undefined' && (window as WindowWithPlausible).plausible) {
+      (window as WindowWithPlausible).plausible!(eventName, { props: metadata || {} });
     }
   } catch {
     // Plausible not loaded — ignore silently

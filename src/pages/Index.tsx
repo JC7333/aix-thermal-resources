@@ -196,7 +196,7 @@ const Index = () => {
             {!seniorMode && (
               <div className="mb-8 p-4 bg-white/10 rounded-xl backdrop-blur-sm inline-block">
                 <p className="text-white/90 text-sm mb-3">
-                  DifficultÃ©s Ã  lire ?
+                  DifficultÃ©s Ã  lire ?
                 </p>
                 <Button onClick={toggleSeniorMode} variant="heroOutline" size="lg" className="gap-2">
                   <ZoomIn className="w-5 h-5" />
@@ -226,8 +226,8 @@ const Index = () => {
                 Commencer en 30 secondes
               </h2>
               <p className={`text-muted-foreground ${seniorMode ? 'text-xl mb-8' : 'text-lg mb-6'}`}>
-                RÃ©pondez Ã  3 questions simples. Recevez un plan d'action personnalisÃ©, 
-                imprimable, adaptÃ© Ã  votre niveau de mobilitÃ©.
+                RÃ©pondez Ã  3 questions simples. Recevez un plan d'action personnalisÃ©, 
+                imprimable, adaptÃ© Ã  votre niveau de mobilitÃ©.
               </p>
               <Button asChild size={seniorMode ? 'xl' : 'xl'}>
                 <Link to="/parcours" className="gap-2">
@@ -361,7 +361,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <p className={`text-muted-foreground ${seniorMode ? 'text-xl mb-6' : 'text-lg mb-4'}`}>
-              "Mon objectif est simple : vous aider Ã  mettre en place des habitudes qui tiennent dans la vraie vie."
+              "Mon objectif est simple : vous aider Ã  mettre en place des habitudes qui tiennent dans la vraie vie."
             </p>
             <Link 
               to="/qui-suis-je" 
