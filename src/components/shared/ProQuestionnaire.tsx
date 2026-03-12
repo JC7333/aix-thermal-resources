@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { logEvent } from '@/services/analytics';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 
 interface ProQuestionnaireProps {
   slug: string;
@@ -16,7 +17,8 @@ interface ProResponse {
   helpfulness: 'yes' | 'somewhat' | 'no';
 }
 
-const storeProResponse = (response: ProResponse) => {
+const storeProResponse = async (response: ProResponse) => {
+  // 1. Toujours stocker en localStorage (fallback)
   try {
     const stored = localStorage.getItem(PRO_STORAGE_KEY);
     const responses: ProResponse[] = stored ? JSON.parse(stored) : [];
@@ -24,7 +26,23 @@ const storeProResponse = (response: ProResponse) => {
     const trimmed = responses.slice(-500);
     localStorage.setItem(PRO_STORAGE_KEY, JSON.stringify(trimmed));
   } catch (e) {
-    console.warn('PRO storage failed:', e);
+    console.warn('PRO localStorage failed:', e);
+  }
+
+  // 2. Envoyer à Supabase si configuré
+  if (isSupabaseConfigured() && supabase) {
+    try {
+      await supabase.from('pro_responses').insert({
+        slug: response.slug,
+        pain_score: response.painScore,
+        function_score: response.functionScore,
+        helpfulness: response.helpfulness,
+        source: 'web',
+      });
+    } catch (e) {
+      console.warn('PRO Supabase insert failed:', e);
+      // Pas grave — on a le localStorage en backup
+    }
   }
 };
 
@@ -36,7 +54,7 @@ const ProQuestionnaire: React.FC<ProQuestionnaireProps> = ({ slug, pathologyName
 
   const canSubmit = painScore !== null && functionScore !== null && helpfulness !== null;
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!canSubmit) return;
     const response: ProResponse = {
       slug,
@@ -45,8 +63,8 @@ const ProQuestionnaire: React.FC<ProQuestionnaireProps> = ({ slug, pathologyName
       functionScore: functionScore!,
       helpfulness: helpfulness!,
     };
-    storeProResponse(response);
-    logEvent('pro_submitted', undefined, {
+    await storeProResponse(response);
+    logEvent('pro_submitted' as any, undefined, {
       slug,
       painScore: String(painScore),
       functionScore: String(functionScore),
