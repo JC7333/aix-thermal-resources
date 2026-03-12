@@ -1178,5 +1178,1182 @@
         ]
       }
     ]
+  },
+  {
+    "slug": "coxarthrose",
+    "name": "Coxarthrose (arthrose de la hanche)",
+    "icon": "🦴",
+    "category": "rhumatologie",
+    "summary": "La coxarthrose est l'usure du cartilage de la hanche. Elle provoque des douleurs dans le pli de l'aine, parfois irradiant vers la cuisse ou le genou.\n\nCe qui compte vraiment : l'exercice adapté protège la hanche en maintenant la mobilité et en renforçant les muscles stabilisateurs. Le repos prolongé aggrave la situation.\n\nLa prothèse de hanche reste un excellent recours en cas d'échec, avec un taux de satisfaction supérieur à 95%.",
+    "readingTime": 8,
+    "lastUpdated": "2026-03-12",
+    "recommendations": [
+      {
+        "text": "Exercice thérapeutique régulier : renforcement des fessiers, quadriceps et muscles stabilisateurs de la hanche.",
+        "evidence": "Élevé (guideline NICE)"
+      },
+      {
+        "text": "Perte de poids si surpoids : chaque kg perdu réduit la charge sur la hanche de 3-4 kg.",
+        "evidence": "Élevé (OARSI 2019)"
+      },
+      {
+        "text": "Marche quotidienne adaptée avec canne du côté opposé si besoin pour soulager l'articulation.",
+        "evidence": "Élevé (guideline NICE)"
+      },
+      {
+        "text": "Vélo et natation : excellentes alternatives si la marche est douloureuse.",
+        "evidence": "Modéré (OARSI 2019)"
+      },
+      {
+        "text": "Kinésithérapie supervisée au début pour apprendre les bons exercices et corriger les compensations.",
+        "evidence": "Modéré (guideline NICE)"
+      },
+      {
+        "text": "Éviter les positions assises basses et les rotations forcées de la hanche.",
+        "evidence": "Consensus (pratique)"
+      },
+      {
+        "text": "Aménagement du domicile : rehausseur de toilettes, siège de douche si limitations importantes.",
+        "evidence": "Consensus (pratique)"
+      }
+    ],
+    "red_flags": [
+      "Douleur brutale après une chute, impossibilité de marcher (possible fracture).",
+      "Douleur de hanche avec fièvre, altération de l'état général (possible infection).",
+      "Douleur nocturne intense, perte de poids inexpliquée (éliminer une cause tumorale).",
+      "Boiterie importante d'apparition récente."
+    ],
+    "sources": [
+      {
+        "title": "Osteoarthritis: care and management (NG226)",
+        "org": "NICE",
+        "year": 2022,
+        "url": "https://www.nice.org.uk/guidance/ng226",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "OARSI Guidelines for the Management of OA of the Hip and Knee",
+        "org": "OARSI",
+        "year": 2019,
+        "url": "https://doi.org/10.1016/j.joca.2019.06.011",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "2019 ACR/Arthritis Foundation Guideline for OA Management",
+        "org": "ACR",
+        "year": 2019,
+        "url": "https://doi.org/10.1002/acr.24131",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Exercise for osteoarthritis of the hip (Review)",
+        "org": "Cochrane",
+        "year": 2014,
+        "url": "https://doi.org/10.1002/14651858.CD007912.pub2",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Prise en charge de l'arthrose périphérique",
+        "org": "HAS",
+        "year": 2022,
+        "url": "https://www.has-sante.fr/jcms/p_3376490/fr/les-messages-cles-arthrose-peripherique",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Total hip replacement outcomes – systematic review",
+        "org": "BMJ",
+        "year": 2019,
+        "url": "https://doi.org/10.1136/bmj.l6553",
+        "evidenceLevel": "high"
+      }
+    ],
+    "sevenDayPlans": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "days": [
+          {
+            "day": "Jour 1",
+            "actions": [
+              "5 min de marche lente",
+              "3 élévations latérales de jambe (allongé)",
+              "2 min d'étirements doux de la hanche"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "5 min de marche",
+              "5 ponts fessiers (allongé)",
+              "Étirements du piriforme 2x30s"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "7 min de marche",
+              "Rotation douce de hanche assis 3x",
+              "Lever de chaise 3x"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "7 min de marche",
+              "5 élévations latérales chaque côté",
+              "Étirements fléchisseurs de hanche"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "10 min de marche fractionnée",
+              "5 ponts fessiers + 3 élévations",
+              "2 min d'étirements"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "10 min de marche",
+              "Exercices combinés 8 min",
+              "Étirements 3 min"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Repos actif : marche libre 10 min",
+              "Étirements doux 5 min",
+              "Bilan : noter douleur et mobilité"
+            ]
+          }
+        ]
+      }
+    ],
+    "eightWeekPrograms": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "weeks": [
+          {
+            "week": "Semaine 1-2",
+            "focus": "Mobilité de base",
+            "exercises": [
+              "Marche 5-10 min/jour",
+              "Ponts fessiers 5x",
+              "Étirements hanche 3 min"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Renforcement léger",
+            "exercises": [
+              "Marche 10-15 min/jour",
+              "Élévations latérales 8x chaque côté",
+              "Vélo stationnaire 5 min si disponible"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Endurance",
+            "exercises": [
+              "Marche 15-20 min/jour",
+              "Circuit renforcement 15 min",
+              "Natation ou aquagym 1x/semaine si possible"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Consolidation",
+            "exercises": [
+              "Marche 20-30 min/jour",
+              "Renforcement 20 min 3x/semaine",
+              "Exercices d'équilibre 5 min"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "fibromyalgie",
+    "name": "Fibromyalgie",
+    "icon": "🧠",
+    "category": "rhumatologie",
+    "summary": "La fibromyalgie est un syndrome de douleurs diffuses chroniques, souvent accompagnées de fatigue intense, de troubles du sommeil et de difficultés cognitives.\n\nCe qui compte vraiment : l'exercice physique adapté est le traitement le plus efficace. Commencer très doucement, augmenter très progressivement, et ne jamais forcer.\n\nLa cure thermale, l'éducation thérapeutique et les thérapies corps-esprit complètent efficacement la prise en charge.",
+    "readingTime": 9,
+    "lastUpdated": "2026-03-12",
+    "recommendations": [
+      {
+        "text": "Exercice aérobie adapté : marche, natation, vélo. Intensité légère à modérée, régularité prime sur intensité.",
+        "evidence": "Élevé (EULAR 2017 / Cochrane)"
+      },
+      {
+        "text": "Éducation thérapeutique : comprendre la maladie aide à mieux la gérer et réduit la détresse.",
+        "evidence": "Élevé (EULAR 2017)"
+      },
+      {
+        "text": "Gestion du sommeil : hygiène du sommeil stricte, heures régulières, éviter les écrans avant le coucher.",
+        "evidence": "Modéré (guideline)"
+      },
+      {
+        "text": "Thérapies corps-esprit : yoga, tai-chi, qigong montrent des bénéfices sur la douleur et la qualité de vie.",
+        "evidence": "Modéré (Cochrane 2019)"
+      },
+      {
+        "text": "Pacing : alterner activité et repos, éviter le cycle « trop faire puis s'effondrer ».",
+        "evidence": "Modéré (consensus)"
+      },
+      {
+        "text": "Cure thermale : bénéfice démontré sur douleur et qualité de vie dans la fibromyalgie.",
+        "evidence": "Modéré (Cochrane aquatic 2014)"
+      },
+      {
+        "text": "Soutien psychologique : la TCC est efficace sur la douleur et la qualité de vie.",
+        "evidence": "Modéré (EULAR 2017)"
+      }
+    ],
+    "red_flags": [
+      "Perte de poids inexpliquée, fièvre, sueurs nocturnes.",
+      "Gonflement articulaire visible, rougeur, chaleur locale.",
+      "Faiblesse musculaire progressive (pas seulement de la fatigue).",
+      "Idées suicidaires ou dépression sévère — appeler le 15 ou le 3114."
+    ],
+    "sources": [
+      {
+        "title": "EULAR revised recommendations for the management of fibromyalgia",
+        "org": "EULAR",
+        "year": 2017,
+        "url": "https://ard.bmj.com/content/76/2/318",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Exercise for treating fibromyalgia syndrome (Review)",
+        "org": "Cochrane",
+        "year": 2017,
+        "url": "https://doi.org/10.1002/14651858.CD003786.pub2",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Aquatic exercise training for fibromyalgia (Review)",
+        "org": "Cochrane",
+        "year": 2014,
+        "url": "https://doi.org/10.1002/14651858.CD011336",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Mind-body therapies for fibromyalgia (Review)",
+        "org": "Cochrane",
+        "year": 2019,
+        "url": "https://doi.org/10.1002/14651858.CD013318",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Fibromyalgie : diagnostic et prise en charge",
+        "org": "HAS",
+        "year": 2010,
+        "url": "https://www.has-sante.fr/",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Spa therapy for fibromyalgia – systematic review",
+        "org": "Rheumatology International",
+        "year": 2018,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/29299651/",
+        "evidenceLevel": "moderate"
+      }
+    ],
+    "sevenDayPlans": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "days": [
+          {
+            "day": "Jour 1",
+            "actions": [
+              "3 min de marche très lente",
+              "Étirements doux 3 min (assis)",
+              "Respiration abdominale 2 min"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "5 min de marche",
+              "Mobilisation douce des épaules et du cou",
+              "Relaxation guidée 5 min"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "5 min de marche",
+              "3 mouvements de yoga doux (chat-vache, enfant)",
+              "Étirements 3 min"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "Repos actif : marche libre 5 min",
+              "Cohérence cardiaque 5 min",
+              "Auto-massage doux si toléré"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "7 min de marche fractionnée",
+              "Exercices doux 5 min",
+              "Étirements + respiration 3 min"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "7 min de marche",
+              "Tai-chi ou qigong débutant 5 min (vidéo)",
+              "Relaxation 5 min"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Repos : marche libre selon envie",
+              "Bilan douleur/fatigue/sommeil de la semaine",
+              "Planifier la semaine suivante"
+            ]
+          }
+        ]
+      }
+    ],
+    "eightWeekPrograms": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "weeks": [
+          {
+            "week": "Semaine 1-2",
+            "focus": "Reprendre en douceur",
+            "exercises": [
+              "Marche 3-5 min/jour",
+              "Étirements doux 3 min",
+              "Respiration/relaxation 5 min"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Régularité",
+            "exercises": [
+              "Marche 7-10 min/jour",
+              "Yoga doux ou tai-chi 10 min 2x/sem",
+              "Cohérence cardiaque quotidienne"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Renforcement léger",
+            "exercises": [
+              "Marche 10-15 min/jour",
+              "Aquagym ou natation douce 1x/sem",
+              "Exercices de renforcement très légers 10 min"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Autonomie",
+            "exercises": [
+              "Marche 15-20 min/jour",
+              "Activité corps-esprit 2x/sem",
+              "Programme d'entretien personnel"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "rhinosinusite-chronique",
+    "name": "Rhinosinusite chronique",
+    "icon": "👃",
+    "category": "orl-respiratoire",
+    "summary": "La rhinosinusite chronique est une inflammation prolongée des sinus et du nez (> 12 semaines). Elle provoque obstruction nasale, écoulement, pression faciale et perte d'odorat.\n\nCe qui compte vraiment : les lavages nasaux quotidiens et les corticoïdes en spray sont le socle du traitement. La cure thermale ORL apporte un bénéfice complémentaire reconnu.\n\nLa chirurgie est réservée aux échecs du traitement médical bien conduit.",
+    "readingTime": 8,
+    "lastUpdated": "2026-03-12",
+    "recommendations": [
+      {
+        "text": "Lavages nasaux quotidiens au sérum physiologique ou solution saline (grands volumes, seringue ou flacon).",
+        "evidence": "Élevé (Cochrane 2016 / EPOS 2020)"
+      },
+      {
+        "text": "Corticoïdes nasaux en spray : traitement de première intention, à utiliser quotidiennement au long cours.",
+        "evidence": "Élevé (Cochrane 2023 / EPOS 2020)"
+      },
+      {
+        "text": "Arrêt du tabac : amélioration significative des symptômes et de la réponse au traitement.",
+        "evidence": "Élevé (EPOS 2020)"
+      },
+      {
+        "text": "Traitement des allergies associées si allergie confirmée (éviction des allergènes, antihistaminiques).",
+        "evidence": "Modéré (EPOS 2020)"
+      },
+      {
+        "text": "Humidifier l'air intérieur en hiver et éviter les irritants (sprays ménagers, parfums).",
+        "evidence": "Consensus (pratique)"
+      },
+      {
+        "text": "Cure thermale ORL : bénéfice reconnu sur les symptômes de rhinosinusite chronique.",
+        "evidence": "Modéré (études françaises)"
+      },
+      {
+        "text": "Activité physique régulière : améliore le drainage mucociliaire et la qualité de vie.",
+        "evidence": "Faible (consensus)"
+      }
+    ],
+    "red_flags": [
+      "Douleur intense unilatérale avec gonflement de la joue ou de l'œil.",
+      "Troubles visuels (vision double, baisse de l'acuité) — urgence.",
+      "Fièvre élevée avec altération de l'état général.",
+      "Saignements de nez répétés et abondants d'un seul côté."
+    ],
+    "sources": [
+      {
+        "title": "European Position Paper on Rhinosinusitis and Nasal Polyps 2020 (EPOS 2020)",
+        "org": "European Rhinologic Society",
+        "year": 2020,
+        "url": "https://www.rhinologyjournal.com/Abstract.php?id=2530",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "International Consensus Statement on Allergy and Rhinology (ICAR-RS)",
+        "org": "ICAR-RS",
+        "year": 2021,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/33236525/",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Saline irrigation for chronic rhinosinusitis (Review)",
+        "org": "Cochrane",
+        "year": 2016,
+        "url": "https://doi.org/10.1002/14651858.CD011995.pub2",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Intranasal corticosteroids for chronic rhinosinusitis (Review)",
+        "org": "Cochrane",
+        "year": 2023,
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Prise en charge diagnostique et thérapeutique de la rhinosinusite chronique",
+        "org": "SFORL",
+        "year": 2017,
+        "url": "https://www.sforl.org/",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Crenoterapia nelle rinosinusiti croniche – systematic review",
+        "org": "European Archives of Oto-Rhino-Laryngology",
+        "year": 2019,
+        "evidenceLevel": "moderate"
+      }
+    ],
+    "sevenDayPlans": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "days": [
+          {
+            "day": "Jour 1",
+            "actions": [
+              "Lavage nasal matin et soir (sérum physiologique)",
+              "Corticoïde nasal 1 pulvérisation/narine",
+              "Noter vos symptômes (obstruction, odorat)"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "Lavage nasal matin et soir",
+              "Corticoïde nasal",
+              "Aérer la chambre 10 min"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "Lavage nasal matin et soir",
+              "Corticoïde nasal",
+              "Marche 10 min en extérieur (respiration nasale)"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "Lavage nasal matin et soir",
+              "Corticoïde nasal",
+              "Inhalation vapeur 5 min (eau chaude, pas d'huiles essentielles)"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "Lavage nasal matin et soir",
+              "Corticoïde nasal",
+              "Marche 10 min + exercices respiratoires"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "Lavage nasal matin et soir",
+              "Corticoïde nasal",
+              "Nettoyage des filtres clim/chauffage si applicable"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Lavage nasal matin et soir",
+              "Corticoïde nasal",
+              "Bilan symptômes de la semaine"
+            ]
+          }
+        ]
+      }
+    ],
+    "eightWeekPrograms": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "weeks": [
+          {
+            "week": "Semaine 1-2",
+            "focus": "Hygiène nasale quotidienne",
+            "exercises": [
+              "Lavages nasaux 2x/jour",
+              "Corticoïde nasal quotidien",
+              "Journal des symptômes"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Environnement",
+            "exercises": [
+              "Lavages + corticoïdes (routine)",
+              "Éliminer les irritants domestiques",
+              "Humidifier si air sec"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Activité physique",
+            "exercises": [
+              "Lavages + corticoïdes (routine)",
+              "Marche quotidienne 15 min",
+              "Exercices de respiration nasale"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Consolidation",
+            "exercises": [
+              "Évaluer l'amélioration des symptômes",
+              "Adapter le traitement avec le médecin",
+              "Maintenir l'hygiène nasale au long cours"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "tendinopathie-coiffe",
+    "name": "Tendinopathie de la coiffe des rotateurs",
+    "icon": "💪",
+    "category": "rhumatologie",
+    "summary": "La tendinopathie de la coiffe des rotateurs est la cause la plus fréquente de douleur d'épaule. Les tendons qui stabilisent l'épaule s'irritent ou se fragilisent, provoquant douleur et limitation.\n\nCe qui compte vraiment : les exercices de rééducation sont aussi efficaces que la chirurgie dans la majorité des cas. La kinésithérapie structurée est le traitement de référence.\n\nPatience : l'amélioration est progressive sur 3 à 6 mois.",
+    "readingTime": 8,
+    "lastUpdated": "2026-03-12",
+    "recommendations": [
+      {
+        "text": "Exercices de rééducation de l'épaule : renforcement progressif des rotateurs et stabilisateurs de l'omoplate.",
+        "evidence": "Élevé (HAS 2023 / Cochrane 2021)"
+      },
+      {
+        "text": "Kinésithérapie supervisée : programme structuré sur 3-6 mois, plus efficace que repos ou médicaments seuls.",
+        "evidence": "Élevé (NICE 2022 / Lancet CSAW 2018)"
+      },
+      {
+        "text": "Éviter les gestes douloureux au-dessus de la tête mais ne pas immobiliser l'épaule.",
+        "evidence": "Élevé (guidelines)"
+      },
+      {
+        "text": "Modification des activités : adapter le poste de travail, éviter les mouvements répétitifs bras levés.",
+        "evidence": "Modéré (guideline)"
+      },
+      {
+        "text": "Chaleur avant les exercices, froid après si douleur inflammatoire.",
+        "evidence": "Faible (consensus)"
+      },
+      {
+        "text": "Infiltration de corticoïdes : soulagement temporaire si douleur très invalidante, à limiter à 2-3 injections.",
+        "evidence": "Modéré (NICE 2022)"
+      },
+      {
+        "text": "Chirurgie réservée aux échecs après 3-6 mois de rééducation bien conduite.",
+        "evidence": "Élevé (Lancet CSAW 2018)"
+      }
+    ],
+    "red_flags": [
+      "Douleur d'épaule avec fièvre ou rougeur (possible infection).",
+      "Impossibilité complète et brutale de lever le bras (possible rupture aiguë).",
+      "Douleur thoracique associée ou irradiation dans le bras gauche (éliminer cause cardiaque).",
+      "Déformation visible de l'épaule après un traumatisme (possible luxation ou fracture)."
+    ],
+    "sources": [
+      {
+        "title": "Rééducation de l'épaule douloureuse non opérée",
+        "org": "HAS",
+        "year": 2023,
+        "url": "https://www.has-sante.fr/",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Can Shoulder Arthroscopy Work (CSAW) – Randomised Controlled Trial",
+        "org": "The Lancet",
+        "year": 2018,
+        "url": "https://doi.org/10.1016/S0140-6736(17)32457-1",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Exercise therapy for rotator cuff tendinopathy (Review)",
+        "org": "Cochrane",
+        "year": 2021,
+        "url": "https://doi.org/10.1002/14651858.CD012224.pub2",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Shoulder pain: assessment and management (NG234)",
+        "org": "NICE",
+        "year": 2022,
+        "url": "https://www.nice.org.uk/guidance/ng234",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Corticosteroid injections for shoulder pain",
+        "org": "Cochrane",
+        "year": 2005,
+        "url": "https://doi.org/10.1002/14651858.CD004016.pub2",
+        "evidenceLevel": "moderate"
+      },
+      {
+        "title": "Effectiveness of physiotherapy for shoulder impingement – meta-analysis",
+        "org": "British Journal of Sports Medicine",
+        "year": 2020,
+        "evidenceLevel": "high"
+      }
+    ],
+    "sevenDayPlans": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "days": [
+          {
+            "day": "Jour 1",
+            "actions": [
+              "Pendulaire de Codman 1 min (bras relâché, petits cercles)",
+              "Rotation externe coude au corps (élastique léger) 5x",
+              "Étirement doux de l'épaule 2x30s"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "Pendulaire 1 min",
+              "Élévation du bras le long du mur (glissement) 5x",
+              "Rétraction des omoplates 5x"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "Pendulaire 1 min",
+              "Rotation externe 8x",
+              "Élévation latérale jusqu'à 45° 5x"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "Repos actif : pendulaire seul",
+              "Étirements doux 3 min",
+              "Application de froid si douleur"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "Pendulaire 1 min",
+              "Circuit rotation + élévation + rétraction",
+              "Étirements 3 min"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "Exercices combinés 10 min",
+              "Marche avec balancement naturel des bras",
+              "Étirements 3 min"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Repos : mouvements libres sans douleur",
+              "Bilan douleur/mobilité de la semaine",
+              "Planifier la semaine suivante"
+            ]
+          }
+        ]
+      }
+    ],
+    "eightWeekPrograms": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "weeks": [
+          {
+            "week": "Semaine 1-2",
+            "focus": "Mobilité sans douleur",
+            "exercises": [
+              "Pendulaire quotidien",
+              "Rotations externes légères 5-8x",
+              "Étirements doux 3 min"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Renforcement isométrique",
+            "exercises": [
+              "Contractions isométriques rotateurs 3x10s",
+              "Rétraction omoplates 10x",
+              "Élévations progressives"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Renforcement dynamique",
+            "exercises": [
+              "Élastique : rotations + élévations",
+              "Renforcement scapulaire 10 min",
+              "Exercices en chaîne fermée (pompes murales)"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Réintégration fonctionnelle",
+            "exercises": [
+              "Exercices fonctionnels (gestes quotidiens)",
+              "Renforcement progressif 15 min 3x/sem",
+              "Prévention : routine d'entretien"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "arthrose-digitale",
+    "name": "Arthrose des mains",
+    "icon": "✋",
+    "category": "rhumatologie",
+    "summary": "L'arthrose digitale touche les articulations des doigts et du pouce. Elle provoque des douleurs, des gonflements et une raideur qui gênent les gestes du quotidien.\n\nCe qui compte vraiment : les exercices de la main sont le pilier du traitement. La chaleur soulage, les orthèses de repos aident la nuit, et les adaptations du quotidien préservent l'autonomie.\n\nLes nodosités (déformations) ne signifient pas forcément plus de douleur.",
+    "readingTime": 8,
+    "lastUpdated": "2026-03-12",
+    "recommendations": [
+      {
+        "text": "Exercices quotidiens des mains : mobilisation douce, renforcement de la prise, étirements des doigts.",
+        "evidence": "Élevé (EULAR 2018 / ACR 2019)"
+      },
+      {
+        "text": "Chaleur locale : bains de paraffine, bouillotte ou eau chaude avant les exercices.",
+        "evidence": "Modéré (EULAR 2018)"
+      },
+      {
+        "text": "Orthèse de repos pour la base du pouce (rhizarthrose) : soulage la douleur, surtout la nuit.",
+        "evidence": "Modéré (EULAR 2018)"
+      },
+      {
+        "text": "Adaptations du quotidien : ustensiles à gros manches, ouvre-bocaux, clavier ergonomique.",
+        "evidence": "Modéré (guideline)"
+      },
+      {
+        "text": "Anti-inflammatoires topiques (gel) en première intention avant les comprimés.",
+        "evidence": "Modéré (ACR 2019)"
+      },
+      {
+        "text": "Cure thermale : bénéfice reconnu sur douleur et fonction des mains arthrosiques.",
+        "evidence": "Modéré (études)"
+      },
+      {
+        "text": "Éviter les efforts de serrage intensifs et les gestes répétitifs prolongés.",
+        "evidence": "Consensus (pratique)"
+      }
+    ],
+    "red_flags": [
+      "Gonflement articulaire chaud, rouge et douloureux (possible goutte ou arthrite septique).",
+      "Raideur matinale prolongée > 1h avec atteinte symétrique (évoquer polyarthrite rhumatoïde).",
+      "Déformation rapide avec perte de fonction brutale.",
+      "Douleur intense résistante à tout traitement usuel."
+    ],
+    "sources": [
+      {
+        "title": "EULAR recommendations for the management of hand osteoarthritis",
+        "org": "EULAR",
+        "year": 2018,
+        "url": "https://ard.bmj.com/content/78/1/16",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "2019 ACR/Arthritis Foundation Guideline for OA of the Hand, Hip, and Knee",
+        "org": "ACR",
+        "year": 2019,
+        "url": "https://doi.org/10.1002/acr.24131",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Exercise for hand osteoarthritis (Review)",
+        "org": "Cochrane",
+        "year": 2021,
+        "url": "https://doi.org/10.1002/14651858.CD010030.pub3",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Splints for hand osteoarthritis (Review)",
+        "org": "Cochrane",
+        "year": 2022,
+        "url": "https://doi.org/10.1002/14651858.CD010036.pub3",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Prise en charge de l'arthrose périphérique",
+        "org": "HAS",
+        "year": 2022,
+        "url": "https://www.has-sante.fr/jcms/p_3376490/fr/les-messages-cles-arthrose-peripherique",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Topical NSAIDs for hand osteoarthritis – network meta-analysis",
+        "org": "Rheumatology",
+        "year": 2020,
+        "evidenceLevel": "moderate"
+      }
+    ],
+    "sevenDayPlans": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "days": [
+          {
+            "day": "Jour 1",
+            "actions": [
+              "Bain chaud des mains 5 min",
+              "Ouvrir/fermer les doigts lentement 5x",
+              "Toucher chaque doigt avec le pouce 3x"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "Bain chaud 5 min",
+              "Serrer une balle molle 5x chaque main",
+              "Étirer les doigts à plat sur la table 30s"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "Bain chaud 5 min",
+              "Écarter les doigts 5x",
+              "Rotation douce du pouce 5x chaque sens"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "Bain chaud 5 min",
+              "Exercices combinés 5 min",
+              "Appliquer gel anti-inflammatoire si douleur"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "Bain chaud 5 min",
+              "Prise en pince (petit objet) 5x chaque doigt",
+              "Étirements 3 min"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "Bain chaud + exercices combinés 10 min",
+              "Activité manuelle douce (pâte à modeler, jardinage léger)",
+              "Étirements 3 min"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Repos : mouvements libres",
+              "Bilan douleur/raideur de la semaine",
+              "Identifier les gestes à adapter"
+            ]
+          }
+        ]
+      }
+    ],
+    "eightWeekPrograms": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "weeks": [
+          {
+            "week": "Semaine 1-2",
+            "focus": "Mobilité de base",
+            "exercises": [
+              "Bain chaud + mobilisations 5 min/jour",
+              "Exercices de prise douce",
+              "Étirements des doigts"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Renforcement doux",
+            "exercises": [
+              "Balle molle : serrage 10x chaque main",
+              "Exercices de pince pouce-doigts",
+              "Adaptations ergonomiques à mettre en place"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Endurance fonctionnelle",
+            "exercises": [
+              "Exercices 10 min/jour",
+              "Activités manuelles adaptées",
+              "Orthèse de nuit si rhizarthrose"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Autonomie",
+            "exercises": [
+              "Routine d'exercices consolidée",
+              "Évaluation des adaptations",
+              "Programme d'entretien au long cours"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "asthme",
+    "name": "Asthme",
+    "icon": "🫁",
+    "category": "orl-respiratoire",
+    "summary": "L'asthme est une maladie chronique des bronches qui provoque des crises d'essoufflement, de toux et de sifflements. Il touche tous les âges.\n\nCe qui compte vraiment : le traitement de fond (corticoïde inhalé) doit être pris tous les jours, même quand tout va bien. C'est lui qui prévient les crises.\n\nL'activité physique régulière est recommandée et améliore le contrôle de l'asthme. Savoir reconnaître et agir face à une crise est essentiel.",
+    "readingTime": 9,
+    "lastUpdated": "2026-03-12",
+    "recommendations": [
+      {
+        "text": "Traitement de fond quotidien (corticoïde inhalé) : ne jamais l'arrêter sans avis médical, même si tout va bien.",
+        "evidence": "Élevé (GINA 2024 / HAS 2021)"
+      },
+      {
+        "text": "Technique d'inhalation correcte : à vérifier régulièrement, erreur technique = traitement inefficace.",
+        "evidence": "Élevé (GINA 2024)"
+      },
+      {
+        "text": "Plan d'action écrit personnalisé : reconnaître l'aggravation, adapter le traitement, savoir quand appeler.",
+        "evidence": "Élevé (GINA 2024 / SPLF)"
+      },
+      {
+        "text": "Activité physique régulière : améliore le contrôle, réduit les symptômes. Échauffement progressif.",
+        "evidence": "Modéré (Cochrane 2023)"
+      },
+      {
+        "text": "Éviction des facteurs déclenchants identifiés : tabac, allergènes, pollution, air froid sec.",
+        "evidence": "Élevé (GINA 2024)"
+      },
+      {
+        "text": "Cure thermale ORL/respiratoire : bénéfice reconnu sur les voies aériennes supérieures associées.",
+        "evidence": "Modéré (consensus)"
+      },
+      {
+        "text": "Suivi régulier : consultation au minimum 1x/an, évaluer le contrôle (ACT), ajuster le traitement par paliers.",
+        "evidence": "Élevé (GINA 2024)"
+      }
+    ],
+    "red_flags": [
+      "Crise d'asthme ne répondant pas au bronchodilatateur de secours — appeler le 15.",
+      "Difficulté à parler, lèvres bleues, confusion, somnolence — urgence vitale.",
+      "Plus de 3 crises par semaine ou réveils nocturnes fréquents (asthme non contrôlé).",
+      "Consommation excessive de bronchodilatateur de secours (> 2x/semaine)."
+    ],
+    "sources": [
+      {
+        "title": "Global Initiative for Asthma (GINA) Report 2024",
+        "org": "GINA",
+        "year": 2024,
+        "url": "https://ginasthma.org/",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Prise en charge de l'asthme de l'adulte et de l'adolescent",
+        "org": "HAS",
+        "year": 2021,
+        "url": "https://www.has-sante.fr/",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Physical activity and exercise training in adults with asthma (Review)",
+        "org": "Cochrane",
+        "year": 2023,
+        "url": "https://doi.org/10.1002/14651858.CD001116.pub5",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Recommandations pour la prise en charge de l'asthme",
+        "org": "SPLF (Société de Pneumologie de Langue Française)",
+        "year": 2022,
+        "url": "https://splf.fr/",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Self-management education and regular practitioner review for adults with asthma (Review)",
+        "org": "Cochrane",
+        "year": 2003,
+        "url": "https://doi.org/10.1002/14651858.CD001117",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Inhaler technique education and asthma outcomes – systematic review",
+        "org": "European Respiratory Journal",
+        "year": 2020,
+        "evidenceLevel": "high"
+      }
+    ],
+    "sevenDayPlans": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "days": [
+          {
+            "day": "Jour 1",
+            "actions": [
+              "Prendre le traitement de fond (vérifier la technique d'inhalation)",
+              "Marche 10 min avec échauffement progressif",
+              "Noter les symptômes du jour"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "Traitement de fond",
+              "Exercices de respiration abdominale 3 min",
+              "Marche 10 min"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "Traitement de fond",
+              "Marche 15 min à rythme confortable",
+              "Identifier vos déclenchants de la semaine"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": [
+              "Traitement de fond",
+              "Repos actif : étirements et respiration",
+              "Vérifier le DEP si peak-flow meter disponible"
+            ]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "Traitement de fond",
+              "Marche 15 min ou vélo doux",
+              "Exercices respiratoires 3 min"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": [
+              "Traitement de fond",
+              "Activité au choix 20 min (natation, vélo, marche)",
+              "Étirements 3 min"
+            ]
+          },
+          {
+            "day": "Jour 7",
+            "actions": [
+              "Traitement de fond",
+              "Repos : activité libre selon envie",
+              "Bilan symptômes + relire le plan d'action"
+            ]
+          }
+        ]
+      }
+    ],
+    "eightWeekPrograms": [
+      {
+        "level": 0,
+        "levelName": "Très facile",
+        "weeks": [
+          {
+            "week": "Semaine 1-2",
+            "focus": "Observance et technique",
+            "exercises": [
+              "Traitement de fond quotidien sans oubli",
+              "Vérification technique inhalateur",
+              "Marche 10 min/jour"
+            ]
+          },
+          {
+            "week": "Semaine 3-4",
+            "focus": "Activité physique progressive",
+            "exercises": [
+              "Marche 15 min/jour",
+              "Exercices respiratoires 3 min/jour",
+              "Identifier et noter les déclenchants"
+            ]
+          },
+          {
+            "week": "Semaine 5-6",
+            "focus": "Endurance",
+            "exercises": [
+              "Activité 20 min 3-4x/semaine",
+              "Respiration abdominale intégrée",
+              "DEP 2x/semaine si disponible"
+            ]
+          },
+          {
+            "week": "Semaine 7-8",
+            "focus": "Autonomie et contrôle",
+            "exercises": [
+              "Activité physique régulière maintenue",
+              "Évaluation du contrôle (questionnaire ACT)",
+              "RDV médecin pour ajustement si nécessaire"
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
