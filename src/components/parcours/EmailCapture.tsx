@@ -54,7 +54,7 @@ export const EmailCapture = ({ token }: EmailCaptureProps) => {
         <h3 className="text-xl font-serif font-bold">Ne perdez pas vos progrès</h3>
         <p className="text-muted-foreground">
           La majorité des patients qui continuent un suivi après la cure conservent leurs bénéfices.
-          Recevez un bilan de 2 minutes chaque semaine — gratuit, sans engagement.
+          Recevez un bilan de 2 minutes chaque semaine.
         </p>
       </div>
 

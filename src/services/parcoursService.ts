@@ -242,3 +242,45 @@ export async function fetchParcoursCount(slug: string): Promise<number> {
     return 0;
   }
 }
+
+/** Sauvegarde un bilan hebdomadaire avec les 3 scores */
+export async function saveBilanHebdo(
+  parcoursId: string,
+  weekNumber: number,
+  painScore: number,
+  exerciseDays: number,
+  moralScore: number
+): Promise<void> {
+  try {
+    const { error } = await supabase
+      .from('parcours_checkins')
+      .upsert({
+        parcours_id: parcoursId,
+        day_number: 100 + weekNumber,
+        pain_score: painScore,
+        action_done: exerciseDays >= 3,
+        exercise_days: exerciseDays,
+        moral_score: moralScore,
+      }, { onConflict: 'parcours_id,day_number' });
+    if (error) throw error;
+  } catch (_e) {
+    console.error('[saveBilanHebdo]', _e);
+  }
+}
+
+/** Dernier jour de check-in (cure uniquement, < 100) */
+export async function fetchLastCheckinDay(parcoursId: string): Promise<number | null> {
+  try {
+    const { data, error } = await supabase
+      .from('parcours_checkins')
+      .select('day_number')
+      .eq('parcours_id', parcoursId)
+      .lt('day_number', 100)
+      .order('day_number', { ascending: false })
+      .limit(1);
+    if (error) throw error;
+    return data?.[0]?.day_number ?? null;
+  } catch (_e) {
+    return null;
+  }
+}

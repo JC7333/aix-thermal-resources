@@ -45,15 +45,14 @@ export const DailyCheckin = ({ slug, dayNumber, onComplete }: DailyCheckinProps)
     [previousCheckins]
   );
 
-  const canSubmit = painScore !== null && actionDone !== null;
-
-  const handleSubmit = async () => {
-    if (!canSubmit) return;
+  const handleActionClick = async (value: boolean) => {
+    if (painScore === null) return;
+    setActionDone(value);
     setSaving(true);
     try {
       const stored = getStoredToken(slug);
       if (stored?.parcoursId) {
-        await saveCheckin(stored.parcoursId, dayNumber, painScore!, actionDone!);
+        await saveCheckin(stored.parcoursId, dayNumber, painScore, value);
       }
       await loadPreviousCheckins();
       setSubmitted(true);
@@ -124,32 +123,34 @@ export const DailyCheckin = ({ slug, dayNumber, onComplete }: DailyCheckinProps)
         </div>
       </div>
 
-      {/* Action faite ? */}
-      <div>
-        <p className="text-lg font-semibold mb-3">Avez-vous fait l'action du jour ?</p>
-        <div className="grid grid-cols-2 gap-3">
-          {[
-            { value: true, label: "Oui !", color: 'border-green-300 bg-green-50 text-green-800' },
-            { value: false, label: "Non, pas aujourd'hui", color: 'border-orange-300 bg-orange-50 text-orange-800' },
-          ].map((opt) => (
-            <button
-              key={String(opt.value)}
-              onClick={() => setActionDone(opt.value)}
-              className={`p-4 rounded-xl border-2 text-base font-semibold transition-all
-                ${actionDone === opt.value
-                  ? `${opt.color} shadow-md`
-                  : 'border-muted bg-muted/20 text-muted-foreground hover:border-primary/30'
-                }`}
-            >
-              {opt.label}
-            </button>
-          ))}
+      {/* Action faite ? — visible uniquement si douleur sélectionnée */}
+      {painScore !== null && !saving && (
+        <div>
+          <p className="text-lg font-semibold mb-3">Avez-vous fait l'action du jour ?</p>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { value: true, label: "Oui !", color: 'border-green-300 bg-green-50 text-green-800' },
+              { value: false, label: "Non, pas aujourd'hui", color: 'border-orange-300 bg-orange-50 text-orange-800' },
+            ].map((opt) => (
+              <button
+                key={String(opt.value)}
+                onClick={() => handleActionClick(opt.value)}
+                className={`p-4 rounded-xl border-2 text-base font-semibold transition-all
+                  ${actionDone === opt.value
+                    ? `${opt.color} shadow-md`
+                    : 'border-muted bg-muted/20 text-muted-foreground hover:border-primary/30'
+                  }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+      {saving && (
+        <p className="text-center text-muted-foreground animate-pulse py-4">Enregistrement...</p>
+      )}
 
-      <Button size="lg" onClick={handleSubmit} disabled={!canSubmit || saving} className="w-full text-lg py-6">
-        {saving ? 'Enregistrement...' : 'Valider mon check-in'}
-      </Button>
       <p className="text-xs text-muted-foreground text-center">Anonyme — aucune donnée personnelle.</p>
     </div>
   );

@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { CheckCircle2, Heart } from 'lucide-react';
-import { saveCheckin } from '@/services/parcoursService';
+import { saveBilanHebdo } from '@/services/parcoursService';
 import { askGemini } from '@/lib/geminiService';
 
 interface BilanHebdoProps {
@@ -17,22 +16,17 @@ export const BilanHebdo = ({ parcoursId, weekNumber }: BilanHebdoProps) => {
   const [saving, setSaving] = useState(false);
   const [advice, setAdvice] = useState('');
 
-  const canSubmit = painScore !== null && exerciseDays !== null && moralScore !== null;
-
-  const handleSubmit = async () => {
-    if (!canSubmit) return;
+  const handleSubmit = async (moralValue: number) => {
+    if (painScore === null || exerciseDays === null) return;
     setSaving(true);
     try {
-      // day_number > 100 = post-cure (pas de conflit avec J1-J21)
-      await saveCheckin(parcoursId, 100 + weekNumber, painScore!, exerciseDays! >= 3);
+      await saveBilanHebdo(parcoursId, weekNumber, painScore, exerciseDays, moralValue);
 
-      const fallback = painScore! <= 3
+      const fallback = painScore <= 3
         ? 'Vos scores sont encourageants. Continuez comme ça !'
         : 'Merci pour votre bilan. Chaque semaine de suivi compte.';
 
-      const prompt = `Tu es un médecin thermaliste bienveillant. Bilan hebdomadaire post-cure, semaine ${weekNumber}.
-Douleur : ${painScore}/10. Jours d'exercice : ${exerciseDays}/7. Moral : ${moralScore}/10.
-Écris un conseil en 2 phrases. Chaleureux, pas infantilisant. Français. Pas de backticks.`;
+      const prompt = `Tu es un médecin thermaliste bienveillant. Bilan hebdomadaire post-cure, semaine ${weekNumber}. Douleur : ${painScore}/10. Jours d'exercice : ${exerciseDays}/7. Moral : ${moralValue}/10. Écris un conseil en 2 phrases. Chaleureux, pas infantilisant. Français. Pas de backticks.`;
 
       const text = await askGemini(prompt, fallback);
       setAdvice(text);
@@ -87,45 +81,47 @@ Douleur : ${painScore}/10. Jours d'exercice : ${exerciseDays}/7. Moral : ${moral
         </div>
       </div>
 
-      {/* Exercice */}
-      <div>
-        <p className="text-lg font-semibold mb-3">Combien de jours avez-vous fait vos exercices ?</p>
-        <div className="grid grid-cols-4 gap-2">
-          {[
-            { value: 0, label: '0 jour' },
-            { value: 2, label: '1-2 jours' },
-            { value: 4, label: '3-4 jours' },
-            { value: 6, label: '5+ jours' },
-          ].map((opt) => (
-            <button key={opt.value} onClick={() => setExerciseDays(opt.value)}
-              className={`p-3 rounded-xl border-2 text-sm font-semibold transition-all
-                ${exerciseDays === opt.value ? 'border-primary bg-primary/10 text-primary shadow-md' : 'border-muted bg-muted/20 text-muted-foreground hover:border-primary/30'}`}>
-              {opt.label}
-            </button>
-          ))}
+      {/* Exercice — visible si douleur sélectionnée */}
+      {painScore !== null && (
+        <div>
+          <p className="text-lg font-semibold mb-3">Combien de jours avez-vous fait vos exercices ?</p>
+          <div className="grid grid-cols-4 gap-2">
+            {[
+              { value: 0, label: '0 jour' },
+              { value: 2, label: '1-2 jours' },
+              { value: 4, label: '3-4 jours' },
+              { value: 6, label: '5+ jours' },
+            ].map((opt) => (
+              <button key={opt.value} onClick={() => setExerciseDays(opt.value)}
+                className={`p-3 rounded-xl border-2 text-sm font-semibold transition-all
+                  ${exerciseDays === opt.value ? 'border-primary bg-primary/10 text-primary shadow-md' : 'border-muted bg-muted/20 text-muted-foreground hover:border-primary/30'}`}>
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Moral */}
-      <div>
-        <p className="text-lg font-semibold mb-3">Comment est votre moral cette semaine ?</p>
-        <div className="flex justify-between mb-1 text-sm text-muted-foreground">
-          <span>0 = Très bas</span><span>10 = Excellent</span>
+      {/* Moral — visible si exercices renseignés + auto-submit au clic */}
+      {painScore !== null && exerciseDays !== null && !saving && (
+        <div>
+          <p className="text-lg font-semibold mb-3">Comment est votre moral cette semaine ?</p>
+          <div className="flex justify-between mb-1 text-sm text-muted-foreground">
+            <span>0 = Très bas</span><span>10 = Excellent</span>
+          </div>
+          <div className="grid grid-cols-11 gap-1.5">
+            {Array.from({ length: 11 }, (_, i) => (
+              <button key={i} onClick={() => { setMoralScore(i); handleSubmit(i); }}
+                className={`aspect-square rounded-xl text-lg font-bold transition-all flex items-center justify-center min-h-[44px]
+                  ${moralScore === i ? 'bg-primary text-white scale-110 shadow-lg' : 'bg-muted hover:bg-muted/80 text-foreground'}`}>
+                {i}
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="grid grid-cols-11 gap-1.5">
-          {Array.from({ length: 11 }, (_, i) => (
-            <button key={i} onClick={() => setMoralScore(i)}
-              className={`aspect-square rounded-xl text-lg font-bold transition-all flex items-center justify-center min-h-[44px]
-                ${moralScore === i ? 'bg-primary text-white scale-110 shadow-lg' : 'bg-muted hover:bg-muted/80 text-foreground'}`}>
-              {i}
-            </button>
-          ))}
-        </div>
-      </div>
+      )}
+      {saving && <p className="text-center text-muted-foreground animate-pulse py-4">Enregistrement...</p>}
 
-      <Button size="lg" onClick={handleSubmit} disabled={!canSubmit || saving} className="w-full text-lg py-6">
-        {saving ? 'Enregistrement...' : 'Valider mon bilan'}
-      </Button>
       <p className="text-xs text-muted-foreground text-center">Anonyme — aucune donnée personnelle.</p>
     </div>
   );

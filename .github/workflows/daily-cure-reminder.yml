@@ -1,0 +1,73 @@
+name: Daily cure reminder
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+jobs:
+  send-reminders:
+    runs-on: ubuntu-latest
+    env:
+      BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+    steps:
+      - name: Send daily cure reminders
+        run: |
+          set -e
+
+          CONTACTS=$(curl -s -X GET \
+            "https://api.brevo.com/v3/contacts/lists/3/contacts?limit=500&offset=0" \
+            -H "api-key: ${BREVO_API_KEY}" \
+            -H "Content-Type: application/json")
+
+          echo "$CONTACTS" | python3 -c "
+          import json, sys
+          from datetime import datetime, timedelta, timezone
+
+          data = json.load(sys.stdin)
+          contacts = data.get('contacts', [])
+          cutoff = datetime.now(timezone.utc) - timedelta(days=21)
+          valid = []
+          for c in contacts:
+              email = c.get('email', '')
+              attrs = c.get('attributes', {})
+              token = attrs.get('TOKEN', '')
+              consent = attrs.get('CONSENT_DATE', '')
+              if not email or not token:
+                  continue
+              try:
+                  dt = datetime.fromisoformat(consent.replace('Z', '+00:00'))
+                  if dt > cutoff:
+                      days_since = (datetime.now(timezone.utc) - dt).days + 1
+                      day = min(max(days_since, 1), 21)
+                      valid.append(f'{email}|{token}|{day}')
+              except:
+                  pass
+          for v in valid:
+              print(v)
+          " > /tmp/contacts.txt
+
+          COUNT=$(wc -l < /tmp/contacts.txt)
+          echo "Active cure patients: $COUNT"
+
+          if [ "$COUNT" -eq "0" ]; then
+            echo "No active patients"
+            exit 0
+          fi
+
+          while IFS='|' read -r EMAIL TOKEN DAY; do
+            curl -s -X POST "https://api.brevo.com/v3/smtp/email" \
+              -H "api-key: ${BREVO_API_KEY}" \
+              -H "Content-Type: application/json" \
+              -d @- <<EMAILJSON
+          {
+            "sender": {"name": "ÉTUVE", "email": "noreply@etuve.fr"},
+            "to": [{"email": "${EMAIL}"}],
+            "subject": "Jour ${DAY} — Votre programme du jour est prêt",
+            "htmlContent": "<html><body style='font-family:Georgia,serif;max-width:480px;margin:0 auto;padding:24px;color:#1a1a1a'><div style='text-align:center;margin-bottom:24px'><span style='font-size:28px;font-weight:bold;color:#1a7a8c'>É</span></div><h2 style='color:#1a7a8c;margin-bottom:8px'>Jour ${DAY} sur 21</h2><p>Bonjour,</p><p>Votre programme du jour est prêt. Prenez quelques minutes pour votre suivi quotidien.</p><p style='text-align:center;margin:32px 0'><a href='https://etuve.fr' style='background:#1a7a8c;color:white;padding:14px 32px;border-radius:8px;text-decoration:none;font-size:18px;font-weight:600'>Ouvrir mon programme</a></p><p style='color:#888;font-size:13px;border-top:1px solid #eee;padding-top:16px;margin-top:32px'>Rappel quotidien — <a href='https://etuve.fr' style='color:#888'>Se désinscrire</a></p></body></html>"
+          }
+          EMAILJSON
+
+            echo "Sent day ${DAY} to ${EMAIL}"
+            sleep 0.3
+          done < /tmp/contacts.txt
+
+          echo "Done: ${COUNT} reminders sent"

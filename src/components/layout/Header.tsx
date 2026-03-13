@@ -3,8 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import {
   Menu,
   X,
-  ZoomIn,
-  Eye,
   Compass,
   BookOpen,
   Layers,
@@ -12,7 +10,6 @@ import {
   User,
   Heart,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useAccessibility } from "@/contexts/AccessibilityContext";
 import { useFavorites } from "@/hooks/useFavorites";
 
@@ -26,7 +23,7 @@ const navigation = [
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { seniorMode, toggleSeniorMode } = useAccessibility();
+  const { seniorMode } = useAccessibility();
   const { count: favoritesCount } = useFavorites();
   const location = useLocation();
 
@@ -153,35 +150,6 @@ export const Header = () => {
                 </span>
               </Link>
             )}
-
-            {/* Senior Mode Toggle - compact version */}
-            <button
-              onClick={toggleSeniorMode}
-              className={`
-                flex items-center justify-center font-semibold shrink-0 rounded-lg transition-all
-                ${
-                  seniorMode
-                    ? "h-10 w-10 sm:w-auto sm:px-3 bg-primary text-primary-foreground"
-                    : "h-9 w-9 sm:w-auto sm:px-2.5 border-2 border-primary/70 text-primary hover:bg-primary hover:text-primary-foreground"
-                }
-              `}
-              aria-label={
-                seniorMode
-                  ? "Désactiver le mode Senior"
-                  : "Activer le mode Senior"
-              }
-            >
-              {seniorMode ? (
-                <Eye className="h-5 w-5 shrink-0" />
-              ) : (
-                <ZoomIn className="h-4 w-4 shrink-0" />
-              )}
-              <span
-                className={`hidden sm:inline ml-1.5 ${seniorMode ? "text-sm font-bold" : "text-xs font-semibold"}`}
-              >
-                {seniorMode ? "Senior ✓" : "Senior"}
-              </span>
-            </button>
           </div>
         </div>
 
