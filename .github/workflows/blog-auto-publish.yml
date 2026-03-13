@@ -1,0 +1,35 @@
+name: Auto-publish blog article
+on:
+  schedule:
+    - cron: '0 8 * * 2'
+    - cron: '0 8 * * 5'
+  workflow_dispatch:
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - name: Generate article
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/generate-blog-article.mjs
+      - name: TypeScript safety check
+        run: npx tsc -p tsconfig.json --noEmit
+      - name: Check changes
+        id: changes
+        run: git diff --quiet && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "etuve-bot"
+          git config user.email "bot@etuve.fr"
+          git add src/content/blog/
+          SLUG=$(git diff --cached --name-only | grep 'src/content/blog/' | grep -v 'index.ts' | grep -v 'types.ts' | grep -v 'constants.ts' | head -1 | sed 's|src/content/blog/||;s|\.ts||')
+          git commit -m "feat(blog): auto-publish ${SLUG}"
+          git push
