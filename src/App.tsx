@@ -23,6 +23,7 @@ const ParcoursAccueil = lazy(() => import("./pages/ParcoursAccueil"));
 const ParcoursBep = lazy(() => import("./pages/ParcoursBep"));
 const ParcoursJour = lazy(() => import("./pages/ParcoursJour"));
 const ParcoursBilan = lazy(() => import("./pages/ParcoursBilan"));
+const ParcoursSuivi = lazy(() => import("./pages/ParcoursSuivi"));
 const Guides = lazy(() => import("./pages/Guides"));
 const Parents = lazy(() => import("./pages/Parents"));
 const FAQ = lazy(() => import("./pages/FAQ"));
@@ -73,6 +74,7 @@ const App = () => {
                     path="/reponses-rapides/:slug"
                     element={<ReponsesRapides />}
                   />
+                  <Route path="/parcours/suivi" element={<ParcoursSuivi />} />
                   <Route path="/parcours/:slug" element={<ParcoursAccueil />} />
                   <Route path="/parcours/:slug/bep" element={<ParcoursBep />} />
                   <Route path="/parcours/:slug/jour/:day" element={<ParcoursJour />} />
