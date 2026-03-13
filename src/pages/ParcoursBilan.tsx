@@ -20,6 +20,7 @@ import type { ProAssessment } from '@/content/parcours/types';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { ArrowRight, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { EmailCapture } from '@/components/parcours/EmailCapture';
 
 type Step = 'intro' | 'pro-douleur' | 'pro-koos-1' | 'pro-koos-2' | 'pro-confiance' | 'result';
 
@@ -389,6 +390,8 @@ const ParcoursBilan = () => {
               <Download className="w-5 h-5" />
               Télécharger mon bilan (PDF)
             </Button>
+
+            {stored?.token && <EmailCapture token={stored.token} />}
 
             <Link to={`/parcours/${slug}`}>
               <Button variant="outline" size="lg" className="w-full text-lg py-6">

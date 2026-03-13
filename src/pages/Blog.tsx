@@ -4,6 +4,7 @@ import { usePageTitle } from "@/hooks/usePageTitle";
 import { BLOG_ARTICLES } from "@/content/blog";
 import { PATHOLOGY_LABELS } from "@/content/blog/constants";
 import { Clock, ArrowRight } from "lucide-react";
+import { BlogNewsletter } from "@/components/blog/BlogNewsletter";
 
 const Blog = () => {
   usePageTitle("Blog — Santé et thermalisme");
@@ -62,6 +63,8 @@ const Blog = () => {
             </Link>
           ))}
         </div>
+
+        <BlogNewsletter />
 
         <p className="text-center text-xs text-muted-foreground mt-12">
           Information éducative — ne remplace pas un avis médical. Urgence : 15
