@@ -211,3 +211,34 @@ export async function getCheckins(parcoursId: string): Promise<ParcoursCheckinRo
 
   return lsGet<ParcoursCheckinRow>(LS_CHECKINS).filter((c) => c.parcours_id === parcoursId);
 }
+
+/** Récupère tous les check-ins d'un parcours, triés par jour */
+export async function fetchCheckins(parcoursId: string): Promise<{ day_number: number; pain_score: number; action_done: boolean }[]> {
+  try {
+    const { data, error } = await supabase
+      .from('parcours_checkins')
+      .select('day_number, pain_score, action_done')
+      .eq('parcours_id', parcoursId)
+      .order('day_number', { ascending: true });
+    if (error) throw error;
+    return data || [];
+  } catch (_e) {
+    console.error('[fetchCheckins]', _e);
+    return [];
+  }
+}
+
+/** Compte le nombre de parcours démarrés pour une pathologie (social proof) */
+export async function fetchParcoursCount(slug: string): Promise<number> {
+  try {
+    const { count, error } = await supabase
+      .from('parcours')
+      .select('id', { count: 'exact', head: true })
+      .eq('slug', slug);
+    if (error) throw error;
+    return count || 0;
+  } catch (_e) {
+    console.error('[fetchParcoursCount]', _e);
+    return 0;
+  }
+}
