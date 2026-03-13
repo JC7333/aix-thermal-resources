@@ -3,88 +3,122 @@
 // Template Evidence-Based Medicine
 // ============================================
 
-import { useState, useEffect } from 'react';
-import { useParams, Navigate, Link } from 'react-router-dom';
-import { 
-  Clock, AlertTriangle, Printer, BookOpen, Shield, 
-  ExternalLink, Award, Calendar, ChevronRight, Target, 
-  Stethoscope, Droplets, FileText, ChevronDown, ChevronUp,
-  Info, Activity, Sparkles
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Badge } from '@/components/ui/badge';
-import { Layout } from '@/components/layout/Layout';
-import { Breadcrumb } from '@/components/shared/Breadcrumb';
-import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
-import { PdfDownloadButtons } from '@/components/shared/PdfDownloadButtons';
-import { FavoriteButton } from '@/components/shared/FavoriteButton';
-import { VideoSection } from '@/components/shared/VideoSection';
-import { getEvidencePackV2BySlug, CATEGORIES } from '@/content/evidence/v2';
-import { useSeniorMode } from '@/hooks/useSeniorMode';
-import { logEvent } from '@/services/analytics';
-import { filterSourcesByPolicy } from '@/lib/sourcePolicy';
-import type { EvidencePackV2, Exercise, MedicalProcedure } from '@/content/evidence/v2/types';
-import PodcastPlayer from '@/components/shared/PodcastPlayer';
-import ProQuestionnaire from '@/components/shared/ProQuestionnaire';
-import { getPodcastBySlug } from '@/data/podcastData';
-import { usePageTitle } from '@/hooks/usePageTitle';
-import { JsonLd } from '@/components/shared/JsonLd';
+import { useState, useEffect } from "react";
+import { useParams, Navigate, Link } from "react-router-dom";
+import {
+  Clock,
+  AlertTriangle,
+  Printer,
+  BookOpen,
+  Shield,
+  ExternalLink,
+  Award,
+  Calendar,
+  ChevronRight,
+  Target,
+  Stethoscope,
+  Droplets,
+  FileText,
+  ChevronDown,
+  ChevronUp,
+  Info,
+  Activity,
+  Sparkles,
+  ArrowRight,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Layout } from "@/components/layout/Layout";
+import { Breadcrumb } from "@/components/shared/Breadcrumb";
+import { MedicalDisclaimer } from "@/components/shared/MedicalDisclaimer";
+import { PdfDownloadButtons } from "@/components/shared/PdfDownloadButtons";
+import { FavoriteButton } from "@/components/shared/FavoriteButton";
+import { VideoSection } from "@/components/shared/VideoSection";
+import { getEvidencePackV2BySlug, CATEGORIES } from "@/content/evidence/v2";
+import { useSeniorMode } from "@/hooks/useSeniorMode";
+import { logEvent } from "@/services/analytics";
+import { filterSourcesByPolicy } from "@/lib/sourcePolicy";
+import type {
+  EvidencePackV2,
+  Exercise,
+  MedicalProcedure,
+} from "@/content/evidence/v2/types";
+import PodcastPlayer from "@/components/shared/PodcastPlayer";
+import ProQuestionnaire from "@/components/shared/ProQuestionnaire";
+import { getPodcastBySlug } from "@/data/podcastData";
+import { usePageTitle } from "@/hooks/usePageTitle";
+import { JsonLd } from "@/components/shared/JsonLd";
+import { FAQ_BY_PATHOLOGY } from "@/content/faq";
+import { FaqSection } from "@/components/shared/FaqSection";
+import { FaqJsonLd } from "@/components/shared/FaqJsonLd";
 
 // Badge couleur selon niveau de preuve
 const evidenceBadgeClass = (level: string) => {
-  if (level.toLowerCase().includes('élevé')) return 'bg-green-100 text-green-700 border-green-200';
-  if (level.toLowerCase().includes('modéré')) return 'bg-amber-100 text-amber-700 border-amber-200';
-  if (level.toLowerCase().includes('faible')) return 'bg-orange-100 text-orange-700 border-orange-200';
-  return 'bg-muted text-muted-foreground border-border';
+  if (level.toLowerCase().includes("élevé"))
+    return "bg-green-100 text-green-700 border-green-200";
+  if (level.toLowerCase().includes("modéré"))
+    return "bg-amber-100 text-amber-700 border-amber-200";
+  if (level.toLowerCase().includes("faible"))
+    return "bg-orange-100 text-orange-700 border-orange-200";
+  return "bg-muted text-muted-foreground border-border";
 };
 
 // Badge couleur selon position guideline
 const guidelineBadgeClass = (position: string) => {
-  if (position === 'recommended') return 'bg-green-100 text-green-700';
-  if (position === 'conditional') return 'bg-amber-100 text-amber-700';
-  if (position === 'controversial') return 'bg-orange-100 text-orange-700';
-  return 'bg-red-100 text-red-700';
+  if (position === "recommended") return "bg-green-100 text-green-700";
+  if (position === "conditional") return "bg-amber-100 text-amber-700";
+  if (position === "controversial") return "bg-orange-100 text-orange-700";
+  return "bg-red-100 text-red-700";
 };
 
 const guidelineLabel = (position: string) => {
   const labels: Record<string, string> = {
-    recommended: 'Recommandé',
-    conditional: 'Sous conditions',
-    controversial: 'Controversé',
-    not_recommended: 'Non recommandé',
+    recommended: "Recommandé",
+    conditional: "Sous conditions",
+    controversial: "Controversé",
+    not_recommended: "Non recommandé",
   };
   return labels[position] || position;
 };
 
 // Trouver la catégorie parent
-const getCategoryLabel = (category: EvidencePackV2['category']) => {
+const getCategoryLabel = (category: EvidencePackV2["category"]) => {
   const labels: Record<string, string> = {
-    'rhumatologie': 'Rhumatologie',
-    'veino-lymphatique': 'Veino-lymphatique',
-    'respiratoire-orl': 'Respiratoire / ORL',
-    'muqueuses-buccales': 'Muqueuses buccales',
+    rhumatologie: "Rhumatologie",
+    "veino-lymphatique": "Veino-lymphatique",
+    "respiratoire-orl": "Respiratoire / ORL",
+    "muqueuses-buccales": "Muqueuses buccales",
   };
   return labels[category] || category;
 };
 
 // Composant Section Title
-const SectionTitle = ({ 
-  icon, 
-  title, 
-  iconBg = 'bg-primary/10', 
-  iconColor = 'text-primary',
-  seniorMode = false 
-}: { 
-  icon: React.ReactNode; 
-  title: string; 
-  iconBg?: string; 
+const SectionTitle = ({
+  icon,
+  title,
+  iconBg = "bg-primary/10",
+  iconColor = "text-primary",
+  seniorMode = false,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  iconBg?: string;
   iconColor?: string;
   seniorMode?: boolean;
 }) => (
-  <h2 className={`font-serif font-bold text-foreground flex items-center gap-3 ${seniorMode ? 'text-2xl mb-6' : 'text-xl mb-4'}`}>
-    <span className={`rounded-lg flex items-center justify-center ${iconBg} ${iconColor} ${seniorMode ? 'w-12 h-12' : 'w-10 h-10'}`}>
+  <h2
+    className={`font-serif font-bold text-foreground flex items-center gap-3 ${seniorMode ? "text-2xl mb-6" : "text-xl mb-4"}`}
+  >
+    <span
+      className={`rounded-lg flex items-center justify-center ${iconBg} ${iconColor} ${seniorMode ? "w-12 h-12" : "w-10 h-10"}`}
+    >
       {icon}
     </span>
     {title}
@@ -92,76 +126,121 @@ const SectionTitle = ({
 );
 
 // Composant Exercice Card
-const ExerciseCardV2 = ({ exercise, seniorMode }: { exercise: Exercise; seniorMode: boolean }) => {
+const ExerciseCardV2 = ({
+  exercise,
+  seniorMode,
+}: {
+  exercise: Exercise;
+  seniorMode: boolean;
+}) => {
   const [expanded, setExpanded] = useState(false);
-  
+
   return (
-    <div className={`bg-card border border-border rounded-xl ${seniorMode ? 'p-6' : 'p-4'}`}>
+    <div
+      className={`bg-card border border-border rounded-xl ${seniorMode ? "p-6" : "p-4"}`}
+    >
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1">
-          <h4 className={`font-semibold text-foreground ${seniorMode ? 'text-lg mb-2' : 'mb-1'}`}>
+          <h4
+            className={`font-semibold text-foreground ${seniorMode ? "text-lg mb-2" : "mb-1"}`}
+          >
             {exercise.name}
           </h4>
-          <p className={`text-muted-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>
+          <p
+            className={`text-muted-foreground ${seniorMode ? "text-base" : "text-sm"}`}
+          >
             {exercise.description}
           </p>
         </div>
-        <Button 
-          variant="ghost" 
-          size="sm" 
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={() => setExpanded(!expanded)}
           className="shrink-0"
         >
-          {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          {expanded ? (
+            <ChevronUp className="w-4 h-4" />
+          ) : (
+            <ChevronDown className="w-4 h-4" />
+          )}
         </Button>
       </div>
-      
+
       {expanded && (
         <div className={`mt-4 space-y-4 border-t border-border pt-4`}>
           {/* Niveaux */}
           {exercise.levels.map((level, idx) => (
-            <div key={idx} className={`bg-muted/50 rounded-lg ${seniorMode ? 'p-4' : 'p-3'}`}>
+            <div
+              key={idx}
+              className={`bg-muted/50 rounded-lg ${seniorMode ? "p-4" : "p-3"}`}
+            >
               <div className="flex items-center gap-2 mb-2">
-                <Badge variant="secondary" className={seniorMode ? 'text-sm' : 'text-xs'}>
-                  Niveau {level.level === 0 ? 'Très facile' : level.level === 1 ? 'Facile' : 'Normal'}
+                <Badge
+                  variant="secondary"
+                  className={seniorMode ? "text-sm" : "text-xs"}
+                >
+                  Niveau{" "}
+                  {level.level === 0
+                    ? "Très facile"
+                    : level.level === 1
+                      ? "Facile"
+                      : "Normal"}
                 </Badge>
                 {level.duration && (
-                  <span className={`text-muted-foreground ${seniorMode ? 'text-sm' : 'text-xs'}`}>
+                  <span
+                    className={`text-muted-foreground ${seniorMode ? "text-sm" : "text-xs"}`}
+                  >
                     ⏱️ {level.duration}
                   </span>
                 )}
               </div>
-              <p className={`text-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>
+              <p
+                className={`text-foreground ${seniorMode ? "text-base" : "text-sm"}`}
+              >
                 {level.instructions}
               </p>
             </div>
           ))}
-          
+
           {/* Erreurs fréquentes */}
           {exercise.common_errors && exercise.common_errors.length > 0 && (
             <div>
-              <h5 className={`font-medium text-amber-700 mb-2 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+              <h5
+                className={`font-medium text-amber-700 mb-2 ${seniorMode ? "text-base" : "text-sm"}`}
+              >
                 ⚠️ Erreurs fréquentes
               </h5>
-              <ul className={`space-y-1 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+              <ul
+                className={`space-y-1 ${seniorMode ? "text-base" : "text-sm"}`}
+              >
                 {exercise.common_errors.map((error, idx) => (
-                  <li key={idx} className="text-muted-foreground flex items-start gap-2">
+                  <li
+                    key={idx}
+                    className="text-muted-foreground flex items-start gap-2"
+                  >
                     <span>•</span> {error}
                   </li>
                 ))}
               </ul>
             </div>
           )}
-          
+
           {/* Stop rules */}
           {exercise.stop_rules && exercise.stop_rules.length > 0 && (
             <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-3">
-              <h5 className={`font-medium text-destructive mb-2 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+              <h5
+                className={`font-medium text-destructive mb-2 ${seniorMode ? "text-base" : "text-sm"}`}
+              >
                 🛑 Arrêter si
               </h5>
-              <ul className={`space-y-1 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+              <ul
+                className={`space-y-1 ${seniorMode ? "text-base" : "text-sm"}`}
+              >
                 {exercise.stop_rules.map((rule, idx) => (
-                  <li key={idx} className="text-destructive flex items-start gap-2">
+                  <li
+                    key={idx}
+                    className="text-destructive flex items-start gap-2"
+                  >
                     <span>•</span> {rule}
                   </li>
                 ))}
@@ -175,28 +254,42 @@ const ExerciseCardV2 = ({ exercise, seniorMode }: { exercise: Exercise; seniorMo
 };
 
 // Composant Acte médical
-const ProcedureCard = ({ procedure, seniorMode }: { procedure: MedicalProcedure; seniorMode: boolean }) => (
-  <div className={`bg-card border border-border rounded-xl ${seniorMode ? 'p-6' : 'p-5'}`}>
+const ProcedureCard = ({
+  procedure,
+  seniorMode,
+}: {
+  procedure: MedicalProcedure;
+  seniorMode: boolean;
+}) => (
+  <div
+    className={`bg-card border border-border rounded-xl ${seniorMode ? "p-6" : "p-5"}`}
+  >
     <div className="flex items-start justify-between gap-3 mb-4">
-      <h4 className={`font-semibold text-foreground ${seniorMode ? 'text-lg' : ''}`}>
+      <h4
+        className={`font-semibold text-foreground ${seniorMode ? "text-lg" : ""}`}
+      >
         {procedure.name}
       </h4>
       <Badge className={guidelineBadgeClass(procedure.guideline_position)}>
         {guidelineLabel(procedure.guideline_position)}
       </Badge>
     </div>
-    
-    <p className={`text-muted-foreground mb-4 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+
+    <p
+      className={`text-muted-foreground mb-4 ${seniorMode ? "text-base" : "text-sm"}`}
+    >
       <strong>Objectif :</strong> {procedure.purpose}
     </p>
-    
+
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="details" className="border-none">
-        <AccordionTrigger className={`py-2 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+        <AccordionTrigger
+          className={`py-2 ${seniorMode ? "text-base" : "text-sm"}`}
+        >
           Voir les détails
         </AccordionTrigger>
         <AccordionContent>
-          <div className={`space-y-4 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+          <div className={`space-y-4 ${seniorMode ? "text-base" : "text-sm"}`}>
             {/* Indications */}
             <div>
               <h5 className="font-medium text-foreground mb-1">Pour qui ?</h5>
@@ -206,17 +299,19 @@ const ProcedureCard = ({ procedure, seniorMode }: { procedure: MedicalProcedure;
                 ))}
               </ul>
             </div>
-            
+
             {/* Bénéfices */}
             <div>
-              <h5 className="font-medium text-green-700 mb-1">✓ Bénéfices attendus</h5>
+              <h5 className="font-medium text-green-700 mb-1">
+                ✓ Bénéfices attendus
+              </h5>
               <ul className="space-y-1 text-muted-foreground">
                 {procedure.benefits.map((b, idx) => (
                   <li key={idx}>• {b}</li>
                 ))}
               </ul>
             </div>
-            
+
             {/* Limites */}
             <div>
               <h5 className="font-medium text-amber-700 mb-1">⚠️ Limites</h5>
@@ -226,7 +321,7 @@ const ProcedureCard = ({ procedure, seniorMode }: { procedure: MedicalProcedure;
                 ))}
               </ul>
             </div>
-            
+
             {/* Risques */}
             <div>
               <h5 className="font-medium text-destructive mb-1">⚡ Risques</h5>
@@ -236,11 +331,15 @@ const ProcedureCard = ({ procedure, seniorMode }: { procedure: MedicalProcedure;
                 ))}
               </ul>
             </div>
-            
+
             {/* Position guideline */}
             <div className="bg-primary/5 rounded-lg p-3 border border-primary/20">
-              <h5 className="font-medium text-primary mb-1">📋 Ce que disent les recommandations</h5>
-              <p className="text-muted-foreground">{procedure.guideline_summary}</p>
+              <h5 className="font-medium text-primary mb-1">
+                📋 Ce que disent les recommandations
+              </h5>
+              <p className="text-muted-foreground">
+                {procedure.guideline_summary}
+              </p>
             </div>
           </div>
         </AccordionContent>
@@ -252,62 +351,80 @@ const ProcedureCard = ({ procedure, seniorMode }: { procedure: MedicalProcedure;
 // Page principale
 const PathologyPageV2 = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { seniorMode, titleClass, subtitleClass, textClass, smallTextClass, buttonSize, iconSize, iconSizeLg, cardClass, cardPadding, badgeClass } = useSeniorMode();
-  
+  const {
+    seniorMode,
+    titleClass,
+    subtitleClass,
+    textClass,
+    smallTextClass,
+    buttonSize,
+    iconSize,
+    iconSizeLg,
+    cardClass,
+    cardPadding,
+    badgeClass,
+  } = useSeniorMode();
+
   const pack = slug ? getEvidencePackV2BySlug(slug) : undefined;
-  const podcastData = getPodcastBySlug(slug || '');
+  const podcastData = getPodcastBySlug(slug || "");
   usePageTitle(pack?.title);
-  
+
   useEffect(() => {
     if (slug) {
-      logEvent('page_view', `/pathologies/${slug}`, { slug, version: 'v2' });
+      logEvent("page_view", `/pathologies/${slug}`, { slug, version: "v2" });
     }
   }, [slug]);
-  
+
   if (!pack) {
     return <Navigate to="/pathologies" replace />;
   }
-  
+
   // Si c'est un stub, rediriger vers /pathologies (pas de placeholder "en cours de rédaction")
-  if (pack.status === 'stub') {
+  if (pack.status === "stub") {
     return <Navigate to="/pathologies" replace />;
   }
-  
+
   const handlePrint = () => {
-    logEvent('print_click', `/pathologies/${slug}`, { slug: slug || '' });
+    logEvent("print_click", `/pathologies/${slug}`, { slug: slug || "" });
     window.print();
   };
-  
+
   return (
     <Layout>
       {pack && (
-        <JsonLd data={{
-          "@context": "https://schema.org",
-          "@type": "MedicalWebPage",
-          "name": pack.title,
-          "description": "Programme d'''éducation thérapeutique",
-          "url": "https://etuve.fr/pathologies/v2/" + (slug || ''),
-          "inLanguage": "fr",
-          "isAccessibleForFree": true,
-          "author": { "@type": "Person", "name": "Dr Audric Bugnard", "jobTitle": "Médecin thermaliste" },
-          "about": { "@type": "MedicalCondition", "name": pack.title },
-          "dateModified": pack.updated_at
-        }} />
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "MedicalWebPage",
+            name: pack.title,
+            description: "Programme d'''éducation thérapeutique",
+            url: "https://etuve.fr/pathologies/v2/" + (slug || ""),
+            inLanguage: "fr",
+            isAccessibleForFree: true,
+            author: {
+              "@type": "Person",
+              name: "Dr Audric Bugnard",
+              jobTitle: "Médecin thermaliste",
+            },
+            about: { "@type": "MedicalCondition", name: pack.title },
+            dateModified: pack.updated_at,
+          }}
+        />
       )}
       <div className="container mx-auto px-4 py-6 lg:py-8">
         {/* Breadcrumb */}
         <div className="no-print">
           <Breadcrumb
             items={[
-              { label: 'Pathologies', href: '/pathologies' },
+              { label: "Pathologies", href: "/pathologies" },
               { label: getCategoryLabel(pack.category) },
               { label: pack.title },
             ]}
           />
         </div>
-        
+
         {/* Header */}
-        <header className={seniorMode ? 'mb-10' : 'mb-8'}>
+        <header className={seniorMode ? "mb-10" : "mb-8"}>
           <div className="flex flex-wrap items-center gap-3 mb-4 no-print">
             <Badge variant="outline" className={badgeClass}>
               {getCategoryLabel(pack.category)}
@@ -320,12 +437,14 @@ const PathologyPageV2 = () => {
               Mis à jour : {pack.updated_at}
             </span>
           </div>
-          
+
           <div className="flex items-start gap-4 mb-4">
-            <span className={seniorMode ? 'text-5xl' : 'text-4xl'}>{pack.icon}</span>
+            <span className={seniorMode ? "text-5xl" : "text-4xl"}>
+              {pack.icon}
+            </span>
             <h1 className={titleClass}>{pack.title}</h1>
           </div>
-          
+
           <div className="flex flex-wrap items-center gap-3 no-print">
             <Button onClick={handlePrint} variant="pdf" size={buttonSize}>
               <Printer className={iconSize} />
@@ -335,61 +454,97 @@ const PathologyPageV2 = () => {
             {slug && <FavoriteButton slug={slug} />}
           </div>
         </header>
-        
+
         {/* Contenu principal */}
         <div className={`grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12`}>
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-10">
-            
             {/* Section 1: Comprendre */}
             <section id="comprendre">
-              <SectionTitle 
-                icon={<Info className={iconSizeLg} />} 
-                title="Comprendre" 
-                iconBg="bg-blue-100" 
+              <SectionTitle
+                icon={<Info className={iconSizeLg} />}
+                title="Comprendre"
+                iconBg="bg-blue-100"
                 iconColor="text-blue-700"
                 seniorMode={seniorMode}
               />
-              <div className={`bg-blue-50 border border-blue-200 rounded-xl ${seniorMode ? 'p-8' : 'p-6'}`}>
-                <p className={`${textClass} text-foreground leading-relaxed whitespace-pre-line`}>
+              <div
+                className={`bg-blue-50 border border-blue-200 rounded-xl ${seniorMode ? "p-8" : "p-6"}`}
+              >
+                <p
+                  className={`${textClass} text-foreground leading-relaxed whitespace-pre-line`}
+                >
                   {pack.definition.summary}
                 </p>
-                {pack.definition.key_points && pack.definition.key_points.length > 0 && (
-                  <ul className={`mt-4 space-y-2 ${seniorMode ? 'text-base' : 'text-sm'}`}>
-                    {pack.definition.key_points.map((point, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-blue-800">
-                        <span className="text-blue-500">→</span> {point}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                {pack.definition.key_points &&
+                  pack.definition.key_points.length > 0 && (
+                    <ul
+                      className={`mt-4 space-y-2 ${seniorMode ? "text-base" : "text-sm"}`}
+                    >
+                      {pack.definition.key_points.map((point, idx) => (
+                        <li
+                          key={idx}
+                          className="flex items-start gap-2 text-blue-800"
+                        >
+                          <span className="text-blue-500">→</span> {point}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
               </div>
             </section>
-            
+
+            {/* CTA parcours — premier */}
+            <div className="my-10 p-6 rounded-xl bg-primary/5 border border-primary/20 text-center">
+              <p className="text-xl font-serif font-bold text-foreground mb-2">
+                Programme personnalisé de 21 jours
+              </p>
+              <p className="text-muted-foreground mb-4">
+                Exercices guidés, suivi quotidien, bilan avant/après. 5 minutes
+                par jour pendant votre cure.
+              </p>
+              <Link to={`/parcours/${slug}`}>
+                <Button size="lg" className="gap-2 text-lg">
+                  Commencer mon programme <ArrowRight className="w-5 h-5" />
+                </Button>
+              </Link>
+            </div>
+
             {/* Section 2: Agir (Recommandations) */}
             {pack.recommendations.length > 0 && (
               <section id="agir">
-                <SectionTitle 
-                  icon={<Award className={iconSizeLg} />} 
-                  title="Ce qui aide vraiment" 
-                  iconBg="bg-green-100" 
+                <SectionTitle
+                  icon={<Award className={iconSizeLg} />}
+                  title="Ce qui aide vraiment"
+                  iconBg="bg-green-100"
                   iconColor="text-green-700"
                   seniorMode={seniorMode}
                 />
-                <div className={seniorMode ? 'space-y-4' : 'space-y-3'}>
+                <div className={seniorMode ? "space-y-4" : "space-y-3"}>
                   {pack.recommendations.map((rec, idx) => (
-                    <div key={idx} className={`flex items-start gap-4 bg-card border border-border rounded-xl ${seniorMode ? 'p-5' : 'p-4'}`}>
-                      <div className={`rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold shrink-0 ${seniorMode ? 'w-10 h-10 text-base' : 'w-8 h-8 text-sm'}`}>
+                    <div
+                      key={idx}
+                      className={`flex items-start gap-4 bg-card border border-border rounded-xl ${seniorMode ? "p-5" : "p-4"}`}
+                    >
+                      <div
+                        className={`rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold shrink-0 ${seniorMode ? "w-10 h-10 text-base" : "w-8 h-8 text-sm"}`}
+                      >
                         {idx + 1}
                       </div>
                       <div className="flex-1">
-                        <p className={`${textClass} text-foreground mb-2`}>{rec.text}</p>
+                        <p className={`${textClass} text-foreground mb-2`}>
+                          {rec.text}
+                        </p>
                         <div className="flex flex-wrap items-center gap-2">
                           <Badge className={evidenceBadgeClass(rec.level)}>
                             {rec.level}
                           </Badge>
                           {rec.tags?.map((tag, tidx) => (
-                            <Badge key={tidx} variant="outline" className="text-xs">
+                            <Badge
+                              key={tidx}
+                              variant="outline"
+                              className="text-xs"
+                            >
                               {tag}
                             </Badge>
                           ))}
@@ -400,9 +555,9 @@ const PathologyPageV2 = () => {
                 </div>
               </section>
             )}
-            
+
             {/* Section 2.5: Podcast Étuve — affiché uniquement si au moins un épisode a un audioUrl */}
-            {podcastData && podcastData.episodes.some(ep => ep.audioUrl) && (
+            {podcastData && podcastData.episodes.some((ep) => ep.audioUrl) && (
               <section id="podcast" className="mt-8 mb-8">
                 <PodcastPlayer
                   pathologyName={podcastData.pathologyName}
@@ -414,61 +569,78 @@ const PathologyPageV2 = () => {
             {/* Section 3: Exercices */}
             {pack.exercises.length > 0 && (
               <section id="exercices">
-                <SectionTitle 
-                  icon={<Activity className={iconSizeLg} />} 
-                  title="Exercices à faire chez soi" 
-                  iconBg="bg-secondary/20" 
+                <SectionTitle
+                  icon={<Activity className={iconSizeLg} />}
+                  title="Exercices à faire chez soi"
+                  iconBg="bg-secondary/20"
                   iconColor="text-secondary"
                   seniorMode={seniorMode}
                 />
-                <div className={seniorMode ? 'space-y-4' : 'space-y-3'}>
+                <div className={seniorMode ? "space-y-4" : "space-y-3"}>
                   {pack.exercises.map((exercise) => (
-                    <ExerciseCardV2 key={exercise.id} exercise={exercise} seniorMode={seniorMode} />
+                    <ExerciseCardV2
+                      key={exercise.id}
+                      exercise={exercise}
+                      seniorMode={seniorMode}
+                    />
                   ))}
                 </div>
               </section>
             )}
-            
+
             {/* Section 3.5: Vidéos guidées */}
-            {slug && (
-              <VideoSection slug={slug} maxVideos={2} />
-            )}
-            
-            {(pack.seven_day_plan.length > 0 || pack.four_week_plan.length > 0) && (
+            {slug && <VideoSection slug={slug} maxVideos={2} />}
+
+            {(pack.seven_day_plan.length > 0 ||
+              pack.four_week_plan.length > 0) && (
               <section id="parcours">
-                <SectionTitle 
-                  icon={<Calendar className={iconSizeLg} />} 
-                  title="Parcours guidé" 
-                  iconBg="bg-primary/10" 
+                <SectionTitle
+                  icon={<Calendar className={iconSizeLg} />}
+                  title="Parcours guidé"
+                  iconBg="bg-primary/10"
                   iconColor="text-primary"
                   seniorMode={seniorMode}
                 />
-                
+
                 <Tabs defaultValue="7jours" className="w-full">
                   <TabsList className="mb-4">
                     <TabsTrigger value="7jours">Plan 7 jours</TabsTrigger>
                     <TabsTrigger value="4semaines">Plan 4 semaines</TabsTrigger>
                   </TabsList>
-                  
+
                   <TabsContent value="7jours">
                     <div className={`grid grid-cols-1 md:grid-cols-2 gap-4`}>
                       {pack.seven_day_plan.map((day) => (
-                        <div key={day.day} className={`bg-card border border-border rounded-xl ${seniorMode ? 'p-5' : 'p-4'}`}>
-                          <h4 className={`font-semibold text-foreground mb-3 flex items-center gap-2 ${seniorMode ? 'text-lg' : ''}`}>
-                            <span className={`rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold ${seniorMode ? 'w-8 h-8 text-sm' : 'w-6 h-6 text-xs'}`}>
+                        <div
+                          key={day.day}
+                          className={`bg-card border border-border rounded-xl ${seniorMode ? "p-5" : "p-4"}`}
+                        >
+                          <h4
+                            className={`font-semibold text-foreground mb-3 flex items-center gap-2 ${seniorMode ? "text-lg" : ""}`}
+                          >
+                            <span
+                              className={`rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold ${seniorMode ? "w-8 h-8 text-sm" : "w-6 h-6 text-xs"}`}
+                            >
                               {day.day}
                             </span>
                             {day.title}
                           </h4>
-                          <ul className={`space-y-2 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+                          <ul
+                            className={`space-y-2 ${seniorMode ? "text-base" : "text-sm"}`}
+                          >
                             {day.actions.map((action, aidx) => (
-                              <li key={aidx} className="flex items-start gap-2 text-muted-foreground">
+                              <li
+                                key={aidx}
+                                className="flex items-start gap-2 text-muted-foreground"
+                              >
                                 <span className="text-primary">☐</span> {action}
                               </li>
                             ))}
                           </ul>
                           {day.tips && (
-                            <p className={`mt-3 text-primary bg-primary/5 rounded-lg p-2 ${smallTextClass}`}>
+                            <p
+                              className={`mt-3 text-primary bg-primary/5 rounded-lg p-2 ${smallTextClass}`}
+                            >
                               💡 {day.tips}
                             </p>
                           )}
@@ -476,25 +648,39 @@ const PathologyPageV2 = () => {
                       ))}
                     </div>
                   </TabsContent>
-                  
+
                   <TabsContent value="4semaines">
                     <div className={`space-y-4`}>
                       {pack.four_week_plan.map((week) => (
-                        <div key={week.week} className={`bg-card border border-border rounded-xl ${seniorMode ? 'p-5' : 'p-4'}`}>
+                        <div
+                          key={week.week}
+                          className={`bg-card border border-border rounded-xl ${seniorMode ? "p-5" : "p-4"}`}
+                        >
                           <div className="flex items-center gap-3 mb-3">
-                            <span className={`rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold ${seniorMode ? 'w-10 h-10' : 'w-8 h-8'}`}>
+                            <span
+                              className={`rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold ${seniorMode ? "w-10 h-10" : "w-8 h-8"}`}
+                            >
                               S{week.week}
                             </span>
                             <div>
-                              <h4 className={`font-semibold text-foreground ${seniorMode ? 'text-lg' : ''}`}>
+                              <h4
+                                className={`font-semibold text-foreground ${seniorMode ? "text-lg" : ""}`}
+                              >
                                 Semaine {week.week}
                               </h4>
-                              <p className={`text-primary ${smallTextClass}`}>Focus : {week.focus}</p>
+                              <p className={`text-primary ${smallTextClass}`}>
+                                Focus : {week.focus}
+                              </p>
                             </div>
                           </div>
-                          <ul className={`space-y-1 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+                          <ul
+                            className={`space-y-1 ${seniorMode ? "text-base" : "text-sm"}`}
+                          >
                             {week.goals.map((goal, gidx) => (
-                              <li key={gidx} className="flex items-start gap-2 text-muted-foreground">
+                              <li
+                                key={gidx}
+                                className="flex items-start gap-2 text-muted-foreground"
+                              >
                                 <span className="text-green-600">✓</span> {goal}
                               </li>
                             ))}
@@ -506,70 +692,92 @@ const PathologyPageV2 = () => {
                 </Tabs>
               </section>
             )}
-            
+
             {/* Section 5: Actes médicaux */}
             {pack.medical_procedures.length > 0 && (
               <section id="actes">
-                <SectionTitle 
-                  icon={<Stethoscope className={iconSizeLg} />} 
-                  title="Actes et traitements" 
-                  iconBg="bg-purple-100" 
+                <SectionTitle
+                  icon={<Stethoscope className={iconSizeLg} />}
+                  title="Actes et traitements"
+                  iconBg="bg-purple-100"
                   iconColor="text-purple-700"
                   seniorMode={seniorMode}
                 />
                 <p className={`text-muted-foreground mb-4 ${smallTextClass}`}>
-                  Informations éducatives sur les traitements possibles. Discutez avec votre médecin pour savoir s'ils sont adaptés à votre situation.
+                  Informations éducatives sur les traitements possibles.
+                  Discutez avec votre médecin pour savoir s'ils sont adaptés à
+                  votre situation.
                 </p>
-                <div className={seniorMode ? 'space-y-4' : 'space-y-3'}>
+                <div className={seniorMode ? "space-y-4" : "space-y-3"}>
                   {pack.medical_procedures.map((procedure) => (
-                    <ProcedureCard key={procedure.id} procedure={procedure} seniorMode={seniorMode} />
+                    <ProcedureCard
+                      key={procedure.id}
+                      procedure={procedure}
+                      seniorMode={seniorMode}
+                    />
                   ))}
                 </div>
               </section>
             )}
-            
+
             {/* Section 6: Cure thermale */}
             {pack.thermal_evidence && (
               <section id="thermal">
-                <SectionTitle 
-                  icon={<Droplets className={iconSizeLg} />} 
-                  title="Cure thermale : que dit la science ?" 
-                  iconBg="bg-cyan-100" 
+                <SectionTitle
+                  icon={<Droplets className={iconSizeLg} />}
+                  title="Cure thermale : que dit la science ?"
+                  iconBg="bg-cyan-100"
                   iconColor="text-cyan-700"
                   seniorMode={seniorMode}
                 />
-                <div className={`bg-cyan-50 border border-cyan-200 rounded-xl ${seniorMode ? 'p-6' : 'p-5'}`}>
+                <div
+                  className={`bg-cyan-50 border border-cyan-200 rounded-xl ${seniorMode ? "p-6" : "p-5"}`}
+                >
                   <p className={`${textClass} text-foreground mb-4`}>
                     {pack.thermal_evidence.summary}
                   </p>
-                  
+
                   {pack.thermal_evidence.key_results.length > 0 && (
                     <div className="mb-4">
-                      <h4 className={`font-medium text-cyan-800 mb-2 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+                      <h4
+                        className={`font-medium text-cyan-800 mb-2 ${seniorMode ? "text-base" : "text-sm"}`}
+                      >
                         📊 Résultats clés
                       </h4>
-                      <ul className={`space-y-1 ${seniorMode ? 'text-base' : 'text-sm'}`}>
-                        {pack.thermal_evidence.key_results.map((result, idx) => (
-                          <li key={idx} className="text-cyan-900 flex items-start gap-2">
-                            <span>•</span> {result}
-                          </li>
-                        ))}
+                      <ul
+                        className={`space-y-1 ${seniorMode ? "text-base" : "text-sm"}`}
+                      >
+                        {pack.thermal_evidence.key_results.map(
+                          (result, idx) => (
+                            <li
+                              key={idx}
+                              className="text-cyan-900 flex items-start gap-2"
+                            >
+                              <span>•</span> {result}
+                            </li>
+                          ),
+                        )}
                       </ul>
                     </div>
                   )}
-                  
+
                   {pack.thermal_evidence.duration_recommended && (
                     <p className={`text-cyan-800 mb-4 ${smallTextClass}`}>
-                      ⏱️ Durée recommandée : {pack.thermal_evidence.duration_recommended}
+                      ⏱️ Durée recommandée :{" "}
+                      {pack.thermal_evidence.duration_recommended}
                     </p>
                   )}
-                  
+
                   {pack.thermal_evidence.limitations.length > 0 && (
                     <div className="bg-white/50 rounded-lg p-3">
-                      <h4 className={`font-medium text-amber-700 mb-2 ${seniorMode ? 'text-base' : 'text-sm'}`}>
+                      <h4
+                        className={`font-medium text-amber-700 mb-2 ${seniorMode ? "text-base" : "text-sm"}`}
+                      >
                         ⚠️ Limites
                       </h4>
-                      <ul className={`space-y-1 text-muted-foreground ${smallTextClass}`}>
+                      <ul
+                        className={`space-y-1 text-muted-foreground ${smallTextClass}`}
+                      >
                         {pack.thermal_evidence.limitations.map((limit, idx) => (
                           <li key={idx}>• {limit}</li>
                         ))}
@@ -582,24 +790,63 @@ const PathologyPageV2 = () => {
 
             {/* PRO Questionnaire — PECAN */}
             <section className="mt-12 mb-8">
-              <ProQuestionnaire slug={slug || ''} pathologyName={pack.title} />
+              <ProQuestionnaire slug={slug || ""} pathologyName={pack.title} />
             </section>
+
+            {/* CTA parcours — second */}
+            <div className="my-10 p-6 rounded-xl bg-primary/5 border border-primary/20 text-center">
+              <p className="text-xl font-serif font-bold text-foreground mb-2">
+                Prêt à commencer ?
+              </p>
+              <p className="text-muted-foreground mb-4">
+                21 jours pour améliorer votre quotidien. Commencez maintenant.
+              </p>
+              <Link to={`/parcours/${slug}`}>
+                <Button size="lg" className="gap-2 text-lg">
+                  Démarrer le programme <ArrowRight className="w-5 h-5" />
+                </Button>
+              </Link>
+            </div>
+
+            {/* FAQ SEO */}
+            {slug && FAQ_BY_PATHOLOGY[slug] && (
+              <>
+                <FaqJsonLd
+                  items={FAQ_BY_PATHOLOGY[slug]}
+                  id={`jsonld-faq-${slug}`}
+                />
+                <FaqSection items={FAQ_BY_PATHOLOGY[slug]} />
+              </>
+            )}
           </div>
-          
+
           {/* Sidebar */}
-          <aside className={`space-y-6 ${seniorMode ? 'lg:sticky lg:top-24' : 'lg:sticky lg:top-20'}`}>
+          <aside
+            className={`space-y-6 ${seniorMode ? "lg:sticky lg:top-24" : "lg:sticky lg:top-20"}`}
+          >
             {/* Red Flags */}
             {pack.red_flags.length > 0 && (
-              <div className={`${cardClass} bg-destructive/5 border-destructive/20 ${cardPadding}`}>
-                <h3 className={`font-serif font-bold text-destructive mb-4 flex items-center gap-2 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
+              <div
+                className={`${cardClass} bg-destructive/5 border-destructive/20 ${cardPadding}`}
+              >
+                <h3
+                  className={`font-serif font-bold text-destructive mb-4 flex items-center gap-2 ${seniorMode ? "text-xl" : "text-lg"}`}
+                >
                   <AlertTriangle className={iconSize} />
                   Quand consulter rapidement
                 </h3>
-                <ul className={seniorMode ? 'space-y-3' : 'space-y-2'}>
+                <ul className={seniorMode ? "space-y-3" : "space-y-2"}>
                   {pack.red_flags.map((flag, idx) => (
-                    <li key={idx} className={`flex items-start gap-2 text-destructive ${seniorMode ? 'text-base' : 'text-sm'}`}>
+                    <li
+                      key={idx}
+                      className={`flex items-start gap-2 text-destructive ${seniorMode ? "text-base" : "text-sm"}`}
+                    >
                       <span className="font-bold">
-                        {flag.urgency === 'immediate' ? '🚨' : flag.urgency === 'rapid' ? '⚠️' : '📋'}
+                        {flag.urgency === "immediate"
+                          ? "🚨"
+                          : flag.urgency === "rapid"
+                            ? "⚠️"
+                            : "📋"}
                       </span>
                       {flag.text}
                     </li>
@@ -610,25 +857,32 @@ const PathologyPageV2 = () => {
                 </p>
               </div>
             )}
-            
+
             {/* Sources */}
             {pack.sources.length > 0 && (
               <div className={`${cardClass} ${cardPadding}`}>
-                <h3 className={`font-serif font-bold text-foreground mb-4 flex items-center gap-2 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
+                <h3
+                  className={`font-serif font-bold text-foreground mb-4 flex items-center gap-2 ${seniorMode ? "text-xl" : "text-lg"}`}
+                >
                   <FileText className={iconSize} />
                   Sources
                 </h3>
                 <ul className={`space-y-3 ${smallTextClass}`}>
                   {filterSourcesByPolicy(pack.sources, 6).map((source, idx) => (
                     <li key={idx} className="text-muted-foreground">
-                      <span className="font-medium text-foreground">{source.org}</span>
-                      <span className="text-muted-foreground"> ({source.year})</span>
+                      <span className="font-medium text-foreground">
+                        {source.org}
+                      </span>
+                      <span className="text-muted-foreground">
+                        {" "}
+                        ({source.year})
+                      </span>
                       <br />
                       <span className="text-sm">{source.title}</span>
                       {source.url && (
-                        <a 
-                          href={source.url} 
-                          target="_blank" 
+                        <a
+                          href={source.url}
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-primary hover:underline flex items-center gap-1 mt-1"
                         >
@@ -640,36 +894,76 @@ const PathologyPageV2 = () => {
                 </ul>
               </div>
             )}
-            
+
             {/* PDF */}
             {slug && <PdfDownloadButtons slug={slug} variant="card" />}
-            
+
             {/* Navigation */}
             <div className={`${cardClass} ${cardPadding}`}>
-              <h3 className={`font-serif font-bold text-foreground mb-4 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
+              <h3
+                className={`font-serif font-bold text-foreground mb-4 ${seniorMode ? "text-xl" : "text-lg"}`}
+              >
                 Sur cette page
               </h3>
-              <nav className={`space-y-2 ${seniorMode ? 'text-base' : 'text-sm'}`}>
-                <a href="#comprendre" className="block text-muted-foreground hover:text-primary">→ Comprendre</a>
+              <nav
+                className={`space-y-2 ${seniorMode ? "text-base" : "text-sm"}`}
+              >
+                <a
+                  href="#comprendre"
+                  className="block text-muted-foreground hover:text-primary"
+                >
+                  → Comprendre
+                </a>
                 {pack.recommendations.length > 0 && (
-                  <a href="#agir" className="block text-muted-foreground hover:text-primary">→ Ce qui aide vraiment</a>
+                  <a
+                    href="#agir"
+                    className="block text-muted-foreground hover:text-primary"
+                  >
+                    → Ce qui aide vraiment
+                  </a>
                 )}
                 {pack.exercises.length > 0 && (
-                  <a href="#exercices" className="block text-muted-foreground hover:text-primary">→ Exercices</a>
+                  <a
+                    href="#exercices"
+                    className="block text-muted-foreground hover:text-primary"
+                  >
+                    → Exercices
+                  </a>
                 )}
-                <a href="#videos" className="block text-muted-foreground hover:text-primary">→ Vidéos guidées</a>
-                {(pack.seven_day_plan.length > 0 || pack.four_week_plan.length > 0) && (
-                  <a href="#parcours" className="block text-muted-foreground hover:text-primary">→ Parcours guidé</a>
+                <a
+                  href="#videos"
+                  className="block text-muted-foreground hover:text-primary"
+                >
+                  → Vidéos guidées
+                </a>
+                {(pack.seven_day_plan.length > 0 ||
+                  pack.four_week_plan.length > 0) && (
+                  <a
+                    href="#parcours"
+                    className="block text-muted-foreground hover:text-primary"
+                  >
+                    → Parcours guidé
+                  </a>
                 )}
                 {pack.medical_procedures.length > 0 && (
-                  <a href="#actes" className="block text-muted-foreground hover:text-primary">→ Actes médicaux</a>
+                  <a
+                    href="#actes"
+                    className="block text-muted-foreground hover:text-primary"
+                  >
+                    → Actes médicaux
+                  </a>
                 )}
                 {pack.thermal_evidence && (
-                  <a href="#thermal" className="block text-muted-foreground hover:text-primary">→ Cure thermale</a>
+                  <a
+                    href="#thermal"
+                    className="block text-muted-foreground hover:text-primary"
+                  >
+                    → Cure thermale
+                  </a>
                 )}
               </nav>
             </div>
-            
+
             {/* Disclaimer */}
             <MedicalDisclaimer variant="compact" />
           </aside>
