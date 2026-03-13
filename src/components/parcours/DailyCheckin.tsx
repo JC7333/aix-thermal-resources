@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { saveCheckin } from '@/services/parcoursService';
 import { getStoredToken } from '@/lib/parcoursToken';
 import { useToast } from '@/hooks/use-toast';
+import { AiAdvice } from '@/components/parcours/AiAdvice';
+import { StreakBadge } from '@/components/parcours/StreakBadge';
+import { PainTrendMini } from '@/components/parcours/PainTrendMini';
+import { fetchCheckins } from '@/services/parcoursService';
 
 interface DailyCheckinProps {
   slug: string;
@@ -18,6 +22,29 @@ export const DailyCheckin = ({ slug, dayNumber, onComplete }: DailyCheckinProps)
   const [saving, setSaving] = useState(false);
   const { toast } = useToast();
 
+  const [previousCheckins, setPreviousCheckins] = useState<{ day_number: number; pain_score: number; action_done: boolean }[]>([]);
+  const [streak, setStreak] = useState(0);
+
+  const loadPreviousCheckins = useCallback(async () => {
+    const stored = getStoredToken(slug);
+    if (!stored?.parcoursId) return;
+    const checkins = await fetchCheckins(stored.parcoursId);
+    setPreviousCheckins(checkins);
+    let s = 0;
+    const sortedDays = checkins.map(c => c.day_number).sort((a, b) => b - a);
+    for (let i = 0; i < sortedDays.length; i++) {
+      if (i === 0 || sortedDays[i] === sortedDays[i - 1] - 1) { s++; } else { break; }
+    }
+    setStreak(s);
+  }, [slug]);
+
+  useEffect(() => { loadPreviousCheckins(); }, [loadPreviousCheckins]);
+
+  const painHistory = useMemo(
+    () => previousCheckins.map(c => `J${c.day_number}:${c.pain_score}`).join(', '),
+    [previousCheckins]
+  );
+
   const canSubmit = painScore !== null && actionDone !== null;
 
   const handleSubmit = async () => {
@@ -28,6 +55,7 @@ export const DailyCheckin = ({ slug, dayNumber, onComplete }: DailyCheckinProps)
       if (stored?.parcoursId) {
         await saveCheckin(stored.parcoursId, dayNumber, painScore!, actionDone!);
       }
+      await loadPreviousCheckins();
       setSubmitted(true);
     } catch (e) {
       console.error('[Checkin] Save failed:', e);
@@ -38,10 +66,29 @@ export const DailyCheckin = ({ slug, dayNumber, onComplete }: DailyCheckinProps)
   };
 
   if (submitted) {
+    const painScores = previousCheckins.map(c => ({ day: c.day_number, score: c.pain_score }));
+
     return (
       <div className="rounded-xl border-2 border-green-200 bg-green-50 p-6 text-center space-y-4">
         <CheckCircle2 className="w-10 h-10 text-green-600 mx-auto" />
         <p className="text-lg font-semibold text-green-800">Check-in enregistré !</p>
+
+        <StreakBadge streak={streak} />
+
+        {painScores.length >= 2 && (
+          <PainTrendMini scores={painScores} />
+        )}
+
+        <AiAdvice
+          pathology={slug}
+          day={dayNumber}
+          painScore={painScore!}
+          actionDone={actionDone!}
+          painHistory={painHistory}
+          streak={streak}
+          visible={true}
+        />
+
         <Button size="lg" onClick={onComplete} className="gap-2 text-lg py-6">
           Continuer <ArrowRight className="w-5 h-5" />
         </Button>
