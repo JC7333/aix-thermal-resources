@@ -1,6 +1,8 @@
 ﻿import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Download, Compass, ZoomIn, Heart, Bone, Wind, Activity, Baby, FileText, Loader2 } from 'lucide-react';
+import { BLOG_ARTICLES } from '@/content/blog';
+import { PATHOLOGY_LABELS } from '@/content/blog/constants';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { useAccessibility } from '@/contexts/AccessibilityContext';
@@ -362,6 +364,45 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Derniers articles du blog */}
+      {BLOG_ARTICLES.length > 0 && (
+        <section className={`bg-background ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl mx-auto">
+              <h2 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-3xl md:text-4xl mb-6' : 'text-2xl md:text-3xl mb-6'}`}>
+                Derniers articles
+              </h2>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {BLOG_ARTICLES.slice(0, 4).map((article) => (
+                  <Link
+                    key={article.slug}
+                    to={`/blog/${article.slug}`}
+                    className="p-5 rounded-xl border border-border hover:border-primary/50 hover:shadow-sm transition-all group"
+                  >
+                    <div className="text-xs text-muted-foreground mb-1 flex items-center gap-2">
+                      <time dateTime={article.date}>
+                        {new Date(article.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+                      </time>
+                      {article.pathology && (
+                        <span className="text-primary">{PATHOLOGY_LABELS[article.pathology] || ''}</span>
+                      )}
+                    </div>
+                    <h3 className={`font-semibold text-foreground group-hover:text-primary transition-colors leading-snug ${seniorMode ? 'text-base' : 'text-sm'}`}>
+                      {article.title}
+                    </h3>
+                  </Link>
+                ))}
+              </div>
+              <div className="mt-4 text-center">
+                <Link to="/blog" className="text-primary font-medium hover:underline text-sm inline-flex items-center gap-1">
+                  Tous les articles <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* About teaser */}
       <section id="about" className={`bg-background ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>

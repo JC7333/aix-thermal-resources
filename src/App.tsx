@@ -39,6 +39,8 @@ const MesFavoris = lazy(() => import("./pages/MesFavoris"));
 const SourcesMethodologie = lazy(() => import("./pages/SourcesMethodologie"));
 const QrLanding = lazy(() => import("./pages/QrLanding"));
 const Programme = lazy(() => import("./pages/Programme"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 // Routes internes masquees en production
 // const Admin = lazy(() => import("./pages/Admin"));
 // const SocialKit = lazy(() => import("./pages/SocialKit"));
@@ -113,6 +115,8 @@ const App = () => {
                   <Route path="/le-programme" element={<Programme />} />
                   {/* Route legacy /pathologie/:slug */}
                   <Route path="/pathologie/:slug" element={<PathologyPage />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:slug" element={<BlogArticle />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

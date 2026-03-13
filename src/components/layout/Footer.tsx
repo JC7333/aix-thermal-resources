@@ -81,6 +81,14 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li>
                 <ScrollTopLink
+                  to="/blog"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
+                  Blog
+                </ScrollTopLink>
+              </li>
+              <li>
+                <ScrollTopLink
                   to="/le-programme"
                   className="text-white/80 hover:text-white transition-colors"
                 >
