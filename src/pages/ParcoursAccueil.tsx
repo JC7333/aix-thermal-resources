@@ -8,6 +8,7 @@ import { getStoredToken, saveToken } from '@/lib/parcoursToken';
 import { findParcoursByToken } from '@/services/parcoursService';
 import { ArrowRight, Clock, CheckCircle2, Shield, Smartphone, KeyRound } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { SocialProof } from '@/components/parcours/SocialProof';
 
 // Métadonnées par pathologie
 const PARCOURS_META: Record<string, { title: string; subtitle: string; description: string; icon: string }> = {
@@ -148,6 +149,7 @@ const ParcoursAccueil = () => {
           <h1 className="font-serif text-3xl sm:text-4xl font-bold text-foreground mb-3">{meta.title}</h1>
           <p className="text-xl text-primary font-medium mb-4">{meta.subtitle}</p>
           <p className="text-lg text-muted-foreground max-w-lg mx-auto">{meta.description}</p>
+          <SocialProof slug={slug} />
         </div>
 
         {/* Points clés */}
