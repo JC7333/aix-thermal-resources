@@ -199,6 +199,14 @@ export const Footer = () => {
               </li>
               <li>
                 <ScrollTopLink
+                  to="/professionnels"
+                  className="text-white/80 hover:text-white transition-colors"
+                >
+                  Professionnels
+                </ScrollTopLink>
+              </li>
+              <li>
+                <ScrollTopLink
                   to="/contact"
                   className="text-white/80 hover:text-white transition-colors"
                 >

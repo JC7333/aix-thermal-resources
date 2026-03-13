@@ -13,6 +13,9 @@ import { useToast } from '@/hooks/use-toast';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { JsonLd } from '@/components/shared/JsonLd';
+import { FAQ_GENERAL } from '@/content/faq';
+import { FaqSection } from '@/components/shared/FaqSection';
+import { FaqJsonLd } from '@/components/shared/FaqJsonLd';
 
 const topPDFs = [
   { title: 'Plan arthrose 7 jours', category: 'Rhumatologie', slug: 'gonarthrose' },
@@ -403,6 +406,16 @@ const Index = () => {
           </div>
         </section>
       )}
+
+      {/* FAQ générale */}
+      <section className={`bg-background ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <FaqJsonLd items={FAQ_GENERAL} id="jsonld-faq-home" />
+            <FaqSection items={FAQ_GENERAL} />
+          </div>
+        </div>
+      </section>
 
       {/* About teaser */}
       <section id="about" className={`bg-background ${seniorMode ? 'py-14 lg:py-18' : 'py-10 lg:py-14'}`}>

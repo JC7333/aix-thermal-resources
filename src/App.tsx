@@ -42,6 +42,7 @@ const Programme = lazy(() => import("./pages/Programme"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const BilanHebdoPage = lazy(() => import("./pages/BilanHebdoPage"));
+const ProPage = lazy(() => import("./pages/ProPage"));
 // Routes internes masquees en production
 // const Admin = lazy(() => import("./pages/Admin"));
 // const SocialKit = lazy(() => import("./pages/SocialKit"));
@@ -119,6 +120,7 @@ const App = () => {
                   <Route path="/blog" element={<Blog />} />
                   <Route path="/blog/:slug" element={<BlogArticle />} />
                   <Route path="/bilan-hebdo" element={<BilanHebdoPage />} />
+                  <Route path="/professionnels" element={<ProPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
