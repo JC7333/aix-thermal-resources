@@ -244,7 +244,12 @@ interface ParcoursOverview {
   followUpRateT3: number;
   byPathology: ParcoursOutcome[];
   dailyPainCurve: { day: number; avgPain: number; count: number }[];
-  longitudinal: { timepoint: string; avgPain: number | null; avgConfidence: number | null; count: number }[];
+  longitudinal: {
+    timepoint: string;
+    avgPain: number | null;
+    avgConfidence: number | null;
+    count: number;
+  }[];
 }
 
 const SLUG_LABELS: Record<string, string> = {
@@ -433,17 +438,35 @@ const fetchParcoursOutcomes = async (): Promise<ParcoursOverview | null> => {
       completedIds.has(r.id),
     ).length;
 
-    const totalCompletedT2 = parcoursTyped.filter((r) => completedT2Ids.has(r.id)).length;
-    const totalCompletedT3 = parcoursTyped.filter((r) => completedT3Ids.has(r.id)).length;
+    const totalCompletedT2 = parcoursTyped.filter((r) =>
+      completedT2Ids.has(r.id),
+    ).length;
+    const totalCompletedT3 = parcoursTyped.filter((r) =>
+      completedT3Ids.has(r.id),
+    ).length;
 
-    const longitudinalCalc = (['T0', 'T1', 'T2', 'T3'] as const).map((tp) => {
+    const longitudinalCalc = (["T0", "T1", "T2", "T3"] as const).map((tp) => {
       const scores = proList.filter((p) => p.timepoint === tp);
-      const painVals = scores.map((s) => s.pain_score).filter((v) => v !== null && v !== undefined);
-      const confVals = scores.map((s) => s.confidence_score).filter((v) => v !== null && v !== undefined);
+      const painVals = scores
+        .map((s) => s.pain_score)
+        .filter((v) => v !== null && v !== undefined);
+      const confVals = scores
+        .map((s) => s.confidence_score)
+        .filter((v) => v !== null && v !== undefined);
       return {
         timepoint: tp,
-        avgPain: painVals.length > 0 ? Math.round((painVals.reduce((a, b) => a + b, 0) / painVals.length) * 10) / 10 : null,
-        avgConfidence: confVals.length > 0 ? Math.round((confVals.reduce((a, b) => a + b, 0) / confVals.length) * 10) / 10 : null,
+        avgPain:
+          painVals.length > 0
+            ? Math.round(
+                (painVals.reduce((a, b) => a + b, 0) / painVals.length) * 10,
+              ) / 10
+            : null,
+        avgConfidence:
+          confVals.length > 0
+            ? Math.round(
+                (confVals.reduce((a, b) => a + b, 0) / confVals.length) * 10,
+              ) / 10
+            : null,
         count: scores.length,
       };
     });
@@ -1173,7 +1196,7 @@ const Stats = () => {
             </CardHeader>
             <CardContent>
               {/* KPIs parcours */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
                 <div className="bg-primary/5 rounded-xl p-4 text-center">
                   <p className="text-sm text-primary font-medium">
                     Parcours démarrés
@@ -1198,6 +1221,28 @@ const Stats = () => {
                     {parcoursOutcomes.completionRate}%
                   </p>
                 </div>
+                <div className="bg-blue-50 rounded-xl p-4 text-center">
+                  <p className="text-sm text-blue-600 font-medium">
+                    Suivi T2 (M+1)
+                  </p>
+                  <p className="text-3xl font-bold text-blue-700">
+                    {parcoursOutcomes.followUpRateT2}%
+                  </p>
+                  <p className="text-xs text-blue-500">
+                    {parcoursOutcomes.totalCompletedT2} patients
+                  </p>
+                </div>
+                <div className="bg-purple-50 rounded-xl p-4 text-center">
+                  <p className="text-sm text-purple-600 font-medium">
+                    Suivi T3 (M+3)
+                  </p>
+                  <p className="text-3xl font-bold text-purple-700">
+                    {parcoursOutcomes.followUpRateT3}%
+                  </p>
+                  <p className="text-xs text-purple-500">
+                    {parcoursOutcomes.totalCompletedT3} patients
+                  </p>
+                </div>
               </div>
 
               {/* Tableau par pathologie */}
@@ -1219,6 +1264,12 @@ const Stats = () => {
                       </th>
                       <th className="text-center py-2 px-2 font-semibold text-muted-foreground">
                         Confiance T0→T1
+                      </th>
+                      <th className="text-center py-2 px-2 font-semibold text-muted-foreground">
+                        Douleur T3
+                      </th>
+                      <th className="text-center py-2 px-2 font-semibold text-muted-foreground">
+                        Suivi
                       </th>
                     </tr>
                   </thead>
@@ -1281,6 +1332,42 @@ const Stats = () => {
                           ) : (
                             <span className="text-muted-foreground">—</span>
                           )}
+                        </td>
+                        <td className="py-2 px-2 text-center">
+                          {p.avgPainT3 !== null ? (
+                            <span>
+                              {p.avgPainT3}
+                              {p.painImprovementT3 !== null &&
+                                p.painImprovementT3 > 0 && (
+                                  <span className="text-green-600 ml-1 font-semibold">
+                                    <TrendingDown className="w-3 h-3 inline" />{" "}
+                                    -{p.painImprovementT3}
+                                  </span>
+                                )}
+                            </span>
+                          ) : (
+                            <span className="text-muted-foreground">—</span>
+                          )}
+                        </td>
+                        <td className="py-2 px-2 text-center text-xs">
+                          <span
+                            className={
+                              p.completedT2 > 0
+                                ? "text-blue-600"
+                                : "text-muted-foreground"
+                            }
+                          >
+                            T2:{p.completedT2}
+                          </span>{" "}
+                          <span
+                            className={
+                              p.completedT3 > 0
+                                ? "text-purple-600"
+                                : "text-muted-foreground"
+                            }
+                          >
+                            T3:{p.completedT3}
+                          </span>
                         </td>
                       </tr>
                     ))}
@@ -1360,6 +1447,93 @@ const Stats = () => {
                         />
                       </LineChart>
                     </ResponsiveContainer>
+                  </div>
+                </div>
+              )}
+
+              {/* Graphique longitudinal T0→T3 */}
+              {parcoursOutcomes.longitudinal.some(
+                (l) => l.avgPain !== null,
+              ) && (
+                <div className="mt-6">
+                  <p className="text-sm font-medium text-muted-foreground mb-3">
+                    Évolution longitudinale T0 → T3 (tous parcours agrégés)
+                  </p>
+                  <div className="h-48">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart
+                        data={parcoursOutcomes.longitudinal}
+                        margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+                      >
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          className="stroke-border"
+                        />
+                        <XAxis dataKey="timepoint" tick={{ fontSize: 12 }} />
+                        <YAxis domain={[0, 10]} tick={{ fontSize: 11 }} />
+                        <Tooltip
+                          content={({ active, payload }) => {
+                            if (active && payload && payload.length) {
+                              const d = payload[0].payload as {
+                                timepoint: string;
+                                avgPain: number | null;
+                                avgConfidence: number | null;
+                                count: number;
+                              };
+                              return (
+                                <div className="bg-popover border border-border rounded-lg px-3 py-2 shadow-lg">
+                                  <p className="text-sm font-medium">
+                                    {d.timepoint}
+                                  </p>
+                                  {d.avgPain !== null && (
+                                    <p className="text-sm text-red-600">
+                                      Douleur : {d.avgPain}/10
+                                    </p>
+                                  )}
+                                  {d.avgConfidence !== null && (
+                                    <p className="text-sm text-green-600">
+                                      Confiance : {d.avgConfidence}/10
+                                    </p>
+                                  )}
+                                  <p className="text-xs text-muted-foreground">
+                                    {d.count} évaluation{d.count > 1 ? "s" : ""}
+                                  </p>
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="avgPain"
+                          stroke="#dc2626"
+                          strokeWidth={2}
+                          dot={{ r: 4 }}
+                          name="Douleur"
+                          connectNulls
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="avgConfidence"
+                          stroke="#16a34a"
+                          strokeWidth={2}
+                          dot={{ r: 4 }}
+                          name="Confiance"
+                          connectNulls
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="flex justify-center gap-6 mt-2 text-xs">
+                    <span className="flex items-center gap-1">
+                      <span className="w-3 h-0.5 bg-red-600 inline-block"></span>{" "}
+                      Douleur (↓ = mieux)
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <span className="w-3 h-0.5 bg-green-600 inline-block"></span>{" "}
+                      Confiance (↑ = mieux)
+                    </span>
                   </div>
                 </div>
               )}
