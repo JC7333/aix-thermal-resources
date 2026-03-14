@@ -50,3 +50,11 @@ cd C:\dev\coolance; node -e "const d = require('./src/data/evidence-pack.json');
 ### DÃ©cision
 Sprint 1 **EN ATTENTE**. Aucun fichier crÃ©Ã© ou modifiÃ© conformÃ©ment aux instructions.
 Reprendre lorsque `evidence-pack.json` contiendra bien 11 entrÃ©es.
+
+## QA Sprint 25 — Validation parcours
+- Date : 14/03/2026
+- Script : src/scripts/validate-parcours.ts
+- Résultat : 2343 checks, 0 erreurs, 51 warnings
+- Warnings : action.duration manquant sur quelques jours (non bloquant)
+- Correctifs appliqués : quiz J7 et J14 complétés à 3 questions (arthrose-digitale, fibromyalgie, gonarthrose, lombalgie-chronique, rhinosinusite-chronique, tendinopathie-coiffe) + correctIndex variés sur lombalgie J7
+
