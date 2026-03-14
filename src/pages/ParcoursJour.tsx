@@ -9,6 +9,7 @@ import { DailyCheckin } from '@/components/parcours/DailyCheckin';
 import { ParcoursTimeline } from '@/components/parcours/ParcoursTimeline';
 import { ParcoursQuiz } from '@/components/parcours/ParcoursQuiz';
 import { MarkdownContent } from '@/components/parcours/MarkdownContent';
+import { FadeIn } from '@/components/shared/FadeIn';
 import { ArrowLeft, ArrowRight, BookOpen, Dumbbell, Target } from 'lucide-react';
 import type { ParcoursContent, ParcoursDay } from '@/content/parcours/types';
 
@@ -76,7 +77,6 @@ const ParcoursJour = () => {
   const [parcours, setParcours] = useState<ParcoursContent | null>(null);
   const [loading, setLoading] = useState(true);
   const [completedDays, setCompletedDays] = useState<number[]>([]);
-  const [showCheckin, setShowCheckin] = useState(false);
 
   // Charger le parcours
   useEffect(() => {
@@ -103,7 +103,6 @@ const ParcoursJour = () => {
   // Scroll to top à chaque changement de jour
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    setShowCheckin(false);
   }, [dayNumber]);
 
   const dayContent: ParcoursDay | undefined = parcours?.days.find((d) => d.day === dayNumber);
@@ -115,8 +114,8 @@ const ParcoursJour = () => {
   // Loading
   if (loading) {
     return (
-      <Layout>
-        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+      <Layout noPadding>
+        <div className="max-w-2xl mx-auto px-5 sm:px-6 pt-20 lg:pt-24 pb-16 text-center">
           <p className="text-lg text-muted-foreground">Chargement du parcours...</p>
         </div>
       </Layout>
@@ -126,8 +125,8 @@ const ParcoursJour = () => {
   // Parcours ou jour non trouvé
   if (!slug || !parcours || !dayContent) {
     return (
-      <Layout>
-        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+      <Layout noPadding>
+        <div className="max-w-2xl mx-auto px-5 sm:px-6 pt-20 lg:pt-24 pb-16 text-center">
           <p className="text-xl text-muted-foreground">
             {!parcours ? "Ce parcours n'est pas encore disponible." : `Le jour ${dayNumber} n'existe pas.`}
           </p>
@@ -147,8 +146,18 @@ const ParcoursJour = () => {
   };
 
   return (
-    <Layout>
-      <div className="max-w-2xl mx-auto px-4 py-8">
+    <Layout noPadding>
+      <div className="max-w-2xl mx-auto px-5 sm:px-6 pb-8">
+
+        {/* Timeline — EN HAUT */}
+        <div className="pt-20 lg:pt-24 pb-4">
+          <ParcoursTimeline
+            slug={slug}
+            totalDays={totalDays}
+            currentDay={dayNumber}
+            completedDays={completedDays}
+          />
+        </div>
 
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -169,37 +178,41 @@ const ParcoursJour = () => {
         <div className="space-y-8">
 
           {/* Contenu éducatif */}
-          <section>
-            <div className="flex items-center gap-2 mb-3">
-              <BookOpen className="w-5 h-5 text-primary" />
-              <h2 className="text-lg font-semibold">{dayContent.content.title}</h2>
-            </div>
-            <MarkdownContent text={dayContent.content.body} />
-            <div className="mt-4 p-4 rounded-xl bg-primary/5 border border-primary/20">
-              <p className="text-base font-medium text-primary flex items-start gap-2">
-                <Target className="w-5 h-5 shrink-0 mt-0.5" />
-                {dayContent.content.keyMessage}
-              </p>
-            </div>
-            {dayContent.content.source && (
-              <p className="text-xs text-muted-foreground mt-2">Source : {dayContent.content.source}</p>
-            )}
-          </section>
+          <FadeIn>
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <BookOpen className="w-5 h-5 text-primary" />
+                <h2 className="text-lg font-semibold">{dayContent.content.title}</h2>
+              </div>
+              <MarkdownContent text={dayContent.content.body} />
+              <div className="mt-4 p-4 rounded-xl bg-primary/5 border border-primary/20">
+                <p className="text-base font-medium text-primary flex items-start gap-2">
+                  <Target className="w-5 h-5 shrink-0 mt-0.5" />
+                  {dayContent.content.keyMessage}
+                </p>
+              </div>
+              {dayContent.content.source && (
+                <p className="text-xs text-muted-foreground mt-2">Source : {dayContent.content.source}</p>
+              )}
+            </section>
+          </FadeIn>
 
           {/* Action du jour */}
-          <section className="p-5 rounded-xl bg-amber-50 border border-amber-200">
-            <div className="flex items-center gap-2 mb-3">
-              <Dumbbell className="w-5 h-5 text-amber-600" />
-              <h2 className="text-lg font-semibold text-amber-900">Action du jour</h2>
-              {dayContent.action.duration && (
-                <span className="ml-auto text-sm font-medium text-amber-600 bg-amber-100 px-2 py-0.5 rounded-full">
-                  {dayContent.action.duration}
-                </span>
-              )}
-            </div>
-            <p className="text-xl font-bold text-amber-900 mb-2">{dayContent.action.title}</p>
-            <p className="text-base text-amber-800 leading-relaxed">{dayContent.action.description}</p>
-          </section>
+          <FadeIn delay={0.1}>
+            <section className="p-5 rounded-xl bg-amber-50 border border-amber-200">
+              <div className="flex items-center gap-2 mb-3">
+                <Dumbbell className="w-5 h-5 text-amber-600" />
+                <h2 className="text-lg font-semibold text-amber-900">Action du jour</h2>
+                {dayContent.action.duration && (
+                  <span className="ml-auto text-sm font-medium text-amber-600 bg-amber-100 px-2 py-0.5 rounded-full">
+                    {dayContent.action.duration}
+                  </span>
+                )}
+              </div>
+              <p className="text-xl font-bold text-amber-900 mb-2">{dayContent.action.title}</p>
+              <p className="text-base text-amber-800 leading-relaxed">{dayContent.action.description}</p>
+            </section>
+          </FadeIn>
 
           {/* Quiz (J7, J14) */}
           {dayContent.quiz && dayContent.quiz.length > 0 && (
@@ -208,18 +221,17 @@ const ParcoursJour = () => {
 
           {/* Check-in quotidien */}
           {isCheckedIn ? (
-            <div className="rounded-xl border-2 border-green-200 bg-green-50 p-4 text-center">
-              <p className="text-green-800 font-medium">Check-in du jour {dayNumber} déjà enregistré ✓</p>
-            </div>
-          ) : !showCheckin ? (
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => setShowCheckin(true)}
-              className="w-full text-lg py-6 gap-2 border-2"
-            >
-              Faire mon check-in du jour
-            </Button>
+            <FadeIn>
+              <div className="rounded-2xl border-2 border-green-200 bg-green-50 p-6 text-center space-y-2">
+                <p className="text-2xl">🎉</p>
+                <p className="text-green-800 font-semibold text-lg">Jour {dayNumber} complété !</p>
+                <p className="text-green-700 text-sm">
+                  {dayNumber < totalDays
+                    ? 'Revenez demain pour la suite de votre programme.'
+                    : 'Bravo pour ces 21 jours ! Passez maintenant à votre bilan final.'}
+                </p>
+              </div>
+            </FadeIn>
           ) : (
             <DailyCheckin
               slug={slug}
@@ -232,7 +244,7 @@ const ParcoursJour = () => {
           {dayNumber === 21 && (
             <Button
               size="lg"
-              className="w-full text-xl py-7 gap-3 mt-4"
+              className="w-full text-xl py-7 gap-3 mt-4 rounded-xl"
               onClick={() => navigate(`/parcours/${slug}/bilan`)}
             >
               Remplir mon bilan final <ArrowRight className="w-6 h-6" />
@@ -240,37 +252,30 @@ const ParcoursJour = () => {
           )}
         </div>
 
-        {/* Timeline */}
-        <div className="mt-10 pt-8 border-t">
-          <h3 className="text-sm font-semibold text-muted-foreground mb-3">Votre progression</h3>
-          <ParcoursTimeline
-            slug={slug}
-            totalDays={totalDays}
-            currentDay={dayNumber}
-            completedDays={completedDays}
-          />
-        </div>
-
         {/* Navigation jour */}
-        <div className="flex gap-3 mt-8">
-          {dayNumber > 1 && (
+        <div className="flex gap-3 mt-10">
+          {dayNumber > 1 ? (
             <Button
               variant="outline"
               size="lg"
               onClick={() => navigate(`/parcours/${slug}/jour/${dayNumber - 1}`)}
-              className="flex-1 text-lg py-6 gap-2"
+              className="flex-1 text-lg py-7 gap-2 rounded-xl"
             >
-              <ArrowLeft className="w-5 h-5" /> Jour {dayNumber - 1}
+              <ArrowLeft className="w-5 h-5" /> Précédent
             </Button>
+          ) : (
+            <div className="flex-1" />
           )}
-          {dayNumber < totalDays && (
+          {dayNumber < totalDays ? (
             <Button
               size="lg"
               onClick={() => navigate(`/parcours/${slug}/jour/${dayNumber + 1}`)}
-              className="flex-1 text-lg py-6 gap-2"
+              className="flex-1 text-lg py-7 gap-2 rounded-xl"
             >
-              Jour {dayNumber + 1} <ArrowRight className="w-5 h-5" />
+              Suivant <ArrowRight className="w-5 h-5" />
             </Button>
+          ) : (
+            <div className="flex-1" />
           )}
         </div>
 
