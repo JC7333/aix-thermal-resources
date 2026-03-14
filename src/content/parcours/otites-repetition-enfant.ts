@@ -39,8 +39,9 @@ export const otitesEnfantParcours: ParcoursContent = {
       action: { title: "Lavage + évaluation", description: "Faites le lavage de nez + évaluez : votre enfant respire-t-il mieux par le nez ?", duration: "5 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "Quel est le facteur évitable n°1 des otites ?", options: ["Le froid", "Le tabac passif", "La crèche"], correctIndex: 1, explanation: "Le tabac passif double le risque d'otites. C'est le facteur le plus facilement éliminable." },
-        { question: "Faut-il toujours des antibiotiques pour une otite ?", options: ["Oui, toujours", "Non, la majorité guérissent seules en 48-72h", "Seulement si fièvre"], correctIndex: 1, explanation: "La majorité des otites guérissent sans antibiotique. On attend 48-72h sauf si < 2 ans ou symptômes sévères." },
+        { question: "Le geste de prévention n°1 des otites est :", options: ["Le lavage de nez quotidien", "Les antibiotiques préventifs", "Les bouchons d'oreilles"], correctIndex: 0, explanation: "Le lavage de nez au sérum physiologique draine les sécrétions qui causent les otites." },
+        { question: "Le tabagisme passif et les otites :", options: ["N'ont aucun lien", "Le tabac protège les voies respiratoires", "Le tabac double le risque d'otites à répétition"], correctIndex: 2, explanation: "Le tabagisme passif irrite les muqueuses et augmente significativement le risque d'otites." },
+        { question: "La plupart des otites guérissent :", options: ["Seulement avec des antibiotiques", "Seules en 48-72h", "En une semaine avec des gouttes"], correctIndex: 1, explanation: "La majorité des otites sont virales et guérissent spontanément. Les antibiotiques sont réservés aux cas persistants." },
       ],
     },
 
@@ -74,7 +75,9 @@ export const otitesEnfantParcours: ParcoursContent = {
       action: { title: "Routine complète", description: "Lavage nez + xylitol + vérifier environnement (tabac, humidité).", duration: "10 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "À partir de combien d'otites consulter l'ORL ?", options: ["1 seule otite", "> 3 en 6 mois ou > 4 en 12 mois", "Seulement si opération"], correctIndex: 1, explanation: "Plus de 3 otites en 6 mois ou 4 en 12 mois justifie un avis ORL spécialisé." },
+        { question: "Combien de fois par jour faut-il laver le nez de l'enfant en période d'infection ?", options: ["1 fois le matin", "Seulement quand il a le nez bouché", "2 à 4 fois par jour"], correctIndex: 2, explanation: "Le lavage régulier (2-4×/jour) est plus efficace que le lavage occasionnel." },
+        { question: "Quelle est la priorité quand votre enfant a une otite ?", options: ["Traiter la douleur (antidouleur adapté)", "Obtenir des antibiotiques immédiatement", "Mettre des gouttes dans l'oreille"], correctIndex: 0, explanation: "Le traitement de la douleur est la priorité n°1, avant même la question des antibiotiques." },
+        { question: "À partir de combien d'otites en 6 mois faut-il consulter un ORL ?", options: ["1 otite", "3 otites ou plus", "5 otites ou plus"], correctIndex: 1, explanation: "3+ otites en 6 mois ou 4+ en 12 mois justifient un bilan ORL spécialisé selon la HAS." },
       ],
     },
 
