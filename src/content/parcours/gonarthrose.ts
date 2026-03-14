@@ -270,6 +270,12 @@ export const gonarthroseParcours: ParcoursContent = {
           correctIndex: 1,
           explanation: "30 min/jour, en une ou plusieurs fois.",
         },
+        {
+          question: "Combien de temps durent les bénéfices de la cure si vous continuez les exercices ?",
+          options: ["6 à 9 mois", "2 semaines seulement", "Pas de bénéfice prouvé"],
+          correctIndex: 0,
+          explanation: "Les patients qui maintiennent leurs exercices après la cure gardent les bénéfices 6 à 9 mois.",
+        },
       ],
     },
 

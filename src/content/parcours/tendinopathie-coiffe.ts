@@ -48,6 +48,7 @@ export const tendinopathieCoiffeParcours: ParcoursContent = {
       quiz: [
         { question: "La chirurgie est-elle plus efficace que la rééducation ?", options: ["Oui, toujours", "Non, la rééducation est aussi efficace dans la majorité des cas", "Seulement après 1 mois"], correctIndex: 1, explanation: "L'étude CSAW (Lancet 2018) a montré que la chirurgie n'est pas supérieure à la rééducation." },
         { question: "Quelle douleur est acceptable pendant les exercices ?", options: ["0/10, aucune douleur", "3-4/10 maximum", "Autant que possible"], correctIndex: 1, explanation: "Jusqu'à 3-4/10 est acceptable. Au-delà, réduisez l'amplitude." },
+        { question: "Que faut-il faire en cas de poussée douloureuse de l'épaule ?", options: ["Continuer les exercices à la même intensité", "Forcer pour débloquer l'articulation", "Appliquer du froid 15 min et réduire les exercices"], correctIndex: 2, explanation: "Froid 15 min et réduction temporaire des exercices sont les premières mesures en cas de poussée." },
       ],
     },
 

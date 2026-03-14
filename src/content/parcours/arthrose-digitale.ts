@@ -48,6 +48,7 @@ export const arthroseDigitaleParcours: ParcoursContent = {
       quiz: [
         { question: "Les nodosités (bosses) signifient-elles plus de douleur ?", options: ["Oui, c'est grave", "Non, pas nécessairement", "Il faut opérer"], correctIndex: 1, explanation: "Les nodosités sont des déformations liées à l'arthrose mais ne sont pas proportionnelles à la douleur." },
         { question: "Quel est le duo gagnant pour le pouce ?", options: ["Médicaments + repos", "Orthèse de nuit + exercices", "Chirurgie + infiltrations"], correctIndex: 1, explanation: "L'orthèse nocturne + les exercices quotidiens sont recommandés par EULAR et validés par Cochrane." },
+        { question: "Comment le cartilage des doigts se nourrit-il ?", options: ["Par le mouvement et la circulation du liquide articulaire", "Par le repos complet", "Par les compléments alimentaires"], correctIndex: 0, explanation: "Sans vaisseaux sanguins, le cartilage se nourrit par le mouvement — comme une éponge. EULAR 2018." },
       ],
     },
 

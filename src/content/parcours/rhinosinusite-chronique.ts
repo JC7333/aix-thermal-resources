@@ -160,6 +160,18 @@ export const rhinosinusiteParcours: ParcoursContent = {
           explanation:
             "Les décongestionnants > 5 jours provoquent une rhinite médicamenteuse (nez encore plus bouché).",
         },
+        {
+          question:
+            "Quel est le traitement de base recommandé pour la rhinosinusite chronique ?",
+          options: [
+            "Les antibiotiques au long cours",
+            "Les décongestionnants quotidiens",
+            "Le lavage nasal quotidien au sérum physiologique",
+          ],
+          correctIndex: 2,
+          explanation:
+            "Le lavage nasal quotidien est le traitement de base validé par EPOS 2020 et la Cochrane.",
+        },
       ],
     },
 
@@ -300,6 +312,29 @@ export const rhinosinusiteParcours: ParcoursContent = {
           correctIndex: 1,
           explanation:
             "L'entraînement olfactif (4 odeurs, 2×/jour, 12 semaines) stimule la régénération des neurones olfactifs.",
+        },
+        {
+          question:
+            "Le tabac a-t-il un impact sur la rhinosinusite chronique ?",
+          options: [
+            "Oui, il paralyse les cils et aggrave directement la RSC",
+            "Non, ce sont deux problèmes indépendants",
+            "Seulement chez les gros fumeurs",
+          ],
+          correctIndex: 0,
+          explanation:
+            "Le tabac paralyse les cils de la muqueuse nasale qui nettoient et protègent les sinus.",
+        },
+        {
+          question: "Quel signe d'alerte nécessite une consultation urgente ?",
+          options: [
+            "Une légère douleur faciale",
+            "Un écoulement nasal clair",
+            "Un gonflement autour de l'oeil",
+          ],
+          correctIndex: 2,
+          explanation:
+            "Un gonflement péri-orbitaire est une complication orbitaire urgente nécessitant une consultation immédiate.",
         },
       ],
     },

@@ -48,6 +48,7 @@ export const fibromyalgieParcours: ParcoursContent = {
       quiz: [
         { question: "Les analyses de sang sont-elles anormales dans la fibromyalgie ?", options: ["Oui, elles montrent l'inflammation", "Non, elles sont normales", "Ça dépend de la gravité"], correctIndex: 1, explanation: "Les analyses sont normales. La fibromyalgie est un dérèglement du système nerveux, pas une inflammation." },
         { question: "Que faire un « bon jour » ?", options: ["En profiter pour tout faire", "Faire la même quantité que d'habitude", "Se reposer pour stocker de l'énergie"], correctIndex: 1, explanation: "Le pacing : même quantité les bons et mauvais jours. Les excès déclenchent des poussées." },
+        { question: "L'exercice en eau chaude (balnéothérapie) est-il recommandé dans la fibromyalgie ?", options: ["Oui, Cochrane 2014 montre une amélioration prouvée", "Non, l'eau aggrave les douleurs", "Seulement en hiver"], correctIndex: 0, explanation: "La Cochrane 2014 valide l'exercice aquatique en eau chaude pour améliorer douleur et qualité de vie." },
       ],
     },
 
