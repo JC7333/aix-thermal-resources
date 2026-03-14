@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
-import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { useToast } from '@/hooks/use-toast';
 import { pathologies } from '@/data/pathologies';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
@@ -63,7 +62,20 @@ const alertSigns = [
 
 const Parents = () => {
   const childPathologies = pathologies.filter(p => p.audience === 'enfant');
-  const { seniorMode, titleClass, textClass, buttonSize, gridCols, smallTextClass, iconSize, iconSizeLg } = useSeniorMode();
+  const seniorMode = false;
+  const titleClass = "font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4";
+  const subtitleClass = "text-xl md:text-2xl font-serif font-bold";
+  const textClass = "text-lg text-muted-foreground";
+  const smallTextClass = "text-sm text-muted-foreground";
+  const buttonSize = "default" as const;
+  const cardPadding = "p-4 lg:p-6";
+  const gridCols = "grid md:grid-cols-2 lg:grid-cols-3 gap-6";
+  const gridCols2 = "grid md:grid-cols-2 gap-4 lg:gap-6";
+  const iconSize = "w-5 h-5";
+  const iconSizeLg = "w-6 h-6";
+  const badgeClass = "text-xs px-2 py-1";
+  const inputClass = "h-11 text-base rounded-lg";
+  const cardClass = "card-medical";
   const { toast } = useToast();
   usePageTitle('Espace Parents');
 

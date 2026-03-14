@@ -1,6 +1,5 @@
 import { ExternalLink, BookOpen, Calendar, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useSeniorMode } from '@/hooks/useSeniorMode';
 
 interface Source {
   title: string;
@@ -20,20 +19,19 @@ interface SourcesDisclaimerCardProps {
  * À afficher sur chaque page pathologie
  */
 export const SourcesDisclaimerCard = ({ sources, lastUpdated, className = '' }: SourcesDisclaimerCardProps) => {
-  const { seniorMode, smallTextClass, iconSize } = useSeniorMode();
 
   return (
     <div className={`space-y-4 ${className}`}>
       {/* Sources cliquables */}
-      <div className={`bg-card border border-border rounded-xl ${seniorMode ? 'p-6' : 'p-5'}`}>
-        <h3 className={`font-serif font-bold text-foreground mb-4 flex items-center gap-2 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
-          <BookOpen className={`${iconSize} text-primary`} />
+      <div className="bg-card border border-border rounded-xl p-5">
+        <h3 className="font-serif font-bold text-foreground mb-4 flex items-center gap-2 text-lg">
+          <BookOpen className="w-5 h-5 text-primary" />
           Sources et recommandations
         </h3>
         
-        <ul className={seniorMode ? 'space-y-3' : 'space-y-2.5'}>
+        <ul className="space-y-2.5">
           {sources.map((source, index) => (
-            <li key={index} className={seniorMode ? 'text-base' : 'text-sm'}>
+            <li key={index} className="text-sm">
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
                   <span className="font-medium text-foreground">{source.title}</span>
@@ -57,15 +55,15 @@ export const SourcesDisclaimerCard = ({ sources, lastUpdated, className = '' }: 
         </ul>
 
         {/* Date de mise à jour */}
-        <div className={`flex items-center gap-2 text-muted-foreground pt-4 mt-4 border-t border-border ${smallTextClass}`}>
+        <div className="flex items-center gap-2 text-muted-foreground pt-4 mt-4 border-t border-border text-sm">
           <Calendar className="w-4 h-4" />
           <span>Dernière mise à jour : {lastUpdated}</span>
         </div>
 
         {/* Lien vers méthodologie */}
-        <Link 
-          to="/sources-methodologie" 
-          className={`inline-flex items-center gap-1.5 text-primary hover:underline mt-3 ${smallTextClass}`}
+        <Link
+          to="/sources-methodologie"
+          className="inline-flex items-center gap-1.5 text-primary hover:underline mt-3 text-sm"
         >
           En savoir plus sur notre méthodologie
           <ExternalLink className="w-3 h-3" />
@@ -73,15 +71,15 @@ export const SourcesDisclaimerCard = ({ sources, lastUpdated, className = '' }: 
       </div>
 
       {/* Disclaimer standard éducatif */}
-      <div className={`bg-muted/60 border border-border rounded-xl ${seniorMode ? 'p-5' : 'p-4'}`}>
+      <div className="bg-muted/60 border border-border rounded-xl p-4">
         <div className="flex items-start gap-3">
-          <Info className={`${iconSize} text-muted-foreground shrink-0 mt-0.5`} />
+          <Info className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
           <div>
-            <p className={`text-muted-foreground leading-relaxed ${seniorMode ? 'text-base' : 'text-sm'}`}>
+            <p className="text-muted-foreground leading-relaxed text-sm">
               <strong>Contenu éducatif</strong> — Ces informations générales ne remplacent pas un avis médical personnalisé. 
               En cas de symptômes inhabituels ou de doute, consultez un professionnel de santé.
             </p>
-            <p className={`text-muted-foreground mt-2 ${smallTextClass}`}>
+            <p className="text-muted-foreground mt-2 text-sm">
               Urgences : <strong>15</strong> (SAMU) ou <strong>112</strong> (européen)
             </p>
           </div>

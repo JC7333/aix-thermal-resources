@@ -6,7 +6,6 @@ import { FavoriteButton } from '@/components/shared/FavoriteButton';
 import { FavoritesActionsMenu } from '@/components/shared/FavoritesActionsMenu';
 import { FavoritesImportBanner } from '@/components/shared/FavoritesImportBanner';
 import { useFavorites } from '@/hooks/useFavorites';
-import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { Button } from '@/components/ui/button';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
 import { ALL_EVIDENCE_PACKS_V2, type EvidencePackV2 } from '@/content/evidence/v2';
@@ -35,7 +34,20 @@ const Pathologies = () => {
   const allEvidence = ALL_EVIDENCE_PACKS_V2.filter(p => p.status === 'complete');
   
   const { favorites, isFavorite } = useFavorites();
-  const { seniorMode, titleClass, textClass, gridCols, smallTextClass, iconSize } = useSeniorMode();
+  const seniorMode = false;
+  const titleClass = "font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4";
+  const subtitleClass = "text-xl md:text-2xl font-serif font-bold";
+  const textClass = "text-lg text-muted-foreground";
+  const smallTextClass = "text-sm text-muted-foreground";
+  const buttonSize = "default" as const;
+  const cardPadding = "p-4 lg:p-6";
+  const gridCols = "grid md:grid-cols-2 lg:grid-cols-3 gap-6";
+  const gridCols2 = "grid md:grid-cols-2 gap-4 lg:gap-6";
+  const iconSize = "w-5 h-5";
+  const iconSizeLg = "w-6 h-6";
+  const badgeClass = "text-xs px-2 py-1";
+  const inputClass = "h-11 text-base rounded-lg";
+  const cardClass = "card-medical";
   usePageTitle('Pathologies');
   
   // Grouper les pathologies par catégorie

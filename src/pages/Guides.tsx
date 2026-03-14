@@ -1,73 +1,85 @@
-import { Scale, Cigarette, Moon, Activity, ChevronRight, Download, Eye, Loader2 } from 'lucide-react';
+﻿import { Scale, Cigarette, Moon, Activity, ChevronRight, Download, Eye, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
-import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { useToast } from '@/hooks/use-toast';
 import { openGuidePrintFallback, isGuideAvailable } from '@/lib/guidePrintFallback';
 
 const guides = [
   {
     id: 'poids',
-    title: 'Gérer son poids durablement',
-    description: 'Des conseils pratiques et progressifs pour atteindre un poids santé, sans régime restrictif.',
+    title: 'GÃ©rer son poids durablement',
+    description: 'Des conseils pratiques et progressifs pour atteindre un poids santÃ©, sans rÃ©gime restrictif.',
     icon: Scale,
     color: 'bg-primary/10 text-primary',
     topics: [
-      'Pourquoi les régimes restrictifs échouent',
-      'L\'assiette équilibrée au quotidien',
+      'Pourquoi les rÃ©gimes restrictifs Ã©chouent',
+      'L\'assiette Ã©quilibrÃ©e au quotidien',
       'Bouger sans se faire mal',
-      'Gérer les fringales',
+      'GÃ©rer les fringales',
       'Dormir pour maigrir',
     ],
   },
   {
     id: 'tabac',
-    title: 'Arrêter le tabac',
-    description: 'Une approche progressive et bienveillante pour se libérer du tabac.',
+    title: 'ArrÃªter le tabac',
+    description: 'Une approche progressive et bienveillante pour se libÃ©rer du tabac.',
     icon: Cigarette,
     color: 'bg-destructive/10 text-destructive',
     topics: [
-      'Comprendre sa dépendance',
-      'Préparer son arrêt',
+      'Comprendre sa dÃ©pendance',
+      'PrÃ©parer son arrÃªt',
       'Les substituts nicotiniques',
-      'Gérer les envies',
-      'Éviter la rechute',
+      'GÃ©rer les envies',
+      'Ã‰viter la rechute',
     ],
   },
   {
     id: 'sommeil',
-    title: 'Améliorer son sommeil',
-    description: 'Retrouver un sommeil réparateur avec des habitudes simples et efficaces.',
+    title: 'AmÃ©liorer son sommeil',
+    description: 'Retrouver un sommeil rÃ©parateur avec des habitudes simples et efficaces.',
     icon: Moon,
     color: 'bg-secondary/10 text-secondary',
     topics: [
-      'L\'hygiène du sommeil',
-      'Préparer sa nuit',
-      'Gérer les réveils nocturnes',
+      'L\'hygiÃ¨ne du sommeil',
+      'PrÃ©parer sa nuit',
+      'GÃ©rer les rÃ©veils nocturnes',
       'Alimentation et sommeil',
       'Quand consulter',
     ],
   },
   {
     id: 'bouger',
-    title: 'Reprendre une activité physique',
-    description: 'Bouger en douceur quand on a mal, qu\'on est essoufflé ou qu\'on n\'a plus l\'habitude.',
+    title: 'Reprendre une activitÃ© physique',
+    description: 'Bouger en douceur quand on a mal, qu\'on est essoufflÃ© ou qu\'on n\'a plus l\'habitude.',
     icon: Activity,
     color: 'bg-accent/10 text-accent',
     topics: [
       'Pourquoi bouger quand on a mal',
-      'Commencer très progressivement',
-      'Exercices niveau 0 (très facile)',
-      'Exercices niveau 1 à 3',
-      'Intégrer le mouvement au quotidien',
+      'Commencer trÃ¨s progressivement',
+      'Exercices niveau 0 (trÃ¨s facile)',
+      'Exercices niveau 1 Ã  3',
+      'IntÃ©grer le mouvement au quotidien',
     ],
   },
 ];
 
 const Guides = () => {
-  const { seniorMode, titleClass, textClass, buttonSize, gridCols2, smallTextClass } = useSeniorMode();
+  const seniorMode = false;
+  const titleClass = "font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4";
+  const subtitleClass = "text-xl md:text-2xl font-serif font-bold";
+  const textClass = "text-lg text-muted-foreground";
+  const smallTextClass = "text-sm text-muted-foreground";
+  const buttonSize = "default" as const;
+  const cardPadding = "p-4 lg:p-6";
+  const gridCols = "grid md:grid-cols-2 lg:grid-cols-3 gap-6";
+  const gridCols2 = "grid md:grid-cols-2 gap-4 lg:gap-6";
+  const iconSize = "w-5 h-5";
+  const iconSizeLg = "w-6 h-6";
+  const badgeClass = "text-xs px-2 py-1";
+  const inputClass = "h-11 text-base rounded-lg";
+  const cardClass = "card-medical";
   const { toast } = useToast();
   const [loading, setLoading] = useState<string | null>(null);
   
@@ -86,7 +98,7 @@ const Guides = () => {
     if (!success) {
       toast({
         title: "Erreur",
-        description: "Impossible d'ouvrir l'aperçu. Vérifiez que les popups ne sont pas bloquées.",
+        description: "Impossible d'ouvrir l'aperÃ§u. VÃ©rifiez que les popups ne sont pas bloquÃ©es.",
         variant: "destructive",
       });
     }
@@ -108,13 +120,13 @@ const Guides = () => {
     
     if (success) {
       toast({
-        title: "Impression lancée",
-        description: "Utilisez 'Enregistrer en PDF' dans la boîte de dialogue d'impression.",
+        title: "Impression lancÃ©e",
+        description: "Utilisez 'Enregistrer en PDF' dans la boÃ®te de dialogue d'impression.",
       });
     } else {
       toast({
         title: "Erreur",
-        description: "Impossible d'ouvrir le guide. Vérifiez que les popups ne sont pas bloquées.",
+        description: "Impossible d'ouvrir le guide. VÃ©rifiez que les popups ne sont pas bloquÃ©es.",
         variant: "destructive",
       });
     }
@@ -135,8 +147,8 @@ const Guides = () => {
             Guides transversaux
           </h1>
           <p className={textClass + ' max-w-2xl mx-auto'}>
-            Des conseils qui s'appliquent à toutes les pathologies : poids, tabac, sommeil, activité physique. 
-            Ces guides vous accompagnent au quotidien pour une meilleure qualité de vie.
+            Des conseils qui s'appliquent Ã  toutes les pathologies : poids, tabac, sommeil, activitÃ© physique. 
+            Ces guides vous accompagnent au quotidien pour une meilleure qualitÃ© de vie.
           </p>
         </header>
 
@@ -178,7 +190,7 @@ const Guides = () => {
                   disabled={!isGuideAvailable(guide.id)}
                 >
                   <Eye className={seniorMode ? 'w-5 h-5' : 'w-4 h-4'} />
-                  Aperçu
+                  AperÃ§u
                 </Button>
                 <Button 
                   onClick={() => handleDownload(guide.id)} 
@@ -192,7 +204,7 @@ const Guides = () => {
                   ) : (
                     <Download className={seniorMode ? 'w-5 h-5' : 'w-4 h-4'} />
                   )}
-                  Télécharger
+                  TÃ©lÃ©charger
                 </Button>
               </div>
             </div>
@@ -203,8 +215,8 @@ const Guides = () => {
         <div className="max-w-3xl mx-auto mt-12">
           <div className={`bg-muted/50 rounded-xl text-center ${seniorMode ? 'p-8' : 'p-6'}`}>
             <p className={smallTextClass}>
-              <strong>Rappel :</strong> Ces guides sont des informations générales. 
-              Pour un accompagnement personnalisé, parlez-en avec votre médecin.
+              <strong>Rappel :</strong> Ces guides sont des informations gÃ©nÃ©rales. 
+              Pour un accompagnement personnalisÃ©, parlez-en avec votre mÃ©decin.
             </p>
           </div>
         </div>

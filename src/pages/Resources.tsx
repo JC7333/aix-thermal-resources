@@ -1,11 +1,10 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, X, Clock, Download, Printer, BookOpen, ChevronRight, Sparkles, ArrowUpDown, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
-import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { useToast } from '@/hooks/use-toast';
 import { downloadPdf1PageBySlug, hasEvidenceData } from '@/services/pdfService';
 import { getPathologyUrl } from '@/lib/pathologyRoutes';
@@ -41,7 +40,7 @@ const LibraryCard = ({ resource }: { resource: LibraryResource }) => {
     if (!resource.pathologySlug || !hasPdf) {
       toast({
         title: "PDF non disponible",
-        description: "Aucune donnée disponible pour générer ce PDF.",
+        description: "Aucune donnÃ©e disponible pour gÃ©nÃ©rer ce PDF.",
         variant: "destructive",
       });
       return;
@@ -51,14 +50,14 @@ const LibraryCard = ({ resource }: { resource: LibraryResource }) => {
     try {
       await downloadPdf1PageBySlug(resource.pathologySlug);
       toast({
-        title: "Téléchargement réussi",
-        description: "La fiche PDF a été téléchargée.",
+        title: "TÃ©lÃ©chargement rÃ©ussi",
+        description: "La fiche PDF a Ã©tÃ© tÃ©lÃ©chargÃ©e.",
       });
     } catch (error) {
-      console.error('Erreur téléchargement PDF:', error);
+      console.error('Erreur tÃ©lÃ©chargement PDF:', error);
       toast({
-        title: "Erreur de téléchargement",
-        description: "Impossible de générer le PDF. Réessayez plus tard.",
+        title: "Erreur de tÃ©lÃ©chargement",
+        description: "Impossible de gÃ©nÃ©rer le PDF. RÃ©essayez plus tard.",
         variant: "destructive",
       });
     } finally {
@@ -66,7 +65,7 @@ const LibraryCard = ({ resource }: { resource: LibraryResource }) => {
     }
   };
 
-  // Déterminer si le lien est valide
+  // DÃ©terminer si le lien est valide
   const hasValidLink = resource.pathologySlug ? hasEvidenceData(resource.pathologySlug) : false;
   
   const linkTo = resource.pathologySlug 
@@ -220,7 +219,20 @@ const Resources = () => {
   const [sortBy, setSortBy] = useState<SortOption>('popular');
   const [showFilters, setShowFilters] = useState(false);
   
-  const { seniorMode, titleClass, textClass, buttonSize, gridCols, inputClass, cardClass } = useSeniorMode();
+  const seniorMode = false;
+  const titleClass = "font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4";
+  const subtitleClass = "text-xl md:text-2xl font-serif font-bold";
+  const textClass = "text-lg text-muted-foreground";
+  const smallTextClass = "text-sm text-muted-foreground";
+  const buttonSize = "default" as const;
+  const cardPadding = "p-4 lg:p-6";
+  const gridCols = "grid md:grid-cols-2 lg:grid-cols-3 gap-6";
+  const gridCols2 = "grid md:grid-cols-2 gap-4 lg:gap-6";
+  const iconSize = "w-5 h-5";
+  const iconSizeLg = "w-6 h-6";
+  const badgeClass = "text-xs px-2 py-1";
+  const inputClass = "h-11 text-base rounded-lg";
+  const cardClass = "card-medical";
 
   // Filter and sort resources
   const filteredResources = useMemo(() => {
@@ -277,12 +289,12 @@ const Resources = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-6 lg:py-8">
-        <Breadcrumb items={[{ label: 'Bibliothèque de ressources' }]} />
+        <Breadcrumb items={[{ label: 'BibliothÃ¨que de ressources' }]} />
 
         {/* Header */}
         <div className={seniorMode ? 'mb-10' : 'mb-8'}>
           <h1 className={titleClass}>
-            Bibliothèque de ressources
+            BibliothÃ¨que de ressources
           </h1>
           <p className={textClass + ' max-w-3xl'}>
             Toutes les fiches conseils, programmes et informations pratiques du site. 
@@ -294,7 +306,7 @@ const Resources = () => {
         <section className={seniorMode ? 'mb-12' : 'mb-10'}>
           <h2 className={`font-serif font-bold text-foreground mb-4 flex items-center gap-2 ${seniorMode ? 'text-2xl' : 'text-xl'}`}>
             <Sparkles className={seniorMode ? 'w-6 h-6' : 'w-5 h-5'} />
-            Réponses rapides
+            RÃ©ponses rapides
           </h2>
           <div className={seniorMode ? 'grid grid-cols-1 lg:grid-cols-3 gap-6' : 'grid grid-cols-1 md:grid-cols-3 gap-4'}>
             {quickAnswers.map((answer) => (
@@ -357,7 +369,7 @@ const Resources = () => {
               {/* Categories */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-muted-foreground mb-3">
-                  Catégories
+                  CatÃ©gories
                 </label>
                 <div className="flex flex-wrap gap-2">
                   <button
@@ -443,12 +455,12 @@ const Resources = () => {
           </div>
         ) : (
           <div className="text-center py-16 bg-muted/30 rounded-2xl">
-            <div className="text-5xl mb-4">🔍</div>
+            <div className="text-5xl mb-4">ðŸ”</div>
             <p className="text-lg text-muted-foreground mb-4">
-              Aucune ressource ne correspond à votre recherche.
+              Aucune ressource ne correspond Ã  votre recherche.
             </p>
             <Button variant="outline" onClick={clearFilters}>
-              Réinitialiser les filtres
+              RÃ©initialiser les filtres
             </Button>
           </div>
         )}
@@ -456,7 +468,7 @@ const Resources = () => {
         {/* Categories Quick Access */}
         <section className="mt-16 pt-12 border-t border-border">
           <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6">
-            Explorer par catégorie
+            Explorer par catÃ©gorie
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {categories.map((category) => (
@@ -484,11 +496,11 @@ const Resources = () => {
             Vous ne trouvez pas ce que vous cherchez ?
           </h2>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Utilisez le parcours guidé pour obtenir des recommandations personnalisées en 30 secondes.
+            Utilisez le parcours guidÃ© pour obtenir des recommandations personnalisÃ©es en 30 secondes.
           </p>
           <Button asChild size="lg">
             <Link to="/parcours">
-              Démarrer le parcours guidé
+              DÃ©marrer le parcours guidÃ©
               <ChevronRight className="w-5 h-5" />
             </Link>
           </Button>

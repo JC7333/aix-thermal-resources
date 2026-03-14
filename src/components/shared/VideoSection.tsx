@@ -1,5 +1,5 @@
-// ============================================
-// VIDEO SECTION — Affichage des vidéos YouTube validées
+﻿// ============================================
+// VIDEO SECTION â€” Affichage des vidÃ©os YouTube validÃ©es
 // ============================================
 
 import { useState, useEffect } from 'react';
@@ -15,7 +15,6 @@ import {
   type VideoData 
 } from '@/lib/videoLibrary';
 import { getThemeIdForSlug, hasVideosForSlug } from '@/lib/videoThemeMap';
-import { useSeniorMode } from '@/hooks/useSeniorMode';
 
 interface VideoCardProps {
   video: VideoData;
@@ -87,7 +86,7 @@ const VideoCard = ({ video, seniorMode }: VideoCardProps) => {
             <button
               onClick={handlePlayClick}
               className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors group"
-              aria-label={`Lire la vidéo: ${video.titre}`}
+              aria-label={`Lire la vidÃ©o: ${video.titre}`}
             >
               <div className={`rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform ${seniorMode ? 'w-20 h-20' : 'w-16 h-16'}`}>
                 <Play className={seniorMode ? 'w-10 h-10 ml-1' : 'w-8 h-8 ml-1'} fill="currentColor" />
@@ -112,7 +111,7 @@ const VideoCard = ({ video, seniorMode }: VideoCardProps) => {
         <div className="flex items-center gap-2 text-muted-foreground mb-3">
           <User className="w-4 h-4" />
           <span className={seniorMode ? 'text-base' : 'text-sm'}>{video.chaine}</span>
-          <span className="text-muted-foreground/50">•</span>
+          <span className="text-muted-foreground/50">â€¢</span>
           <span className={seniorMode ? 'text-base' : 'text-sm'}>{video.annee}</span>
         </div>
         
@@ -133,7 +132,7 @@ const VideoCard = ({ video, seniorMode }: VideoCardProps) => {
         {embedError && (
           <div className="flex items-center gap-2 text-amber-600 mb-3 text-sm">
             <AlertCircle className="w-4 h-4" />
-            <span>La lecture intégrée n'est pas disponible</span>
+            <span>La lecture intÃ©grÃ©e n'est pas disponible</span>
           </div>
         )}
         
@@ -146,7 +145,7 @@ const VideoCard = ({ video, seniorMode }: VideoCardProps) => {
               className="flex-1"
             >
               <Play className="w-4 h-4 mr-2" />
-              Voir la vidéo
+              Voir la vidÃ©o
             </Button>
           )}
           <Button 
@@ -170,7 +169,20 @@ interface VideoSectionProps {
 }
 
 export const VideoSection = ({ slug, maxVideos = 2, className = '' }: VideoSectionProps) => {
-  const { seniorMode, titleClass, textClass, iconSizeLg } = useSeniorMode();
+  const seniorMode = false;
+  const titleClass = "font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4";
+  const subtitleClass = "text-xl md:text-2xl font-serif font-bold";
+  const textClass = "text-lg text-muted-foreground";
+  const smallTextClass = "text-sm text-muted-foreground";
+  const buttonSize = "default" as const;
+  const cardPadding = "p-4 lg:p-6";
+  const gridCols = "grid md:grid-cols-2 lg:grid-cols-3 gap-6";
+  const gridCols2 = "grid md:grid-cols-2 gap-4 lg:gap-6";
+  const iconSize = "w-5 h-5";
+  const iconSizeLg = "w-6 h-6";
+  const badgeClass = "text-xs px-2 py-1";
+  const inputClass = "h-11 text-base rounded-lg";
+  const cardClass = "card-medical";
   const [videos, setVideos] = useState<VideoData[]>([]);
   const [themeInfo, setThemeInfo] = useState<{ nom: string; guideline: string } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -204,7 +216,7 @@ export const VideoSection = ({ slug, maxVideos = 2, className = '' }: VideoSecti
         }
       } catch (err) {
         console.error('[VideoSection] Error loading videos:', err);
-        setError('Impossible de charger les vidéos');
+        setError('Impossible de charger les vidÃ©os');
       } finally {
         setLoading(false);
       }
@@ -213,7 +225,7 @@ export const VideoSection = ({ slug, maxVideos = 2, className = '' }: VideoSecti
     loadVideos();
   }, [themeId, maxVideos]);
   
-  // Si pas de vidéos pour cette pathologie, afficher un message
+  // Si pas de vidÃ©os pour cette pathologie, afficher un message
   if (!hasVideos) {
     return (
       <section id="videos" className={className}>
@@ -221,15 +233,15 @@ export const VideoSection = ({ slug, maxVideos = 2, className = '' }: VideoSecti
           <span className={`rounded-lg flex items-center justify-center bg-red-100 text-red-700 ${seniorMode ? 'w-12 h-12' : 'w-10 h-10'}`}>
             <Video className={iconSizeLg} />
           </span>
-          Vidéos guidées
+          VidÃ©os guidÃ©es
         </h2>
         <div className={`bg-muted/30 border border-border rounded-xl ${seniorMode ? 'p-6' : 'p-5'}`}>
           <p className={`text-muted-foreground ${textClass}`}>
-            Aucune vidéo validée disponible pour le moment pour ce sujet.
+            Aucune vidÃ©o validÃ©e disponible pour le moment pour ce sujet.
           </p>
           <p className={`text-muted-foreground mt-2 ${seniorMode ? 'text-base' : 'text-sm'}`}>
-            Les vidéos sont sélectionnées selon des critères stricts : sources institutionnelles, 
-            conformité aux recommandations, et accessibilité.
+            Les vidÃ©os sont sÃ©lectionnÃ©es selon des critÃ¨res stricts : sources institutionnelles, 
+            conformitÃ© aux recommandations, et accessibilitÃ©.
           </p>
         </div>
       </section>
@@ -244,7 +256,7 @@ export const VideoSection = ({ slug, maxVideos = 2, className = '' }: VideoSecti
           <span className={`rounded-lg flex items-center justify-center bg-red-100 text-red-700 ${seniorMode ? 'w-12 h-12' : 'w-10 h-10'}`}>
             <Video className={iconSizeLg} />
           </span>
-          Vidéos guidées
+          VidÃ©os guidÃ©es
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-muted animate-pulse rounded-xl aspect-video" />
@@ -262,7 +274,7 @@ export const VideoSection = ({ slug, maxVideos = 2, className = '' }: VideoSecti
           <span className={`rounded-lg flex items-center justify-center bg-red-100 text-red-700 ${seniorMode ? 'w-12 h-12' : 'w-10 h-10'}`}>
             <Video className={iconSizeLg} />
           </span>
-          Vidéos guidées
+          VidÃ©os guidÃ©es
         </h2>
         <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 text-destructive">
           {error}
@@ -282,13 +294,13 @@ export const VideoSection = ({ slug, maxVideos = 2, className = '' }: VideoSecti
         <span className={`rounded-lg flex items-center justify-center bg-red-100 text-red-700 ${seniorMode ? 'w-12 h-12' : 'w-10 h-10'}`}>
           <Video className={iconSizeLg} />
         </span>
-        Vidéos guidées (sélection validée)
+        VidÃ©os guidÃ©es (sÃ©lection validÃ©e)
       </h2>
       
       {/* Guideline reference */}
       {themeInfo?.guideline && (
         <p className={`text-muted-foreground mb-4 ${seniorMode ? 'text-base' : 'text-sm'}`}>
-          📋 {themeInfo.guideline}
+          ðŸ“‹ {themeInfo.guideline}
         </p>
       )}
       
@@ -301,8 +313,8 @@ export const VideoSection = ({ slug, maxVideos = 2, className = '' }: VideoSecti
       
       {/* Security note */}
       <p className={`text-muted-foreground mt-4 ${seniorMode ? 'text-sm' : 'text-xs'}`}>
-        ✓ Vidéos sélectionnées selon des critères stricts : sources institutionnelles, conformité aux guidelines, 
-        sécurité patients, accessibilité seniors. Score minimum : 8.5/10.
+        âœ“ VidÃ©os sÃ©lectionnÃ©es selon des critÃ¨res stricts : sources institutionnelles, conformitÃ© aux guidelines, 
+        sÃ©curitÃ© patients, accessibilitÃ© seniors. Score minimum : 8.5/10.
       </p>
     </section>
   );

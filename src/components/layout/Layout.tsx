@@ -6,17 +6,15 @@ import { FloatingBackToTop } from "@/components/shared/FloatingBackToTop";
 
 interface LayoutProps {
   children: ReactNode;
+  noPadding?: boolean;
 }
 
-export const Layout = ({ children }: LayoutProps) => {
+export const Layout = ({ children, noPadding = false }: LayoutProps) => {
   return (
     <div className="min-h-screen print:min-h-0 flex flex-col">
-      <a href="#main-content" className="skip-link">
-        Aller au contenu principal
-      </a>
       <ScrollToTop />
       <Header />
-      <main id="main-content" className="flex-1 pt-0">
+      <main id="main-content" className={`flex-1 ${noPadding ? '' : 'pt-20 lg:pt-24'}`}>
         {children}
       </main>
       <Footer />

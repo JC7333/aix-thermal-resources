@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Printer, CheckCircle, AlertTriangle, ChevronRight, Clock, Zap, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
 import { MedicalDisclaimer } from '@/components/shared/MedicalDisclaimer';
-import { useSeniorMode } from '@/hooks/useSeniorMode';
 import { fullQuickAnswers, getQuickAnswerBySlug, FullQuickAnswer } from '@/data/quick-answers';
 import { logEvent } from '@/services/analytics';
 
@@ -47,25 +46,38 @@ const QuickAnswerCard = ({ answer, seniorMode }: { answer: FullQuickAnswer; seni
 
 // List view component
 const QuickAnswersList = () => {
-  const { seniorMode, titleClass, textClass, gridCols2 } = useSeniorMode();
+  const seniorMode = false;
+  const titleClass = "font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4";
+  const subtitleClass = "text-xl md:text-2xl font-serif font-bold";
+  const textClass = "text-lg text-muted-foreground";
+  const smallTextClass = "text-sm text-muted-foreground";
+  const buttonSize = "default" as const;
+  const cardPadding = "p-4 lg:p-6";
+  const gridCols = "grid md:grid-cols-2 lg:grid-cols-3 gap-6";
+  const gridCols2 = "grid md:grid-cols-2 gap-4 lg:gap-6";
+  const iconSize = "w-5 h-5";
+  const iconSizeLg = "w-6 h-6";
+  const badgeClass = "text-xs px-2 py-1";
+  const inputClass = "h-11 text-base rounded-lg";
+  const cardClass = "card-medical";
   
   return (
     <Layout>
       <div className="container mx-auto px-4 py-6 lg:py-8">
-        <Breadcrumb items={[{ label: 'Réponses rapides' }]} />
+        <Breadcrumb items={[{ label: 'RÃ©ponses rapides' }]} />
 
         {/* Header */}
         <div className={`text-center max-w-3xl mx-auto ${seniorMode ? 'mb-10' : 'mb-8'}`}>
           <div className={`flex items-center justify-center gap-2 text-primary ${seniorMode ? 'mb-6' : 'mb-4'}`}>
             <Zap className={seniorMode ? 'w-8 h-8' : 'w-6 h-6'} />
-            <span className={`font-semibold uppercase tracking-wide ${seniorMode ? 'text-base' : 'text-sm'}`}>Réponses en 20 secondes</span>
+            <span className={`font-semibold uppercase tracking-wide ${seniorMode ? 'text-base' : 'text-sm'}`}>RÃ©ponses en 20 secondes</span>
           </div>
           <h1 className={titleClass + ' text-center'}>
-            Réponses rapides
+            RÃ©ponses rapides
           </h1>
           <p className={textClass}>
-            Des réponses concrètes à vos questions les plus fréquentes. 
-            3 vérités, un plan du jour, un plan 7 jours. Simple et actionnable.
+            Des rÃ©ponses concrÃ¨tes Ã  vos questions les plus frÃ©quentes. 
+            3 vÃ©ritÃ©s, un plan du jour, un plan 7 jours. Simple et actionnable.
           </p>
         </div>
 
@@ -79,11 +91,11 @@ const QuickAnswersList = () => {
         {/* Info Box */}
         <section className={`mt-12 bg-muted/50 rounded-2xl text-center max-w-3xl mx-auto ${seniorMode ? 'p-10' : 'p-8'}`}>
           <h2 className={`font-serif font-bold text-foreground ${seniorMode ? 'text-2xl mb-4' : 'text-xl mb-3'}`}>
-            Ces fiches sont un point de départ
+            Ces fiches sont un point de dÃ©part
           </h2>
           <p className={`text-muted-foreground ${seniorMode ? 'text-lg' : ''}`}>
-            Elles ne remplacent pas un avis médical personnalisé. Si vos symptômes persistent, 
-            s'aggravent ou vous inquiètent, consultez un professionnel de santé.
+            Elles ne remplacent pas un avis mÃ©dical personnalisÃ©. Si vos symptÃ´mes persistent, 
+            s'aggravent ou vous inquiÃ¨tent, consultez un professionnel de santÃ©.
           </p>
         </section>
       </div>
@@ -93,7 +105,20 @@ const QuickAnswersList = () => {
 
 // Detail view component
 const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
-  const { seniorMode, titleClass, textClass, buttonSize, iconSize, smallTextClass, subtitleClass } = useSeniorMode();
+  const seniorMode = false;
+  const titleClass = "font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4";
+  const subtitleClass = "text-xl md:text-2xl font-serif font-bold";
+  const textClass = "text-lg text-muted-foreground";
+  const smallTextClass = "text-sm text-muted-foreground";
+  const buttonSize = "default" as const;
+  const cardPadding = "p-4 lg:p-6";
+  const gridCols = "grid md:grid-cols-2 lg:grid-cols-3 gap-6";
+  const gridCols2 = "grid md:grid-cols-2 gap-4 lg:gap-6";
+  const iconSize = "w-5 h-5";
+  const iconSizeLg = "w-6 h-6";
+  const badgeClass = "text-xs px-2 py-1";
+  const inputClass = "h-11 text-base rounded-lg";
+  const cardClass = "card-medical";
   const navigate = useNavigate();
   
   const handlePrint = () => {
@@ -119,7 +144,7 @@ const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
     <Layout>
       <article className="container mx-auto px-4 py-6 lg:py-8 max-w-4xl">
         <Breadcrumb items={[
-          { label: 'Réponses rapides', href: '/reponses-rapides' },
+          { label: 'RÃ©ponses rapides', href: '/reponses-rapides' },
           { label: answer.title }
         ]} />
 
@@ -135,7 +160,7 @@ const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
             className={`inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4 transition-colors ${seniorMode ? 'text-lg' : ''}`}
           >
             <ArrowLeft className={iconSize} />
-            Retour aux réponses rapides
+            Retour aux rÃ©ponses rapides
           </a>
           
           <div className={`flex items-center gap-4 ${colorClasses[answer.color]} ${seniorMode ? 'mb-6' : 'mb-4'}`}>
@@ -169,11 +194,11 @@ const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
           </p>
         </section>
 
-        {/* 3 Vérités */}
+        {/* 3 VÃ©ritÃ©s */}
         <section className={seniorMode ? 'mb-12' : 'mb-10'}>
           <h2 className={`font-serif font-bold text-foreground flex items-center gap-2 ${seniorMode ? 'text-3xl mb-8' : 'text-2xl mb-6'}`}>
-            <span className={seniorMode ? 'text-3xl' : 'text-2xl'}>💡</span>
-            3 vérités à connaître
+            <span className={seniorMode ? 'text-3xl' : 'text-2xl'}>ðŸ’¡</span>
+            3 vÃ©ritÃ©s Ã  connaÃ®tre
           </h2>
           <div className={seniorMode ? 'space-y-5' : 'space-y-4'}>
             {answer.truths.map((truth, index) => (
@@ -191,7 +216,7 @@ const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
         {/* Plan du jour */}
         <section className={seniorMode ? 'mb-12' : 'mb-10'}>
           <h2 className={`font-serif font-bold text-foreground flex items-center gap-2 ${seniorMode ? 'text-3xl mb-8' : 'text-2xl mb-6'}`}>
-            <span className={seniorMode ? 'text-3xl' : 'text-2xl'}>📅</span>
+            <span className={seniorMode ? 'text-3xl' : 'text-2xl'}>ðŸ“…</span>
             Plan du jour (3 actions)
           </h2>
           <div className={seniorMode ? 'space-y-5' : 'space-y-4'}>
@@ -218,7 +243,7 @@ const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
         {/* Plan 7 jours */}
         <section className={seniorMode ? 'mb-12' : 'mb-10'}>
           <h2 className={`font-serif font-bold text-foreground flex items-center gap-2 ${seniorMode ? 'text-3xl mb-8' : 'text-2xl mb-6'}`}>
-            <span className={seniorMode ? 'text-3xl' : 'text-2xl'}>📆</span>
+            <span className={seniorMode ? 'text-3xl' : 'text-2xl'}>ðŸ“†</span>
             Plan 7 jours
           </h2>
           <div className={`grid grid-cols-1 md:grid-cols-2 ${seniorMode ? 'gap-5' : 'gap-4'}`}>
@@ -264,18 +289,18 @@ const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
           <p className={`text-foreground italic leading-relaxed ${seniorMode ? 'text-xl' : ''}`}>
             "{answer.closingMessage}"
           </p>
-          <p className={`mt-4 font-semibold text-primary ${seniorMode ? 'text-lg' : ''}`}>— Dr Audric Bugnard</p>
+          <p className={`mt-4 font-semibold text-primary ${seniorMode ? 'text-lg' : ''}`}>â€” Dr Audric Bugnard</p>
         </section>
 
         {/* Sources section */}
         <section className={`bg-muted/30 rounded-xl ${seniorMode ? 'p-6 mb-10' : 'p-4 mb-8'}`}>
-          <h3 className={`font-semibold text-foreground ${seniorMode ? 'text-lg mb-3' : 'mb-2'}`}>📚 Sources et références</h3>
+          <h3 className={`font-semibold text-foreground ${seniorMode ? 'text-lg mb-3' : 'mb-2'}`}>ðŸ“š Sources et rÃ©fÃ©rences</h3>
           <p className={`text-muted-foreground ${seniorMode ? 'text-base' : 'text-sm'}`}>
-            Ces fiches s'appuient sur des recommandations de sociétés savantes et guidelines internationales : 
-            NICE, OARSI, WHO, GOLD, HAS, Cochrane Database. Les sources spécifiques sont citées dans chaque vérité.
+            Ces fiches s'appuient sur des recommandations de sociÃ©tÃ©s savantes et guidelines internationales : 
+            NICE, OARSI, WHO, GOLD, HAS, Cochrane Database. Les sources spÃ©cifiques sont citÃ©es dans chaque vÃ©ritÃ©.
           </p>
           <p className={`text-muted-foreground mt-2 ${seniorMode ? 'text-sm' : 'text-xs'}`}>
-            Dernière mise à jour : janvier 2024
+            DerniÃ¨re mise Ã  jour : janvier 2024
           </p>
         </section>
 
@@ -292,7 +317,7 @@ const QuickAnswerDetail = ({ answer }: { answer: FullQuickAnswer }) => {
               window.location.href = '/reponses-rapides';
             }}
           >
-            Voir les autres réponses rapides
+            Voir les autres rÃ©ponses rapides
           </Button>
         </div>
       </article>

@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import { AccessibilityProvider } from "@/contexts/AccessibilityContext";
 import { ScrollToTop } from "@/components/shared/ScrollToTop";
 
 // Critical pages — static imports (loaded immediately)
@@ -60,73 +59,71 @@ const App = () => {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <AccessibilityProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <ScrollToTop />
-              <Suspense fallback={
-                <div className="min-h-screen flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent" />
-                </div>
-              }>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/reponses-rapides" element={<ReponsesRapides />} />
-                  <Route
-                    path="/reponses-rapides/:slug"
-                    element={<ReponsesRapides />}
-                  />
-                  <Route path="/parcours/suivi" element={<ParcoursSuivi />} />
-                  <Route path="/parcours/:slug" element={<ParcoursAccueil />} />
-                  <Route path="/parcours/:slug/bep" element={<ParcoursBep />} />
-                  <Route path="/parcours/:slug/jour/:day" element={<ParcoursJour />} />
-                  <Route path="/parcours/:slug/bilan" element={<ParcoursBilan />} />
-                  <Route path="/parcours" element={<Parcours />} />
-                  <Route path="/ressources" element={<Resources />} />
-                  <Route path="/pathologies" element={<Pathologies />} />
-                  <Route path="/pathologies/:slug" element={<PathologyPage />} />
-                  {/* Routes V2 pour les nouveaux packs evidence-based */}
-                  <Route
-                    path="/pathologies/v2/:slug"
-                    element={<PathologyPageV2 />}
-                  />
-                  <Route path="/programmes" element={<Programs />} />
-                  <Route path="/guides" element={<Guides />} />
-                  <Route path="/parents" element={<Parents />} />
-                  <Route path="/telechargements" element={<Telechargements />} />
-                  <Route path="/favoris" element={<MesFavoris />} />
-                  <Route path="/faq" element={<FAQ />} />
-                  <Route path="/qui-suis-je" element={<QuiSuisJe />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/social" element={<Social />} />
-                  <Route path="/mentions-legales" element={<MentionsLegales />} />
-                  <Route path="/confidentialite" element={<Confidentialite />} />
-                  <Route path="/stats" element={<Stats />} />
-                  {/* Routes internes masquees en production
-                  <Route path="/admin" element={<Admin />} />
-                  <Route path="/social-kit" element={<SocialKit />} />
-                  */}
-                  <Route
-                    path="/sources-methodologie"
-                    element={<SourcesMethodologie />}
-                  />
-                  {/* QR landing pages - tracage des scans en cabine thermale */}
-                  <Route path="/qr/:slug" element={<QrLanding />} />
-                  <Route path="/le-programme" element={<Programme />} />
-                  {/* Route legacy /pathologie/:slug */}
-                  <Route path="/pathologie/:slug" element={<PathologyPage />} />
-                  <Route path="/blog" element={<Blog />} />
-                  <Route path="/blog/:slug" element={<BlogArticle />} />
-                  <Route path="/bilan-hebdo" element={<BilanHebdoPage />} />
-                  <Route path="/professionnels" element={<ProPage />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </BrowserRouter>
-          </TooltipProvider>
-        </AccessibilityProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <ScrollToTop />
+            <Suspense fallback={
+              <div className="min-h-screen flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent" />
+              </div>
+            }>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/reponses-rapides" element={<ReponsesRapides />} />
+                <Route
+                  path="/reponses-rapides/:slug"
+                  element={<ReponsesRapides />}
+                />
+                <Route path="/parcours/suivi" element={<ParcoursSuivi />} />
+                <Route path="/parcours/:slug" element={<ParcoursAccueil />} />
+                <Route path="/parcours/:slug/bep" element={<ParcoursBep />} />
+                <Route path="/parcours/:slug/jour/:day" element={<ParcoursJour />} />
+                <Route path="/parcours/:slug/bilan" element={<ParcoursBilan />} />
+                <Route path="/parcours" element={<Parcours />} />
+                <Route path="/ressources" element={<Resources />} />
+                <Route path="/pathologies" element={<Pathologies />} />
+                <Route path="/pathologies/:slug" element={<PathologyPage />} />
+                {/* Routes V2 pour les nouveaux packs evidence-based */}
+                <Route
+                  path="/pathologies/v2/:slug"
+                  element={<PathologyPageV2 />}
+                />
+                <Route path="/programmes" element={<Programs />} />
+                <Route path="/guides" element={<Guides />} />
+                <Route path="/parents" element={<Parents />} />
+                <Route path="/telechargements" element={<Telechargements />} />
+                <Route path="/favoris" element={<MesFavoris />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/qui-suis-je" element={<QuiSuisJe />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/social" element={<Social />} />
+                <Route path="/mentions-legales" element={<MentionsLegales />} />
+                <Route path="/confidentialite" element={<Confidentialite />} />
+                <Route path="/stats" element={<Stats />} />
+                {/* Routes internes masquees en production
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/social-kit" element={<SocialKit />} />
+                */}
+                <Route
+                  path="/sources-methodologie"
+                  element={<SourcesMethodologie />}
+                />
+                {/* QR landing pages - tracage des scans en cabine thermale */}
+                <Route path="/qr/:slug" element={<QrLanding />} />
+                <Route path="/le-programme" element={<Programme />} />
+                {/* Route legacy /pathologie/:slug */}
+                <Route path="/pathologie/:slug" element={<PathologyPage />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogArticle />} />
+                <Route path="/bilan-hebdo" element={<BilanHebdoPage />} />
+                <Route path="/professionnels" element={<ProPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </TooltipProvider>
       </QueryClientProvider>
     </HelmetProvider>
   );

@@ -3,7 +3,6 @@ import { BookOpen, Shield, ExternalLink, FileText, CheckCircle, AlertCircle, Cal
 import { Button } from '@/components/ui/button';
 import { Layout } from '@/components/layout/Layout';
 import { Breadcrumb } from '@/components/shared/Breadcrumb';
-import { useSeniorMode } from '@/hooks/useSeniorMode';
 
 // Date de dernière mise à jour globale du contenu
 const CONTENT_LAST_UPDATE = '2026-01-27';
@@ -66,7 +65,6 @@ const methodology = [
 ];
 
 const SourcesMethodologie = () => {
-  const { seniorMode, titleClass, textClass, subtitleClass, smallTextClass, buttonSize, cardPadding, iconSize } = useSeniorMode();
 
   return (
     <Layout>
@@ -74,34 +72,34 @@ const SourcesMethodologie = () => {
         <Breadcrumb items={[{ label: 'Sources & Méthodologie' }]} />
 
         {/* Header */}
-        <header className={seniorMode ? 'mb-12 lg:mb-16' : 'mb-10 lg:mb-12'}>
+        <header className="mb-10 lg:mb-12">
           <div className="flex items-center gap-4 mb-4">
-            <div className={`rounded-xl bg-primary/10 flex items-center justify-center ${seniorMode ? 'w-16 h-16' : 'w-12 h-12'}`}>
-              <BookOpen className={`text-primary ${seniorMode ? 'w-8 h-8' : 'w-6 h-6'}`} />
+            <div className="rounded-xl bg-primary/10 flex items-center justify-center w-12 h-12">
+              <BookOpen className="text-primary w-6 h-6" />
             </div>
             <div>
-              <h1 className={titleClass}>Sources & Méthodologie</h1>
-              <p className={`text-muted-foreground flex items-center gap-2 ${smallTextClass}`}>
-                <Calendar className={iconSize} />
+              <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">Sources & Méthodologie</h1>
+          <p className="text-muted-foreground flex items-center gap-2 text-sm">
+            <Calendar className="w-5 h-5" />
                 Dernière mise à jour : {CONTENT_LAST_UPDATE}
               </p>
             </div>
           </div>
-          <p className={`${textClass} max-w-3xl`}>
+          <p className="text-lg text-muted-foreground max-w-3xl">
             Ce site propose des contenus éducatifs basés sur les recommandations internationales et les revues systématiques les plus récentes. 
             Voici comment ces informations sont sélectionnées et présentées.
           </p>
         </header>
 
         {/* Avertissement */}
-        <div className={`bg-muted/50 border border-border rounded-xl mb-10 ${seniorMode ? 'p-8' : 'p-6'}`}>
+        <div className="bg-muted/50 border border-border rounded-xl mb-10 p-6">
           <div className="flex items-start gap-4">
-            <AlertCircle className={`text-muted-foreground shrink-0 ${seniorMode ? 'w-7 h-7' : 'w-6 h-6'}`} />
+            <AlertCircle className="text-muted-foreground shrink-0 w-6 h-6" />
             <div>
-              <h2 className={`font-semibold text-foreground mb-2 ${seniorMode ? 'text-xl' : 'text-lg'}`}>
+              <h2 className="font-semibold text-foreground mb-2 text-lg">
                 Information importante
               </h2>
-              <p className={textClass}>
+              <p className="text-lg text-muted-foreground">
                 Ces contenus sont à visée éducative et ne remplacent en aucun cas l'avis d'un professionnel de santé. 
                 En cas de symptômes inquiétants, consultez votre médecin. Urgence : <strong>15</strong> ou <strong>112</strong>.
               </p>
@@ -110,22 +108,22 @@ const SourcesMethodologie = () => {
         </div>
 
         {/* Méthodologie */}
-        <section className={seniorMode ? 'mb-14' : 'mb-12'}>
-          <h2 className={`${subtitleClass} mb-6 flex items-center gap-3`}>
-            <CheckCircle className={`text-secondary ${seniorMode ? 'w-7 h-7' : 'w-6 h-6'}`} />
+        <section className="mb-12">
+          <h2 className="text-xl md:text-2xl font-serif font-bold mb-6 flex items-center gap-3">
+            <CheckCircle className="text-secondary w-6 h-6" />
             Comment le contenu est élaboré
           </h2>
           
-          <div className={`grid gap-4 ${seniorMode ? 'md:grid-cols-2' : 'md:grid-cols-4'}`}>
+          <div className="grid gap-4 md:grid-cols-4">
             {methodology.map((item) => (
-              <div key={item.step} className={`bg-card border border-border rounded-xl ${cardPadding}`}>
-                <div className={`rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold mb-4 ${seniorMode ? 'w-12 h-12 text-xl' : 'w-10 h-10 text-lg'}`}>
+              <div key={item.step} className="bg-card border border-border rounded-xl p-4 lg:p-6">
+                <div className="rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold mb-4 w-10 h-10 text-lg">
                   {item.step}
                 </div>
-                <h3 className={`font-semibold text-foreground mb-2 ${seniorMode ? 'text-lg' : 'text-base'}`}>
+                <h3 className="font-semibold text-foreground mb-2 text-base">
                   {item.title}
                 </h3>
-                <p className={`text-muted-foreground ${smallTextClass}`}>
+                <p className="text-muted-foreground text-sm">
                   {item.description}
                 </p>
               </div>
@@ -134,24 +132,24 @@ const SourcesMethodologie = () => {
         </section>
 
         {/* Types de sources */}
-        <section className={seniorMode ? 'mb-14' : 'mb-12'}>
-          <h2 className={`${subtitleClass} mb-6 flex items-center gap-3`}>
-            <BookOpen className={`text-primary ${seniorMode ? 'w-7 h-7' : 'w-6 h-6'}`} />
+        <section className="mb-12">
+          <h2 className="text-xl md:text-2xl font-serif font-bold mb-6 flex items-center gap-3">
+            <BookOpen className="text-primary w-6 h-6" />
             Types de sources utilisées
           </h2>
           
           <div className="space-y-6">
             {sourcesCategories.map((category) => (
-              <div key={category.name} className={`bg-card border border-border rounded-xl ${cardPadding}`}>
+              <div key={category.name} className="bg-card border border-border rounded-xl p-4 lg:p-6">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className={`rounded-xl ${category.color} flex items-center justify-center shrink-0 ${seniorMode ? 'w-14 h-14' : 'w-12 h-12'}`}>
-                    <category.icon className={seniorMode ? 'w-7 h-7' : 'w-6 h-6'} />
+                  <div className={`rounded-xl ${category.color} flex items-center justify-center shrink-0 w-12 h-12`}>
+                    <category.icon className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className={`font-semibold text-foreground ${seniorMode ? 'text-xl' : 'text-lg'}`}>
+                    <h3 className="font-semibold text-foreground text-lg">
                       {category.name}
                     </h3>
-                    <p className={`text-muted-foreground ${smallTextClass}`}>
+                    <p className="text-muted-foreground text-sm">
                       {category.description}
                     </p>
                   </div>
@@ -163,10 +161,10 @@ const SourcesMethodologie = () => {
                       href={example.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg bg-muted hover:bg-muted/80 transition-colors ${seniorMode ? 'text-base' : 'text-sm'}`}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted hover:bg-muted/80 transition-colors text-sm"
                     >
                       {example.name}
-                      <ExternalLink className={seniorMode ? 'w-4 h-4' : 'w-3 h-3'} />
+                      <ExternalLink className="w-3 h-3" />
                     </a>
                   ))}
                 </div>
@@ -176,9 +174,9 @@ const SourcesMethodologie = () => {
         </section>
 
         {/* Niveaux de preuve */}
-        <section className={seniorMode ? 'mb-14' : 'mb-12'}>
-          <h2 className={`${subtitleClass} mb-6 flex items-center gap-3`}>
-            <Shield className={`text-secondary ${seniorMode ? 'w-7 h-7' : 'w-6 h-6'}`} />
+        <section className="mb-12">
+          <h2 className="text-xl md:text-2xl font-serif font-bold mb-6 flex items-center gap-3">
+            <Shield className="text-secondary w-6 h-6" />
             Comprendre les niveaux de preuve
           </h2>
           
@@ -187,7 +185,7 @@ const SourcesMethodologie = () => {
               <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium shrink-0">
                 Élevé
               </span>
-              <p className={textClass}>
+              <p className="text-lg text-muted-foreground">
                 Basé sur des études contrôlées randomisées ou des revues systématiques de bonne qualité. 
                 La recommandation est solidement établie.
               </p>
@@ -196,7 +194,7 @@ const SourcesMethodologie = () => {
               <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-sm font-medium shrink-0">
                 Modéré
               </span>
-              <p className={textClass}>
+              <p className="text-lg text-muted-foreground">
                 Basé sur des consensus d'experts ou des études de qualité moyenne. 
                 La recommandation est probable mais peut évoluer.
               </p>
@@ -205,7 +203,7 @@ const SourcesMethodologie = () => {
               <span className="px-3 py-1 rounded-full bg-muted text-muted-foreground text-sm font-medium shrink-0">
                 Faible
               </span>
-              <p className={textClass}>
+              <p className="text-lg text-muted-foreground">
                 Basé sur la pratique clinique ou des études limitées. 
                 Information fournie à titre indicatif.
               </p>
@@ -214,15 +212,15 @@ const SourcesMethodologie = () => {
         </section>
 
         {/* CTA */}
-        <section className={`bg-primary/5 border border-primary/20 rounded-2xl text-center ${seniorMode ? 'p-10' : 'p-8'}`}>
-          <h2 className={`${subtitleClass} mb-4`}>
+        <section className="bg-primary/5 border border-primary/20 rounded-2xl text-center p-8">
+          <h2 className="text-xl md:text-2xl font-serif font-bold mb-4">
             Des questions sur nos sources ?
           </h2>
-          <p className={`${textClass} max-w-2xl mx-auto mb-6`}>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
             Pour toute question concernant les références utilisées ou pour signaler une information qui vous semble inexacte, 
             n'hésitez pas à nous contacter.
           </p>
-          <Button asChild size={buttonSize}>
+          <Button asChild size="default">
             <Link to="/contact">
               Nous contacter
             </Link>

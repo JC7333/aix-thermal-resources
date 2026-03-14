@@ -14,7 +14,6 @@ import {
   Archive,
   Search,
   X,
-  Accessibility,
   Heart,
   Activity,
   Wind,
@@ -28,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Layout } from "@/components/layout/Layout";
-import { useAccessibility } from "@/contexts/AccessibilityContext";
+
 import { Breadcrumb } from "@/components/shared/Breadcrumb";
 import {
   pathologies,
@@ -50,7 +49,7 @@ import { useToast } from "@/hooks/use-toast";
 import { logEvent } from "@/services/analytics";
 import { openPrintableFallback } from "@/lib/printFallback";
 import { printViaIframe } from "@/lib/printViaIframe";
-import { usePageTitle } from '@/hooks/usePageTitle';
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 // ============================================
 // FILTRES THÉMATIQUES
@@ -138,12 +137,10 @@ const Telechargements = () => {
   const [printingSlug, setPrintingSlug] = useState<string | null>(null);
   const { toast } = useToast();
 
-  // Synchronisation avec le Mode Senior global
-  const { seniorMode: readableMode } = useAccessibility();
-  usePageTitle('Téléchargements');
+  usePageTitle("Téléchargements");
 
-  // En mode frigo, on force le mode lisible
-  const effectiveReadableMode = readableMode || fridgeMode;
+  // effectiveReadableMode = fridgeMode (mode senior supprime)
+  const effectiveReadableMode = fridgeMode;
 
   const publishedPathologies = pathologies.filter((p) => p.isPublished);
 
@@ -289,14 +286,7 @@ const Telechargements = () => {
             </div>
 
             {/* Indicateur Mode Senior synchronisé */}
-            {effectiveReadableMode && !fridgeMode && (
-              <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-xl border border-primary/30">
-                <Accessibility className="w-6 h-6 text-primary" />
-                <span className="text-lg font-medium text-primary">
-                  Mode Senior actif ✓
-                </span>
-              </div>
-            )}
+
           </div>
 
           {/* Mode Frigo Switch */}

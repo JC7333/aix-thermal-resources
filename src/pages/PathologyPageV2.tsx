@@ -42,7 +42,6 @@ import { PdfDownloadButtons } from "@/components/shared/PdfDownloadButtons";
 import { FavoriteButton } from "@/components/shared/FavoriteButton";
 import { VideoSection } from "@/components/shared/VideoSection";
 import { getEvidencePackV2BySlug, CATEGORIES } from "@/content/evidence/v2";
-import { useSeniorMode } from "@/hooks/useSeniorMode";
 import { logEvent } from "@/services/analytics";
 import { filterSourcesByPolicy } from "@/lib/sourcePolicy";
 import type {
@@ -351,19 +350,21 @@ const ProcedureCard = ({
 // Page principale
 const PathologyPageV2 = () => {
   const { slug } = useParams<{ slug: string }>();
-  const {
-    seniorMode,
-    titleClass,
-    subtitleClass,
-    textClass,
-    smallTextClass,
-    buttonSize,
-    iconSize,
-    iconSizeLg,
-    cardClass,
-    cardPadding,
-    badgeClass,
-  } = useSeniorMode();
+  const seniorMode = false;
+  const titleClass =
+    "font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4";
+  const subtitleClass = "text-xl md:text-2xl font-serif font-bold";
+  const textClass = "text-lg text-muted-foreground";
+  const smallTextClass = "text-sm text-muted-foreground";
+  const buttonSize = "default" as const;
+  const cardPadding = "p-4 lg:p-6";
+  const gridCols = "grid md:grid-cols-2 lg:grid-cols-3 gap-6";
+  const gridCols2 = "grid md:grid-cols-2 gap-4 lg:gap-6";
+  const iconSize = "w-5 h-5";
+  const iconSizeLg = "w-6 h-6";
+  const badgeClass = "text-xs px-2 py-1";
+  const inputClass = "h-11 text-base rounded-lg";
+  const cardClass = "card-medical";
 
   const pack = slug ? getEvidencePackV2BySlug(slug) : undefined;
   const podcastData = getPodcastBySlug(slug || "");

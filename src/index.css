@@ -65,6 +65,11 @@
     --orl-color: 158 40% 35%;
     --buccal-color: 340 40% 48%;
 
+    /* Étuve premium tokens */
+    --color-teal: #1a7a8c;
+    --color-teal-deep: #0f5c6b;
+    --color-warm: #C4956A;
+
     /* Gradients premium sobres */
     --gradient-hero: linear-gradient(145deg, hsl(210 65% 32%) 0%, hsl(210 50% 42%) 50%, hsl(175 40% 35%) 100%);
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(40 15% 98%) 100%);
@@ -272,6 +277,29 @@
   /* Hero section */
   .hero-gradient {
     background: var(--gradient-hero);
+  }
+
+  /* Hero photo overlay */
+  .hero-photo {
+    position: relative;
+    background-size: cover;
+    background-position: center 40%;
+    background-repeat: no-repeat;
+  }
+  .hero-photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(15, 92, 107, 0.65) 0%,
+      rgba(15, 92, 107, 0.45) 50%,
+      rgba(15, 92, 107, 0.7) 100%
+    );
+  }
+  .hero-photo > * {
+    position: relative;
+    z-index: 1;
   }
 
   /* Section chaude */
