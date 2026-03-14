@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -12,7 +12,7 @@
        PALETTE PREMIUM SOBRE V2
        Tons neutres + accent médical raffiné
     ======================================== */
-    
+
     /* Fond légèrement chaud, blanc cassé premium */
     --background: 40 20% 98%;
     --foreground: 220 20% 18%;
@@ -58,7 +58,7 @@
     --warm-beige-dark: 35 18% 82%;
     --trust-navy: 220 30% 18%;
     --trust-teal: 175 40% 35%;
-    
+
     /* Catégories médicales */
     --rhuma-color: 210 55% 38%;
     --veino-color: 270 35% 45%;
@@ -68,17 +68,34 @@
     /* Étuve premium tokens */
     --color-teal: #1a7a8c;
     --color-teal-deep: #0f5c6b;
-    --color-warm: #C4956A;
+    --color-warm: #c4956a;
 
     /* Gradients premium sobres */
-    --gradient-hero: linear-gradient(145deg, hsl(210 65% 32%) 0%, hsl(210 50% 42%) 50%, hsl(175 40% 35%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(40 15% 98%) 100%);
-    --gradient-warm: linear-gradient(145deg, hsl(40 20% 97%) 0%, hsl(35 18% 94%) 100%);
+    --gradient-hero: linear-gradient(
+      145deg,
+      hsl(210 65% 32%) 0%,
+      hsl(210 50% 42%) 50%,
+      hsl(175 40% 35%) 100%
+    );
+    --gradient-card: linear-gradient(
+      180deg,
+      hsl(0 0% 100%) 0%,
+      hsl(40 15% 98%) 100%
+    );
+    --gradient-warm: linear-gradient(
+      145deg,
+      hsl(40 20% 97%) 0%,
+      hsl(35 18% 94%) 100%
+    );
 
     /* Shadows raffinées */
     --shadow-soft: 0 1px 2px 0 hsl(220 20% 18% / 0.04);
-    --shadow-card: 0 2px 8px -2px hsl(220 20% 18% / 0.06), 0 1px 3px -1px hsl(220 20% 18% / 0.04);
-    --shadow-elevated: 0 8px 24px -6px hsl(220 20% 18% / 0.1), 0 4px 8px -4px hsl(220 20% 18% / 0.06);
+    --shadow-card:
+      0 2px 8px -2px hsl(220 20% 18% / 0.06),
+      0 1px 3px -1px hsl(220 20% 18% / 0.04);
+    --shadow-elevated:
+      0 8px 24px -6px hsl(220 20% 18% / 0.1),
+      0 4px 8px -4px hsl(220 20% 18% / 0.06);
 
     /* Sidebar */
     --sidebar-background: 40 15% 99%;
@@ -119,7 +136,7 @@
     font-size: 1.3rem;
     line-height: 1.9;
     letter-spacing: 0.025em;
-    
+
     /* Contrastes renforcés pour accessibilité */
     --foreground: 215 30% 12%;
     --muted-foreground: 215 20% 32%;
@@ -127,14 +144,23 @@
     --card: 0 0% 100%;
   }
 
-  .senior-mode h1, .senior-mode h2, .senior-mode h3, .senior-mode h4 {
+  .senior-mode h1,
+  .senior-mode h2,
+  .senior-mode h3,
+  .senior-mode h4 {
     letter-spacing: 0.015em;
     font-weight: 800;
   }
 
-  .senior-mode h1 { font-size: 2.5rem; }
-  .senior-mode h2 { font-size: 2rem; }
-  .senior-mode h3 { font-size: 1.5rem; }
+  .senior-mode h1 {
+    font-size: 2.5rem;
+  }
+  .senior-mode h2 {
+    font-size: 2rem;
+  }
+  .senior-mode h3 {
+    font-size: 1.5rem;
+  }
 
   .senior-mode p {
     max-width: 60ch;
@@ -142,7 +168,7 @@
     line-height: 2;
   }
 
-  .senior-mode button, 
+  .senior-mode button,
   .senior-mode a,
   .senior-mode .btn {
     min-height: 56px;
@@ -173,7 +199,9 @@
     letter-spacing: 0.02em;
   }
 
-  .easy-reading h1, .easy-reading h2, .easy-reading h3 {
+  .easy-reading h1,
+  .easy-reading h2,
+  .easy-reading h3 {
     letter-spacing: 0.01em;
   }
 
@@ -181,7 +209,8 @@
     max-width: 65ch;
   }
 
-  .easy-reading button, .easy-reading a {
+  .easy-reading button,
+  .easy-reading a {
     min-height: 52px;
     min-width: 52px;
   }
@@ -211,13 +240,18 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
     font-size: 16px;
     line-height: 1.7;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Libre Baskerville', Georgia, serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Libre Baskerville", Georgia, serif;
     font-weight: 700;
     line-height: 1.3;
   }
@@ -287,7 +321,7 @@
     background-repeat: no-repeat;
   }
   .hero-photo::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(
@@ -332,13 +366,25 @@
 
   /* Animations douces */
   @keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @keyframes slide-in-right {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   .animate-fade-in {
@@ -355,12 +401,24 @@
     animation: fade-in 0.4s ease-out forwards;
   }
 
-  .stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
-  .stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
-  .stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
-  .stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
-  .stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
-  .stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+  .stagger-children > *:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .stagger-children > *:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .stagger-children > *:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .stagger-children > *:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  .stagger-children > *:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+  .stagger-children > *:nth-child(6) {
+    animation-delay: 0.6s;
+  }
 }
 
 /* ============================================
@@ -378,20 +436,20 @@
     box-shadow: none !important;
     transition: none !important;
   }
-  
+
   body {
     font-size: 9pt !important;
     line-height: 1.25 !important;
     color: #000 !important;
     background: white !important;
   }
-  
+
   .container {
     max-width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
   }
-  
+
   .no-print,
   header nav,
   footer,
@@ -400,33 +458,49 @@
   .card-medical {
     display: none !important;
   }
-  
-  h1 { font-size: 16pt !important; margin-bottom: 4pt !important; }
-  h2 { font-size: 11pt !important; margin-bottom: 3pt !important; page-break-after: avoid; }
-  h3 { font-size: 10pt !important; margin-bottom: 2pt !important; }
-  h4 { font-size: 9pt !important; margin-bottom: 2pt !important; }
-  
-  p, li { 
-    font-size: 8pt !important; 
+
+  h1 {
+    font-size: 16pt !important;
+    margin-bottom: 4pt !important;
+  }
+  h2 {
+    font-size: 11pt !important;
+    margin-bottom: 3pt !important;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 10pt !important;
+    margin-bottom: 2pt !important;
+  }
+  h4 {
+    font-size: 9pt !important;
+    margin-bottom: 2pt !important;
+  }
+
+  p,
+  li {
+    font-size: 8pt !important;
     line-height: 1.2 !important;
     margin-bottom: 1pt !important;
   }
-  
-  .rounded-xl { border-radius: 4pt !important; }
-  
+
+  .rounded-xl {
+    border-radius: 4pt !important;
+  }
+
   section {
     page-break-inside: avoid;
     margin-bottom: 6pt !important;
   }
-  
+
   .print\:break-before-page {
     page-break-before: always;
   }
-  
+
   .print\:break-inside-avoid {
     page-break-inside: avoid;
   }
-  
+
   /* Compact cards for print */
   .bg-card,
   .bg-primary\/5,
@@ -439,32 +513,56 @@
     padding: 5pt !important;
     margin-bottom: 3pt !important;
   }
-  
+
   /* Icons smaller */
   .w-10.h-10 {
     width: 14pt !important;
     height: 14pt !important;
   }
-  
+
   .w-12.h-12 {
     width: 12pt !important;
     height: 12pt !important;
   }
-  
+
   /* Compact spacing */
-  .space-y-10 > * + * { margin-top: 6pt !important; }
-  .space-y-4 > * + * { margin-top: 3pt !important; }
-  .space-y-3 > * + * { margin-top: 2pt !important; }
-  .space-y-2 > * + * { margin-top: 1pt !important; }
-  .space-y-1 > * + * { margin-top: 0.5pt !important; }
-  
-  .gap-4 { gap: 3pt !important; }
-  .gap-3 { gap: 2pt !important; }
-  .gap-2 { gap: 1pt !important; }
-  
-  .p-6, .p-5, .p-4, .p-3 { padding: 4pt !important; }
-  .mb-6, .mb-4 { margin-bottom: 3pt !important; }
-  
+  .space-y-10 > * + * {
+    margin-top: 6pt !important;
+  }
+  .space-y-4 > * + * {
+    margin-top: 3pt !important;
+  }
+  .space-y-3 > * + * {
+    margin-top: 2pt !important;
+  }
+  .space-y-2 > * + * {
+    margin-top: 1pt !important;
+  }
+  .space-y-1 > * + * {
+    margin-top: 0.5pt !important;
+  }
+
+  .gap-4 {
+    gap: 3pt !important;
+  }
+  .gap-3 {
+    gap: 2pt !important;
+  }
+  .gap-2 {
+    gap: 1pt !important;
+  }
+
+  .p-6,
+  .p-5,
+  .p-4,
+  .p-3 {
+    padding: 4pt !important;
+  }
+  .mb-6,
+  .mb-4 {
+    margin-bottom: 3pt !important;
+  }
+
   /* Prevent blank page 2 caused by min-h-screen */
   .min-h-screen {
     min-height: auto !important;
@@ -474,7 +572,7 @@
   .lg\:col-span-2 {
     width: 100% !important;
   }
-  
+
   .grid {
     display: block !important;
   }
@@ -483,5 +581,47 @@
   a {
     color: #000 !important;
     text-decoration: none !important;
+  }
+}
+
+/* QR codes print — scopé à .qr-print-page uniquement */
+@media print {
+  .qr-print-page .qr-screen-only {
+    display: none !important;
+  }
+  .qr-print-page .qr-print-content {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .qr-print-page .qr-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+  }
+  .qr-print-page .qr-card {
+    padding: 8px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 8px !important;
+    break-inside: avoid;
+  }
+  .qr-print-page .qr-svg-wrapper svg {
+    width: 100px !important;
+    height: 100px !important;
+  }
+  .qr-print-page .qr-svg-wrapper-lg svg {
+    width: 180px !important;
+    height: 180px !important;
+  }
+  .qr-print-page {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* Masquer header/footer du site UNIQUEMENT sur la page QR */
+  .qr-print-page ~ footer,
+  body:has(.qr-print-page) header,
+  body:has(.qr-print-page) footer,
+  body:has(.qr-print-page) .floating-back-to-top {
+    display: none !important;
   }
 }

@@ -42,6 +42,7 @@ const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const BilanHebdoPage = lazy(() => import("./pages/BilanHebdoPage"));
 const ProPage = lazy(() => import("./pages/ProPage"));
+const QrCodes = lazy(() => import("./pages/QrCodes"));
 // Routes internes masquees en production
 // const Admin = lazy(() => import("./pages/Admin"));
 // const SocialKit = lazy(() => import("./pages/SocialKit"));
@@ -64,11 +65,13 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
-            <Suspense fallback={
-              <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent" />
-              </div>
-            }>
+            <Suspense
+              fallback={
+                <div className="min-h-screen flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent" />
+                </div>
+              }
+            >
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/reponses-rapides" element={<ReponsesRapides />} />
@@ -79,8 +82,14 @@ const App = () => {
                 <Route path="/parcours/suivi" element={<ParcoursSuivi />} />
                 <Route path="/parcours/:slug" element={<ParcoursAccueil />} />
                 <Route path="/parcours/:slug/bep" element={<ParcoursBep />} />
-                <Route path="/parcours/:slug/jour/:day" element={<ParcoursJour />} />
-                <Route path="/parcours/:slug/bilan" element={<ParcoursBilan />} />
+                <Route
+                  path="/parcours/:slug/jour/:day"
+                  element={<ParcoursJour />}
+                />
+                <Route
+                  path="/parcours/:slug/bilan"
+                  element={<ParcoursBilan />}
+                />
                 <Route path="/parcours" element={<Parcours />} />
                 <Route path="/ressources" element={<Resources />} />
                 <Route path="/pathologies" element={<Pathologies />} />
@@ -119,6 +128,8 @@ const App = () => {
                 <Route path="/blog/:slug" element={<BlogArticle />} />
                 <Route path="/bilan-hebdo" element={<BilanHebdoPage />} />
                 <Route path="/professionnels" element={<ProPage />} />
+                {/* Page admin QR codes — URL directe uniquement, pas dans la nav */}
+                <Route path="/qr" element={<QrCodes />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
