@@ -1,7 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Instagram, Facebook, Mail } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
+import { Instagram, Facebook, Mail } from 'lucide-react';
 
-// Composant Link qui scroll vers le haut
 const ScrollTopLink = ({
   to,
   children,
@@ -12,13 +11,11 @@ const ScrollTopLink = ({
   className?: string;
 }) => {
   const navigate = useNavigate();
-
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: 'instant' });
     navigate(to);
   };
-
   return (
     <a href={to} onClick={handleClick} className={className}>
       {children}
@@ -26,228 +23,115 @@ const ScrollTopLink = ({
   );
 };
 
+const linkClass = 'text-white/70 hover:text-white transition-colors';
+
+const columns = [
+  {
+    title: 'Programme',
+    links: [
+      { name: 'Le Programme', href: '/le-programme' },
+      { name: 'Mon parcours', href: '/parcours' },
+      { name: 'Téléchargements', href: '/telechargements' },
+      { name: 'Blog', href: '/blog' },
+      { name: 'Réponses rapides', href: '/reponses-rapides' },
+      { name: 'Espace Parents', href: '/parents' },
+    ],
+  },
+  {
+    title: 'Pathologies',
+    links: [
+      { name: 'Arthrose du genou', href: '/pathologies/v2/gonarthrose' },
+      { name: 'Lombalgie chronique', href: '/pathologies/v2/lombalgie-chronique' },
+      { name: 'Hanche', href: '/pathologies/v2/coxarthrose' },
+      { name: 'BPCO', href: '/pathologies/v2/bpco' },
+      { name: 'Toutes les pathologies', href: '/pathologies' },
+    ],
+  },
+  {
+    title: 'Informations',
+    links: [
+      { name: 'Qui suis-je', href: '/qui-suis-je' },
+      { name: 'Professionnels', href: '/professionnels' },
+      { name: 'Sources & Méthodologie', href: '/sources-methodologie' },
+      { name: 'Contact', href: '/contact' },
+      { name: 'Mentions légales', href: '/mentions-legales' },
+      { name: 'Confidentialité', href: '/confidentialite' },
+    ],
+  },
+];
+
 export const Footer = () => {
   return (
-    <footer className="bg-trust-navy text-white/90 mt-auto">
-      <div className="container mx-auto px-4 py-10 lg:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+    <footer className="bg-trust-navy text-white/90 mt-auto print:hidden">
+      <div className="max-w-6xl mx-auto px-6 py-14 lg:py-18">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <div className="mb-4">
-              <p className="font-serif text-2xl font-bold text-white">
-                ÉTUVE
-              </p>
-              <p className="text-sm text-white/70 mt-1">
-                par le Dr Audric Bugnard
-              </p>
-            </div>
-            <p className="text-sm text-white/70 leading-relaxed">
-              Des plans simples, imprimables, pour reprendre la main sur votre
-              santé au quotidien.
+            <ScrollTopLink to="/" className="inline-block">
+              <span className="font-serif text-2xl font-bold text-white">ÉTUVE</span>
+            </ScrollTopLink>
+            <p className="text-sm text-white/60 mt-3 leading-relaxed">
+              Programme d'éducation thérapeutique pour patients en cure thermale.
+            </p>
+            <p className="text-sm text-white/50 mt-1">
+              Dr Audric Bugnard — Médecin thermaliste
             </p>
 
-            {/* Social Icons */}
-            <div className="flex items-center gap-4 mt-6">
+            {/* Social */}
+            <div className="flex items-center gap-3 mt-6">
               <a
                 href="https://instagram.com/etuve.sante"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                aria-label="Suivre sur Instagram"
+                className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                aria-label="Instagram"
               >
-                <Instagram className="w-5 h-5" />
+                <Instagram className="w-4 h-4" />
               </a>
               <a
                 href="https://facebook.com/etuve.sante"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                aria-label="Suivre sur Facebook"
+                className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                aria-label="Facebook"
               >
-                <Facebook className="w-5 h-5" />
+                <Facebook className="w-4 h-4" />
               </a>
-              <ScrollTopLink
-                to="/contact"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+              <a
+                href="mailto:contact@etuve.fr"
+                className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                aria-label="Email"
               >
-                <Mail className="w-5 h-5" />
-              </ScrollTopLink>
+                <Mail className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
-          {/* Navigation */}
-          <div>
-            <h3 className="font-serif text-lg font-bold mb-4">Navigation</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <ScrollTopLink
-                  to="/blog"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Blog
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/le-programme"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Le Programme
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/parcours"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Parcours guidé
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/reponses-rapides"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Réponses rapides
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/telechargements"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Téléchargements PDF
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/pathologies"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Pathologies
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/parents"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Espace Parents
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/social"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Nous suivre
-                </ScrollTopLink>
-              </li>
-              <li className="mt-4 pt-4 border-t border-white/10">
-                <p className="text-white/50 text-xs uppercase tracking-wider mb-2">Pathologies</p>
-              </li>
-              <li>
-                <ScrollTopLink to="/pathologies/v2/gonarthrose" className="text-white/80 hover:text-white transition-colors">
-                  Arthrose du genou
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink to="/pathologies/v2/lombalgie-chronique" className="text-white/80 hover:text-white transition-colors">
-                  Lombalgie chronique
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink to="/pathologies/v2/insuffisance-veineuse" className="text-white/80 hover:text-white transition-colors">
-                  Insuffisance veineuse
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink to="/pathologies/v2/bpco" className="text-white/80 hover:text-white transition-colors">
-                  BPCO
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink to="/pathologies/v2/otites-repetition-enfant" className="text-white/80 hover:text-white transition-colors">
-                  Otites enfant
-                </ScrollTopLink>
-              </li>
-              <li><ScrollTopLink to="/pathologies/v2/coxarthrose" className="text-white/80 hover:text-white transition-colors">Coxarthrose (hanche)</ScrollTopLink></li>
-              <li><ScrollTopLink to="/pathologies/v2/asthme" className="text-white/80 hover:text-white transition-colors">Asthme</ScrollTopLink></li>
-              <li><ScrollTopLink to="/pathologies/v2/tendinopathie-coiffe" className="text-white/80 hover:text-white transition-colors">Épaule (coiffe)</ScrollTopLink></li>
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div>
-            <h3 className="font-serif text-lg font-bold mb-4">Informations</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <ScrollTopLink
-                  to="/qui-suis-je"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Qui suis-je ?
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/sources-methodologie"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Sources & Méthodologie
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/professionnels"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Professionnels
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/contact"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Contact
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/mentions-legales"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Mentions légales
-                </ScrollTopLink>
-              </li>
-              <li>
-                <ScrollTopLink
-                  to="/confidentialite"
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  Politique de confidentialité
-                </ScrollTopLink>
-              </li>
-            </ul>
-          </div>
+          {/* Columns */}
+          {columns.map((col) => (
+            <div key={col.title}>
+              <p className="text-sm font-semibold text-white mb-4">{col.title}</p>
+              <ul className="space-y-2.5">
+                {col.links.map((link) => (
+                  <li key={link.href}>
+                    <ScrollTopLink to={link.href} className={`text-sm ${linkClass}`}>
+                      {link.name}
+                    </ScrollTopLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         {/* Bottom */}
-        <div className="mt-10 pt-8 border-t border-white/10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
-            <p>
-              © {new Date().getFullYear()} ÉTUVE — par le Dr Audric Bugnard.
-              Tous droits réservés.
-            </p>
-            <p className="text-center md:text-right flex items-center gap-2">
-              <span>Urgence : 15 / 112</span>
-              <span className="hidden sm:inline">•</span>
-              <span className="text-white/50">
-                Informations générales — Ne remplace pas un avis médical
-              </span>
-            </p>
-          </div>
+        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-white/50">
+            © {new Date().getFullYear()} ÉTUVE — Aix-les-Bains. Information éducative — ne remplace pas un avis médical.
+          </p>
+          <p className="text-xs text-white/50">
+            Urgence : 15 / 112
+          </p>
         </div>
       </div>
     </footer>
