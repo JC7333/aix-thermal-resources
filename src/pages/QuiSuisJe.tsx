@@ -5,6 +5,8 @@ import { Layout } from "@/components/layout/Layout";
 import { Breadcrumb } from "@/components/shared/Breadcrumb";
 import drAudricPhoto from "@/assets/dr-audric-bugnard.jpg";
 import { usePageTitle } from "@/hooks/usePageTitle";
+import { PageHero } from "@/components/shared/PageHero";
+import { FadeIn } from "@/components/shared/FadeIn";
 
 const principles = [
   { title: "Des plans très simples", description: "Maximum 3 actions par jour. Pas plus. Si c'est trop compliqué, vous n'allez pas le faire. Et c'est normal." },
@@ -18,76 +20,88 @@ const QuiSuisJe = () => {
   usePageTitle("Dr Audric Bugnard");
 
   return (
-    <Layout>
+    <Layout noPadding>
+      <PageHero
+        title="Dr Audric Bugnard"
+        subtitle="Médecin thermaliste à Aix-les-Bains"
+        image="/images/about.jpg"
+      />
       <div className="container mx-auto px-4 py-6 lg:py-8">
         <Breadcrumb items={[{ label: "Qui suis-je ?" }]} />
 
         <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mb-12">
-            <div className="rounded-2xl overflow-hidden shrink-0 border-4 border-white shadow-lg w-48 h-48 lg:w-64 lg:h-64">
-              <img src={drAudricPhoto} alt="Dr Audric Bugnard" className="w-full h-full object-cover" style={{ objectPosition: "center 20%" }} />
+          <FadeIn>
+            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mb-12">
+              <div className="rounded-2xl overflow-hidden shrink-0 border-4 border-white shadow-lg w-48 h-48 lg:w-64 lg:h-64">
+                <img src={drAudricPhoto} alt="Dr Audric Bugnard" className="w-full h-full object-cover" style={{ objectPosition: "center 20%" }} />
+              </div>
+              <div>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Je suis le <strong className="text-foreground">Dr Audric Bugnard</strong>, médecin généraliste et thermaliste à Aix-les-Bains. Depuis des années, j'accompagne des patients qui vivent avec des douleurs chroniques, des problèmes de poids, des difficultés respiratoires.
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">Qui suis-je ?</h1>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Je suis le <strong className="text-foreground">Dr Audric Bugnard</strong>, médecin généraliste et thermaliste à Aix-les-Bains. Depuis des années, j'accompagne des patients qui vivent avec des douleurs chroniques, des problèmes de poids, des difficultés respiratoires.
-              </p>
-            </div>
-          </div>
+          </FadeIn>
 
-          <div className="prose max-w-none prose-lg mb-12">
-            <div className="card-medical mb-8">
-              <h2 className="font-serif font-bold text-foreground text-2xl mb-4">Mon objectif est simple</h2>
-              <p className="text-foreground leading-relaxed text-lg">Vous aider à mettre en place des habitudes qui tiennent dans la vraie vie.</p>
-              <p className="text-muted-foreground leading-relaxed mt-4">
-                Pas des régimes impossibles. Pas des programmes de sportif. Pas des conseils culpabilisants. Juste des actions concrètes, faisables, que vous pouvez commencer aujourd'hui — même si vous avez mal, même si vous êtes fatigué, même si vous avez déjà essayé cent fois.
-              </p>
-            </div>
+          <FadeIn delay={0.1}>
+            <div className="prose max-w-none prose-lg mb-12">
+              <div className="card-medical mb-8">
+                <h2 className="font-serif font-bold text-foreground text-2xl mb-4">Mon objectif est simple</h2>
+                <p className="text-foreground leading-relaxed text-lg">Vous aider à mettre en place des habitudes qui tiennent dans la vraie vie.</p>
+                <p className="text-muted-foreground leading-relaxed mt-4">
+                  Pas des régimes impossibles. Pas des programmes de sportif. Pas des conseils culpabilisants. Juste des actions concrètes, faisables, que vous pouvez commencer aujourd'hui — même si vous avez mal, même si vous êtes fatigué, même si vous avez déjà essayé cent fois.
+                </p>
+              </div>
 
-            <h2 className="font-serif font-bold text-foreground text-2xl mb-6">Ce que vous trouverez ici</h2>
+              <h2 className="font-serif font-bold text-foreground text-2xl mb-6">Ce que vous trouverez ici</h2>
 
-            <div className="grid gap-4 mb-8">
-              {principles.map((principle, index) => (
-                <div key={index} className="flex gap-4 bg-muted/30 rounded-xl p-4">
-                  <CheckCircle2 className="text-primary shrink-0 mt-0.5 w-6 h-6" />
-                  <div>
-                    <h3 className="font-semibold text-foreground">{principle.title}</h3>
-                    <p className="text-muted-foreground mt-1 text-sm">{principle.description}</p>
+              <div className="grid gap-4 mb-8">
+                {principles.map((principle, index) => (
+                  <div key={index} className="flex gap-4 bg-muted/30 rounded-xl p-4">
+                    <CheckCircle2 className="text-primary shrink-0 mt-0.5 w-6 h-6" />
+                    <div>
+                      <h3 className="font-semibold text-foreground">{principle.title}</h3>
+                      <p className="text-muted-foreground mt-1 text-sm">{principle.description}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
 
-            <div className="card-medical bg-primary/5 border-primary/20">
-              <h2 className="font-serif font-bold text-foreground text-xl mb-3">Ma promesse</h2>
-              <p className="text-foreground leading-relaxed">Je ne vous promets pas de miracle. Je ne vous promets pas de guérison. Mais je vous promets des outils simples, honnêtes, que vous pouvez utiliser dès maintenant pour améliorer votre quotidien.</p>
-              <p className="text-muted-foreground mt-4 italic">En cas de doute sur votre situation, n'hésitez pas à consulter un professionnel de santé.</p>
+              <div className="card-medical bg-primary/5 border-primary/20">
+                <h2 className="font-serif font-bold text-foreground text-xl mb-3">Ma promesse</h2>
+                <p className="text-foreground leading-relaxed">Je ne vous promets pas de miracle. Je ne vous promets pas de guérison. Mais je vous promets des outils simples, honnêtes, que vous pouvez utiliser dès maintenant pour améliorer votre quotidien.</p>
+                <p className="text-muted-foreground mt-4 italic">En cas de doute sur votre situation, n'hésitez pas à consulter un professionnel de santé.</p>
+              </div>
             </div>
-          </div>
+          </FadeIn>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <Button asChild size="default">
-              <Link to="/parcours" className="gap-2">
-                Démarrer le parcours guidé
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="default">
-              <Link to="/contact" className="gap-2">Me contacter</Link>
-            </Button>
-          </div>
-
-          <div className="text-center">
-            <p className="text-muted-foreground mb-4">Suivez ÉTUVE sur les réseaux</p>
-            <div className="flex justify-center gap-4">
-              <a href="https://instagram.com/etuve.sante" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors">
-                <Instagram className="w-6 h-6" />
-              </a>
-              <a href="https://facebook.com/etuve.sante" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors">
-                <Facebook className="w-6 h-6" />
-              </a>
+          <FadeIn delay={0.2}>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+              <Button asChild size="default">
+                <Link to="/parcours" className="gap-2">
+                  Démarrer le parcours guidé
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="default">
+                <Link to="/contact" className="gap-2">Me contacter</Link>
+              </Button>
             </div>
-          </div>
+          </FadeIn>
+
+          <FadeIn delay={0.3}>
+            <div className="text-center">
+              <p className="text-muted-foreground mb-4">Suivez ÉTUVE sur les réseaux</p>
+              <div className="flex justify-center gap-4">
+                <a href="https://instagram.com/etuve.sante" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors">
+                  <Instagram className="w-6 h-6" />
+                </a>
+                <a href="https://facebook.com/etuve.sante" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-primary/10 hover:text-primary transition-colors">
+                  <Facebook className="w-6 h-6" />
+                </a>
+              </div>
+            </div>
+          </FadeIn>
         </div>
       </div>
     </Layout>

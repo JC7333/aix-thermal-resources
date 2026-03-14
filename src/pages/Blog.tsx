@@ -5,23 +5,22 @@ import { BLOG_ARTICLES } from "@/content/blog";
 import { PATHOLOGY_LABELS } from "@/content/blog/constants";
 import { Clock, ArrowRight } from "lucide-react";
 import { BlogNewsletter } from "@/components/blog/BlogNewsletter";
+import { PageHero } from "@/components/shared/PageHero";
+import { FadeIn } from "@/components/shared/FadeIn";
 
 const Blog = () => {
   usePageTitle("Blog — Santé et thermalisme");
 
   return (
-    <Layout>
+    <Layout noPadding>
+      <PageHero
+        title="Blog santé"
+        subtitle="Articles basés sur les recommandations scientifiques"
+        image="/images/blog.jpg"
+        compact
+      />
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <div className="mb-10">
-          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-foreground mb-3">
-            Blog santé &amp; thermalisme
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Articles médicaux basés sur les recommandations scientifiques.
-            Rédigés par un médecin thermaliste.
-          </p>
-        </div>
-
+        <FadeIn>
         <div className="space-y-6">
           {BLOG_ARTICLES.map((article) => (
             <Link
@@ -63,6 +62,7 @@ const Blog = () => {
             </Link>
           ))}
         </div>
+        </FadeIn>
 
         <BlogNewsletter />
 
