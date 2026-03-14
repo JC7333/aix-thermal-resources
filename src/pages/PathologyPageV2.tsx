@@ -57,6 +57,8 @@ import { JsonLd } from "@/components/shared/JsonLd";
 import { FAQ_BY_PATHOLOGY } from "@/content/faq";
 import { FaqSection } from "@/components/shared/FaqSection";
 import { FaqJsonLd } from "@/components/shared/FaqJsonLd";
+import { PageHero } from "@/components/shared/PageHero";
+import { FadeIn } from "@/components/shared/FadeIn";
 
 // Badge couleur selon niveau de preuve
 const evidenceBadgeClass = (level: string) => {
@@ -391,7 +393,7 @@ const PathologyPageV2 = () => {
   };
 
   return (
-    <Layout>
+    <Layout noPadding>
       {pack && (
         <JsonLd
           data={{
@@ -412,6 +414,12 @@ const PathologyPageV2 = () => {
           }}
         />
       )}
+      <PageHero
+        title={pack.title}
+        subtitle="Programme personnalisé avec exercices guidés et suivi"
+        image="/images/pathologie.jpg"
+        compact
+      />
       <div className="container mx-auto px-4 py-6 lg:py-8">
         {/* Breadcrumb */}
         <div className="no-print">
@@ -439,13 +447,6 @@ const PathologyPageV2 = () => {
             </span>
           </div>
 
-          <div className="flex items-start gap-4 mb-4">
-            <span className={seniorMode ? "text-5xl" : "text-4xl"}>
-              {pack.icon}
-            </span>
-            <h1 className={titleClass}>{pack.title}</h1>
-          </div>
-
           <div className="flex flex-wrap items-center gap-3 no-print">
             <Button onClick={handlePrint} variant="pdf" size={buttonSize}>
               <Printer className={iconSize} />
@@ -457,6 +458,7 @@ const PathologyPageV2 = () => {
         </header>
 
         {/* Contenu principal */}
+        <FadeIn>
         <div className={`grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12`}>
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-10">
@@ -969,6 +971,7 @@ const PathologyPageV2 = () => {
             <MedicalDisclaimer variant="compact" />
           </aside>
         </div>
+        </FadeIn>
       </div>
     </Layout>
   );
