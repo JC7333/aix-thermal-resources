@@ -21,6 +21,7 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { ArrowRight, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { EmailCapture } from '@/components/parcours/EmailCapture';
+import { FadeIn } from '@/components/shared/FadeIn';
 
 type Step = 'intro' | 'pro-douleur' | 'pro-koos-1' | 'pro-koos-2' | 'pro-confiance' | 'result';
 
@@ -231,27 +232,32 @@ const ParcoursBilan = () => {
     switch (step) {
       case 'intro':
         return (
-          <div className="space-y-6 text-center">
-            <span className="text-5xl block">🎉</span>
-            <h1 className="text-2xl font-serif font-bold">Félicitations !</h1>
-            <p className="text-lg text-muted-foreground">
-              Vous avez terminé vos 21 jours. Remplissez ce questionnaire pour mesurer vos progrès depuis le début de
-              la cure.
-            </p>
-            <p className="text-base text-muted-foreground">
-              C'est exactement le même qu'au jour 1 — pour pouvoir comparer.
-            </p>
-            <Button
-              size="lg"
-              className="text-xl py-7 gap-3"
-              onClick={() => {
-                setStep('pro-douleur');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            >
-              Commencer le bilan <ArrowRight className="w-6 h-6" />
-            </Button>
-          </div>
+          <FadeIn>
+            <div className="space-y-6 text-center">
+              <span className="text-5xl block">🎉</span>
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <span className="text-3xl">📊</span>
+              </div>
+              <h1 className="text-2xl font-serif font-bold">Félicitations !</h1>
+              <p className="text-lg text-muted-foreground">
+                Vous avez terminé vos 21 jours. Remplissez ce questionnaire pour mesurer vos progrès depuis le début de
+                la cure.
+              </p>
+              <p className="text-base text-muted-foreground">
+                C'est exactement le même qu'au jour 1 — pour pouvoir comparer.
+              </p>
+              <Button
+                size="lg"
+                className="text-xl py-7 gap-3 rounded-xl"
+                onClick={() => {
+                  setStep('pro-douleur');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              >
+                Commencer le bilan <ArrowRight className="w-6 h-6" />
+              </Button>
+            </div>
+          </FadeIn>
         );
 
       case 'pro-douleur':
@@ -328,46 +334,54 @@ const ParcoursBilan = () => {
       case 'result':
         return (
           <div className="space-y-8">
-            <div className="text-center">
-              <h1 className="text-2xl font-serif font-bold mb-2">Votre bilan de fin de cure</h1>
-              <p className="text-lg text-muted-foreground">Voici l'évolution de vos scores en 21 jours.</p>
-            </div>
+            {/* Les delays sont intentionnels — révélation progressive des résultats */}
+            <FadeIn>
+              <div className="text-center space-y-3">
+                <p className="text-4xl">🎉</p>
+                <h1 className="text-3xl font-serif font-bold">Bravo, cure terminée !</h1>
+                <p className="text-lg text-muted-foreground">Voici l'évolution de vos scores en 21 jours.</p>
+              </div>
+            </FadeIn>
 
-            <div className="grid gap-4">
-              <ScoreCompare
-                label="Douleur"
-                t0={t0Scores?.pain ?? null}
-                t1={painScore!}
-                unit="/10"
-                lowerIsBetter
-              />
-              {useKoosPs && (
+            <FadeIn delay={0.2}>
+              <div className="grid gap-4">
                 <ScoreCompare
-                  label="Difficulté fonctionnelle"
-                  t0={t0Scores?.function ?? null}
-                  t1={t1Function}
-                  unit="/100"
+                  label="Douleur"
+                  t0={t0Scores?.pain ?? null}
+                  t1={painScore!}
+                  unit="/10"
                   lowerIsBetter
                 />
-              )}
-              <ScoreCompare
-                label="Confiance"
-                t0={t0Scores?.confidence ?? null}
-                t1={confidenceScore!}
-                unit="/10"
-              />
-            </div>
+                {useKoosPs && (
+                  <ScoreCompare
+                    label="Difficulté fonctionnelle"
+                    t0={t0Scores?.function ?? null}
+                    t1={t1Function}
+                    unit="/100"
+                    lowerIsBetter
+                  />
+                )}
+                <ScoreCompare
+                  label="Confiance"
+                  t0={t0Scores?.confidence ?? null}
+                  t1={confidenceScore!}
+                  unit="/10"
+                />
+              </div>
+            </FadeIn>
 
             {/* Message personnalisé */}
-            <div className="p-5 rounded-xl bg-green-50 border border-green-200">
-              <p className="text-lg text-green-800 font-medium">
-                {t0Scores && painScore !== null && painScore < t0Scores.pain
-                  ? 'Votre douleur a diminué ! Continuez vos exercices pour maintenir ces progrès.'
-                  : t0Scores && confidenceScore !== null && confidenceScore > t0Scores.confidence
-                    ? "Votre confiance a augmenté ! C'est un signe très positif pour la suite."
-                    : "Chaque parcours est unique. L'important est de continuer vos exercices après la cure."}
-              </p>
-            </div>
+            <FadeIn delay={0.4}>
+              <div className="p-5 rounded-xl bg-green-50 border border-green-200">
+                <p className="text-lg text-green-800 font-medium">
+                  {t0Scores && painScore !== null && painScore < t0Scores.pain
+                    ? 'Votre douleur a diminué ! Continuez vos exercices pour maintenir ces progrès.'
+                    : t0Scores && confidenceScore !== null && confidenceScore > t0Scores.confidence
+                      ? "Votre confiance a augmenté ! C'est un signe très positif pour la suite."
+                      : "Chaque parcours est unique. L'important est de continuer vos exercices après la cure."}
+                </p>
+              </div>
+            </FadeIn>
 
             {/* Code et suivi */}
             <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 text-center">
@@ -386,18 +400,22 @@ const ParcoursBilan = () => {
               <p className="text-muted-foreground">• Étirements après chaque séance</p>
             </div>
 
-            <Button size="lg" variant="outline" onClick={handleDownloadPdf} className="w-full text-lg py-6 gap-2">
-              <Download className="w-5 h-5" />
-              Télécharger mon bilan (PDF)
-            </Button>
+            <FadeIn delay={0.6}>
+              <div className="space-y-4">
+                <Button size="lg" variant="outline" onClick={handleDownloadPdf} className="w-full text-lg py-6 gap-2">
+                  <Download className="w-5 h-5" />
+                  Télécharger mon bilan (PDF)
+                </Button>
 
-            {stored?.token && <EmailCapture token={stored.token} />}
+                {stored?.token && <EmailCapture token={stored.token} />}
 
-            <Link to={`/parcours/${slug}`}>
-              <Button variant="outline" size="lg" className="w-full text-lg py-6">
-                Retour à mon parcours
-              </Button>
-            </Link>
+                <Link to={`/parcours/${slug}`}>
+                  <Button variant="outline" size="lg" className="w-full text-lg py-6">
+                    Retour à mon parcours
+                  </Button>
+                </Link>
+              </div>
+            </FadeIn>
           </div>
         );
     }
@@ -444,8 +462,8 @@ const ParcoursBilan = () => {
   };
 
   return (
-    <Layout>
-      <div className="max-w-2xl mx-auto px-4 py-8">
+    <Layout noPadding>
+      <div className="max-w-2xl mx-auto px-5 sm:px-6 pb-8 pt-20 lg:pt-24">
         {step !== 'intro' && step !== 'result' && (
           <div className="mb-8">
             <div className="h-2 bg-muted rounded-full overflow-hidden">
@@ -462,7 +480,7 @@ const ParcoursBilan = () => {
         {step !== 'intro' && step !== 'result' && (
           <div className="flex gap-3 mt-10">
             {currentIndex > 1 && (
-              <Button variant="outline" size="lg" onClick={handleBack} className="text-lg py-6 px-6 gap-2">
+              <Button variant="outline" size="lg" onClick={handleBack} className="text-lg py-7 px-6 gap-2 rounded-xl">
                 Retour
               </Button>
             )}
@@ -470,7 +488,9 @@ const ParcoursBilan = () => {
               size="lg"
               onClick={handleNext}
               disabled={!canNext() || saving}
-              className="flex-1 text-lg py-6 gap-2"
+              className={`flex-1 text-lg py-7 gap-2 rounded-xl ${
+                step === 'pro-confiance' ? 'bg-green-600 hover:bg-green-700' : ''
+              }`}
             >
               {saving ? 'Enregistrement...' : step === 'pro-confiance' ? 'Voir mes résultats' : 'Suivant'}
               <ArrowRight className="w-5 h-5" />
