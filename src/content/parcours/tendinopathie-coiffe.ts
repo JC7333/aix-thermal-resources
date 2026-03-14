@@ -88,7 +88,24 @@ export const tendinopathieCoiffeParcours: ParcoursContent = {
       action: { title: "Circuit complet — 12 min", description: "Pendulaires + rotations 10× + rétractions 10× + élévation 8× + 3 étirements 30s. Chronométrez.", duration: "12 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "Quel est l'exercice le plus important pour la coiffe ?", options: ["Lever le bras au maximum", "Rotation externe coude au corps", "Pompes"], correctIndex: 1, explanation: "La rotation externe renforce les 2 tendons les plus souvent atteints (sous-épineux et petit rond)." },
+        {
+          question: "Quel exercice est le plus important pour la coiffe des rotateurs ?",
+          options: ["Les pompes", "La rotation externe avec élastique", "Les développés épaules"],
+          correctIndex: 1,
+          explanation: "La rotation externe cible spécifiquement les muscles de la coiffe des rotateurs.",
+        },
+        {
+          question: "Que faire en cas de poussée douloureuse ?",
+          options: ["Arrêter tous les exercices", "Réduire l'amplitude mais continuer les pendulaires", "Prendre des anti-inflammatoires"],
+          correctIndex: 1,
+          explanation: "Adapter la charge plutôt qu'arrêter. Les pendulaires restent toujours possibles.",
+        },
+        {
+          question: "Quelle posture protège la coiffe des rotateurs ?",
+          options: ["Épaules en arrière, menton rentré", "Épaules enroulées en avant", "Bras croisés"],
+          correctIndex: 0,
+          explanation: "Les épaules en arrière ouvrent l'espace sous l'acromion et réduisent la compression des tendons.",
+        },
       ],
     },
 

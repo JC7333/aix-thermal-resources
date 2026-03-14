@@ -88,7 +88,24 @@ export const arthroseDigitaleParcours: ParcoursContent = {
       action: { title: "Circuit complet — 8 min", description: "Bain chaud 3 min + 5 exercices + 3 étirements. Chronométrez.", duration: "8 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "Combien de fois par jour faire les exercices de la main ?", options: ["1 fois, 20 minutes", "2-3 fois, 5 minutes chaque", "1 fois par semaine"], correctIndex: 1, explanation: "Court et fréquent : 5 min × 2-3 par jour est plus efficace que 20 min × 1 fois." },
+        {
+          question: "Que faut-il faire avant les exercices des mains ?",
+          options: ["Mettre de la glace", "Prendre un antidouleur", "Réchauffer les mains (bain tiède)"],
+          correctIndex: 2,
+          explanation: "La chaleur assouplit les articulations et réduit la douleur avant l'exercice.",
+        },
+        {
+          question: "Quelle est la meilleure stratégie pour protéger ses articulations ?",
+          options: ["Ne plus utiliser ses mains", "Adapter les gestes et utiliser des aides techniques", "Porter des attelles en permanence"],
+          correctIndex: 1,
+          explanation: "Adapter les gestes protège les articulations tout en maintenant l'autonomie.",
+        },
+        {
+          question: "Quel exercice cible spécifiquement le pouce (rhizarthrose) ?",
+          options: ["L'opposition résistée avec élastique", "Le poing serré", "L'écartement des doigts"],
+          correctIndex: 0,
+          explanation: "L'opposition résistée renforce les muscles stabilisateurs du pouce.",
+        },
       ],
     },
 

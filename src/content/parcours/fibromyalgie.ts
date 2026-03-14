@@ -88,8 +88,24 @@ export const fibromyalgieParcours: ParcoursContent = {
       action: { title: "Circuit complet — 12 min", description: "Marche 4 min + étirements 3 min + mobilisations 2 min + respiration 3 min. Chronométrez : c'est votre routine post-cure.", duration: "12 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "Que faire un mauvais jour ?", options: ["Rester au lit toute la journée", "Faire le minimum (3+3 min)", "Forcer pour ne pas perdre les acquis"], correctIndex: 1, explanation: "Réduire à 50% mais jamais 0%. 3 min de marche + 3 min d'étirements = votre minimum." },
-        { question: "La cohérence cardiaque, combien de fois par jour ?", options: ["1 fois le soir", "3 fois par jour, 5 minutes", "Seulement pendant les poussées"], correctIndex: 1, explanation: "3×/jour × 5 min. Les effets sont mesurables en 1-2 semaines sur le stress et la douleur." },
+        {
+          question: "Quel est le seul traitement avec preuve forte dans la fibromyalgie ?",
+          options: ["Les médicaments antidouleur", "L'exercice physique adapté", "Les massages"],
+          correctIndex: 1,
+          explanation: "L'exercice est la seule recommandation 'forte' selon EULAR 2017.",
+        },
+        {
+          question: "Que signifie le 'pacing' ?",
+          options: ["Alterner activité et repos pour gérer son énergie", "Faire le plus possible les jours de forme", "Ne rien faire les jours de douleur"],
+          correctIndex: 0,
+          explanation: "Le pacing consiste à répartir ses activités pour éviter le cycle boom-bust.",
+        },
+        {
+          question: "Quel type d'exercice est le mieux toléré dans la fibromyalgie ?",
+          options: ["La musculation intense", "La course à pied", "L'exercice en eau chaude"],
+          correctIndex: 2,
+          explanation: "L'eau chaude réduit la douleur et permet de bouger avec moins de contraintes.",
+        },
       ],
     },
 

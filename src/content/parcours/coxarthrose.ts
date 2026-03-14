@@ -162,8 +162,24 @@ export const coxarthroseParcours: ParcoursContent = {
       action: { title: "Circuit complet — 12 min", description: "Circuit des 5 exercices (10 reps chacun) + 3 étirements (30s). Chronométrez : c'est votre routine post-cure.", duration: "12 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "De quel côté utilise-t-on la canne ?", options: ["Du côté douloureux", "Du côté opposé à la hanche douloureuse", "Peu importe"], correctIndex: 1, explanation: "La canne se tient du côté OPPOSÉ à la hanche douloureuse pour rééquilibrer les forces." },
-        { question: "Quel muscle est le protecteur n°1 de la hanche ?", options: ["Le quadriceps", "Les fessiers", "Les abdominaux"], correctIndex: 1, explanation: "Les fessiers stabilisent la hanche à chaque pas. Des fessiers faibles = une hanche qui vacille." },
+        {
+          question: "Quel muscle est le protecteur n°1 de la hanche ?",
+          options: ["Le quadriceps", "Le moyen fessier", "Les adducteurs"],
+          correctIndex: 1,
+          explanation: "Le moyen fessier stabilise le bassin et protège l'articulation de la hanche.",
+        },
+        {
+          question: "Quelle position soulage la hanche la nuit ?",
+          options: ["Sur le côté avec coussin entre les genoux", "Sur le ventre", "Sur le dos jambes tendues"],
+          correctIndex: 0,
+          explanation: "Un coussin entre les genoux aligne le bassin et réduit la pression sur la hanche.",
+        },
+        {
+          question: "Quel sport est le plus adapté à la coxarthrose ?",
+          options: ["La course à pied", "Le vélo ou la natation", "Le tennis"],
+          correctIndex: 1,
+          explanation: "Le vélo et la natation mobilisent la hanche sans l'impact de la course.",
+        },
       ],
     },
 
