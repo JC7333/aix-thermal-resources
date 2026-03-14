@@ -38,8 +38,9 @@ export const asthmeParcours: ParcoursContent = {
       action: { title: "Bilan journal declencheurs", description: "Relisez votre journal de la semaine. Identifiez 1-2 declencheurs recurrents.", duration: "5 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "Faut-il arreter le traitement de fond quand on va bien ?", options: ["Oui, c'est gueri", "Non, jamais sans avis medical", "Oui, en ete"], correctIndex: 1, explanation: "Le traitement de fond maintient le controle. L'arret provoque le retour de l'inflammation." },
-        { question: "L'exercice est-il bon pour l'asthme ?", options: ["Non, il declenche des crises", "Oui, il ameliore les symptomes", "Seulement la marche"], correctIndex: 1, explanation: "L'exercice regulier ameliore la capacite respiratoire et reduit les symptomes (Cochrane 2023)." },
+        { question: "L'asthme bien controle empeche-t-il de faire du sport ?", options: ["Oui, le sport est deconseille", "Seulement la natation est autorisee", "Non, le sport est recommande"], correctIndex: 2, explanation: "L'exercice est recommande pour les asthmatiques. Un asthme bien controle ne limite pas le sport." },
+        { question: "Quel est l'objectif du traitement de fond ?", options: ["Reduire l'inflammation chronique et prevenir les crises", "Soulager une crise en cours", "Remplacer le bronchodilatateur"], correctIndex: 0, explanation: "Le traitement de fond agit sur l'inflammation pour prevenir les crises." },
+        { question: "Que faire en premier en cas de crise d'asthme ?", options: ["Appeler le 15 immediatement", "Utiliser son bronchodilatateur d'urgence en position assise", "S'allonger"], correctIndex: 1, explanation: "Le plan d'action commence par le bronchodilatateur d'urgence en position assise." },
       ],
     },
     { day: 8, theme: "Exercice adapte asthme", phase: 'agir',
@@ -71,7 +72,9 @@ export const asthmeParcours: ParcoursContent = {
       action: { title: "Exercice complet - 15 min", description: "Echauffement 3 min + marche 8 min + renforcement + recuperation 4 min.", duration: "15 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "Combien de bouffees de secours en cas de crise ?", options: ["1 bouffee", "4-6 bouffees", "10 bouffees"], correctIndex: 1, explanation: "4-6 bouffees de bronchodilatateur de secours, attendre 15 min, reevaluer." },
+        { question: "Une mauvaise technique d'inhalation reduit l'efficacite du traitement de combien ?", options: ["10%", "25%", "50% ou plus"], correctIndex: 2, explanation: "Plus de la moitie du medicament n'atteint pas les poumons avec une mauvaise technique." },
+        { question: "Quel est le declencheur d'asthme n1 ?", options: ["Les allergenes (acariens, pollens, animaux)", "Le froid", "Le stress"], correctIndex: 0, explanation: "Les allergenes sont le declencheur le plus frequent des crises d'asthme." },
+        { question: "Un bon controle de l'asthme signifie :", options: ["Utiliser le bronchodilatateur tous les jours", "Zero reveil nocturne et zero limitation d'activite", "Ne jamais etre essouffle"], correctIndex: 1, explanation: "GINA definit le controle par l'absence de symptomes diurnes/nocturnes et de limitation." },
       ],
     },
     { day: 15, theme: "Plan post-cure", phase: 'consolider',
