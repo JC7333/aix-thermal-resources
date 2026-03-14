@@ -40,6 +40,8 @@ import {
   getStoredEvents,
   type AnalyticsStats,
 } from "@/services/analytics";
+import { pdf } from "@react-pdf/renderer";
+import { ArsReportPdf } from "@/components/dashboard/ArsReportPdf";
 
 // PRO data types and reader
 interface ProResponse {
@@ -680,6 +682,51 @@ const Stats = () => {
     URL.revokeObjectURL(url);
   };
 
+  const handleExportArsPdf = async () => {
+    if (!parcoursOutcomes) return;
+    try {
+      const reportData = {
+        totalParcours: parcoursOutcomes.totalParcours,
+        totalCompleted: parcoursOutcomes.totalCompleted,
+        totalCompletedT2: parcoursOutcomes.totalCompletedT2,
+        totalCompletedT3: parcoursOutcomes.totalCompletedT3,
+        completionRate: parcoursOutcomes.completionRate,
+        followUpRateT2: parcoursOutcomes.followUpRateT2,
+        followUpRateT3: parcoursOutcomes.followUpRateT3,
+        byPathology: parcoursOutcomes.byPathology.map((p) => ({
+          slug: p.slug,
+          label: SLUG_LABELS[p.slug] || p.slug,
+          total: p.total,
+          completed: p.completed,
+          completedT2: p.completedT2,
+          completedT3: p.completedT3,
+          avgPainT0: p.avgPainT0,
+          avgPainT1: p.avgPainT1,
+          avgPainT3: p.avgPainT3,
+          avgConfidenceT0: p.avgConfidenceT0,
+          avgConfidenceT1: p.avgConfidenceT1,
+          painImprovement: p.painImprovement,
+          painImprovementT3: p.painImprovementT3,
+        })),
+        exportDate: new Date().toLocaleDateString("fr-FR", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }),
+      };
+
+      const blob = await pdf(<ArsReportPdf {...reportData} />).toBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `etuve-rapport-ars-${new Date().toISOString().split("T")[0]}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (_e) {
+      console.error("[ARS PDF]", _e);
+    }
+  };
+
   const handleClear = () => {
     clearAnalytics();
     setShowConfirmClear(false);
@@ -730,15 +777,26 @@ const Stats = () => {
               CSV brut
             </Button>
             {parcoursOutcomes && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleExportParcoursArs}
-                className="gap-1"
-              >
-                <FileSpreadsheet className="w-4 h-4" />
-                CSV ARS
-              </Button>
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleExportParcoursArs}
+                  className="gap-1"
+                >
+                  <FileSpreadsheet className="w-4 h-4" />
+                  CSV ARS
+                </Button>
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={handleExportArsPdf}
+                  className="gap-1"
+                >
+                  <Download className="w-4 h-4" />
+                  Rapport ARS (PDF)
+                </Button>
+              </>
             )}
             {!showConfirmClear ? (
               <Button
