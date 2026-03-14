@@ -43,6 +43,7 @@ const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const BilanHebdoPage = lazy(() => import("./pages/BilanHebdoPage"));
 const ProPage = lazy(() => import("./pages/ProPage"));
 const QrCodes = lazy(() => import("./pages/QrCodes"));
+const Demo = lazy(() => import("./pages/Demo"));
 // Routes internes masquees en production
 // const Admin = lazy(() => import("./pages/Admin"));
 // const SocialKit = lazy(() => import("./pages/SocialKit"));
@@ -130,6 +131,8 @@ const App = () => {
                 <Route path="/professionnels" element={<ProPage />} />
                 {/* Page admin QR codes — URL directe uniquement, pas dans la nav */}
                 <Route path="/qr" element={<QrCodes />} />
+                {/* Mode démo — URL directe uniquement, pas dans la nav */}
+                <Route path="/demo" element={<Demo />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
