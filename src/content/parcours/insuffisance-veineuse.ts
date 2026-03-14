@@ -38,8 +38,9 @@ export const insuffisanceVeineuseParcours: ParcoursContent = {
       action: { title: "Bilan - pompe + marche + jet froid", description: "Pompe 20x + marche 10 min + jet froid 30s. Comparez avec J1.", duration: "12 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "Quand enfiler les bas de compression ?", options: ["Le soir apres le travail", "Le matin avant de se lever", "Seulement quand les jambes gonflent"], correctIndex: 1, explanation: "Le matin, jambes encore degonflees. Si vous vous levez d'abord, les jambes commencent deja a gonfler." },
-        { question: "Quel est l'exercice de base pour le retour veineux ?", options: ["Squats profonds", "Monter sur la pointe des pieds", "S'allonger"], correctIndex: 1, explanation: "La pompe du mollet (pointes de pieds) comprime les veines et renvoie le sang vers le haut." },
+        { question: "Quel est le 'coeur' des jambes ?", options: ["Le genou", "Les cuisses", "Les mollets"], correctIndex: 2, explanation: "Les mollets propulsent le sang veineux vers le haut a chaque contraction." },
+        { question: "La compression veineuse doit etre enfilee :", options: ["Le matin avant de se lever", "Le soir avant de dormir", "Seulement en cas de douleur"], correctIndex: 0, explanation: "Le matin, les veines sont moins dilatees. La compression est plus efficace posee tot." },
+        { question: "Quel geste aggrave l'insuffisance veineuse ?", options: ["La marche quotidienne", "La station debout prolongee sans bouger", "La surelevation des jambes"], correctIndex: 1, explanation: "Rester debout immobile empeche la pompe musculaire de fonctionner." },
       ],
     },
     { day: 8, theme: "Exercices cibles", phase: 'agir',
@@ -71,7 +72,9 @@ export const insuffisanceVeineuseParcours: ParcoursContent = {
       action: { title: "Circuit complet - 10 min", description: "5 exercices + surelevation 5 min.", duration: "10 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "Quand faut-il consulter en urgence ?", options: ["Quand les 2 jambes sont lourdes", "Quand UNE jambe est gonflée, rouge et chaude", "Quand il y a des varicosites"], correctIndex: 1, explanation: "Une seule jambe gonflée, rouge et chaude peut etre une phlebite - consultez en urgence." },
+        { question: "Quel exercice active le mieux la pompe veineuse ?", options: ["Les montees sur pointes de pieds", "Les abdominaux", "Les etirements du dos"], correctIndex: 0, explanation: "Les montees sur pointes contractent les mollets et propulsent le sang vers le coeur." },
+        { question: "L'eau thermale aide le retour veineux grace a :", options: ["Sa temperature elevee", "Son gout mineral", "La pression hydrostatique"], correctIndex: 2, explanation: "La pression de l'eau sur les jambes comprime les veines et aide le sang a remonter." },
+        { question: "Quelle temperature de douche est recommandee pour les jambes ?", options: ["Tres chaude", "Tiede a fraiche, jet du bas vers le haut", "Alternance chaud-froid rapide"], correctIndex: 1, explanation: "L'eau fraiche contracte les veines et stimule le retour veineux." },
       ],
     },
     { day: 15, theme: "Plan post-cure", phase: 'consolider',
