@@ -216,23 +216,35 @@ interface ParcoursOutcome {
   slug: string;
   total: number;
   completed: number;
+  completedT2: number;
+  completedT3: number;
   avgPainT0: number | null;
   avgPainT1: number | null;
+  avgPainT2: number | null;
+  avgPainT3: number | null;
   avgFunctionT0: number | null;
   avgFunctionT1: number | null;
   avgConfidenceT0: number | null;
   avgConfidenceT1: number | null;
+  avgConfidenceT2: number | null;
+  avgConfidenceT3: number | null;
   painImprovement: number | null;
   functionImprovement: number | null;
   confidenceImprovement: number | null;
+  painImprovementT3: number | null;
 }
 
 interface ParcoursOverview {
   totalParcours: number;
   totalCompleted: number;
+  totalCompletedT2: number;
+  totalCompletedT3: number;
   completionRate: number;
+  followUpRateT2: number;
+  followUpRateT3: number;
   byPathology: ParcoursOutcome[];
   dailyPainCurve: { day: number; avgPain: number; count: number }[];
+  longitudinal: { timepoint: string; avgPain: number | null; avgConfidence: number | null; count: number }[];
 }
 
 const SLUG_LABELS: Record<string, string> = {
@@ -324,16 +336,29 @@ const fetchParcoursOutcomes = async (): Promise<ParcoursOverview | null> => {
     const avg = (arr: number[]): number | null =>
       arr.length > 0 ? arr.reduce((a, b) => a + b, 0) / arr.length : null;
 
+    const completedT2Ids = new Set(
+      proList.filter((p) => p.timepoint === "T2").map((p) => p.parcours_id),
+    );
+    const completedT3Ids = new Set(
+      proList.filter((p) => p.timepoint === "T3").map((p) => p.parcours_id),
+    );
+
     const byPathology: ParcoursOutcome[] = Object.entries(bySlug)
       .map(([slug, rows]) => {
         const total = rows.length;
         const completed = rows.filter((r) => completedIds.has(r.id)).length;
+        const completedT2 = rows.filter((r) => completedT2Ids.has(r.id)).length;
+        const completedT3 = rows.filter((r) => completedT3Ids.has(r.id)).length;
 
         const t0Scores = rows.map((r) => proMap[`${r.id}_T0`]).filter(Boolean);
         const t1Scores = rows.map((r) => proMap[`${r.id}_T1`]).filter(Boolean);
+        const t2Scores = rows.map((r) => proMap[`${r.id}_T2`]).filter(Boolean);
+        const t3Scores = rows.map((r) => proMap[`${r.id}_T3`]).filter(Boolean);
 
         const avgPainT0 = avg(t0Scores.map((s) => s.pain_score));
         const avgPainT1 = avg(t1Scores.map((s) => s.pain_score));
+        const avgPainT2 = avg(t2Scores.map((s) => s.pain_score));
+        const avgPainT3 = avg(t3Scores.map((s) => s.pain_score));
         const funcT0Vals = t0Scores
           .map((s) => s.function_total)
           .filter((v): v is number => v !== null && v > 0);
@@ -344,6 +369,8 @@ const fetchParcoursOutcomes = async (): Promise<ParcoursOverview | null> => {
         const avgFuncT1 = avg(funcT1Vals);
         const avgConfT0 = avg(t0Scores.map((s) => s.confidence_score));
         const avgConfT1 = avg(t1Scores.map((s) => s.confidence_score));
+        const avgConfT2 = avg(t2Scores.map((s) => s.confidence_score));
+        const avgConfT3 = avg(t3Scores.map((s) => s.confidence_score));
 
         const round1 = (v: number | null) =>
           v !== null ? Math.round(v * 10) / 10 : null;
@@ -352,12 +379,18 @@ const fetchParcoursOutcomes = async (): Promise<ParcoursOverview | null> => {
           slug,
           total,
           completed,
+          completedT2,
+          completedT3,
           avgPainT0: round1(avgPainT0),
           avgPainT1: round1(avgPainT1),
+          avgPainT2: round1(avgPainT2),
+          avgPainT3: round1(avgPainT3),
           avgFunctionT0: avgFuncT0 !== null ? Math.round(avgFuncT0) : null,
           avgFunctionT1: avgFuncT1 !== null ? Math.round(avgFuncT1) : null,
           avgConfidenceT0: round1(avgConfT0),
           avgConfidenceT1: round1(avgConfT1),
+          avgConfidenceT2: round1(avgConfT2),
+          avgConfidenceT3: round1(avgConfT3),
           painImprovement:
             avgPainT0 !== null && avgPainT1 !== null
               ? round1(avgPainT0 - avgPainT1)
@@ -369,6 +402,10 @@ const fetchParcoursOutcomes = async (): Promise<ParcoursOverview | null> => {
           confidenceImprovement:
             avgConfT0 !== null && avgConfT1 !== null
               ? round1(avgConfT1 - avgConfT0)
+              : null,
+          painImprovementT3:
+            avgPainT0 !== null && avgPainT3 !== null
+              ? round1(avgPainT0 - avgPainT3)
               : null,
         };
       })
@@ -396,15 +433,41 @@ const fetchParcoursOutcomes = async (): Promise<ParcoursOverview | null> => {
       completedIds.has(r.id),
     ).length;
 
+    const totalCompletedT2 = parcoursTyped.filter((r) => completedT2Ids.has(r.id)).length;
+    const totalCompletedT3 = parcoursTyped.filter((r) => completedT3Ids.has(r.id)).length;
+
+    const longitudinalCalc = (['T0', 'T1', 'T2', 'T3'] as const).map((tp) => {
+      const scores = proList.filter((p) => p.timepoint === tp);
+      const painVals = scores.map((s) => s.pain_score).filter((v) => v !== null && v !== undefined);
+      const confVals = scores.map((s) => s.confidence_score).filter((v) => v !== null && v !== undefined);
+      return {
+        timepoint: tp,
+        avgPain: painVals.length > 0 ? Math.round((painVals.reduce((a, b) => a + b, 0) / painVals.length) * 10) / 10 : null,
+        avgConfidence: confVals.length > 0 ? Math.round((confVals.reduce((a, b) => a + b, 0) / confVals.length) * 10) / 10 : null,
+        count: scores.length,
+      };
+    });
+
     return {
       totalParcours: parcoursTyped.length,
       totalCompleted,
+      totalCompletedT2,
+      totalCompletedT3,
       completionRate:
         parcoursTyped.length > 0
           ? Math.round((totalCompleted / parcoursTyped.length) * 100)
           : 0,
+      followUpRateT2:
+        totalCompleted > 0
+          ? Math.round((totalCompletedT2 / totalCompleted) * 100)
+          : 0,
+      followUpRateT3:
+        totalCompleted > 0
+          ? Math.round((totalCompletedT3 / totalCompleted) * 100)
+          : 0,
       byPathology,
       dailyPainCurve,
+      longitudinal: longitudinalCalc,
     };
   } catch (e) {
     console.warn("[Dashboard] Parcours outcomes fetch failed:", e);
@@ -545,11 +608,15 @@ const Stats = () => {
     lines.push(
       `Total parcours avec bilan T1,${parcoursOutcomes.totalCompleted}`,
     );
+    lines.push(`Total suivi T2 (M+1),${parcoursOutcomes.totalCompletedT2}`);
+    lines.push(`Total suivi T3 (M+3),${parcoursOutcomes.totalCompletedT3}`);
+    lines.push(`Taux suivi T2,${parcoursOutcomes.followUpRateT2}%`);
+    lines.push(`Taux suivi T3,${parcoursOutcomes.followUpRateT3}%`);
     lines.push(`Taux de complétion,${parcoursOutcomes.completionRate}%`);
     lines.push("");
     lines.push("=== PAR PATHOLOGIE ===");
     lines.push(
-      "Pathologie,Démarrés,Bilan T1,Douleur T0,Douleur T1,Amélioration douleur,Fonction T0,Fonction T1,Amélioration fonction,Confiance T0,Confiance T1,Amélioration confiance",
+      "Pathologie,Démarrés,Bilan T1,Suivi T2,Suivi T3,Douleur T0,Douleur T1,Douleur T3,Amélioration douleur T1,Amélioration douleur T3,Fonction T0,Fonction T1,Confiance T0,Confiance T1",
     );
     parcoursOutcomes.byPathology.forEach((p) => {
       lines.push(
@@ -557,15 +624,17 @@ const Stats = () => {
           SLUG_LABELS[p.slug] || p.slug,
           p.total,
           p.completed,
+          p.completedT2,
+          p.completedT3,
           p.avgPainT0 ?? "",
           p.avgPainT1 ?? "",
+          p.avgPainT3 ?? "",
           p.painImprovement ?? "",
+          p.painImprovementT3 ?? "",
           p.avgFunctionT0 ?? "",
           p.avgFunctionT1 ?? "",
-          p.functionImprovement ?? "",
           p.avgConfidenceT0 ?? "",
           p.avgConfidenceT1 ?? "",
-          p.confidenceImprovement ?? "",
         ].join(","),
       );
     });
