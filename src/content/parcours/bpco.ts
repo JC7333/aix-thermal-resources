@@ -38,8 +38,9 @@ export const bpcoParcours: ParcoursContent = {
       action: { title: "Marche bilan - 10 min", description: "Marche 3+1+3+1+3 min. Comparez avec J1.", duration: "11 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "Quel est le seul traitement qui ralentit la progression ?", options: ["Les inhalateurs", "L'arret du tabac", "Les antibiotiques"], correctIndex: 1, explanation: "L'arret du tabac est le seul traitement qui ralentit la perte de capacite respiratoire." },
-        { question: "Comment reduire l'essoufflement immediatement ?", options: ["Respirer vite par la bouche", "Levres pincees (inspir nez 2s, expir bouche 4-6s)", "Retenir sa respiration"], correctIndex: 1, explanation: "La technique des levres pincees reduit l'essoufflement immediatement en vidant l'air piege." },
+        { question: "Pourquoi l'exercice aide-t-il dans la BPCO ?", options: ["Il ameliore l'endurance et reduit l'essoufflement", "Il repare les poumons", "Il n'aide pas vraiment"], correctIndex: 0, explanation: "L'exercice ne repare pas les poumons mais ameliore l'efficacite des muscles et reduit l'essoufflement." },
+        { question: "La respiration levres pincees sert a :", options: ["Respirer plus vite", "Augmenter le volume d'air inspire", "Empecher les bronches de se fermer a l'expiration"], correctIndex: 2, explanation: "Les levres pincees creent une resistance qui maintient les bronches ouvertes." },
+        { question: "Faut-il s'arreter quand on est essouffle ?", options: ["Oui, toujours", "Non, il faut ralentir et utiliser les levres pincees", "Oui, et consulter immediatement"], correctIndex: 1, explanation: "L'essoufflement modere est normal a l'effort. Ralentir suffit dans la plupart des cas." },
       ],
     },
     { day: 8, theme: "Votre programme d'exercices", phase: 'agir',
@@ -71,7 +72,9 @@ export const bpcoParcours: ParcoursContent = {
       action: { title: "Circuit complet - 15 min", description: "Marche 5 min + levers chaise 3x8 + bras 10x3 + marche 5 min. Levres pincees.", duration: "15 min" },
       hasMiniPro: true,
       quiz: [
-        { question: "Quelle position soulage l'essoufflement ?", options: ["Allonge a plat", "Assis penche en avant", "Debout bras croises"], correctIndex: 1, explanation: "Assis penche en avant, coudes sur les genoux, optimise le travail du diaphragme." },
+        { question: "Quel est le meilleur traitement pour ameliorer la qualite de vie dans la BPCO ?", options: ["Les antibiotiques", "Les bronchodilatateurs seuls", "La rehabilitation respiratoire (exercice + education)"], correctIndex: 2, explanation: "La rehabilitation respiratoire est le traitement le plus efficace pour ameliorer la qualite de vie selon GOLD 2024." },
+        { question: "Quelle position aide en cas d'essoufflement aigu ?", options: ["La position trepied (penche en avant, mains sur cuisses)", "Allonge sur le dos", "Debout, bras en l'air"], correctIndex: 0, explanation: "La position trepied optimise le travail du diaphragme et facilite la respiration." },
+        { question: "Pourquoi renforcer les bras dans la BPCO ?", options: ["Pour la musculation", "Parce que les activites avec les bras essoufflent beaucoup", "Ce n'est pas necessaire"], correctIndex: 1, explanation: "Les activites quotidiennes (menage, habillage) sollicitent les bras et augmentent l'essoufflement." },
       ],
     },
     { day: 15, theme: "Plan post-cure", phase: 'consolider',
