@@ -17,6 +17,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { SocialProof } from "@/components/parcours/SocialProof";
 import { DailyBanner } from "@/components/parcours/DailyBanner";
+import { PageHero } from "@/components/shared/PageHero";
+import { FadeIn } from "@/components/shared/FadeIn";
 
 // Métadonnées par pathologie
 const PARCOURS_META: Record<
@@ -172,7 +174,13 @@ const ParcoursAccueil = () => {
   }
 
   return (
-    <Layout>
+    <Layout noPadding>
+      <PageHero
+        title="Votre programme personnalisé"
+        subtitle="21 jours d'exercices guidés, adaptés à votre pathologie"
+        image="/images/parcours.jpg"
+        compact
+      />
       <div className="max-w-2xl mx-auto px-4 py-8">
         <DailyBanner slug={slug} />
         <Breadcrumb
@@ -186,9 +194,6 @@ const ParcoursAccueil = () => {
         {/* Hero */}
         <div className="text-center mt-8 mb-10">
           <span className="text-5xl mb-4 block">{meta.icon}</span>
-          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-foreground mb-3">
-            {meta.title}
-          </h1>
           <p className="text-xl text-primary font-medium mb-4">
             {meta.subtitle}
           </p>
@@ -199,43 +204,45 @@ const ParcoursAccueil = () => {
         </div>
 
         {/* Points clés */}
-        <div className="grid gap-4 mb-10">
-          {[
-            {
-              icon: <Clock className="w-6 h-6 text-primary" />,
-              title: "21 jours de programme",
-              desc: "3 à 5 minutes par jour, pendant votre cure",
-            },
-            {
-              icon: <CheckCircle2 className="w-6 h-6 text-green-600" />,
-              title: "Contenu validé scientifiquement",
-              desc: "Basé sur les recommandations HAS, NICE et Cochrane",
-            },
-            {
-              icon: <Shield className="w-6 h-6 text-blue-600" />,
-              title: "100% anonyme",
-              desc: "Aucune donnée personnelle. Un code unique vous est attribué.",
-            },
-            {
-              icon: <Smartphone className="w-6 h-6 text-purple-600" />,
-              title: "Sur votre téléphone",
-              desc: "Accessible depuis n'importe quel smartphone, sans installation",
-            },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="flex items-start gap-4 p-4 rounded-xl bg-muted/30 border"
-            >
-              <div className="shrink-0 mt-0.5">{item.icon}</div>
-              <div>
-                <p className="font-semibold text-foreground text-lg">
-                  {item.title}
-                </p>
-                <p className="text-muted-foreground">{item.desc}</p>
+        <FadeIn>
+          <div className="grid gap-4 mb-10">
+            {[
+              {
+                icon: <Clock className="w-6 h-6 text-primary" />,
+                title: "21 jours de programme",
+                desc: "3 à 5 minutes par jour, pendant votre cure",
+              },
+              {
+                icon: <CheckCircle2 className="w-6 h-6 text-green-600" />,
+                title: "Contenu validé scientifiquement",
+                desc: "Basé sur les recommandations HAS, NICE et Cochrane",
+              },
+              {
+                icon: <Shield className="w-6 h-6 text-blue-600" />,
+                title: "100% anonyme",
+                desc: "Aucune donnée personnelle. Un code unique vous est attribué.",
+              },
+              {
+                icon: <Smartphone className="w-6 h-6 text-purple-600" />,
+                title: "Sur votre téléphone",
+                desc: "Accessible depuis n'importe quel smartphone, sans installation",
+              },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-4 p-4 rounded-xl bg-muted/30 border"
+              >
+                <div className="shrink-0 mt-0.5">{item.icon}</div>
+                <div>
+                  <p className="font-semibold text-foreground text-lg">
+                    {item.title}
+                  </p>
+                  <p className="text-muted-foreground">{item.desc}</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </FadeIn>
 
         {/* CTA */}
         {existingToken ? (
