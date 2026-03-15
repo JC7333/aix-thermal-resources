@@ -149,12 +149,12 @@ const Index = () => {
 
       {/* HERO */}
       <section
-        className="hero-photo min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center text-white"
+        className="hero-photo min-h-[85vh] lg:min-h-[90vh] flex items-start justify-center text-white"
         style={{ backgroundImage: "url(/images/hero.jpg)" }}
       >
-        <div className="max-w-4xl mx-auto px-6 text-center">
+        <div className="max-w-4xl mx-auto px-6 text-center pt-32 lg:pt-40">
           <FadeIn delay={0.2} direction="none">
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight mb-6">
+            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-6">
               Votre programme personnalisé
               <br />
               <span className="text-white/90">en cure thermale</span>
