@@ -24,49 +24,57 @@ const mainPathologies = [
   {
     slug: "gonarthrose",
     name: "Arthrose du genou",
-    desc: "Exercices, plans 7 jours et 8 semaines",
+    subtitle: "(gonarthrose)",
+    desc: "Un programme pour soulager votre genou. 5 min/jour pendant 3 semaines.",
     badge: "Rhumatologie",
   },
   {
     slug: "coxarthrose",
     name: "Arthrose de la hanche",
-    desc: "Mobilité, renforcement, gestion du poids",
+    subtitle: "(coxarthrose)",
+    desc: "Moins de douleur, plus de mobilité. Exercices adaptés à votre niveau.",
     badge: "Rhumatologie",
   },
   {
     slug: "lombalgie-chronique",
-    name: "Lombalgie chronique",
-    desc: "Comprendre la douleur, bouger sans peur",
+    name: "Mal de dos chronique",
+    subtitle: "(lombalgie)",
+    desc: "Comprendre sa douleur et reprendre les activités sans crainte.",
     badge: "Rhumatologie",
   },
   {
     slug: "tendinopathie-coiffe",
-    name: "Épaule (coiffe)",
-    desc: "Rééducation, renforcement, posture",
+    name: "Douleur à l'épaule",
+    subtitle: "(coiffe des rotateurs)",
+    desc: "Retrouver les gestes du quotidien : s'habiller, porter, dormir.",
     badge: "Rhumatologie",
   },
   {
     slug: "insuffisance-veineuse",
-    name: "Insuffisance veineuse",
-    desc: "Compression, pompe du mollet, soins",
+    name: "Jambes lourdes",
+    subtitle: "(insuffisance veineuse)",
+    desc: "Soulager les jambes, réduire les gonflements, mieux marcher.",
     badge: "Veino-lymphatique",
   },
   {
     slug: "bpco",
-    name: "BPCO",
-    desc: "Techniques respiratoires, marche fractionnée",
+    name: "Essoufflement chronique",
+    subtitle: "(BPCO)",
+    desc: "Respirer mieux au quotidien grâce à des techniques simples.",
     badge: "Respiratoire",
   },
   {
     slug: "asthme",
     name: "Asthme",
-    desc: "Contrôle, exercice adapté, plan d'action",
+    subtitle: "",
+    desc: "Contrôler ses crises et pratiquer une activité physique en sécurité.",
     badge: "Respiratoire",
   },
   {
     slug: "otites-repetition-enfant",
-    name: "Otites enfant",
-    desc: "Prévention, hygiène, quand consulter",
+    name: "Otites à répétition",
+    subtitle: "(enfant)",
+    desc: "Prévention, hygiène du nez et savoir quand consulter.",
     badge: "Parents",
   },
 ];
@@ -129,7 +137,7 @@ const Index = () => {
           name: "Étuve",
           url: "https://etuve.fr",
           description:
-            "Programme d'éducation thérapeutique pour patients en cure thermale",
+            "Programme personnalisé pour patients en cure thermale. 3 semaines pour aller mieux.",
           founder: {
             "@type": "Person",
             name: "Dr Audric Bugnard",
@@ -147,47 +155,71 @@ const Index = () => {
         <div className="max-w-4xl mx-auto px-6 text-center">
           <FadeIn delay={0.2} direction="none">
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight mb-6">
-              Votre cure thermale,
+              Votre programme personnalisé
               <br />
-              <span className="text-white/90">un nouveau départ.</span>
+              <span className="text-white/90">en cure thermale</span>
             </h1>
           </FadeIn>
           <FadeIn delay={0.5} direction="none">
             <p className="text-lg sm:text-xl lg:text-2xl text-white/85 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Programme personnalisé de 21 jours. Exercices guidés, suivi
-              quotidien, bilan avant/après. Basé sur les recommandations
-              scientifiques.
+              3 semaines pour aller mieux. 5 minutes par jour. Gratuit.
             </p>
           </FadeIn>
           <FadeIn delay={0.8} direction="none">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                to="/parcours"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-primary text-lg font-semibold hover:bg-white/90 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
-              >
-                Commencer mon programme
-                <ArrowRight className="w-5 h-5" />
-              </Link>
               <a
                 href="#pathologies"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-white/40 text-white text-lg font-medium hover:bg-white/10 transition-all duration-300"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-primary text-lg font-semibold hover:bg-white/90 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
               >
                 Choisir ma pathologie
+                <ArrowRight className="w-5 h-5" />
               </a>
+              <Link
+                to="/parcours"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-white/40 text-white text-lg font-medium hover:bg-white/10 transition-all duration-300"
+              >
+                Commencer mon programme
+              </Link>
             </div>
           </FadeIn>
         </div>
       </section>
 
+      {/* COMMENT ÇA MARCHE */}
+      <FadeIn className="max-w-2xl mx-auto text-center py-16 px-5">
+        <h2 className="font-serif text-2xl sm:text-3xl font-bold text-foreground mb-8">
+          Comment ça marche ?
+        </h2>
+        <div className="space-y-4 text-lg text-muted-foreground">
+          <p>
+            <span className="font-semibold text-foreground">1.</span> Scannez le
+            QR code dans votre cabine
+          </p>
+          <p>
+            <span className="font-semibold text-foreground">2.</span> Répondez à
+            3 questions <span className="text-sm">(5 min)</span>
+          </p>
+          <p>
+            <span className="font-semibold text-foreground">3.</span> Recevez
+            votre programme personnalisé de 21 jours
+          </p>
+        </div>
+        <p className="text-base text-muted-foreground mt-6">
+          Chaque jour : un conseil, un exercice et un suivi de votre douleur.
+        </p>
+      </FadeIn>
+
       {/* TRUST BAR */}
       <section className="py-6 border-b border-border/40">
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground">
-            <span>Sources HAS, Cochrane, NICE</span>
+            <span>11 programmes adaptés</span>
             <span className="hidden sm:inline text-border">·</span>
-            <span>6 à 10 sources par pathologie</span>
+            <span>Contenu vérifié par un médecin</span>
             <span className="hidden sm:inline text-border">·</span>
-            <span>Validé par un médecin thermaliste</span>
+            <span>100% anonyme, aucune inscription</span>
+            <span className="hidden sm:inline text-border">·</span>
+            <span>Entièrement gratuit</span>
           </div>
         </div>
       </section>
@@ -198,13 +230,11 @@ const Index = () => {
           <FadeIn>
             <div className="max-w-2xl mb-16">
               <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-                11 pathologies,
-                <br />
-                un programme pour chacune.
+                Quel est votre problème de santé ?
               </h2>
               <p className="text-lg text-muted-foreground">
-                Chaque parcours est adapté à votre pathologie, avec du contenu
-                validé par les recommandations internationales.
+                Choisissez votre pathologie pour accéder à un programme
+                personnalisé, validé par les recommandations médicales.
               </p>
             </div>
           </FadeIn>
@@ -219,10 +249,15 @@ const Index = () => {
                   <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
                     {p.badge}
                   </span>
-                  <h3 className="text-lg font-semibold text-foreground mt-2 mb-1 group-hover:text-primary transition-colors">
+                  <h3 className="text-lg font-semibold text-foreground mt-2 mb-0.5 group-hover:text-primary transition-colors">
                     {p.name}
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  {p.subtitle && (
+                    <p className="text-xs text-muted-foreground mb-1">
+                      {p.subtitle}
+                    </p>
+                  )}
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-1">
                     {p.desc}
                   </p>
                 </Link>
@@ -242,6 +277,16 @@ const Index = () => {
           </FadeIn>
         </div>
       </section>
+
+      {/* LIEN PROFESSIONNELS */}
+      <div className="text-center py-8">
+        <a
+          href="/professionnels"
+          className="text-sm text-muted-foreground hover:text-primary transition-colors"
+        >
+          Vous êtes professionnel de santé ? Découvrir le programme ETP →
+        </a>
+      </div>
 
       {/* IMAGE BREAK */}
       <div
