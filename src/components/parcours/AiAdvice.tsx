@@ -2,6 +2,17 @@ import { useState, useEffect } from 'react';
 import { getCheckinAdvice } from '@/lib/geminiService';
 import { Heart } from 'lucide-react';
 
+const typeEmojis: Record<string, string> = {
+  fun_fact: '🔬',
+  encouragement: '💪',
+  practical_tip: '💡',
+};
+
+function getAdviceEmoji(day: number): string {
+  const types = ['fun_fact', 'encouragement', 'practical_tip'];
+  return typeEmojis[types[(day - 1) % types.length]];
+}
+
 interface AiAdviceProps {
   pathology: string;
   day: number;
@@ -32,7 +43,9 @@ export const AiAdvice = ({ pathology, day, painScore, actionDone, painHistory, s
     <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
       <div className="flex items-center gap-2 mb-2">
         <Heart className="w-4 h-4 text-primary" />
-        <span className="text-sm font-semibold text-primary">Votre conseil du jour</span>
+        <span className="text-sm font-semibold text-primary">
+          {getAdviceEmoji(day)} Votre conseil du jour
+        </span>
       </div>
       {loading ? (
         <div className="flex items-center gap-2">
