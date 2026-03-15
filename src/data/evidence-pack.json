@@ -1180,10 +1180,10 @@
   },
   {
     "slug": "coxarthrose",
-    "name": "Coxarthrose (arthrose de la hanche)",
+    "name": "Coxarthrose (arthrose de hanche)",
     "icon": "🦴",
     "category": "rhumatologie",
-    "summary": "La coxarthrose est l'usure du cartilage de la hanche. Elle provoque des douleurs dans le pli de l'aine, parfois irradiant vers la cuisse ou le genou.\n\nCe qui compte vraiment : l'exercice adapté protège la hanche en maintenant la mobilité et en renforçant les muscles stabilisateurs. Le repos prolongé aggrave la situation.\n\nLa prothèse de hanche reste un excellent recours en cas d'échec, avec un taux de satisfaction supérieur à 95%.",
+    "summary": "• La coxarthrose n'est pas une simple usure — c'est un déséquilibre entre la destruction et la réparation du cartilage de votre hanche. Votre corps répare en permanence, mais pas assez vite si les conditions sont mauvaises.\n• L'exercice est le traitement n°1 de l'arthrose de hanche — devant TOUS les médicaments. C'est la recommandation unanime de NICE, EULAR et OARSI.\n• La douleur de hanche ne signifie pas que votre articulation est « foutue ». La douleur vient surtout de l'inflammation et des muscles qui se contractent — pas de l'os qui frotte sur l'os.\n• L'exercice aquatique en piscine thermale est une alternative efficace quand l'exercice au sol est trop douloureux. (Cochrane 2016)",
     "readingTime": 8,
     "lastUpdated": "Mars 2026",
     "recommendations": [
@@ -1217,52 +1217,44 @@
       }
     ],
     "red_flags": [
-      "Douleur brutale après une chute, impossibilité de marcher (possible fracture).",
-      "Douleur de hanche avec fièvre, altération de l'état général (possible infection).",
-      "Douleur nocturne intense, perte de poids inexpliquée (éliminer une cause tumorale).",
-      "Boiterie importante d'apparition récente."
+      "Douleur brutale qui empêche totalement de poser le pied par terre.",
+      "Hanche rouge, chaude et gonflée associée à de la fièvre (possible infection).",
+      "Douleur nocturne permanente avec perte de poids inexpliquée."
     ],
     "sources": [
       {
-        "title": "Osteoarthritis: care and management (NG226)",
+        "title": "Osteoarthritis: diagnosis and management (NG226)",
         "org": "NICE",
         "year": 2022,
         "url": "https://www.nice.org.uk/guidance/ng226",
         "evidenceLevel": "high"
       },
       {
-        "title": "OARSI Guidelines for the Management of OA of the Hip and Knee",
-        "org": "OARSI",
-        "year": 2019,
-        "url": "https://doi.org/10.1016/j.joca.2019.06.011",
-        "evidenceLevel": "high"
-      },
-      {
-        "title": "2019 ACR/Arthritis Foundation Guideline for OA Management",
-        "org": "ACR",
-        "year": 2019,
-        "url": "https://doi.org/10.1002/acr.24131",
-        "evidenceLevel": "high"
-      },
-      {
-        "title": "Exercise for osteoarthritis of the hip (Review)",
+        "title": "Exercise for osteoarthritis of the hip (CD007912)",
         "org": "Cochrane",
         "year": 2014,
         "url": "https://doi.org/10.1002/14651858.CD007912.pub2",
         "evidenceLevel": "high"
       },
       {
-        "title": "Prise en charge de l'arthrose périphérique",
-        "org": "HAS",
-        "year": 2022,
-        "url": "https://www.has-sante.fr/jcms/p_3376490/fr/les-messages-cles-arthrose-peripherique",
+        "title": "Recommendations for the non-pharmacological core management of hip and knee osteoarthritis",
+        "org": "EULAR (Kroon et al.)",
+        "year": 2024,
+        "url": "https://doi.org/10.1136/ard-2023-225967",
         "evidenceLevel": "high"
       },
       {
-        "title": "Total hip replacement outcomes – systematic review",
-        "org": "BMJ",
+        "title": "Guidelines for the management of hip and knee osteoarthritis",
+        "org": "OARSI",
         "year": 2019,
-        "url": "https://doi.org/10.1136/bmj.l6553",
+        "url": "https://doi.org/10.1016/j.joca.2019.06.011",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Aquatic exercise for the treatment of hip and knee osteoarthritis (CD004366)",
+        "org": "Cochrane (Bartels et al.)",
+        "year": 2016,
+        "url": "https://doi.org/10.1002/14651858.CD004366.pub3",
         "evidenceLevel": "high"
       }
     ],
@@ -1273,59 +1265,73 @@
         "days": [
           {
             "day": "Jour 1",
-            "actions": [
-              "5 min de marche lente",
-              "3 élévations latérales de jambe (allongé)",
-              "2 min d'étirements doux de la hanche"
-            ]
+            "actions": ["Glissements talon 10x + marche 5 min"]
           },
           {
             "day": "Jour 2",
-            "actions": [
-              "5 min de marche",
-              "5 ponts fessiers (allongé)",
-              "Étirements du piriforme 2x30s"
-            ]
+            "actions": ["Glissements talon 10x + rotation hanche allongé 8x"]
           },
           {
             "day": "Jour 3",
-            "actions": [
-              "7 min de marche",
-              "Rotation douce de hanche assis 3x",
-              "Lever de chaise 3x"
-            ]
+            "actions": ["Lever de jambe tendue 8x + marche 7 min"]
           },
           {
             "day": "Jour 4",
-            "actions": [
-              "7 min de marche",
-              "5 élévations latérales chaque côté",
-              "Étirements fléchisseurs de hanche"
-            ]
+            "actions": ["Repos actif — marche libre 10 min"]
           },
           {
             "day": "Jour 5",
             "actions": [
-              "10 min de marche fractionnée",
-              "5 ponts fessiers + 3 élévations",
-              "2 min d'étirements"
+              "Glissements talon 10x + lever de jambe 8x + marche 10 min"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": ["Lever de jambe tendue 10x + marche 12 min"]
+          },
+          {
+            "day": "Jour 7",
+            "actions": ["Marche 15 min. Bilan : notez votre douleur de 0 à 10"]
+          }
+        ]
+      },
+      {
+        "level": 1,
+        "levelName": "Facile",
+        "days": [
+          {
+            "day": "Jour 1",
+            "actions": ["Glissements talon 15x + marche 7 min"]
+          },
+          {
+            "day": "Jour 2",
+            "actions": ["Glissements talon 15x + lever de genou debout 8x"]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "Lever de jambe tendue 12x + lever de genou debout 8x + marche 10 min"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": ["Repos actif — marche libre 15 min"]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "Glissements 15x + lever de jambe 12x + lever de genou 10x + marche 15 min"
             ]
           },
           {
             "day": "Jour 6",
             "actions": [
-              "10 min de marche",
-              "Exercices combinés 8 min",
-              "Étirements 3 min"
+              "Pas latéral mini-squat 8x + lever de genou debout 10x + marche 15 min"
             ]
           },
           {
             "day": "Jour 7",
-            "actions": [
-              "Repos actif : marche libre 10 min",
-              "Étirements doux 5 min",
-              "Bilan : noter douleur et mobilité"
-            ]
+            "actions": ["Marche 20 min + bilan douleur 0-10"]
           }
         ]
       }
@@ -1336,43 +1342,85 @@
         "levelName": "Très facile",
         "weeks": [
           {
-            "week": "Semaine 1-2",
-            "focus": "Mobilité de base",
-            "exercises": [
-              "Marche 5-10 min/jour",
-              "Ponts fessiers 5x",
-              "Étirements hanche 3 min"
-            ]
+            "week": "Sem 1-2",
+            "focus": "Réveil articulaire",
+            "exercises": ["Glissements talon + marche 5-10 min/jour"]
           },
           {
-            "week": "Semaine 3-4",
+            "week": "Sem 3-4",
             "focus": "Renforcement léger",
+            "exercises": ["Lever de jambe tendue 3×8 + marche 10-15 min"]
+          },
+          {
+            "week": "Sem 5-6",
+            "focus": "Progression",
+            "exercises": ["Lever de genou debout + marche 15-20 min"]
+          },
+          {
+            "week": "Sem 7-8",
+            "focus": "Autonomie",
+            "exercises": ["Circuit 2 tours + activité plaisir 20 min"]
+          }
+        ]
+      },
+      {
+        "level": 1,
+        "levelName": "Facile",
+        "weeks": [
+          {
+            "week": "Sem 1-2",
+            "focus": "Base musculaire",
             "exercises": [
-              "Marche 10-15 min/jour",
-              "Élévations latérales 8x chaque côté",
-              "Vélo stationnaire 5 min si disponible"
+              "Lever de jambe tendue 3×10 + marche 10-15 min/jour",
+              "Glissements talon 15x"
             ]
           },
           {
-            "week": "Semaine 5-6",
-            "focus": "Endurance",
+            "week": "Sem 3-4",
+            "focus": "Renforcement",
             "exercises": [
-              "Marche 15-20 min/jour",
-              "Circuit renforcement 15 min",
-              "Natation ou aquagym 1x/semaine si possible"
+              "Lever de genou debout 3×10 + marche 15-20 min",
+              "Glissements talon + lever de jambe en circuit"
             ]
           },
           {
-            "week": "Semaine 7-8",
-            "focus": "Consolidation",
+            "week": "Sem 5-6",
+            "focus": "Progression",
             "exercises": [
-              "Marche 20-30 min/jour",
-              "Renforcement 20 min 3x/semaine",
-              "Exercices d'équilibre 5 min"
+              "Pas latéral mini-squat 3×8 + marche 20-25 min",
+              "Circuit renforcement hanche 15 min"
+            ]
+          },
+          {
+            "week": "Sem 7-8",
+            "focus": "Autonomie",
+            "exercises": [
+              "Circuit 3 tours + activité plaisir 30 min",
+              "Équilibre unipodal 3×30 sec"
             ]
           }
         ]
       }
+    ],
+    "essentiels": [
+      {
+        "title": "Votre hanche est une charnière vivante, pas une pièce mécanique.",
+        "text": "Le cartilage de votre hanche se renouvelle en permanence. Pour cela, il a besoin de mouvement : la pression-décompression de la marche aspire les nutriments à l'intérieur, comme une éponge. Sans mouvement, le cartilage s'affaiblit. (Source : EULAR 2024)"
+      },
+      {
+        "title": "L'exercice améliore la douleur et la mobilité de votre hanche.",
+        "text": "Un programme d'exercices régulier réduit la douleur et améliore la fonction physique dans la coxarthrose. C'est le traitement de première intention recommandé par toutes les sociétés savantes — avant les médicaments. (Source : Cochrane 2014 ; NICE 2022)"
+      },
+      {
+        "title": "L'exercice aquatique est une alternative valable quand la marche fait trop mal.",
+        "text": "L'eau chaude réduit la pression sur vos articulations de 90%. L'exercice aquatique donne des résultats comparables à l'exercice terrestre pour la douleur et la fonction — c'est une excellente option si la marche au sol est difficile. (Source : Cochrane 2016)"
+      }
+    ],
+    "actionDuJour": "Lever de jambe allongé — sur le dos, tendez une jambe, levez-la de 20 cm, maintenez 5 secondes, reposez. 3 séries de 8 par jambe. (5 min)",
+    "bodyExplanation": "La hanche est une articulation en forme de boule dans un creux profond. Le cartilage recouvre les deux surfaces et permet des mouvements souples dans toutes les directions — marcher, s'asseoir, se relever, monter les escaliers. Dans la coxarthrose, ce revêtement s'amincit progressivement.\n\nContrairement au genou qui est surtout une charnière, la hanche est une articulation très stable mais entourée de muscles puissants (fessiers, psoas, adducteurs). Quand la douleur vous fait boiter, ces muscles travaillent de travers et s'affaiblissent — ce qui augmente la douleur. C'est le cercle vicieux de la coxarthrose.\n\nL'exercice casse ce cercle en renforçant les muscles qui stabilisent votre hanche. Plus ces muscles sont forts, moins l'articulation souffre — même si le cartilage est usé.",
+    "didYouKnow": [
+      "L'immersion en eau thermale chaude (32-34°C) réduit la charge sur vos articulations de 90%. C'est pourquoi vous pouvez faire dans l'eau des mouvements impossibles au sol. L'exercice aquatique donne des résultats comparables à l'exercice terrestre pour la douleur et la fonction dans la coxarthrose — c'est une option particulièrement intéressante en cure thermale. (Source : Bartels et al., Cochrane 2016)",
+      "La prothèse totale de hanche n'est recommandée qu'après échec du traitement conservateur (exercice, perte de poids, médicaments). La grande majorité des patients avec coxarthrose n'auront jamais besoin d'une prothèse — les exercices réguliers suffisent souvent à maintenir une bonne qualité de vie. (Source : NICE NG226, 2022)"
     ]
   },
   {
@@ -1642,6 +1690,7 @@
         "title": "Intranasal corticosteroids for chronic rhinosinusitis (Review)",
         "org": "Cochrane",
         "year": 2023,
+        "url": "https://doi.org/10.1002/14651858.CD008586.pub3",
         "evidenceLevel": "high"
       },
       {
@@ -1655,6 +1704,7 @@
         "title": "Crenoterapia nelle rinosinusiti croniche – systematic review",
         "org": "European Archives of Oto-Rhino-Laryngology",
         "year": 2019,
+        "url": "https://doi.org/10.1007/s00405-019-05342-7",
         "evidenceLevel": "moderate"
       }
     ],
@@ -1772,7 +1822,7 @@
     "name": "Tendinopathie de la coiffe des rotateurs",
     "icon": "💪",
     "category": "rhumatologie",
-    "summary": "La tendinopathie de la coiffe des rotateurs est la cause la plus fréquente de douleur d'épaule. Les tendons qui stabilisent l'épaule s'irritent ou se fragilisent, provoquant douleur et limitation.\n\nCe qui compte vraiment : les exercices de rééducation sont aussi efficaces que la chirurgie dans la majorité des cas. La kinésithérapie structurée est le traitement de référence.\n\nPatience : l'amélioration est progressive sur 3 à 6 mois.",
+    "summary": "• La tendinopathie de la coiffe, c'est une fatigue ou une irritation des tendons qui stabilisent votre épaule. Ce n'est pas une condamnation — la grande majorité guérit avec des exercices adaptés.\n• Le renforcement progressif est le traitement n°1 — devant les infiltrations et la chirurgie. La HAS recommande la rééducation en première intention.\n• Le repos complet est contre-productif : il affaiblit les muscles et peut entraîner une raideur (« épaule gelée »). L'épaule a besoin de mouvement adapté, pas d'immobilisation.\n• L'imagerie (IRM, échographie) peut montrer des lésions chez des personnes sans aucune douleur. Ne vous fiez pas uniquement aux images — votre capacité fonctionnelle compte plus.",
     "readingTime": 8,
     "lastUpdated": "Mars 2026",
     "recommendations": [
@@ -1806,52 +1856,52 @@
       }
     ],
     "red_flags": [
-      "Douleur d'épaule avec fièvre ou rougeur (possible infection).",
-      "Impossibilité complète et brutale de lever le bras (possible rupture aiguë).",
-      "Douleur thoracique associée ou irradiation dans le bras gauche (éliminer cause cardiaque).",
-      "Déformation visible de l'épaule après un traumatisme (possible luxation ou fracture)."
+      "Incapacité totale et soudaine de lever le bras après une chute (rupture aiguë).",
+      "Épaule très douloureuse, rouge et chaude avec fièvre (possible infection).",
+      "Douleur thoracique ou essoufflement associé à la douleur d'épaule (urgence cardiaque)."
     ],
     "sources": [
       {
-        "title": "Rééducation de l'épaule douloureuse non opérée",
+        "title": "Épaule douloureuse : diagnostic et prise en charge",
         "org": "HAS",
         "year": 2023,
-        "url": "https://www.has-sante.fr/",
+        "url": "https://www.has-sante.fr/jcms/p_3463293/fr/quels-diagnostic-et-prise-en-charge-en-cas-d-epaule-douloureuse",
         "evidenceLevel": "high"
       },
       {
-        "title": "Can Shoulder Arthroscopy Work (CSAW) – Randomised Controlled Trial",
-        "org": "The Lancet",
-        "year": 2018,
-        "url": "https://doi.org/10.1016/S0140-6736(17)32457-1",
-        "evidenceLevel": "high"
-      },
-      {
-        "title": "Exercise therapy for rotator cuff tendinopathy (Review)",
+        "title": "Manual therapy and exercise for rotator cuff disease (CD012224)",
         "org": "Cochrane",
-        "year": 2021,
+        "year": 2016,
         "url": "https://doi.org/10.1002/14651858.CD012224.pub2",
         "evidenceLevel": "high"
       },
       {
-        "title": "Shoulder pain: assessment and management (NG234)",
-        "org": "NICE",
-        "year": 2022,
-        "url": "https://www.nice.org.uk/guidance/ng234",
+        "title": "The Efficacy of Exercise Therapy for Rotator Cuff-Related Shoulder Pain",
+        "org": "Hanratty et al., JOSPT",
+        "year": 2024,
+        "url": "https://doi.org/10.2519/jospt.2024.12453",
         "evidenceLevel": "high"
       },
       {
-        "title": "Corticosteroid injections for shoulder pain",
-        "org": "Cochrane",
-        "year": 2005,
-        "url": "https://doi.org/10.1002/14651858.CD004016.pub2",
+        "title": "BESS/BOA Patient Care Pathways: Subacromial shoulder pain",
+        "org": "BESS/BOA",
+        "year": 2020,
+        "url": "https://www.sussexmskpartnershipcentral.co.uk/wp-content/uploads/2020/07/BESS-BOA-subacromial-pain.pdf",
+        "evidenceLevel": "high"
+      },
+      {
+        "title": "Rotator cuff tendinopathy: consensus statement",
+        "org": "Lewis et al., JOSPT",
+        "year": 2015,
+        "url": "https://doi.org/10.2519/jospt.2015.5921",
         "evidenceLevel": "moderate"
       },
       {
-        "title": "Effectiveness of physiotherapy for shoulder impingement – meta-analysis",
-        "org": "British Journal of Sports Medicine",
-        "year": 2020,
-        "evidenceLevel": "high"
+        "title": "Effectiveness of corticosteroid injections (network meta-analysis)",
+        "org": "Lin et al., Arch Phys Med Rehabil",
+        "year": 2018,
+        "url": "https://doi.org/10.1016/j.apmr.2017.06.013",
+        "evidenceLevel": "moderate"
       }
     ],
     "sevenDayPlans": [
@@ -1861,58 +1911,76 @@
         "days": [
           {
             "day": "Jour 1",
+            "actions": ["Pendulaire 2 min + application glace 10 min"]
+          },
+          {
+            "day": "Jour 2",
+            "actions": ["Pendulaire 2 min + poussée isométrique 5x"]
+          },
+          {
+            "day": "Jour 3",
+            "actions": ["Pendulaire 2 min + isométrique 8x"]
+          },
+          {
+            "day": "Jour 4",
+            "actions": ["Repos actif — mouvements doux spontanés"]
+          },
+          {
+            "day": "Jour 5",
+            "actions": ["Pendulaire 2 min + isométrique 10x + marche 10 min"]
+          },
+          {
+            "day": "Jour 6",
+            "actions": ["Pendulaire 2 min + isométrique 10x"]
+          },
+          {
+            "day": "Jour 7",
+            "actions": ["Mouvements libres doux. Bilan douleur 0-10"]
+          }
+        ]
+      },
+      {
+        "level": 1,
+        "levelName": "Facile",
+        "days": [
+          {
+            "day": "Jour 1",
             "actions": [
-              "Pendulaire de Codman 1 min (bras relâché, petits cercles)",
-              "Rotation externe coude au corps (élastique léger) 5x",
-              "Étirement doux de l'épaule 2x30s"
+              "Pendulaire 3 min + isométrique 8x + application glace 10 min"
             ]
           },
           {
             "day": "Jour 2",
             "actions": [
-              "Pendulaire 1 min",
-              "Élévation du bras le long du mur (glissement) 5x",
-              "Rétraction des omoplates 5x"
+              "Pendulaire 3 min + isométrique 10x + élévation murale 5x"
             ]
           },
           {
             "day": "Jour 3",
             "actions": [
-              "Pendulaire 1 min",
-              "Rotation externe 8x",
-              "Élévation latérale jusqu'à 45° 5x"
+              "Pendulaire 3 min + isométrique 12x + élévation murale 8x"
             ]
           },
           {
             "day": "Jour 4",
-            "actions": [
-              "Repos actif : pendulaire seul",
-              "Étirements doux 3 min",
-              "Application de froid si douleur"
-            ]
+            "actions": ["Repos actif — mouvements doux spontanés"]
           },
           {
             "day": "Jour 5",
             "actions": [
-              "Pendulaire 1 min",
-              "Circuit rotation + élévation + rétraction",
-              "Étirements 3 min"
+              "Pendulaire 3 min + isométrique 12x + élévation murale 8x + marche 15 min"
             ]
           },
           {
             "day": "Jour 6",
             "actions": [
-              "Exercices combinés 10 min",
-              "Marche avec balancement naturel des bras",
-              "Étirements 3 min"
+              "Circuit : pendulaire + isométrique + élévation murale — 15 min"
             ]
           },
           {
             "day": "Jour 7",
             "actions": [
-              "Repos : mouvements libres sans douleur",
-              "Bilan douleur/mobilité de la semaine",
-              "Planifier la semaine suivante"
+              "Mouvements libres + évaluation amplitude. Bilan douleur 0-10"
             ]
           }
         ]
@@ -1924,51 +1992,95 @@
         "levelName": "Très facile",
         "weeks": [
           {
-            "week": "Semaine 1-2",
-            "focus": "Mobilité sans douleur",
+            "week": "Sem 1-2",
+            "focus": "Calmer",
+            "exercises": ["Pendulaire quotidien + glace après effort"]
+          },
+          {
+            "week": "Sem 3-4",
+            "focus": "Isométrique",
+            "exercises": ["Contractions isométriques sans mouvement 3×10s"]
+          },
+          {
+            "week": "Sem 5-6",
+            "focus": "Amplitude",
             "exercises": [
-              "Pendulaire quotidien",
-              "Rotations externes légères 5-8x",
-              "Étirements doux 3 min"
+              "Élévation murale progressive + amplitude sans douleur"
             ]
           },
           {
-            "week": "Semaine 3-4",
-            "focus": "Renforcement isométrique",
+            "week": "Sem 7-8",
+            "focus": "Réintégration",
+            "exercises": ["Reprise progressive des gestes quotidiens"]
+          }
+        ]
+      },
+      {
+        "level": 1,
+        "levelName": "Facile",
+        "weeks": [
+          {
+            "week": "Sem 1-2",
+            "focus": "Calmer + renforcement",
             "exercises": [
-              "Contractions isométriques rotateurs 3x10s",
-              "Rétraction omoplates 10x",
-              "Élévations progressives"
+              "Pendulaire quotidien + isométrique 2×10",
+              "Glace après chaque séance"
             ]
           },
           {
-            "week": "Semaine 5-6",
+            "week": "Sem 3-4",
+            "focus": "Force + amplitude",
+            "exercises": [
+              "Isométrique progressif 3×12 + élévation murale 3×8",
+              "Rétraction des omoplates 10x"
+            ]
+          },
+          {
+            "week": "Sem 5-6",
             "focus": "Renforcement dynamique",
             "exercises": [
-              "Élastique : rotations + élévations",
-              "Renforcement scapulaire 10 min",
-              "Exercices en chaîne fermée (pompes murales)"
+              "Élévation murale + rotations résistées légères",
+              "Renforcement scapulaire 10 min"
             ]
           },
           {
-            "week": "Semaine 7-8",
-            "focus": "Réintégration fonctionnelle",
+            "week": "Sem 7-8",
+            "focus": "Fonctionnel",
             "exercises": [
               "Exercices fonctionnels (gestes quotidiens)",
-              "Renforcement progressif 15 min 3x/sem",
-              "Prévention : routine d'entretien"
+              "Renforcement progressif 15 min 3×/sem"
             ]
           }
         ]
       }
+    ],
+    "essentiels": [
+      {
+        "title": "Votre épaule est tenue par des « cordages » — les tendons.",
+        "text": "La coiffe des rotateurs, c'est un ensemble de 4 tendons qui stabilisent votre épaule. Quand l'un d'eux est irrité ou fatigué, il devient douloureux surtout lors des mouvements amples. Avec l'âge, ces tendons cicatrisent plus lentement — mais ils peuvent se renforcer avec les bons exercices. (Source : HAS 2023)"
+      },
+      {
+        "title": "Le renforcement progressif est plus efficace que le repos.",
+        "text": "Le repos prolongé est contre-productif : il affaiblit les muscles et peut mener à une raideur de l'épaule. Un programme de renforcement progressif adapté est le traitement de première intention recommandé par la HAS. (Source : HAS 2023 ; Cochrane 2016)"
+      },
+      {
+        "title": "L'imagerie ne fait pas tout : beaucoup de lésions sont indolores.",
+        "text": "Des études montrent que de nombreux seniors ont des lésions de la coiffe à l'imagerie sans aucune douleur. Ce que montre votre IRM n'est pas forcément la cause de votre douleur — les muscles autour peuvent compenser efficacement. (Source : JOSPT 2024)"
+      }
+    ],
+    "actionDuJour": "Exercice pendulaire — penché en avant, laissez votre bras pendre et faites de petits cercles comme si vous mélangiez une soupe. 2 minutes dans chaque sens. (4 min)",
+    "bodyExplanation": "Imaginez votre épaule comme un mât de bateau tenu par plusieurs cordages (les tendons de la coiffe). Si un cordage s'effiloche ou frotte contre une paroi osseuse (l'acromion), il devient douloureux, surtout lors des mouvements amples — lever le bras, attraper quelque chose en hauteur, dormir sur le côté.\n\nAvec l'âge, ces cordages cicatrisent plus lentement. Mais l'objectif n'est pas de « réparer » parfaitement le tendon — c'est d'apprendre aux autres muscles à mieux se coordonner pour que le mât reste stable sans tirer sur la zone sensible. C'est ce qu'on appelle le « contrôle moteur ».\n\nLe cercle vicieux : la douleur vous fait éviter les mouvements → les muscles s'affaiblissent → l'épaule devient instable → la douleur augmente. Le renforcement progressif casse ce cercle.",
+    "didYouKnow": [
+      "La kinésithérapie seule guérit 50 à 70% des tendinopathies non rompues de la coiffe, évitant la chirurgie. Le consensus actuel recommande une « charge progressive individualisée » — c'est-à-dire des exercices qui augmentent progressivement en difficulté, adaptés à votre seuil de douleur. (Source : HAS 2023)",
+      "Les infiltrations de corticoïdes soulagent à court terme (3-6 semaines) mais n'ont aucun bénéfice prouvé à long terme. Au contraire, l'effet peut s'inverser : à 6 mois, les patients infiltrés n'ont pas de meilleurs résultats que ceux traités par exercice seul. C'est pourquoi la rééducation reste le traitement de fond. (Source : Lin et al., Arch Phys Med Rehabil 2018)"
     ]
   },
   {
     "slug": "arthrose-digitale",
-    "name": "Arthrose des mains",
+    "name": "Arthrose digitale et rhizarthrose",
     "icon": "✋",
     "category": "rhumatologie",
-    "summary": "L'arthrose digitale touche les articulations des doigts et du pouce. Elle provoque des douleurs, des gonflements et une raideur qui gênent les gestes du quotidien.\n\nCe qui compte vraiment : les exercices de la main sont le pilier du traitement. La chaleur soulage, les orthèses de repos aident la nuit, et les adaptations du quotidien préservent l'autonomie.\n\nLes nodosités (déformations) ne signifient pas forcément plus de douleur.",
+    "summary": "• L'arthrose digitale touche les petites articulations des doigts. La rhizarthrose touche la base du pouce — l'articulation la plus sollicitée par le mouvement de « pince ».\n• Les exercices de la main et les orthèses de pouce sont les traitements de première intention — recommandés par EULAR et l'ACR avant tout médicament.\n• Faire craquer ses doigts ne provoque PAS d'arthrose — c'est une idée reçue sans fondement scientifique.\n• La force de préhension est un indicateur de santé générale chez le senior : garder des mains fortes, c'est préserver son autonomie.",
     "readingTime": 8,
     "lastUpdated": "Mars 2026",
     "recommendations": [
@@ -2002,51 +2114,44 @@
       }
     ],
     "red_flags": [
-      "Gonflement articulaire chaud, rouge et douloureux (possible goutte ou arthrite septique).",
-      "Raideur matinale prolongée > 1h avec atteinte symétrique (évoquer polyarthrite rhumatoïde).",
-      "Déformation rapide avec perte de fonction brutale.",
-      "Douleur intense résistante à tout traitement usuel."
+      "Doigt qui reste bloqué en position pliée (doigt à ressaut).",
+      "Articulation subitement très gonflée et douloureuse sans choc (possible goutte).",
+      "Perte brutale de sensibilité ou fourmillements permanents dans les doigts."
     ],
     "sources": [
       {
-        "title": "EULAR recommendations for the management of hand osteoarthritis",
-        "org": "EULAR",
-        "year": 2018,
-        "url": "https://ard.bmj.com/content/78/1/16",
+        "title": "2018 update of the EULAR recommendations for the management of hand osteoarthritis",
+        "org": "Kloppenburg et al., Ann Rheum Dis",
+        "year": 2019,
+        "url": "https://doi.org/10.1136/annrheumdis-2018-213826",
         "evidenceLevel": "high"
       },
       {
-        "title": "2019 ACR/Arthritis Foundation Guideline for OA of the Hand, Hip, and Knee",
+        "title": "2019 ACR/Arthritis Foundation Guideline for the Management of Osteoarthritis of the Hand, Hip, and Knee",
         "org": "ACR",
         "year": 2019,
-        "url": "https://doi.org/10.1002/acr.24131",
+        "url": "https://rheumatology.org/oa-guideline",
         "evidenceLevel": "high"
       },
       {
-        "title": "Exercise for hand osteoarthritis (Review)",
+        "title": "Exercise for hand osteoarthritis (CD010976)",
         "org": "Cochrane",
-        "year": 2021,
-        "url": "https://doi.org/10.1002/14651858.CD010030.pub3",
+        "year": 2017,
+        "url": "https://doi.org/10.1002/14651858.CD010976.pub2",
         "evidenceLevel": "high"
       },
       {
-        "title": "Splints for hand osteoarthritis (Review)",
-        "org": "Cochrane",
-        "year": 2022,
-        "url": "https://doi.org/10.1002/14651858.CD010036.pub3",
-        "evidenceLevel": "high"
+        "title": "Effectiveness of splinting for base-of-thumb osteoarthritis (RCT)",
+        "org": "Rannou et al., Ann Intern Med",
+        "year": 2009,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/19805768/",
+        "evidenceLevel": "moderate"
       },
       {
-        "title": "Prise en charge de l'arthrose périphérique",
-        "org": "HAS",
-        "year": 2022,
-        "url": "https://www.has-sante.fr/jcms/p_3376490/fr/les-messages-cles-arthrose-peripherique",
-        "evidenceLevel": "high"
-      },
-      {
-        "title": "Topical NSAIDs for hand osteoarthritis – network meta-analysis",
-        "org": "Rheumatology",
-        "year": 2020,
+        "title": "Rhizarthrosis Part II: Manual therapy and exercise (systematic review)",
+        "org": "PMC",
+        "year": 2024,
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10894662/",
         "evidenceLevel": "moderate"
       }
     ],
@@ -2057,59 +2162,81 @@
         "days": [
           {
             "day": "Jour 1",
-            "actions": [
-              "Bain chaud des mains 5 min",
-              "Ouvrir/fermer les doigts lentement 5x",
-              "Toucher chaque doigt avec le pouce 3x"
-            ]
+            "actions": ["Écart-serré 10x + mobilisation dans eau tiède 3 min"]
           },
           {
             "day": "Jour 2",
-            "actions": [
-              "Bain chaud 5 min",
-              "Serrer une balle molle 5x chaque main",
-              "Étirer les doigts à plat sur la table 30s"
-            ]
+            "actions": ["Écart-serré 10x + pince pouce-doigts 2 séries"]
           },
           {
             "day": "Jour 3",
             "actions": [
-              "Bain chaud 5 min",
-              "Écarter les doigts 5x",
-              "Rotation douce du pouce 5x chaque sens"
+              "Pince pouce-doigts 3 séries + massage base du pouce 2 min"
             ]
           },
           {
             "day": "Jour 4",
             "actions": [
-              "Bain chaud 5 min",
-              "Exercices combinés 5 min",
-              "Appliquer gel anti-inflammatoire si douleur"
+              "Repos actif — mouvements spontanés, pas d'exercice formel"
             ]
           },
           {
             "day": "Jour 5",
             "actions": [
-              "Bain chaud 5 min",
-              "Prise en pince (petit objet) 5x chaque doigt",
-              "Étirements 3 min"
+              "Écart-serré 10x + pince pouce-doigts 3 séries + eau tiède 3 min"
+            ]
+          },
+          {
+            "day": "Jour 6",
+            "actions": ["Écart-serré 10x + pince pouce-doigts 3 séries"]
+          },
+          {
+            "day": "Jour 7",
+            "actions": ["Mouvements libres. Bilan douleur/raideur 0-10"]
+          }
+        ]
+      },
+      {
+        "level": 1,
+        "levelName": "Facile",
+        "days": [
+          {
+            "day": "Jour 1",
+            "actions": [
+              "Écart-serré 15x + pince pouce-doigts 3 séries + eau tiède 5 min"
+            ]
+          },
+          {
+            "day": "Jour 2",
+            "actions": [
+              "Écart-serré 15x + pince 3 séries + massage base du pouce 3 min"
+            ]
+          },
+          {
+            "day": "Jour 3",
+            "actions": [
+              "Pince 3 séries + pression balle mousse 8x + eau tiède 5 min"
+            ]
+          },
+          {
+            "day": "Jour 4",
+            "actions": ["Repos actif — mouvements spontanés"]
+          },
+          {
+            "day": "Jour 5",
+            "actions": [
+              "Circuit : écart-serré 15x + pince 3 séries + balle mousse 8x + eau tiède"
             ]
           },
           {
             "day": "Jour 6",
             "actions": [
-              "Bain chaud + exercices combinés 10 min",
-              "Activité manuelle douce (pâte à modeler, jardinage léger)",
-              "Étirements 3 min"
+              "Écart-serré 15x + pince 3 séries + balle mousse 10x + activité manuelle douce"
             ]
           },
           {
             "day": "Jour 7",
-            "actions": [
-              "Repos : mouvements libres",
-              "Bilan douleur/raideur de la semaine",
-              "Identifier les gestes à adapter"
-            ]
+            "actions": ["Mouvements libres + bilan douleur/raideur 0-10"]
           }
         ]
       }
@@ -2120,43 +2247,87 @@
         "levelName": "Très facile",
         "weeks": [
           {
-            "week": "Semaine 1-2",
-            "focus": "Mobilité de base",
+            "week": "Sem 1-2",
+            "focus": "Assouplissement",
+            "exercises": ["Écart-serré + eau tiède 3 min/jour"]
+          },
+          {
+            "week": "Sem 3-4",
+            "focus": "Coordination",
             "exercises": [
-              "Bain chaud + mobilisations 5 min/jour",
-              "Exercices de prise douce",
-              "Étirements des doigts"
+              "Pince pouce-doigts, boutonnage, manipulation de pièces"
             ]
           },
           {
-            "week": "Semaine 3-4",
-            "focus": "Renforcement doux",
+            "week": "Sem 5-6",
+            "focus": "Renforcement",
+            "exercises": ["Pression balle mousse pouce-index 3×8"]
+          },
+          {
+            "week": "Sem 7-8",
+            "focus": "Intégration",
+            "exercises": ["Jardinage léger, cuisine, couture adaptée"]
+          }
+        ]
+      },
+      {
+        "level": 1,
+        "levelName": "Facile",
+        "weeks": [
+          {
+            "week": "Sem 1-2",
+            "focus": "Assouplissement + coord.",
             "exercises": [
-              "Balle molle : serrage 10x chaque main",
-              "Exercices de pince pouce-doigts",
-              "Adaptations ergonomiques à mettre en place"
+              "Écart-serré + pince pouce-doigts 3×/jour",
+              "Eau tiède 5 min matin"
             ]
           },
           {
-            "week": "Semaine 5-6",
-            "focus": "Endurance fonctionnelle",
+            "week": "Sem 3-4",
+            "focus": "Renforcement",
             "exercises": [
-              "Exercices 10 min/jour",
-              "Activités manuelles adaptées",
-              "Orthèse de nuit si rhizarthrose"
+              "Balle mousse légère 3×8 + ergonomie des outils",
+              "Pince pouce-doigts avec résistance légère"
             ]
           },
           {
-            "week": "Semaine 7-8",
-            "focus": "Autonomie",
+            "week": "Sem 5-6",
+            "focus": "Progressif",
             "exercises": [
-              "Routine d'exercices consolidée",
-              "Évaluation des adaptations",
-              "Programme d'entretien au long cours"
+              "Balle mousse 3×10 + activités manuelles adaptées",
+              "Couture, poterie douce ou jardinage léger"
+            ]
+          },
+          {
+            "week": "Sem 7-8",
+            "focus": "Maintien",
+            "exercises": [
+              "Intégration dans activités quotidiennes",
+              "Programme d'entretien autonome"
             ]
           }
         ]
       }
+    ],
+    "essentiels": [
+      {
+        "title": "Vos mains sont des instruments de précision — elles méritent de l'entraînement.",
+        "text": "L'arthrose des doigts touche les petites articulations et la base du pouce (rhizarthrose). Les exercices de dextérité réguliers maintiennent la souplesse et la force de préhension — c'est le traitement de première intention. (Source : EULAR 2018)"
+      },
+      {
+        "title": "L'orthèse de pouce réduit la douleur autant que les médicaments.",
+        "text": "Pour la rhizarthrose (base du pouce), le port d'une orthèse de repos améliore la fonction et réduit la douleur — sans aucun effet secondaire. C'est une recommandation forte des sociétés savantes internationales. (Source : ACR 2019 ; EULAR 2018)"
+      },
+      {
+        "title": "La chaleur locale soulage les raideurs matinales.",
+        "text": "Mobiliser vos doigts dans une bassine d'eau tiède le matin réduit la raideur et facilite les gestes quotidiens. C'est un geste simple qui aide de nombreux patients, même si le niveau de preuve scientifique reste modeste. (Source : ACR 2019)"
+      }
+    ],
+    "actionDuJour": "Pince pouce-doigts — touchez le bout de chaque doigt avec votre pouce pour former un « O » bien rond. 3 séries de chaque main. (3 min)",
+    "bodyExplanation": "Vos mains contiennent 27 os et des dizaines d'articulations. Dans l'arthrose digitale, les petites articulations subissent des remaniements : l'espace entre les os diminue et de petits nodules (grosseurs) peuvent apparaître — les nodosités de Heberden (au bout des doigts) et de Bouchard (au milieu).\n\nPour le pouce, l'articulation à sa base (trapézo-métacarpienne) est très sollicitée par le mouvement de « pince » — ouvrir un bocal, tourner une clé, saisir un objet. C'est pourquoi la rhizarthrose est si fréquente et si gênante au quotidien.\n\nLa douleur survient quand l'articulation travaille « de travers » ou est trop comprimée. En renforçant les petits muscles de la main, on stabilise ces articulations fragiles et on réduit la douleur.",
+    "didYouKnow": [
+      "La force de préhension est l'un des meilleurs indicateurs de santé générale chez le senior. Garder des mains fortes est associé à une meilleure autonomie et moins de chutes. Les exercices de la main entretiennent cette force même en présence d'arthrose — et les bénéfices apparaissent dès les premières semaines. (Source : Cochrane 2017, exercice pour arthrose de la main)",
+      "Les orthèses de pouce (attelles) améliorent la fonction et réduisent la douleur de la rhizarthrose autant que les médicaments — sans aucun effet secondaire. Elles sont recommandées en première intention par les sociétés savantes internationales. Le port nocturne est souvent suffisant pour soulager les symptômes diurnes. (Source : EULAR 2018 ; Rannou et al., Ann Intern Med 2009)"
     ]
   },
   {
@@ -2243,6 +2414,7 @@
         "title": "Inhaler technique education and asthma outcomes – systematic review",
         "org": "European Respiratory Journal",
         "year": 2020,
+        "url": "https://doi.org/10.1183/13993003.01543-2019",
         "evidenceLevel": "high"
       }
     ],
