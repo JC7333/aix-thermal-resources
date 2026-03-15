@@ -7,10 +7,13 @@ import { getStoredToken } from '@/lib/parcoursToken';
 import { getCheckins } from '@/services/parcoursService';
 import { DailyCheckin } from '@/components/parcours/DailyCheckin';
 import { ParcoursTimeline } from '@/components/parcours/ParcoursTimeline';
+import { ProgressBar21 } from '@/components/parcours/ProgressBar21';
+import { SocialProof } from '@/components/parcours/SocialProof';
 import { ParcoursQuiz } from '@/components/parcours/ParcoursQuiz';
 import { MarkdownContent } from '@/components/parcours/MarkdownContent';
 import { FadeIn } from '@/components/shared/FadeIn';
 import { ArrowLeft, ArrowRight, BookOpen, Dumbbell, Target } from 'lucide-react';
+import { isPushSupported, getPushPermission, requestPushPermission, scheduleDaily } from '@/services/pushService';
 import type { ParcoursContent, ParcoursDay } from '@/content/parcours/types';
 
 // Import dynamique par slug — ajouter les futurs parcours ici
@@ -105,6 +108,25 @@ const ParcoursJour = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [dayNumber]);
 
+  // Push notification scheduling
+  useEffect(() => {
+    if (!slug || !parcours) return;
+
+    // Demander la permission au J2 (pas au J1 — le patient vient d'arriver)
+    if (dayNumber === 2 && isPushSupported() && getPushPermission() === 'default') {
+      const timer = setTimeout(() => {
+        requestPushPermission();
+      }, 30000);
+      return () => clearTimeout(timer);
+    }
+
+    // Planifier le rappel quotidien si permission accordée — cleanup on unmount
+    if (getPushPermission() === 'granted') {
+      const cleanup = scheduleDaily(slug);
+      return cleanup;
+    }
+  }, [slug, parcours, dayNumber]);
+
   const dayContent: ParcoursDay | undefined = parcours?.days.find((d) => d.day === dayNumber);
   const totalDays = parcours?.days.length || 21;
   const isCheckedIn = completedDays.includes(dayNumber);
@@ -149,14 +171,16 @@ const ParcoursJour = () => {
     <Layout noPadding>
       <div className="max-w-2xl mx-auto px-5 sm:px-6 pb-8">
 
-        {/* Timeline — EN HAUT */}
-        <div className="pt-20 lg:pt-24 pb-4">
+        {/* Timeline + Progress bar + Social proof — EN HAUT */}
+        <div className="pt-20 lg:pt-24 pb-2">
           <ParcoursTimeline
             slug={slug}
             totalDays={totalDays}
             currentDay={dayNumber}
             completedDays={completedDays}
           />
+          <ProgressBar21 currentDay={dayNumber} totalDays={totalDays} completedDays={completedDays} />
+          <SocialProof slug={slug} />
         </div>
 
         {/* Header */}
