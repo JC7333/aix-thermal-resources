@@ -4,9 +4,9 @@
     "name": "Arthrose",
     "icon": "🦴",
     "category": "rhumatologie",
-    "summary": "L'arthrose, c'est l'usure du cartilage de vos articulations. Ça fait mal, ça raidit, mais ce n'est pas une fatalité.\n\nCe qui compte vraiment : bouger régulièrement (même doucement), garder un poids raisonnable, et éviter les excès de repos. L'exercice adapté est le traitement n°1 — pas les médicaments.\n\nJe vous propose ici des plans concrets, testés, pour retrouver du mouvement sans vous faire mal.",
+    "summary": "L'arthrose n'est pas une simple usure — c'est un déséquilibre entre la destruction et la réparation du cartilage. Votre corps répare en permanence, mais pas assez vite si les conditions sont mauvaises.\nL'exercice est le traitement n°1 de l'arthrose du genou — devant TOUS les médicaments. C'est la recommandation unanime de NICE (Royaume-Uni), OARSI (international) et HAS (France).\nLa douleur ne signifie pas que vous détruisez votre genou. La douleur arthrosique est en grande partie liée à l'inflammation et à la sensibilisation nerveuse — pas à l'os qui frotte sur l'os.\nLes radiographies mentent : une arthrose sévère à la radio peut être peu douloureuse, et inversement. La corrélation entre l'image et la douleur est faible. (Bedson et Croft, Pain 2008)",
     "readingTime": 8,
-    "lastUpdated": "2025-01-15",
+    "lastUpdated": "Mars 2026",
     "recommendations": [
       {
         "text": "Exercice thérapeutique personnalisé (renforcement + cardio doux) : c'est le socle du traitement non médicamenteux.",
@@ -38,51 +38,46 @@
       }
     ],
     "red_flags": [
-      "Douleur aiguë très intense + articulation chaude/rouge + fièvre.",
-      "Impossibilité brutale d'appui/marche après un effort ou une chute.",
-      "Gonflement rapide inhabituel, douleur nocturne persistante, amaigrissement inexpliqué.",
-      "Déformation brutale, blocage complet, perte de fonction majeure."
+      "Genou chaud et rouge avec fièvre (possible infection).",
+      "Blocage brutal impossible à débloquer.",
+      "Douleur nocturne permanente avec amaigrissement inexpliqué."
     ],
     "sources": [
       {
-        "title": "Osteoarthritis in over 16s: diagnosis and management (NG226) – Recommendations",
+        "title": "Osteoarthritis: diagnosis and management (NG226)",
         "org": "NICE",
         "year": 2022,
-        "url": "https://www.nice.org.uk/guidance/ng226/chapter/Recommendations"
+        "url": "https://www.nice.org.uk/guidance/ng226"
       },
       {
         "title": "Exercise for osteoarthritis of the knee (CD004376)",
         "org": "Cochrane",
         "year": 2024,
-        "url": "https://www.cochrane.org/CD004376/CENTRALED_exercise-effective-therapy-treat-knee-osteoarthritis"
+        "url": "https://www.cochrane.org/CD004376"
       },
       {
-        "title": "2019 Guidelines for the management of osteoarthritis of the hand, hip, and knee",
+        "title": "2019 Guidelines for the management of osteoarthritis",
         "org": "OARSI",
         "year": 2019,
-        "url": "https://doi.org/10.1016/j.joca.2019.06.011",
-        "evidenceLevel": "high"
+        "url": "https://doi.org/10.1016/j.joca.2019.06.011"
       },
       {
-        "title": "Prise en charge de l'arthrose - Recommandations",
-        "org": "HAS",
-        "year": 2022,
-        "url": "https://www.has-sante.fr/jcms/p_3376490/fr/les-messages-cles-arthrose-peripherique",
-        "evidenceLevel": "high"
-      },
-      {
-        "title": "Weight loss reduces knee-joint loads in overweight and obese older adults with knee osteoarthritis",
-        "org": "Arthritis & Rheumatism (Messier et al.)",
+        "title": "Weight loss reduces knee-joint loads",
+        "org": "Messier et al., Arthritis & Rheumatism",
         "year": 2005,
-        "url": "https://pubmed.ncbi.nlm.nih.gov/15986358/",
-        "evidenceLevel": "high"
+        "url": "https://pubmed.ncbi.nlm.nih.gov/15986358/"
       },
       {
-        "title": "Exercise for osteoarthritis of the hip (Review)",
-        "org": "Cochrane",
-        "year": 2014,
-        "url": "https://doi.org/10.1002/14651858.CD007912.pub2",
-        "evidenceLevel": "high"
+        "title": "Exercise for osteoarthritis: a network meta-analysis",
+        "org": "Uthman et al., BMJ",
+        "year": 2013,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/24055922/"
+      },
+      {
+        "title": "Positive effects of moderate exercise on GAG content in knee cartilage",
+        "org": "Roos et Dahlberg, Arthritis & Rheumatism",
+        "year": 2005,
+        "url": "https://onlinelibrary.wiley.com/doi/10.1002/art.21415"
       }
     ],
     "sevenDayPlans": [
@@ -93,57 +88,43 @@
           {
             "day": "Jour 1",
             "actions": [
-              "5 min de marche lente (même sur place)",
-              "3 flexions douces du genou assis",
-              "1 pause 'debout' de 2 min"
+              "Marche 5 min + 10 extensions genou assis"
             ]
           },
           {
             "day": "Jour 2",
             "actions": [
-              "5 min de marche",
-              "5 flexions douces",
-              "Étirement mollet 30 sec chaque jambe"
+              "Marche 7 min + 10 extensions genou assis"
             ]
           },
           {
             "day": "Jour 3",
             "actions": [
-              "7 min de marche",
-              "5 flexions + 5 extensions jambe tendue",
-              "Repos actif : changer de position toutes les 30 min"
+              "Marche 7 min + 5 levers de chaise"
             ]
           },
           {
             "day": "Jour 4",
             "actions": [
-              "7 min de marche",
-              "6 flexions + 6 extensions",
-              "1 min d'équilibre sur une jambe (avec appui)"
+              "Repos actif : marche libre 10 min sans exercice formel"
             ]
           },
           {
             "day": "Jour 5",
             "actions": [
-              "8 min de marche",
-              "8 flexions + 8 extensions",
-              "Étirements 2 min"
+              "Marche 10 min + 10 extensions + 5 levers de chaise"
             ]
           },
           {
             "day": "Jour 6",
             "actions": [
-              "10 min de marche",
-              "10 répétitions exercices",
-              "Auto-massage 2 min"
+              "Marche 10 min + 8 levers de chaise"
             ]
           },
           {
             "day": "Jour 7",
             "actions": [
-              "10 min de marche ou repos actif",
-              "Bilan : noter douleur et fatigue",
-              "Planifier semaine 2"
+              "Marche 12 min. Bilan : notez votre douleur de 0 à 10"
             ]
           }
         ]
@@ -217,39 +198,31 @@
         "levelName": "Très facile",
         "weeks": [
           {
-            "week": "Semaine 1-2",
-            "focus": "Reprendre confiance",
+            "week": "Sem 1-2",
+            "focus": "Découverte",
             "exercises": [
-              "Marche 5-10 min/jour",
-              "Flexions douces assis 5x",
-              "Changer de position régulièrement"
+              "Marche 5-10 min/jour + 10 extensions assis"
             ]
           },
           {
-            "week": "Semaine 3-4",
-            "focus": "Régularité",
+            "week": "Sem 3-4",
+            "focus": "Renforcement",
             "exercises": [
-              "Marche 10-15 min/jour",
-              "Flexions + extensions 10x",
-              "Équilibre avec appui 1 min"
+              "Marche 10-15 min/jour + 3×5 levers de chaise"
             ]
           },
           {
-            "week": "Semaine 5-6",
-            "focus": "Renforcement léger",
+            "week": "Sem 5-6",
+            "focus": "Progression",
             "exercises": [
-              "Marche 15-20 min/jour",
-              "2 séries de 10 répétitions",
-              "Mini-squats assistés 5x"
+              "Marche 15-20 min/jour + 3×8 levers de chaise"
             ]
           },
           {
-            "week": "Semaine 7-8",
-            "focus": "Autonomie",
+            "week": "Sem 7-8",
+            "focus": "Consolidation",
             "exercises": [
-              "Marche 20 min/jour minimum",
-              "3 séries de 10 répétitions",
-              "Programme d'entretien quotidien établi"
+              "Marche 20 min/jour + circuit 2 tours 15 min"
             ]
           }
         ]
@@ -296,6 +269,26 @@
           }
         ]
       }
+    ],
+    "essentiels": [
+      {
+        "title": "Votre cartilage n'a aucun vaisseau sanguin.",
+        "text": "Il se nourrit uniquement quand vous bougez : la pression-décompression agit comme une éponge qui aspire les nutriments. Sans mouvement, le cartilage meurt de faim. C'est pourquoi le repos prolongé aggrave l'arthrose."
+      },
+      {
+        "title": "Chaque kilo perdu enlève 4 kg de pression sur votre genou à chaque pas.",
+        "text": "Perdre 5 kg, c'est 20 kg de charge en moins sur votre genou à chaque pas. (Messier et al., Arthritis & Rheumatism 2005)"
+      },
+      {
+        "title": "L'exercice réduit la douleur arthrosique d'environ 12 points sur 100",
+        "text": "c'est plus efficace que le paracétamol et sans effets secondaires. (Cochrane CD004376, 2024)"
+      }
+    ],
+    "actionDuJour": "Lever de chaise — assis, levez-vous sans les mains, 3 séries de 5. Reposez-vous 30 secondes entre chaque série. (5 min)",
+    "bodyExplanation": "Le cartilage recouvre les extrémités osseuses de votre genou. Il agit comme un coussin amortisseur. Dans l'arthrose, ce coussin s'amincit progressivement. L'os sous-jacent réagit en formant des excroissances (ostéophytes). L'articulation s'enflamme par épisodes. Le liquide synovial — le lubrifiant du genou — change de composition et perd son efficacité.\nMais le cartilage n'est pas passif : il contient des cellules (chondrocytes) qui fabriquent en permanence de la nouvelle matrice. Le problème dans l'arthrose, c'est que la destruction va plus vite que la construction. L'exercice, en stimulant ces cellules par la pression mécanique, rééquilibre la balance.",
+    "didYouKnow": [
+      "Après seulement 4 mois d'exercice régulier, le cartilage du genou montre des signes d'adaptation mesurables à l'IRM (augmentation des glycosaminoglycanes, les \"briques\" du cartilage). Les bénéfices sur la douleur et la force apparaissent encore plus tôt. C'est pourquoi la régularité bat l'intensité. (Roos et Dahlberg, Arthritis & Rheumatism 2005)",
+      "L'arthrose du genou est environ 1,5 fois plus fréquente chez les femmes après 50 ans que chez les hommes. Plusieurs facteurs expliquent cette différence : des articulations plus petites, des différences d'alignement du genou, et l'influence de la ménopause sur le métabolisme articulaire. (Prieto-Alhambra et al., Ann Rheum Dis 2014)"
     ]
   },
   {
@@ -303,9 +296,9 @@
     "name": "Lombalgie chronique",
     "icon": "🦴",
     "category": "rhumatologie",
-    "summary": "Le mal de dos chronique, c'est quand la douleur dure plus de 3 mois. C'est fréquent, souvent frustrant, mais rarement grave.\n\nCe qui aide vraiment : rester actif (même un peu), éviter le repos prolongé, et comprendre que la douleur n'égale pas danger. L'exercice adapté reste le meilleur traitement.\n\nJe vous guide ici avec des plans progressifs, du niveau 'très facile' au niveau 'actif'.",
+    "summary": "Le mal de dos chronique (> 3 mois) n'est PAS le signe d'un dos abîmé. Dans 90% des cas, c'est une lombalgie commune — le système nerveux est devenu hypersensible à la douleur, pas parce que les tissus sont endommagés.\nLes mots sur votre IRM font plus peur que la réalité. Protrusion discale, dégénérescence, pincement — ce sont des descriptions normales du vieillissement. Chez les personnes SANS aucune douleur, 10 à 43% ont des protrusions discales visibles à l'IRM. (Brinjikji et al., AJNR 2015)\nLa kinésiophobie (peur de bouger) est l'un des facteurs majeurs qui transforment une douleur aiguë en douleur chronique. Plus vous avez peur de bouger, plus la douleur persiste — cercle vicieux bien documenté.\nL'exercice est le traitement le plus efficace — devant les médicaments, les infiltrations et la chirurgie. C'est le consensus mondial OMS + NICE + HAS + ACP.",
     "readingTime": 8,
-    "lastUpdated": "2025-01-15",
+    "lastUpdated": "Mars 2026",
     "recommendations": [
       {
         "text": "Rester actif et reprendre progressivement les activités : éviter le repos prolongé.",
@@ -337,50 +330,46 @@
       }
     ],
     "red_flags": [
-      "Troubles urinaires/rétention, anesthésie en selle, déficit moteur progressif (urgence).",
-      "Fièvre, frissons, antécédent cancer, amaigrissement inexpliqué.",
-      "Douleur après traumatisme important, ostéoporose connue, douleur nocturne majeure.",
-      "Sciatique hyperalgique avec déficit moteur."
+      "Perte de contrôle des urines ou des selles.",
+      "Perte de sensibilité entre les jambes (anesthésie en selle).",
+      "Faiblesse progressive dans une jambe."
     ],
     "sources": [
       {
-        "title": "Low back pain and sciatica in over 16s: assessment and management (NG59) – Non-pharmacological interventions",
-        "org": "NICE",
-        "year": 2016,
-        "url": "https://www.nice.org.uk/guidance/ng59/chapter/recommendations"
-      },
-      {
-        "title": "WHO guideline for non-surgical management of chronic primary low back pain in adults",
-        "org": "World Health Organization",
+        "title": "WHO Guideline for non-surgical management of chronic low back pain",
+        "org": "OMS",
         "year": 2023,
         "url": "https://www.who.int/publications/i/item/9789240081789"
       },
       {
-        "title": "Noninvasive Treatments for Acute, Subacute, and Chronic Low Back Pain",
-        "org": "American College of Physicians",
-        "year": 2017,
-        "url": "https://pubmed.ncbi.nlm.nih.gov/28192789/"
-      },
-      {
-        "title": "Exercice thérapeutique pour la lombalgie chronique (Revue)",
-        "org": "Cochrane",
-        "year": 2021,
-        "url": "https://doi.org/10.1002/14651858.CD009790.pub2",
-        "evidenceLevel": "high"
+        "title": "Low back pain and sciatica (NG59)",
+        "org": "NICE",
+        "year": 2016,
+        "url": "https://www.nice.org.uk/guidance/ng59"
       },
       {
         "title": "Prise en charge du patient présentant une lombalgie commune",
         "org": "HAS",
         "year": 2019,
-        "url": "https://www.has-sante.fr/jcms/c_2961499/fr/prise-en-charge-du-patient-presentant-une-lombalgie-commune",
-        "evidenceLevel": "high"
+        "url": "https://www.has-sante.fr/jcms/c_2961499"
+      },
+      {
+        "title": "Walking versus exercise therapy for chronic low back pain (RCT n=701)",
+        "org": "Pocovi et al., Lancet",
+        "year": 2024,
+        "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(24)00755-4"
+      },
+      {
+        "title": "Systematic literature review of imaging features of spinal degeneration in asymptomatic populations",
+        "org": "Brinjikji et al., AJNR",
+        "year": 2015,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/25430861/"
       },
       {
         "title": "Patient education for low back pain (Review)",
         "org": "Cochrane",
         "year": 2023,
-        "url": "https://doi.org/10.1002/14651858.CD004057.pub5",
-        "evidenceLevel": "high"
+        "url": "https://doi.org/10.1002/14651858.CD004057.pub5"
       }
     ],
     "sevenDayPlans": [
@@ -391,57 +380,43 @@
           {
             "day": "Jour 1",
             "actions": [
-              "Marche lente 5 min",
-              "Position 'soulagement' 5 min (allongé genoux pliés)",
-              "Respiration abdominale 2 min"
+              "10 respirations abdominales + marche 5 min"
             ]
           },
           {
             "day": "Jour 2",
             "actions": [
-              "Marche 5-7 min",
-              "Bascule du bassin allongé 5x",
-              "Étirement psoas 30 sec/côté"
+              "10 respirations abdominales + 5 bascules de bassin allongé"
             ]
           },
           {
             "day": "Jour 3",
             "actions": [
-              "Marche 7 min",
-              "Bascule bassin 8x + pont fessier 5x",
-              "Respiration 3 min"
+              "8 chat-chameau + marche 7 min"
             ]
           },
           {
             "day": "Jour 4",
             "actions": [
-              "Marche 8 min",
-              "Pont fessier 8x + gainage ventral 10 sec",
-              "Étirements 2 min"
+              "Repos actif : marche libre"
             ]
           },
           {
             "day": "Jour 5",
             "actions": [
-              "Marche 10 min",
-              "Gainage 15 sec + exercices plancher",
-              "Repos actif : alterner positions"
+              "10 respirations + 8 chat-chameau + marche 8 min"
             ]
           },
           {
             "day": "Jour 6",
             "actions": [
-              "Marche 10 min",
-              "Séance complète 10 min",
-              "Auto-massage 3 min"
+              "10 respirations + 8 chat-chameau + 4 bird-dog par côté"
             ]
           },
           {
             "day": "Jour 7",
             "actions": [
-              "Marche plaisir 10-15 min",
-              "Bilan douleur/fatigue",
-              "Planifier semaine 2"
+              "Marche 10 min. Bilan douleur 0-10"
             ]
           }
         ]
@@ -515,39 +490,31 @@
         "levelName": "Très facile",
         "weeks": [
           {
-            "week": "Semaine 1-2",
-            "focus": "Reprendre en douceur",
+            "week": "Sem 1-2",
+            "focus": "Activation",
             "exercises": [
-              "Marche 5-10 min/jour",
-              "Positions antalgiques",
-              "Respiration abdominale"
+              "10 respirations abdominales + marche 5-10 min/jour"
             ]
           },
           {
-            "week": "Semaine 3-4",
-            "focus": "Mobilité",
+            "week": "Sem 3-4",
+            "focus": "Stabilisation",
             "exercises": [
-              "Marche 10-15 min/jour",
-              "Bascule bassin + pont fessier",
-              "Étirements quotidiens"
+              "Chat-chameau 8 rép + marche 10-15 min/jour"
             ]
           },
           {
-            "week": "Semaine 5-6",
-            "focus": "Renforcement léger",
+            "week": "Sem 5-6",
+            "focus": "Renforcement",
             "exercises": [
-              "Marche 15-20 min/jour",
-              "Gainage 15-20 sec",
-              "Circuit doux 10 min"
+              "Bird-dog 6/côté + marche 15-20 min/jour"
             ]
           },
           {
-            "week": "Semaine 7-8",
+            "week": "Sem 7-8",
             "focus": "Autonomie",
             "exercises": [
-              "Marche 20 min/jour",
-              "Programme complet 15 min",
-              "Routine établie"
+              "Circuit McGill 2 tours + marche 20-30 min/jour"
             ]
           }
         ]
@@ -594,6 +561,26 @@
           }
         ]
       }
+    ],
+    "essentiels": [
+      {
+        "title": "Votre dos est solide.",
+        "text": "La douleur chronique vient rarement d'un dommage structurel — dans 90% des cas, c'est une lombalgie commune. Les IRM de personnes SANS douleur montrent des protrusions discales dans 10 à 43% des cas. Les images ne sont pas la cause de votre douleur."
+      },
+      {
+        "title": "Le repos au lit aggrave le mal de dos.",
+        "text": "Plus de 2 jours de repos augmentent la durée de l'épisode, la raideur et le déconditionnement musculaire. Toutes les recommandations internationales convergent : restez actif."
+      },
+      {
+        "title": "La marche est aussi efficace que les séances de kiné.",
+        "text": "Marcher 5×/semaine pendant 30 min réduit les récidives de lombalgie de 28% — autant qu'un programme supervisé de 6 séances. (Pocovi et al., Lancet 2024)"
+      }
+    ],
+    "actionDuJour": "Chat-chameau — à 4 pattes, alternez dos rond (expirer) et dos creux (inspirer). 8 répétitions lentes. (3 min)",
+    "bodyExplanation": "Le disque intervertébral est le plus gros tissu avasculaire du corps humain. Comme le cartilage du genou, il se nourrit par imbibition : la pression cyclique de la marche aspire les nutriments à l'intérieur. Le meilleur aliment pour vos disques, c'est la marche.\nDans 90% des cas de lombalgie chronique, il n'y a PAS de lésion grave. La douleur est entretenue par un système nerveux hypersensible et des muscles déconditionnés — pas par des os ou des disques abîmés.",
+    "didYouKnow": [
+      "Le disque intervertébral est le plus gros tissu avasculaire du corps humain. Comme le cartilage du genou, il se nourrit par imbibition : la pression cyclique de la marche aspire les nutriments à l'intérieur. Le meilleur aliment pour vos disques, c'est la marche. (Adams et Roughley, Spine 2006)",
+      "Il n'existe pas de mauvaise posture qui cause la lombalgie chronique. Ce qui compte, c'est le changement de position fréquent. La meilleure posture est la prochaine — bougez toutes les 30 minutes. (Slater et al., JOSPT 2019)"
     ]
   },
   {
@@ -603,7 +590,7 @@
     "category": "veino-lymphatique",
     "summary": "Les jambes lourdes, les varices, les gonflements : c'est le retour veineux qui fonctionne moins bien. Le sang stagne, les veines se dilatent.\n\nCe qui aide vraiment : la compression (bas/chaussettes), la marche, éviter de rester immobile longtemps. C'est simple mais ça fonctionne.\n\nJe vous propose ici un plan pratique pour soulager vos jambes au quotidien.",
     "readingTime": 7,
-    "lastUpdated": "2025-01-15",
+    "lastUpdated": "Mars 2026",
     "recommendations": [
       {
         "text": "Compression médicale (bas/chaussettes) si symptômes (jambes lourdes, oedème) : pilier de base.",
@@ -665,7 +652,7 @@
         "title": "Guide du parcours de soins - Maladie veineuse chronique",
         "org": "HAS",
         "year": 2014,
-        "url": "https://www.has-sante.fr/jcms/c_1092016/fr/ald-n-5-insuffisance-cardiaque",
+        "url": "https://www.has-sante.fr/jcms/c_1092016",
         "evidenceLevel": "moderate"
       },
       {
@@ -799,7 +786,7 @@
     "category": "orl-respiratoire",
     "summary": "La BPCO (Broncho-Pneumopathie Chronique Obstructive), c'est une maladie des poumons qui rend l'essoufflement progressif. Le tabac en est la cause principale.\n\nCe qui compte vraiment : arrêter le tabac (gain immédiat), faire de la réhabilitation respiratoire, et rester actif malgré l'essoufflement.\n\nJe vous propose ici des techniques concrètes pour mieux respirer et vivre mieux au quotidien.",
     "readingTime": 9,
-    "lastUpdated": "2025-01-15",
+    "lastUpdated": "Mars 2026",
     "recommendations": [
       {
         "text": "Arrêt du tabac : action n°1 (gain sur symptômes et progression).",
@@ -995,7 +982,7 @@
     "category": "orl-respiratoire",
     "summary": "Les otites à répétition chez l'enfant, c'est fréquent et souvent source d'inquiétude pour les parents. Bonne nouvelle : la plupart des enfants 'en sortent' avec l'âge.\n\nCe qui aide vraiment : éviter le tabagisme passif, l'hygiène des mains, et parfois le xylitol. Si ça persiste, un avis ORL peut être utile.\n\nJe vous propose ici des conseils pratiques pour réduire la fréquence des épisodes.",
     "readingTime": 6,
-    "lastUpdated": "2025-01-15",
+    "lastUpdated": "Mars 2026",
     "recommendations": [
       {
         "text": "Réduire l'exposition à la fumée (tabac passif) : objectif prioritaire.",
@@ -1186,7 +1173,7 @@
     "category": "rhumatologie",
     "summary": "La coxarthrose est l'usure du cartilage de la hanche. Elle provoque des douleurs dans le pli de l'aine, parfois irradiant vers la cuisse ou le genou.\n\nCe qui compte vraiment : l'exercice adapté protège la hanche en maintenant la mobilité et en renforçant les muscles stabilisateurs. Le repos prolongé aggrave la situation.\n\nLa prothèse de hanche reste un excellent recours en cas d'échec, avec un taux de satisfaction supérieur à 95%.",
     "readingTime": 8,
-    "lastUpdated": "2026-03-12",
+    "lastUpdated": "Mars 2026",
     "recommendations": [
       {
         "text": "Exercice thérapeutique régulier : renforcement des fessiers, quadriceps et muscles stabilisateurs de la hanche.",
@@ -1383,7 +1370,7 @@
     "category": "rhumatologie",
     "summary": "La fibromyalgie est un syndrome de douleurs diffuses chroniques, souvent accompagnées de fatigue intense, de troubles du sommeil et de difficultés cognitives.\n\nCe qui compte vraiment : l'exercice physique adapté est le traitement le plus efficace. Commencer très doucement, augmenter très progressivement, et ne jamais forcer.\n\nLa cure thermale, l'éducation thérapeutique et les thérapies corps-esprit complètent efficacement la prise en charge.",
     "readingTime": 9,
-    "lastUpdated": "2026-03-12",
+    "lastUpdated": "Mars 2026",
     "recommendations": [
       {
         "text": "Exercice aérobie adapté : marche, natation, vélo. Intensité légère à modérée, régularité prime sur intensité.",
@@ -1580,7 +1567,7 @@
     "category": "orl-respiratoire",
     "summary": "La rhinosinusite chronique est une inflammation prolongée des sinus et du nez (> 12 semaines). Elle provoque obstruction nasale, écoulement, pression faciale et perte d'odorat.\n\nCe qui compte vraiment : les lavages nasaux quotidiens et les corticoïdes en spray sont le socle du traitement. La cure thermale ORL apporte un bénéfice complémentaire reconnu.\n\nLa chirurgie est réservée aux échecs du traitement médical bien conduit.",
     "readingTime": 8,
-    "lastUpdated": "2026-03-12",
+    "lastUpdated": "Mars 2026",
     "recommendations": [
       {
         "text": "Lavages nasaux quotidiens au sérum physiologique ou solution saline (grands volumes, seringue ou flacon).",
@@ -1775,7 +1762,7 @@
     "category": "rhumatologie",
     "summary": "La tendinopathie de la coiffe des rotateurs est la cause la plus fréquente de douleur d'épaule. Les tendons qui stabilisent l'épaule s'irritent ou se fragilisent, provoquant douleur et limitation.\n\nCe qui compte vraiment : les exercices de rééducation sont aussi efficaces que la chirurgie dans la majorité des cas. La kinésithérapie structurée est le traitement de référence.\n\nPatience : l'amélioration est progressive sur 3 à 6 mois.",
     "readingTime": 8,
-    "lastUpdated": "2026-03-12",
+    "lastUpdated": "Mars 2026",
     "recommendations": [
       {
         "text": "Exercices de rééducation de l'épaule : renforcement progressif des rotateurs et stabilisateurs de l'omoplate.",
@@ -1971,7 +1958,7 @@
     "category": "rhumatologie",
     "summary": "L'arthrose digitale touche les articulations des doigts et du pouce. Elle provoque des douleurs, des gonflements et une raideur qui gênent les gestes du quotidien.\n\nCe qui compte vraiment : les exercices de la main sont le pilier du traitement. La chaleur soulage, les orthèses de repos aident la nuit, et les adaptations du quotidien préservent l'autonomie.\n\nLes nodosités (déformations) ne signifient pas forcément plus de douleur.",
     "readingTime": 8,
-    "lastUpdated": "2026-03-12",
+    "lastUpdated": "Mars 2026",
     "recommendations": [
       {
         "text": "Exercices quotidiens des mains : mobilisation douce, renforcement de la prise, étirements des doigts.",
@@ -2167,7 +2154,7 @@
     "category": "orl-respiratoire",
     "summary": "L'asthme est une maladie chronique des bronches qui provoque des crises d'essoufflement, de toux et de sifflements. Il touche tous les âges.\n\nCe qui compte vraiment : le traitement de fond (corticoïde inhalé) doit être pris tous les jours, même quand tout va bien. C'est lui qui prévient les crises.\n\nL'activité physique régulière est recommandée et améliore le contrôle de l'asthme. Savoir reconnaître et agir face à une crise est essentiel.",
     "readingTime": 9,
-    "lastUpdated": "2026-03-12",
+    "lastUpdated": "Mars 2026",
     "recommendations": [
       {
         "text": "Traitement de fond quotidien (corticoïde inhalé) : ne jamais l'arrêter sans avis médical, même si tout va bien.",
