@@ -59,6 +59,7 @@ import { FaqSection } from "@/components/shared/FaqSection";
 import { FaqJsonLd } from "@/components/shared/FaqJsonLd";
 import { PageHero } from "@/components/shared/PageHero";
 import { FadeIn } from "@/components/shared/FadeIn";
+import { DailyTip } from "@/components/shared/DailyTip";
 
 // Badge couleur selon niveau de preuve
 const evidenceBadgeClass = (level: string) => {
@@ -459,518 +460,533 @@ const PathologyPageV2 = () => {
 
         {/* Contenu principal */}
         <FadeIn>
-        <div className={`grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12`}>
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-10">
-            {/* Section 1: Comprendre */}
-            <section id="comprendre">
-              <SectionTitle
-                icon={<Info className={iconSizeLg} />}
-                title="Comprendre"
-                iconBg="bg-blue-100"
-                iconColor="text-blue-700"
-                seniorMode={seniorMode}
-              />
-              <div
-                className={`bg-blue-50 border border-blue-200 rounded-xl ${seniorMode ? "p-8" : "p-6"}`}
-              >
-                <p
-                  className={`${textClass} text-foreground leading-relaxed whitespace-pre-line`}
-                >
-                  {pack.definition.summary}
-                </p>
-                {pack.definition.key_points &&
-                  pack.definition.key_points.length > 0 && (
-                    <ul
-                      className={`mt-4 space-y-2 ${seniorMode ? "text-base" : "text-sm"}`}
-                    >
-                      {pack.definition.key_points.map((point, idx) => (
-                        <li
-                          key={idx}
-                          className="flex items-start gap-2 text-blue-800"
-                        >
-                          <span className="text-blue-500">→</span> {point}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-              </div>
-            </section>
-
-            {/* CTA parcours — premier */}
-            <div className="my-10 p-6 rounded-xl bg-primary/5 border border-primary/20 text-center">
-              <p className="text-xl font-serif font-bold text-foreground mb-2">
-                Programme personnalisé de 21 jours
-              </p>
-              <p className="text-muted-foreground mb-4">
-                Exercices guidés, suivi quotidien, bilan avant/après. 5 minutes
-                par jour pendant votre cure.
-              </p>
-              <Link to={`/parcours/${slug}`}>
-                <Button size="lg" className="gap-2 text-lg">
-                  Commencer mon programme <ArrowRight className="w-5 h-5" />
-                </Button>
-              </Link>
-            </div>
-
-            {/* Section 2: Agir (Recommandations) */}
-            {pack.recommendations.length > 0 && (
-              <section id="agir">
+          <div className={`grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12`}>
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-10">
+              {/* Section 1: Comprendre */}
+              <section id="comprendre">
                 <SectionTitle
-                  icon={<Award className={iconSizeLg} />}
-                  title="Ce qui aide vraiment"
-                  iconBg="bg-green-100"
-                  iconColor="text-green-700"
-                  seniorMode={seniorMode}
-                />
-                <div className={seniorMode ? "space-y-4" : "space-y-3"}>
-                  {pack.recommendations.map((rec, idx) => (
-                    <div
-                      key={idx}
-                      className={`flex items-start gap-4 bg-card border border-border rounded-xl ${seniorMode ? "p-5" : "p-4"}`}
-                    >
-                      <div
-                        className={`rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold shrink-0 ${seniorMode ? "w-10 h-10 text-base" : "w-8 h-8 text-sm"}`}
-                      >
-                        {idx + 1}
-                      </div>
-                      <div className="flex-1">
-                        <p className={`${textClass} text-foreground mb-2`}>
-                          {rec.text}
-                        </p>
-                        <div className="flex flex-wrap items-center gap-2">
-                          <Badge className={evidenceBadgeClass(rec.level)}>
-                            {rec.level}
-                          </Badge>
-                          {rec.tags?.map((tag, tidx) => (
-                            <Badge
-                              key={tidx}
-                              variant="outline"
-                              className="text-xs"
-                            >
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Section 2.5: Podcast Étuve — affiché uniquement si au moins un épisode a un audioUrl */}
-            {podcastData && podcastData.episodes.some((ep) => ep.audioUrl) && (
-              <section id="podcast" className="mt-8 mb-8">
-                <PodcastPlayer
-                  pathologyName={podcastData.pathologyName}
-                  episodes={podcastData.episodes}
-                />
-              </section>
-            )}
-
-            {/* Section 3: Exercices */}
-            {pack.exercises.length > 0 && (
-              <section id="exercices">
-                <SectionTitle
-                  icon={<Activity className={iconSizeLg} />}
-                  title="Exercices à faire chez soi"
-                  iconBg="bg-secondary/20"
-                  iconColor="text-secondary"
-                  seniorMode={seniorMode}
-                />
-                <div className={seniorMode ? "space-y-4" : "space-y-3"}>
-                  {pack.exercises.map((exercise) => (
-                    <ExerciseCardV2
-                      key={exercise.id}
-                      exercise={exercise}
-                      seniorMode={seniorMode}
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Section 3.5: Vidéos guidées */}
-            {slug && <VideoSection slug={slug} maxVideos={2} />}
-
-            {(pack.seven_day_plan.length > 0 ||
-              pack.four_week_plan.length > 0) && (
-              <section id="parcours">
-                <SectionTitle
-                  icon={<Calendar className={iconSizeLg} />}
-                  title="Parcours guidé"
-                  iconBg="bg-primary/10"
-                  iconColor="text-primary"
-                  seniorMode={seniorMode}
-                />
-
-                <Tabs defaultValue="7jours" className="w-full">
-                  <TabsList className="mb-4">
-                    <TabsTrigger value="7jours">Plan 7 jours</TabsTrigger>
-                    <TabsTrigger value="4semaines">Plan 4 semaines</TabsTrigger>
-                  </TabsList>
-
-                  <TabsContent value="7jours">
-                    <div className={`grid grid-cols-1 md:grid-cols-2 gap-4`}>
-                      {pack.seven_day_plan.map((day) => (
-                        <div
-                          key={day.day}
-                          className={`bg-card border border-border rounded-xl ${seniorMode ? "p-5" : "p-4"}`}
-                        >
-                          <h4
-                            className={`font-semibold text-foreground mb-3 flex items-center gap-2 ${seniorMode ? "text-lg" : ""}`}
-                          >
-                            <span
-                              className={`rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold ${seniorMode ? "w-8 h-8 text-sm" : "w-6 h-6 text-xs"}`}
-                            >
-                              {day.day}
-                            </span>
-                            {day.title}
-                          </h4>
-                          <ul
-                            className={`space-y-2 ${seniorMode ? "text-base" : "text-sm"}`}
-                          >
-                            {day.actions.map((action, aidx) => (
-                              <li
-                                key={aidx}
-                                className="flex items-start gap-2 text-muted-foreground"
-                              >
-                                <span className="text-primary">☐</span> {action}
-                              </li>
-                            ))}
-                          </ul>
-                          {day.tips && (
-                            <p
-                              className={`mt-3 text-primary bg-primary/5 rounded-lg p-2 ${smallTextClass}`}
-                            >
-                              💡 {day.tips}
-                            </p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="4semaines">
-                    <div className={`space-y-4`}>
-                      {pack.four_week_plan.map((week) => (
-                        <div
-                          key={week.week}
-                          className={`bg-card border border-border rounded-xl ${seniorMode ? "p-5" : "p-4"}`}
-                        >
-                          <div className="flex items-center gap-3 mb-3">
-                            <span
-                              className={`rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold ${seniorMode ? "w-10 h-10" : "w-8 h-8"}`}
-                            >
-                              S{week.week}
-                            </span>
-                            <div>
-                              <h4
-                                className={`font-semibold text-foreground ${seniorMode ? "text-lg" : ""}`}
-                              >
-                                Semaine {week.week}
-                              </h4>
-                              <p className={`text-primary ${smallTextClass}`}>
-                                Focus : {week.focus}
-                              </p>
-                            </div>
-                          </div>
-                          <ul
-                            className={`space-y-1 ${seniorMode ? "text-base" : "text-sm"}`}
-                          >
-                            {week.goals.map((goal, gidx) => (
-                              <li
-                                key={gidx}
-                                className="flex items-start gap-2 text-muted-foreground"
-                              >
-                                <span className="text-green-600">✓</span> {goal}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </TabsContent>
-                </Tabs>
-              </section>
-            )}
-
-            {/* Section 5: Actes médicaux */}
-            {pack.medical_procedures.length > 0 && (
-              <section id="actes">
-                <SectionTitle
-                  icon={<Stethoscope className={iconSizeLg} />}
-                  title="Actes et traitements"
-                  iconBg="bg-purple-100"
-                  iconColor="text-purple-700"
-                  seniorMode={seniorMode}
-                />
-                <p className={`text-muted-foreground mb-4 ${smallTextClass}`}>
-                  Informations éducatives sur les traitements possibles.
-                  Discutez avec votre médecin pour savoir s'ils sont adaptés à
-                  votre situation.
-                </p>
-                <div className={seniorMode ? "space-y-4" : "space-y-3"}>
-                  {pack.medical_procedures.map((procedure) => (
-                    <ProcedureCard
-                      key={procedure.id}
-                      procedure={procedure}
-                      seniorMode={seniorMode}
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Section 6: Cure thermale */}
-            {pack.thermal_evidence && (
-              <section id="thermal">
-                <SectionTitle
-                  icon={<Droplets className={iconSizeLg} />}
-                  title="Cure thermale : que dit la science ?"
-                  iconBg="bg-cyan-100"
-                  iconColor="text-cyan-700"
+                  icon={<Info className={iconSizeLg} />}
+                  title="Comprendre"
+                  iconBg="bg-blue-100"
+                  iconColor="text-blue-700"
                   seniorMode={seniorMode}
                 />
                 <div
-                  className={`bg-cyan-50 border border-cyan-200 rounded-xl ${seniorMode ? "p-6" : "p-5"}`}
+                  className={`bg-blue-50 border border-blue-200 rounded-xl ${seniorMode ? "p-8" : "p-6"}`}
                 >
-                  <p className={`${textClass} text-foreground mb-4`}>
-                    {pack.thermal_evidence.summary}
+                  <p
+                    className={`${textClass} text-foreground leading-relaxed whitespace-pre-line`}
+                  >
+                    {pack.definition.summary}
                   </p>
-
-                  {pack.thermal_evidence.key_results.length > 0 && (
-                    <div className="mb-4">
-                      <h4
-                        className={`font-medium text-cyan-800 mb-2 ${seniorMode ? "text-base" : "text-sm"}`}
-                      >
-                        📊 Résultats clés
-                      </h4>
+                  {pack.definition.key_points &&
+                    pack.definition.key_points.length > 0 && (
                       <ul
-                        className={`space-y-1 ${seniorMode ? "text-base" : "text-sm"}`}
+                        className={`mt-4 space-y-2 ${seniorMode ? "text-base" : "text-sm"}`}
                       >
-                        {pack.thermal_evidence.key_results.map(
-                          (result, idx) => (
-                            <li
-                              key={idx}
-                              className="text-cyan-900 flex items-start gap-2"
-                            >
-                              <span>•</span> {result}
-                            </li>
-                          ),
-                        )}
-                      </ul>
-                    </div>
-                  )}
-
-                  {pack.thermal_evidence.duration_recommended && (
-                    <p className={`text-cyan-800 mb-4 ${smallTextClass}`}>
-                      ⏱️ Durée recommandée :{" "}
-                      {pack.thermal_evidence.duration_recommended}
-                    </p>
-                  )}
-
-                  {pack.thermal_evidence.limitations.length > 0 && (
-                    <div className="bg-white/50 rounded-lg p-3">
-                      <h4
-                        className={`font-medium text-amber-700 mb-2 ${seniorMode ? "text-base" : "text-sm"}`}
-                      >
-                        ⚠️ Limites
-                      </h4>
-                      <ul
-                        className={`space-y-1 text-muted-foreground ${smallTextClass}`}
-                      >
-                        {pack.thermal_evidence.limitations.map((limit, idx) => (
-                          <li key={idx}>• {limit}</li>
+                        {pack.definition.key_points.map((point, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2 text-blue-800"
+                          >
+                            <span className="text-blue-500">→</span> {point}
+                          </li>
                         ))}
                       </ul>
-                    </div>
-                  )}
+                    )}
                 </div>
               </section>
-            )}
 
-            {/* PRO Questionnaire — PECAN */}
-            <section className="mt-12 mb-8">
-              <ProQuestionnaire slug={slug || ""} pathologyName={pack.title} />
-            </section>
+              {/* Conseil du jour Gemini */}
+              <DailyTip pathologySlug={slug || ""} pathologyName={pack.title} />
 
-            {/* CTA parcours — second */}
-            <div className="my-10 p-6 rounded-xl bg-primary/5 border border-primary/20 text-center">
-              <p className="text-xl font-serif font-bold text-foreground mb-2">
-                Prêt à commencer ?
-              </p>
-              <p className="text-muted-foreground mb-4">
-                21 jours pour améliorer votre quotidien. Commencez maintenant.
-              </p>
-              <Link to={`/parcours/${slug}`}>
-                <Button size="lg" className="gap-2 text-lg">
-                  Démarrer le programme <ArrowRight className="w-5 h-5" />
-                </Button>
-              </Link>
+              {/* CTA parcours — premier */}
+              <div className="my-10 p-6 rounded-xl bg-primary/5 border border-primary/20 text-center">
+                <p className="text-xl font-serif font-bold text-foreground mb-2">
+                  Programme personnalisé de 21 jours
+                </p>
+                <p className="text-muted-foreground mb-4">
+                  Exercices guidés, suivi quotidien, bilan avant/après. 5
+                  minutes par jour pendant votre cure.
+                </p>
+                <Link to={`/parcours/${slug}`}>
+                  <Button size="lg" className="gap-2 text-lg">
+                    Commencer mon programme <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Section 2: Agir (Recommandations) */}
+              {pack.recommendations.length > 0 && (
+                <section id="agir">
+                  <SectionTitle
+                    icon={<Award className={iconSizeLg} />}
+                    title="Ce qui aide vraiment"
+                    iconBg="bg-green-100"
+                    iconColor="text-green-700"
+                    seniorMode={seniorMode}
+                  />
+                  <div className={seniorMode ? "space-y-4" : "space-y-3"}>
+                    {pack.recommendations.map((rec, idx) => (
+                      <div
+                        key={idx}
+                        className={`flex items-start gap-4 bg-card border border-border rounded-xl ${seniorMode ? "p-5" : "p-4"}`}
+                      >
+                        <div
+                          className={`rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold shrink-0 ${seniorMode ? "w-10 h-10 text-base" : "w-8 h-8 text-sm"}`}
+                        >
+                          {idx + 1}
+                        </div>
+                        <div className="flex-1">
+                          <p className={`${textClass} text-foreground mb-2`}>
+                            {rec.text}
+                          </p>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <Badge className={evidenceBadgeClass(rec.level)}>
+                              {rec.level}
+                            </Badge>
+                            {rec.tags?.map((tag, tidx) => (
+                              <Badge
+                                key={tidx}
+                                variant="outline"
+                                className="text-xs"
+                              >
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Section 2.5: Podcast Étuve — affiché uniquement si au moins un épisode a un audioUrl */}
+              {podcastData &&
+                podcastData.episodes.some((ep) => ep.audioUrl) && (
+                  <section id="podcast" className="mt-8 mb-8">
+                    <PodcastPlayer
+                      pathologyName={podcastData.pathologyName}
+                      episodes={podcastData.episodes}
+                    />
+                  </section>
+                )}
+
+              {/* Section 3: Exercices */}
+              {pack.exercises.length > 0 && (
+                <section id="exercices">
+                  <SectionTitle
+                    icon={<Activity className={iconSizeLg} />}
+                    title="Exercices à faire chez soi"
+                    iconBg="bg-secondary/20"
+                    iconColor="text-secondary"
+                    seniorMode={seniorMode}
+                  />
+                  <div className={seniorMode ? "space-y-4" : "space-y-3"}>
+                    {pack.exercises.map((exercise) => (
+                      <ExerciseCardV2
+                        key={exercise.id}
+                        exercise={exercise}
+                        seniorMode={seniorMode}
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Section 3.5: Vidéos guidées */}
+              {slug && <VideoSection slug={slug} maxVideos={2} />}
+
+              {(pack.seven_day_plan.length > 0 ||
+                pack.four_week_plan.length > 0) && (
+                <section id="parcours">
+                  <SectionTitle
+                    icon={<Calendar className={iconSizeLg} />}
+                    title="Parcours guidé"
+                    iconBg="bg-primary/10"
+                    iconColor="text-primary"
+                    seniorMode={seniorMode}
+                  />
+
+                  <Tabs defaultValue="7jours" className="w-full">
+                    <TabsList className="mb-4">
+                      <TabsTrigger value="7jours">Plan 7 jours</TabsTrigger>
+                      <TabsTrigger value="4semaines">
+                        Plan 4 semaines
+                      </TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="7jours">
+                      <div className={`grid grid-cols-1 md:grid-cols-2 gap-4`}>
+                        {pack.seven_day_plan.map((day) => (
+                          <div
+                            key={day.day}
+                            className={`bg-card border border-border rounded-xl ${seniorMode ? "p-5" : "p-4"}`}
+                          >
+                            <h4
+                              className={`font-semibold text-foreground mb-3 flex items-center gap-2 ${seniorMode ? "text-lg" : ""}`}
+                            >
+                              <span
+                                className={`rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold ${seniorMode ? "w-8 h-8 text-sm" : "w-6 h-6 text-xs"}`}
+                              >
+                                {day.day}
+                              </span>
+                              {day.title}
+                            </h4>
+                            <ul
+                              className={`space-y-2 ${seniorMode ? "text-base" : "text-sm"}`}
+                            >
+                              {day.actions.map((action, aidx) => (
+                                <li
+                                  key={aidx}
+                                  className="flex items-start gap-2 text-muted-foreground"
+                                >
+                                  <span className="text-primary">☐</span>{" "}
+                                  {action}
+                                </li>
+                              ))}
+                            </ul>
+                            {day.tips && (
+                              <p
+                                className={`mt-3 text-primary bg-primary/5 rounded-lg p-2 ${smallTextClass}`}
+                              >
+                                💡 {day.tips}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="4semaines">
+                      <div className={`space-y-4`}>
+                        {pack.four_week_plan.map((week) => (
+                          <div
+                            key={week.week}
+                            className={`bg-card border border-border rounded-xl ${seniorMode ? "p-5" : "p-4"}`}
+                          >
+                            <div className="flex items-center gap-3 mb-3">
+                              <span
+                                className={`rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold ${seniorMode ? "w-10 h-10" : "w-8 h-8"}`}
+                              >
+                                S{week.week}
+                              </span>
+                              <div>
+                                <h4
+                                  className={`font-semibold text-foreground ${seniorMode ? "text-lg" : ""}`}
+                                >
+                                  Semaine {week.week}
+                                </h4>
+                                <p className={`text-primary ${smallTextClass}`}>
+                                  Focus : {week.focus}
+                                </p>
+                              </div>
+                            </div>
+                            <ul
+                              className={`space-y-1 ${seniorMode ? "text-base" : "text-sm"}`}
+                            >
+                              {week.goals.map((goal, gidx) => (
+                                <li
+                                  key={gidx}
+                                  className="flex items-start gap-2 text-muted-foreground"
+                                >
+                                  <span className="text-green-600">✓</span>{" "}
+                                  {goal}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </section>
+              )}
+
+              {/* Section 5: Actes médicaux */}
+              {pack.medical_procedures.length > 0 && (
+                <section id="actes">
+                  <SectionTitle
+                    icon={<Stethoscope className={iconSizeLg} />}
+                    title="Actes et traitements"
+                    iconBg="bg-purple-100"
+                    iconColor="text-purple-700"
+                    seniorMode={seniorMode}
+                  />
+                  <p className={`text-muted-foreground mb-4 ${smallTextClass}`}>
+                    Informations éducatives sur les traitements possibles.
+                    Discutez avec votre médecin pour savoir s'ils sont adaptés à
+                    votre situation.
+                  </p>
+                  <div className={seniorMode ? "space-y-4" : "space-y-3"}>
+                    {pack.medical_procedures.map((procedure) => (
+                      <ProcedureCard
+                        key={procedure.id}
+                        procedure={procedure}
+                        seniorMode={seniorMode}
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Section 6: Cure thermale */}
+              {pack.thermal_evidence && (
+                <section id="thermal">
+                  <SectionTitle
+                    icon={<Droplets className={iconSizeLg} />}
+                    title="Cure thermale : que dit la science ?"
+                    iconBg="bg-cyan-100"
+                    iconColor="text-cyan-700"
+                    seniorMode={seniorMode}
+                  />
+                  <div
+                    className={`bg-cyan-50 border border-cyan-200 rounded-xl ${seniorMode ? "p-6" : "p-5"}`}
+                  >
+                    <p className={`${textClass} text-foreground mb-4`}>
+                      {pack.thermal_evidence.summary}
+                    </p>
+
+                    {pack.thermal_evidence.key_results.length > 0 && (
+                      <div className="mb-4">
+                        <h4
+                          className={`font-medium text-cyan-800 mb-2 ${seniorMode ? "text-base" : "text-sm"}`}
+                        >
+                          📊 Résultats clés
+                        </h4>
+                        <ul
+                          className={`space-y-1 ${seniorMode ? "text-base" : "text-sm"}`}
+                        >
+                          {pack.thermal_evidence.key_results.map(
+                            (result, idx) => (
+                              <li
+                                key={idx}
+                                className="text-cyan-900 flex items-start gap-2"
+                              >
+                                <span>•</span> {result}
+                              </li>
+                            ),
+                          )}
+                        </ul>
+                      </div>
+                    )}
+
+                    {pack.thermal_evidence.duration_recommended && (
+                      <p className={`text-cyan-800 mb-4 ${smallTextClass}`}>
+                        ⏱️ Durée recommandée :{" "}
+                        {pack.thermal_evidence.duration_recommended}
+                      </p>
+                    )}
+
+                    {pack.thermal_evidence.limitations.length > 0 && (
+                      <div className="bg-white/50 rounded-lg p-3">
+                        <h4
+                          className={`font-medium text-amber-700 mb-2 ${seniorMode ? "text-base" : "text-sm"}`}
+                        >
+                          ⚠️ Limites
+                        </h4>
+                        <ul
+                          className={`space-y-1 text-muted-foreground ${smallTextClass}`}
+                        >
+                          {pack.thermal_evidence.limitations.map(
+                            (limit, idx) => (
+                              <li key={idx}>• {limit}</li>
+                            ),
+                          )}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {/* PRO Questionnaire — PECAN */}
+              <section className="mt-12 mb-8">
+                <ProQuestionnaire
+                  slug={slug || ""}
+                  pathologyName={pack.title}
+                />
+              </section>
+
+              {/* CTA parcours — second */}
+              <div className="my-10 p-6 rounded-xl bg-primary/5 border border-primary/20 text-center">
+                <p className="text-xl font-serif font-bold text-foreground mb-2">
+                  Prêt à commencer ?
+                </p>
+                <p className="text-muted-foreground mb-4">
+                  21 jours pour améliorer votre quotidien. Commencez maintenant.
+                </p>
+                <Link to={`/parcours/${slug}`}>
+                  <Button size="lg" className="gap-2 text-lg">
+                    Démarrer le programme <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+              </div>
+
+              {/* FAQ SEO */}
+              {slug && FAQ_BY_PATHOLOGY[slug] && (
+                <>
+                  <FaqJsonLd
+                    items={FAQ_BY_PATHOLOGY[slug]}
+                    id={`jsonld-faq-${slug}`}
+                  />
+                  <FaqSection items={FAQ_BY_PATHOLOGY[slug]} />
+                </>
+              )}
             </div>
 
-            {/* FAQ SEO */}
-            {slug && FAQ_BY_PATHOLOGY[slug] && (
-              <>
-                <FaqJsonLd
-                  items={FAQ_BY_PATHOLOGY[slug]}
-                  id={`jsonld-faq-${slug}`}
-                />
-                <FaqSection items={FAQ_BY_PATHOLOGY[slug]} />
-              </>
-            )}
-          </div>
-
-          {/* Sidebar */}
-          <aside
-            className={`space-y-6 ${seniorMode ? "lg:sticky lg:top-24" : "lg:sticky lg:top-20"}`}
-          >
-            {/* Red Flags */}
-            {pack.red_flags.length > 0 && (
-              <div
-                className={`${cardClass} bg-destructive/5 border-destructive/20 ${cardPadding}`}
-              >
-                <h3
-                  className={`font-serif font-bold text-destructive mb-4 flex items-center gap-2 ${seniorMode ? "text-xl" : "text-lg"}`}
+            {/* Sidebar */}
+            <aside
+              className={`space-y-6 ${seniorMode ? "lg:sticky lg:top-24" : "lg:sticky lg:top-20"}`}
+            >
+              {/* Red Flags */}
+              {pack.red_flags.length > 0 && (
+                <div
+                  className={`${cardClass} bg-destructive/5 border-destructive/20 ${cardPadding}`}
                 >
-                  <AlertTriangle className={iconSize} />
-                  Quand consulter rapidement
-                </h3>
-                <ul className={seniorMode ? "space-y-3" : "space-y-2"}>
-                  {pack.red_flags.map((flag, idx) => (
-                    <li
-                      key={idx}
-                      className={`flex items-start gap-2 text-destructive ${seniorMode ? "text-base" : "text-sm"}`}
-                    >
-                      <span className="font-bold">
-                        {flag.urgency === "immediate"
-                          ? "🚨"
-                          : flag.urgency === "rapid"
-                            ? "⚠️"
-                            : "📋"}
-                      </span>
-                      {flag.text}
-                    </li>
-                  ))}
-                </ul>
-                <p className={`mt-4 text-muted-foreground ${smallTextClass}`}>
-                  En cas d'urgence : 15 / 112
-                </p>
-              </div>
-            )}
+                  <h3
+                    className={`font-serif font-bold text-destructive mb-4 flex items-center gap-2 ${seniorMode ? "text-xl" : "text-lg"}`}
+                  >
+                    <AlertTriangle className={iconSize} />
+                    Quand consulter rapidement
+                  </h3>
+                  <ul className={seniorMode ? "space-y-3" : "space-y-2"}>
+                    {pack.red_flags.map((flag, idx) => (
+                      <li
+                        key={idx}
+                        className={`flex items-start gap-2 text-destructive ${seniorMode ? "text-base" : "text-sm"}`}
+                      >
+                        <span className="font-bold">
+                          {flag.urgency === "immediate"
+                            ? "🚨"
+                            : flag.urgency === "rapid"
+                              ? "⚠️"
+                              : "📋"}
+                        </span>
+                        {flag.text}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className={`mt-4 text-muted-foreground ${smallTextClass}`}>
+                    En cas d'urgence : 15 / 112
+                  </p>
+                </div>
+              )}
 
-            {/* Sources */}
-            {pack.sources.length > 0 && (
+              {/* Sources */}
+              {pack.sources.length > 0 && (
+                <div className={`${cardClass} ${cardPadding}`}>
+                  <h3
+                    className={`font-serif font-bold text-foreground mb-4 flex items-center gap-2 ${seniorMode ? "text-xl" : "text-lg"}`}
+                  >
+                    <FileText className={iconSize} />
+                    Sources
+                  </h3>
+                  <ul className={`space-y-3 ${smallTextClass}`}>
+                    {filterSourcesByPolicy(pack.sources, 6).map(
+                      (source, idx) => (
+                        <li key={idx} className="text-muted-foreground">
+                          <span className="font-medium text-foreground">
+                            {source.org}
+                          </span>
+                          <span className="text-muted-foreground">
+                            {" "}
+                            ({source.year})
+                          </span>
+                          <br />
+                          <span className="text-sm">{source.title}</span>
+                          {source.url && (
+                            <a
+                              href={source.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline flex items-center gap-1 mt-1"
+                            >
+                              <ExternalLink className="w-3 h-3" /> Consulter
+                            </a>
+                          )}
+                        </li>
+                      ),
+                    )}
+                  </ul>
+                </div>
+              )}
+
+              {/* PDF */}
+              {slug && <PdfDownloadButtons slug={slug} variant="card" />}
+
+              {/* Navigation */}
               <div className={`${cardClass} ${cardPadding}`}>
                 <h3
-                  className={`font-serif font-bold text-foreground mb-4 flex items-center gap-2 ${seniorMode ? "text-xl" : "text-lg"}`}
+                  className={`font-serif font-bold text-foreground mb-4 ${seniorMode ? "text-xl" : "text-lg"}`}
                 >
-                  <FileText className={iconSize} />
-                  Sources
+                  Sur cette page
                 </h3>
-                <ul className={`space-y-3 ${smallTextClass}`}>
-                  {filterSourcesByPolicy(pack.sources, 6).map((source, idx) => (
-                    <li key={idx} className="text-muted-foreground">
-                      <span className="font-medium text-foreground">
-                        {source.org}
-                      </span>
-                      <span className="text-muted-foreground">
-                        {" "}
-                        ({source.year})
-                      </span>
-                      <br />
-                      <span className="text-sm">{source.title}</span>
-                      {source.url && (
-                        <a
-                          href={source.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline flex items-center gap-1 mt-1"
-                        >
-                          <ExternalLink className="w-3 h-3" /> Consulter
-                        </a>
-                      )}
-                    </li>
-                  ))}
-                </ul>
+                <nav
+                  className={`space-y-2 ${seniorMode ? "text-base" : "text-sm"}`}
+                >
+                  <a
+                    href="#comprendre"
+                    className="block text-muted-foreground hover:text-primary"
+                  >
+                    → Comprendre
+                  </a>
+                  {pack.recommendations.length > 0 && (
+                    <a
+                      href="#agir"
+                      className="block text-muted-foreground hover:text-primary"
+                    >
+                      → Ce qui aide vraiment
+                    </a>
+                  )}
+                  {pack.exercises.length > 0 && (
+                    <a
+                      href="#exercices"
+                      className="block text-muted-foreground hover:text-primary"
+                    >
+                      → Exercices
+                    </a>
+                  )}
+                  <a
+                    href="#videos"
+                    className="block text-muted-foreground hover:text-primary"
+                  >
+                    → Vidéos guidées
+                  </a>
+                  {(pack.seven_day_plan.length > 0 ||
+                    pack.four_week_plan.length > 0) && (
+                    <a
+                      href="#parcours"
+                      className="block text-muted-foreground hover:text-primary"
+                    >
+                      → Parcours guidé
+                    </a>
+                  )}
+                  {pack.medical_procedures.length > 0 && (
+                    <a
+                      href="#actes"
+                      className="block text-muted-foreground hover:text-primary"
+                    >
+                      → Actes médicaux
+                    </a>
+                  )}
+                  {pack.thermal_evidence && (
+                    <a
+                      href="#thermal"
+                      className="block text-muted-foreground hover:text-primary"
+                    >
+                      → Cure thermale
+                    </a>
+                  )}
+                </nav>
               </div>
-            )}
 
-            {/* PDF */}
-            {slug && <PdfDownloadButtons slug={slug} variant="card" />}
-
-            {/* Navigation */}
-            <div className={`${cardClass} ${cardPadding}`}>
-              <h3
-                className={`font-serif font-bold text-foreground mb-4 ${seniorMode ? "text-xl" : "text-lg"}`}
-              >
-                Sur cette page
-              </h3>
-              <nav
-                className={`space-y-2 ${seniorMode ? "text-base" : "text-sm"}`}
-              >
-                <a
-                  href="#comprendre"
-                  className="block text-muted-foreground hover:text-primary"
-                >
-                  → Comprendre
-                </a>
-                {pack.recommendations.length > 0 && (
-                  <a
-                    href="#agir"
-                    className="block text-muted-foreground hover:text-primary"
-                  >
-                    → Ce qui aide vraiment
-                  </a>
-                )}
-                {pack.exercises.length > 0 && (
-                  <a
-                    href="#exercices"
-                    className="block text-muted-foreground hover:text-primary"
-                  >
-                    → Exercices
-                  </a>
-                )}
-                <a
-                  href="#videos"
-                  className="block text-muted-foreground hover:text-primary"
-                >
-                  → Vidéos guidées
-                </a>
-                {(pack.seven_day_plan.length > 0 ||
-                  pack.four_week_plan.length > 0) && (
-                  <a
-                    href="#parcours"
-                    className="block text-muted-foreground hover:text-primary"
-                  >
-                    → Parcours guidé
-                  </a>
-                )}
-                {pack.medical_procedures.length > 0 && (
-                  <a
-                    href="#actes"
-                    className="block text-muted-foreground hover:text-primary"
-                  >
-                    → Actes médicaux
-                  </a>
-                )}
-                {pack.thermal_evidence && (
-                  <a
-                    href="#thermal"
-                    className="block text-muted-foreground hover:text-primary"
-                  >
-                    → Cure thermale
-                  </a>
-                )}
-              </nav>
-            </div>
-
-            {/* Disclaimer */}
-            <MedicalDisclaimer variant="compact" />
-          </aside>
-        </div>
+              {/* Disclaimer */}
+              <MedicalDisclaimer variant="compact" />
+            </aside>
+          </div>
         </FadeIn>
       </div>
     </Layout>
