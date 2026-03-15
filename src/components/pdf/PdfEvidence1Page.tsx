@@ -48,12 +48,20 @@ interface PdfEvidence1PageProps {
   qrCodeUrl?: string;
 }
 
+// Map evidence slugs → parcours slugs (même logique que pdfService)
+const PARCOURS_SLUG_MAP_1P: Record<string, string> = {
+  'arthrose': 'gonarthrose',
+  'insuffisance-veineuse-chronique': 'insuffisance-veineuse',
+  'otites-a-repetition-enfant': 'otites-repetition-enfant',
+};
+
 export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({
   evidence,
   qrCodeUrl,
 }) => {
   const accent = getAccentColor(evidence.slug);
   const accentLight = accent + "18"; // ~10% opacity background
+  const parcoursSlug = PARCOURS_SLUG_MAP_1P[evidence.slug] ?? evidence.slug;
 
   // 3 bullets "L'essentiel"
   // Si essentiels définis → utiliser. Sinon → parser summary en bullets
@@ -373,7 +381,7 @@ export const PdfEvidence1Page: React.FC<PdfEvidence1PageProps> = ({
             {qrCodeUrl && (
               <View style={styles.qrWrapper}>
                 <Image src={qrCodeUrl} style={styles.qrImage} />
-                <Text style={styles.qrLabel}>etuve.fr/parcours</Text>
+                <Text style={styles.qrLabel}>etuve.fr/parcours/{parcoursSlug}</Text>
               </View>
             )}
           </View>

@@ -52,6 +52,8 @@ export interface EvidenceData {
   actionDuJour?: string;                             // "Votre action du jour" pour fiche 1-page
   didYouKnow?: string[];                             // "Le saviez-vous ?" pages 1 et 3 du guide
   bodyExplanation?: string;                          // "Ce qui se passe" texte page 1 du guide
+  qrSubtitle?: string;                               // texte sous QR code page 4 (adapté par pathologie)
+  encouragementText?: string;                        // texte encouragement page 2 PDF 4p (adapté par pathologie)
 }
 
 const evidenceData: EvidenceData[] = evidencePack as EvidenceData[];
