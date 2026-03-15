@@ -477,7 +477,10 @@ const getHabits = (slug: string): HabitCategory[] =>
   habitsByPathology[slug] ?? [
     {
       title: "Activité",
-      items: ["Rester actif au quotidien.", "Adapter l'intensité à votre état."],
+      items: [
+        "Rester actif au quotidien.",
+        "Adapter l'intensité à votre état.",
+      ],
     },
     {
       title: "Mode de vie",
@@ -485,7 +488,10 @@ const getHabits = (slug: string): HabitCategory[] =>
     },
     {
       title: "Suivi",
-      items: ["Consulter votre médecin régulièrement.", "Tenir un journal des symptômes."],
+      items: [
+        "Consulter votre médecin régulièrement.",
+        "Tenir un journal des symptômes.",
+      ],
     },
   ];
 
@@ -542,7 +548,6 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
       <Page size="A4" style={s.page}>
         <View style={[s.accentBar, { backgroundColor: accent }]} />
         <View style={s.content}>
-
           {/* Header */}
           <View style={s.header}>
             <View>
@@ -649,7 +654,6 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
               <Text style={s.paraSmall}>{evidence.didYouKnow[0]}</Text>
             </View>
           )}
-
         </View>
 
         {/* Footer absolu */}
@@ -667,7 +671,6 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
       <Page size="A4" style={s.page}>
         <View style={[s.accentBar, { backgroundColor: accent }]} />
         <View style={s.content}>
-
           <View style={s.header}>
             <Text style={[s.headerTitle, { fontSize: 16 }]}>
               Exercices & Progression
@@ -742,9 +745,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
           })()}
 
           {/* Plans 7 jours */}
-          <Text style={[s.sectionTitle, { color: accent }]}>
-            Plan 7 jours
-          </Text>
+          <Text style={[s.sectionTitle, { color: accent }]}>Plan 7 jours</Text>
           <View style={s.twoCol}>
             <View style={s.col48}>
               {plan7J0 && (
@@ -839,11 +840,10 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
                 textAlign: "center",
               }}
             >
-              Commencez par "Très facile". Même 5 minutes par jour, c'est un
-              grand pas !
+              {evidence.encouragementText ||
+                'Commencez par "Très facile". Même 5 minutes par jour, c\'est un grand pas !'}
             </Text>
           </View>
-
         </View>
 
         <View style={s.footer}>
@@ -860,7 +860,6 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
       <Page size="A4" style={s.page}>
         <View style={[s.accentBar, { backgroundColor: accent }]} />
         <View style={s.content}>
-
           <View style={s.header}>
             <Text style={[s.headerTitle, { fontSize: 16 }]}>
               Habitudes du quotidien
@@ -930,7 +929,13 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
                   >
                     Le saviez-vous ?
                   </Text>
-                  <Text style={{ fontSize: 8, lineHeight: 1.35, color: PDF_COLORS.text }}>
+                  <Text
+                    style={{
+                      fontSize: 8,
+                      lineHeight: 1.35,
+                      color: PDF_COLORS.text,
+                    }}
+                  >
                     {evidence.didYouKnow[1]}
                   </Text>
                 </View>
@@ -1040,7 +1045,6 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
               ),
             )}
           </View>
-
         </View>
 
         <View style={s.footer}>
@@ -1058,7 +1062,6 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
       <Page size="A4" style={s.page}>
         <View style={[s.accentBar, { backgroundColor: accent }]} />
         <View style={s.content}>
-
           <View style={s.header}>
             <Text style={[s.headerTitle, { fontSize: 16 }]}>
               Alertes & Sources
@@ -1068,10 +1071,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
 
           {/* Red Flags */}
           <Text
-            style={[
-              s.sectionTitle,
-              { color: PDF_COLORS.danger, marginTop: 6 },
-            ]}
+            style={[s.sectionTitle, { color: PDF_COLORS.danger, marginTop: 6 }]}
           >
             Consultez rapidement si...
           </Text>
@@ -1118,9 +1118,7 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
                     <Text style={s.sourceOrg}>
                       {src.org}, {src.year}
                     </Text>
-                    {src.url && (
-                      <Text style={s.sourceUrl}>{src.url}</Text>
-                    )}
+                    {src.url && <Text style={s.sourceUrl}>{src.url}</Text>}
                   </View>
                 ))}
               </View>
@@ -1168,8 +1166,8 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
                       lineHeight: 1.3,
                     }}
                   >
-                    Parcours interactif gratuit : exercices guidés, suivi de la
-                    douleur, rappels quotidiens.
+                    {evidence.qrSubtitle ||
+                      "Parcours interactif gratuit : exercices guidés, suivi de la douleur, rappels quotidiens."}
                   </Text>
                 </View>
               ) : (
@@ -1181,13 +1179,16 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
                   }}
                 >
                   <Text
-                    style={{ fontSize: 8, fontWeight: 700, color: accent, marginBottom: 4 }}
+                    style={{
+                      fontSize: 8,
+                      fontWeight: 700,
+                      color: accent,
+                      marginBottom: 4,
+                    }}
                   >
                     Continuez en ligne
                   </Text>
-                  <Text
-                    style={{ fontSize: 8, color: accent }}
-                  >
+                  <Text style={{ fontSize: 8, color: accent }}>
                     etuve.fr/parcours/{parcoursSlug}
                   </Text>
                 </View>
@@ -1205,24 +1206,35 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
                 }}
               >
                 <Text
-                  style={{ fontSize: 7, fontWeight: 700, color: "#d4a24c", marginBottom: 3 }}
+                  style={{
+                    fontSize: 7,
+                    fontWeight: 700,
+                    color: "#d4a24c",
+                    marginBottom: 3,
+                  }}
                 >
                   Niveaux de preuve
                 </Text>
-                <Text style={{ fontSize: 6.5, color: PDF_COLORS.text, lineHeight: 1.35 }}>
+                <Text
+                  style={{
+                    fontSize: 6.5,
+                    color: PDF_COLORS.text,
+                    lineHeight: 1.35,
+                  }}
+                >
                   "Élevé" = recommandation forte. "Modéré" = bonne pratique.
                   Parlez-en à votre médecin.
                 </Text>
               </View>
             </View>
           </View>
-
         </View>
 
         {/* Footer avec date et disclaimer */}
         <View style={s.footer}>
           <Text style={s.footerText}>
-            etuve.fr • Dr Audric Bugnard • {evidence.lastUpdated} — Information éducative
+            etuve.fr • Dr Audric Bugnard • {evidence.lastUpdated} — Information
+            éducative
           </Text>
           <Text style={s.footerPage}>4 / 4</Text>
         </View>

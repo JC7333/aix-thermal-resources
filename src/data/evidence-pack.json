@@ -541,7 +541,7 @@
     "actionDuJour": "Chat-chameau — à 4 pattes, alternez dos rond (expirer) et dos creux (inspirer). 8 répétitions lentes. (3 min)",
     "bodyExplanation": "Le disque intervertébral est le plus gros tissu avasculaire du corps humain. Comme le cartilage du genou, il se nourrit par imbibition : la pression cyclique de la marche aspire les nutriments à l'intérieur. Le meilleur aliment pour vos disques, c'est la marche.\nDans 90% des cas de lombalgie chronique, il n'y a PAS de lésion grave. La douleur est entretenue par un système nerveux hypersensible et des muscles déconditionnés — pas par des os ou des disques abîmés.",
     "didYouKnow": [
-      "Le disque intervertébral est le plus gros tissu avasculaire du corps humain. Comme le cartilage du genou, il se nourrit par imbibition : la pression cyclique de la marche aspire les nutriments à l'intérieur. Le meilleur aliment pour vos disques, c'est la marche. (Adams et Roughley, Spine 2006)",
+      "Jusqu'aux années 1990, les médecins prescrivaient systématiquement le repos au lit pour le mal de dos — parfois plusieurs semaines. Ce sont des essais cliniques rigoureux qui ont montré que ce repos non seulement ne fonctionne pas, mais qu'il aggrave la douleur en affaiblissant les muscles et en entretenant la peur du mouvement. Depuis, toutes les recommandations internationales ont fait un virage à 180° : restez actif. (Source : Waddell, Feder, Lewis, Br J Gen Pract 1997)",
       "Il n'existe pas de mauvaise posture qui cause la lombalgie chronique. Ce qui compte, c'est le changement de position fréquent. La meilleure posture est la prochaine — bougez toutes les 30 minutes. (Slater et al., JOSPT 2019)"
     ]
   },
@@ -596,9 +596,9 @@
         "url": "https://www.sciencedirect.com/science/article/pii/S1078588421009795"
       },
       {
-        "title": "Compression stockings for preventing deep vein thrombosis",
+        "title": "Graduated compression stockings for prevention of deep vein thrombosis",
         "org": "Cochrane",
-        "year": 2021,
+        "year": 2018,
         "url": "https://doi.org/10.1002/14651858.CD001484.pub4",
         "evidenceLevel": "high"
       },
@@ -615,13 +615,6 @@
         "year": 2014,
         "url": "https://www.has-sante.fr/jcms/c_1092016",
         "evidenceLevel": "moderate"
-      },
-      {
-        "title": "Recommandations de bonne pratique pour la prise en charge de la maladie veineuse chronique",
-        "org": "Société Française de Phlébologie",
-        "year": 2021,
-        "url": "https://www.jmv-journal.com/",
-        "evidenceLevel": "high"
       },
       {
         "title": "Physical activity and chronic venous insufficiency: a systematic review",
@@ -750,7 +743,7 @@
       },
       {
         "title": "Rester debout immobile est pire que marcher 8h.",
-        "text": "Ce n'est pas la durée sur les jambes qui compte, c'est l'immobilité. Un serveur qui marche entre les tables a moins de problèmes veineux qu'un chirurgien immobile 4h au bloc opératoire. (Source : Société Française de Phlébologie 2021)"
+        "text": "Ce n'est pas la durée sur les jambes qui compte, c'est l'immobilité. Un serveur qui marche entre les tables a moins de problèmes veineux qu'un chirurgien immobile 4h au bloc opératoire. (Source : ESVS 2022)"
       }
     ],
     "actionDuJour": "Montées sur pointes — debout, montez sur la pointe des pieds, maintenez 2 secondes, redescendez lentement. 3 séries de 15 répétitions. Faites-le en vous brossant les dents — c'est le geste le plus simple pour activer la pompe du mollet. (3 min)",
@@ -1045,7 +1038,7 @@
         "title": "Otite moyenne aiguë de l'enfant - Recommandations",
         "org": "HAS / SPILF",
         "year": 2016,
-        "url": "https://www.has-sante.fr/jcms/c_2722754/fr/otite-moyenne-aigue-de-l-enfant",
+        "url": "https://www.has-sante.fr/jcms/c_2722749/fr/choix-et-durees-d-antibiotherapies-otite-moyenne-aigue-purulente-de-l-enfant",
         "evidenceLevel": "high"
       },
       {
