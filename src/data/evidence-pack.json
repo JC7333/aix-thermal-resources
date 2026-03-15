@@ -87,21 +87,15 @@
         "days": [
           {
             "day": "Jour 1",
-            "actions": [
-              "Marche 5 min + 10 extensions genou assis"
-            ]
+            "actions": ["Marche 5 min + 10 extensions genou assis"]
           },
           {
             "day": "Jour 2",
-            "actions": [
-              "Marche 7 min + 10 extensions genou assis"
-            ]
+            "actions": ["Marche 7 min + 10 extensions genou assis"]
           },
           {
             "day": "Jour 3",
-            "actions": [
-              "Marche 7 min + 5 levers de chaise"
-            ]
+            "actions": ["Marche 7 min + 5 levers de chaise"]
           },
           {
             "day": "Jour 4",
@@ -111,21 +105,15 @@
           },
           {
             "day": "Jour 5",
-            "actions": [
-              "Marche 10 min + 10 extensions + 5 levers de chaise"
-            ]
+            "actions": ["Marche 10 min + 10 extensions + 5 levers de chaise"]
           },
           {
             "day": "Jour 6",
-            "actions": [
-              "Marche 10 min + 8 levers de chaise"
-            ]
+            "actions": ["Marche 10 min + 8 levers de chaise"]
           },
           {
             "day": "Jour 7",
-            "actions": [
-              "Marche 12 min. Bilan : notez votre douleur de 0 à 10"
-            ]
+            "actions": ["Marche 12 min. Bilan : notez votre douleur de 0 à 10"]
           }
         ]
       },
@@ -200,30 +188,22 @@
           {
             "week": "Sem 1-2",
             "focus": "Découverte",
-            "exercises": [
-              "Marche 5-10 min/jour + 10 extensions assis"
-            ]
+            "exercises": ["Marche 5-10 min/jour + 10 extensions assis"]
           },
           {
             "week": "Sem 3-4",
             "focus": "Renforcement",
-            "exercises": [
-              "Marche 10-15 min/jour + 3×5 levers de chaise"
-            ]
+            "exercises": ["Marche 10-15 min/jour + 3×5 levers de chaise"]
           },
           {
             "week": "Sem 5-6",
             "focus": "Progression",
-            "exercises": [
-              "Marche 15-20 min/jour + 3×8 levers de chaise"
-            ]
+            "exercises": ["Marche 15-20 min/jour + 3×8 levers de chaise"]
           },
           {
             "week": "Sem 7-8",
             "focus": "Consolidation",
-            "exercises": [
-              "Marche 20 min/jour + circuit 2 tours 15 min"
-            ]
+            "exercises": ["Marche 20 min/jour + circuit 2 tours 15 min"]
           }
         ]
       },
@@ -379,9 +359,7 @@
         "days": [
           {
             "day": "Jour 1",
-            "actions": [
-              "10 respirations abdominales + marche 5 min"
-            ]
+            "actions": ["10 respirations abdominales + marche 5 min"]
           },
           {
             "day": "Jour 2",
@@ -391,21 +369,15 @@
           },
           {
             "day": "Jour 3",
-            "actions": [
-              "8 chat-chameau + marche 7 min"
-            ]
+            "actions": ["8 chat-chameau + marche 7 min"]
           },
           {
             "day": "Jour 4",
-            "actions": [
-              "Repos actif : marche libre"
-            ]
+            "actions": ["Repos actif : marche libre"]
           },
           {
             "day": "Jour 5",
-            "actions": [
-              "10 respirations + 8 chat-chameau + marche 8 min"
-            ]
+            "actions": ["10 respirations + 8 chat-chameau + marche 8 min"]
           },
           {
             "day": "Jour 6",
@@ -415,9 +387,7 @@
           },
           {
             "day": "Jour 7",
-            "actions": [
-              "Marche 10 min. Bilan douleur 0-10"
-            ]
+            "actions": ["Marche 10 min. Bilan douleur 0-10"]
           }
         ]
       },
@@ -492,30 +462,22 @@
           {
             "week": "Sem 1-2",
             "focus": "Activation",
-            "exercises": [
-              "10 respirations abdominales + marche 5-10 min/jour"
-            ]
+            "exercises": ["10 respirations abdominales + marche 5-10 min/jour"]
           },
           {
             "week": "Sem 3-4",
             "focus": "Stabilisation",
-            "exercises": [
-              "Chat-chameau 8 rép + marche 10-15 min/jour"
-            ]
+            "exercises": ["Chat-chameau 8 rép + marche 10-15 min/jour"]
           },
           {
             "week": "Sem 5-6",
             "focus": "Renforcement",
-            "exercises": [
-              "Bird-dog 6/côté + marche 15-20 min/jour"
-            ]
+            "exercises": ["Bird-dog 6/côté + marche 15-20 min/jour"]
           },
           {
             "week": "Sem 7-8",
             "focus": "Autonomie",
-            "exercises": [
-              "Circuit McGill 2 tours + marche 20-30 min/jour"
-            ]
+            "exercises": ["Circuit McGill 2 tours + marche 20-30 min/jour"]
           }
         ]
       },
@@ -622,10 +584,9 @@
       }
     ],
     "red_flags": [
-      "Douleur brutale unilatérale du mollet + gonflement important (phlébite à exclure).",
-      "Essoufflement brutal, douleur thoracique (urgence).",
-      "Plaie qui ne cicatrise pas, suintement, signe d'infection locale (rougeur, chaleur, fièvre).",
-      "Oedème rapidement progressif ou très asymétrique."
+      "Mollet rouge, chaud et gonflé d'un SEUL côté (suspicion de phlébite — urgence).",
+      "Essoufflement brutal avec douleur thoracique (suspicion d'embolie pulmonaire — urgence absolue 15/112).",
+      "Plaie sur la jambe qui ne cicatrise pas depuis plus de 2 semaines."
     ],
     "sources": [
       {
@@ -777,6 +738,26 @@
           }
         ]
       }
+    ],
+    "essentiels": [
+      {
+        "title": "Vos mollets sont le « cœur » de vos jambes.",
+        "text": "Contrairement aux artères (poussées par le cœur), les veines des jambes n'ont pas de pompe propre. Ce sont les contractions des muscles du mollet qui propulsent le sang vers le haut, contre la gravité. Chaque pas est un battement de ce « deuxième cœur ». (Source : ESVS 2022)"
+      },
+      {
+        "title": "La compression médicale est le traitement qui a le meilleur niveau de preuve à long terme.",
+        "text": "Les veinotoniques oraux montrent un bénéfice modeste sur les symptômes, mais la compression + la marche restent les piliers recommandés par les sociétés savantes européennes. (Source : ESVS 2022 ; Cochrane 2021)"
+      },
+      {
+        "title": "Rester debout immobile est pire que marcher 8h.",
+        "text": "Ce n'est pas la durée sur les jambes qui compte, c'est l'immobilité. Un serveur qui marche entre les tables a moins de problèmes veineux qu'un chirurgien immobile 4h au bloc opératoire. (Source : Société Française de Phlébologie 2021)"
+      }
+    ],
+    "actionDuJour": "Montées sur pointes — debout, montez sur la pointe des pieds, maintenez 2 secondes, redescendez lentement. 3 séries de 15 répétitions. Faites-le en vous brossant les dents — c'est le geste le plus simple pour activer la pompe du mollet. (3 min)",
+    "bodyExplanation": "Le sang circule en boucle dans votre corps. Les artères l'emmènent du cœur vers vos pieds (facile — c'est la descente). Les veines doivent le ramener de vos pieds vers le cœur (difficile — c'est la montée, contre la gravité). Pour y parvenir, vos veines ont deux alliés : des valvules (petits clapets qui empêchent le sang de redescendre) et la pompe musculaire de vos mollets (chaque contraction propulse le sang vers le haut).\n\nDans l'insuffisance veineuse, les valvules deviennent incompétentes — elles ne ferment plus correctement. Le sang stagne, les veines se dilatent (varices), et le liquide s'infiltre dans les tissus environnants (œdème, jambes lourdes). Avec le temps, la peau peut souffrir : elle s'assèche, se colore (pigmentation brune), et dans les cas avancés, des ulcères peuvent apparaître.\n\nLa bonne nouvelle : la pompe du mollet, elle, fonctionne toujours. Chaque fois que vous marchez, montez sur la pointe des pieds, ou fléchissez les chevilles, vous propulsez le sang vers le haut. Combinée à la compression (qui réduit le diamètre des veines et aide les valvules restantes à fonctionner), la marche est votre traitement le plus efficace.",
+    "didYouKnow": [
+      "La pression hydrostatique de l'eau en piscine thermale agit comme un bas de compression naturel. Plus vous êtes immergé, plus la pression est importante sur vos jambes — c'est l'une des raisons pour lesquelles la marche en piscine est particulièrement recommandée pour l'insuffisance veineuse. (Source : ESVS 2022)",
+      "Les bas de compression ne sont pas tous les mêmes. La classe 2 (15-20 mmHg) est la plus prescrite en France pour l'insuffisance veineuse symptomatique. Mais plus important que la classe : c'est la régularité du port. Un bas classe 1 porté tous les jours est plus efficace qu'un bas classe 3 porté une fois par semaine. (Source : ESVS 2022)"
     ]
   },
   {
@@ -818,16 +799,15 @@
       }
     ],
     "red_flags": [
-      "Aggravation rapide de l'essoufflement au repos, lèvres bleues, confusion.",
-      "Douleur thoracique, malaise, expectoration sanglante.",
-      "Fièvre élevée + détresse respiratoire.",
-      "Exacerbation non contrôlée malgré mesures habituelles."
+      "Essoufflement brutal au repos avec lèvres ou doigts bleutés → urgence.",
+      "Fièvre + crachats verdâtres ou purulents abondants (exacerbation).",
+      "Douleur thoracique brutale."
     ],
     "sources": [
       {
         "title": "Global Strategy for the Diagnosis, Management, and Prevention of COPD (Report)",
         "org": "GOLD (Global Initiative for Chronic Obstructive Lung Disease)",
-        "year": 2025,
+        "year": 2024,
         "url": "https://goldcopd.org/"
       },
       {
@@ -973,6 +953,26 @@
           }
         ]
       }
+    ],
+    "essentiels": [
+      {
+        "title": "Arrêter de fumer améliore vos poumons rapidement.",
+        "text": "Dès les premiers jours sans tabac, le bronchospasme diminue et la respiration s'améliore. Après quelques mois, les cils bronchiques qui nettoient vos poumons se régénèrent progressivement. (Source : GOLD 2024)"
+      },
+      {
+        "title": "La réhabilitation respiratoire réduit l'essoufflement plus que n'importe quel médicament.",
+        "text": "C'est le traitement le plus efficace pour améliorer la qualité de vie dans la BPCO — pourtant la grande majorité des patients éligibles n'en bénéficient pas. (Source : Cochrane 2015 ; HAS 2019)"
+      },
+      {
+        "title": "Vous pouvez être essoufflé ET en sécurité.",
+        "text": "L'essoufflement modéré à l'effort n'est pas dangereux. C'est le signal que vos muscles travaillent plus que vos poumons ne peuvent suivre. L'entraînement rend vos muscles plus efficaces — ils demandent moins d'oxygène pour le même effort. (Source : GOLD 2024)"
+      }
+    ],
+    "actionDuJour": "Marche fractionnée — 2 min de marche + 1 min de repos × 5 cycles. Total 15 min. Respirez lèvres pincées pendant la marche : inspirez par le nez 2 secondes, expirez par la bouche lèvres pincées 4 secondes.",
+    "bodyExplanation": "La BPCO détruit progressivement les alvéoles pulmonaires — les petits sacs où l'oxygène passe dans le sang. Imaginez une éponge : saine, elle a des millions de petits trous. Avec la BPCO, les trous fusionnent en gros espaces vides, moins efficaces pour l'échange d'oxygène.\n\nLe tabac est responsable de la grande majorité des BPCO. Mais arrêter le tabac à n'importe quel stade ralentit la progression de la maladie. Le bénéfice commence dès les premières heures et augmente avec le temps.\n\nLe cercle vicieux de la BPCO : vous êtes essoufflé → vous bougez moins → vos muscles s'affaiblissent → vous êtes encore plus essoufflé pour le même effort. La réhabilitation respiratoire casse ce cercle en renforçant vos muscles, ce qui leur permet de travailler avec moins d'oxygène.\n\nVos poumons ne retrouveront pas leur état d'origine, mais votre corps peut s'adapter. Les muscles des jambes et des bras, une fois entraînés, compensent une partie de la perte pulmonaire en devenant plus efficaces.",
+    "didYouKnow": [
+      "La technique des lèvres pincées (inspirer par le nez, expirer lentement comme si vous souffliez sur une bougie) crée une contre-pression qui empêche vos petites bronches de se refermer à l'expiration. C'est de la physique : la pression positive maintient les voies aériennes ouvertes. Résultat : vous videz plus d'air piégé et vous inspirez plus d'air frais au cycle suivant. (Source : GOLD 2024)",
+      "La position trépied (penché en avant, mains sur les cuisses ou sur un appui) n'est pas juste une posture de confort. Elle optimise mécaniquement le travail du diaphragme en libérant la course du muscle vers le bas. C'est pourquoi les sportifs essoufflés adoptent spontanément cette position à la fin d'un effort intense. (Source : GOLD 2024)"
     ]
   },
   {
@@ -1010,10 +1010,9 @@
       }
     ],
     "red_flags": [
-      "Douleur importante + fièvre élevée persistante ou enfant très abattu.",
-      "Oreille décollée, rougeur/gonflement derrière l'oreille, douleur à la mastoïde (urgence).",
-      "Raideur de nuque, vomissements incoercibles, troubles neurologiques.",
-      "Moins de 3 mois avec fièvre et suspicion d'infection."
+      "Fièvre élevée persistante et enfant très abattu.",
+      "Gonflement ou rougeur derrière l'oreille (mastoïdite — urgence).",
+      "Raideur de nuque, vomissements répétés, troubles du comportement."
     ],
     "sources": [
       {
@@ -1164,6 +1163,26 @@
           }
         ]
       }
+    ],
+    "essentiels": [
+      {
+        "title": "La trompe d'Eustache de votre enfant est courte, horizontale et souple.",
+        "text": "C'est de l'anatomie, pas de la malchance. Les sécrétions du nez remontent facilement vers l'oreille moyenne. En grandissant (vers 6-7 ans), la trompe s'allonge et s'incline : les otites diminuent naturellement. (Source : HAS/SPILF 2016)"
+      },
+      {
+        "title": "Le lavage de nez au sérum physiologique est le geste de prévention le plus simple et le plus sous-utilisé.",
+        "text": "Il draine les sécrétions qui remontent vers l'oreille et réduit les surinfections. Matin et soir, tête de l'enfant sur le côté, sérum dans la narine du haut, moucher. (Source : HAS/SPILF 2016)"
+      },
+      {
+        "title": "La majorité des otites guérissent SANS antibiotiques en 48-72h.",
+        "text": "L'antibiothérapie systématique n'est plus recommandée sauf si l'enfant a moins de 2 ans avec otite bilatérale, ou si les symptômes s'aggravent après 48h d'observation. (Source : AAP Clinical Practice Guideline 2013 ; HAS/SPILF 2016)"
+      }
+    ],
+    "actionDuJour": "Lavage de nez — couchez votre enfant sur le côté (ou tête inclinée si debout). Instillez 5 mL de sérum physiologique dans la narine du haut. Laissez couler, puis mouchez doucement. Changez de côté. 2 fois par jour matin et soir, tous les jours en période hivernale. (3 min)",
+    "bodyExplanation": "L'oreille moyenne est une petite cavité remplie d'air, située derrière le tympan. Elle est reliée à l'arrière du nez par la trompe d'Eustache — un petit canal qui sert à ventiler l'oreille et à drainer les sécrétions.\n\nChez l'adulte, la trompe est longue, inclinée et ferme. Chez l'enfant de moins de 6 ans, elle est courte, horizontale et souple. Résultat : les sécrétions nasales (lors d'un rhume) remontent facilement dans l'oreille moyenne, emmenant avec elles des bactéries ou des virus. L'oreille s'infecte. C'est l'otite moyenne aiguë.\n\nC'est pourquoi les enfants font beaucoup plus d'otites que les adultes — et pourquoi les otites diminuent naturellement avec la croissance de la trompe. Ce n'est pas une maladie chronique : c'est une conséquence anatomique de l'enfance.\n\nLes facteurs qui aggravent le risque : le tabagisme passif (irrite les muqueuses), la collectivité précoce (plus d'infections), le biberon en position couchée (le lait peut remonter dans la trompe), et le non-lavage du nez (les sécrétions stagnent).",
+    "didYouKnow": [
+      "Le xylitol (un édulcorant naturel trouvé dans l'écorce de bouleau) a montré un effet préventif sur les otites chez l'enfant de plus de 2 ans, sous forme de chewing-gum ou de sirop. Le mécanisme proposé : le xylitol empêche le pneumocoque de se fixer sur les muqueuses. L'effet est modéré mais c'est une option complémentaire simple et sans risque. (Source : Cochrane 2016 — xylitol for preventing acute otitis media)",
+      "Les otites à répétition (3+ en 6 mois ou 4+ en 12 mois) ne signifient PAS que votre enfant a un problème immunitaire. Dans l'immense majorité des cas, c'est la conséquence normale de l'anatomie de la trompe d'Eustache combinée à l'exposition aux virus en collectivité. Un bilan ORL est recommandé pour évaluer l'audition et discuter des options (aérateurs trans-tympaniques si nécessaire). (Source : AAO-HNSF 2022)"
     ]
   },
   {
