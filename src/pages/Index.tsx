@@ -161,12 +161,15 @@ const Index = () => {
             </h1>
           </FadeIn>
           <FadeIn delay={0.5} direction="none">
-            <p className="text-lg sm:text-xl lg:text-2xl text-white/85 max-w-2xl mx-auto mb-10 leading-relaxed">
+            <p className="text-lg sm:text-xl lg:text-2xl text-white/85 max-w-2xl mx-auto mb-4 leading-relaxed">
               3 semaines pour aller mieux. 5 minutes par jour. Gratuit.
+            </p>
+            <p className="text-base text-white/80 mt-2 mb-10">
+              Un programme conçu par un médecin thermaliste, basé sur les preuves scientifiques.
             </p>
           </FadeIn>
           <FadeIn delay={0.8} direction="none">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col items-center justify-center">
               <a
                 href="#pathologies"
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-primary text-lg font-semibold hover:bg-white/90 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
@@ -174,12 +177,9 @@ const Index = () => {
                 Choisir ma pathologie
                 <ArrowRight className="w-5 h-5" />
               </a>
-              <Link
-                to="/parcours"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-white/40 text-white text-lg font-medium hover:bg-white/10 transition-all duration-300"
-              >
-                Commencer mon programme
-              </Link>
+              <p className="text-sm text-white/70 mt-3">
+                ou <a href="/pathologies" className="underline hover:text-white">voir tous les programmes</a>
+              </p>
             </div>
           </FadeIn>
         </div>
