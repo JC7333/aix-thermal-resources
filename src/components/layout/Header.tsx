@@ -3,11 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const navigation = [
-  { name: 'Le Programme', href: '/le-programme' },
+  { name: 'Comment ça marche', href: '/le-programme' },
   { name: 'Pathologies', href: '/pathologies' },
-  { name: 'Mon parcours', href: '/parcours' },
+  { name: 'Mon programme', href: '/parcours' },
   { name: 'Blog', href: '/blog' },
-  { name: 'Qui suis-je', href: '/qui-suis-je' },
+  { name: "L'Expertise", href: '/qui-suis-je' },
 ];
 
 export const Header = () => {
@@ -44,12 +44,12 @@ export const Header = () => {
       <nav className="max-w-6xl mx-auto px-5 sm:px-8" aria-label="Navigation principale">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-baseline gap-1">
+          <Link to="/" className="flex items-baseline gap-1.5">
             <span className="font-serif text-2xl lg:text-3xl font-bold text-primary tracking-tight">
               ÉTUVE
             </span>
             <span className="text-[10px] lg:text-xs text-muted-foreground hidden sm:inline">
-              Dr Audric Bugnard
+              | Dr A. Bugnard
             </span>
           </Link>
 
@@ -77,7 +77,7 @@ export const Header = () => {
 
           {/* CTA desktop */}
           <Link
-            to="/parcours"
+            to="/pathologies"
             className="hidden lg:inline-flex px-5 py-2.5 rounded-full bg-primary text-white text-sm font-semibold hover:bg-[#0f5c6b] transition-colors duration-200"
           >
             Commencer
@@ -118,11 +118,11 @@ export const Header = () => {
                 );
               })}
               <Link
-                to="/parcours"
+                to="/pathologies"
                 onClick={() => setMobileMenuOpen(false)}
                 className="mx-4 mt-2 py-3 rounded-xl bg-primary text-white text-center text-base font-semibold"
               >
-                Commencer mon programme
+                Commencer
               </Link>
             </div>
           </div>
