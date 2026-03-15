@@ -1,148 +1,160 @@
 // ============================================
-// PDF 4 PAGES — GUIDE COMPLET PREMIUM SENIOR-FRIENDLY
+// PDF 4 PAGES — GUIDE COMPLET PREMIUM ÉTUVE S30A
 // ============================================
-// Structure stricte :
-// Page 1 : Résumé + schéma "ce qui se passe"
-// Page 2 : Exercices niveaux 0-2 + schémas
-// Page 3 : Habitudes + plan simple
-// Page 4 : Red flags + sources + date MAJ
+// Page 1 : Comprendre (résumé + ce qui se passe + saviez-vous)
+// Page 2 : Agir (exercices + plan 7 jours)
+// Page 3 : Habitudes + programme 8 semaines + saviez-vous
+// Page 4 : Alertes + Sources + QR code
+// STRICTEMENT 4 pages — pas de page 5
 // ============================================
 
 import React from "react";
-import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+} from "@react-pdf/renderer";
 import { PDF_COLORS, PDF_FONT_FAMILY } from "./PdfStyles";
 import { PdfBodySchema } from "./PdfEvidenceComponents";
 import { ExerciseDiagramsByLevel } from "./diagrams/ExerciseDiagramsLevels";
 import { getDiagramsBySlug } from "./diagrams/DiagramsMapping";
 import type { EvidenceData } from "@/data/evidence";
 
-// Styles premium 4 pages - optimisés senior
-const styles = StyleSheet.create({
+// ============================================
+// COULEURS ACCENT PAR GROUPE PATHOLOGIQUE
+// ============================================
+const ACCENT_COLORS: Record<string, string> = {
+  arthrose: "#1a7a8c",
+  gonarthrose: "#1a7a8c",
+  "lombalgie-chronique": "#1a7a8c",
+  coxarthrose: "#1a7a8c",
+  "tendinopathie-coiffe": "#1a7a8c",
+  "arthrose-digitale": "#1a7a8c",
+  bpco: "#2563eb",
+  asthme: "#2563eb",
+  "insuffisance-veineuse-chronique": "#7c3aed",
+  "insuffisance-veineuse": "#7c3aed",
+  fibromyalgie: "#db2777",
+  "rhinosinusite-chronique": "#ea580c",
+  "otites-a-repetition-enfant": "#ea580c",
+  "otites-repetition-enfant": "#ea580c",
+};
+
+const getAccentColor = (slug: string): string =>
+  ACCENT_COLORS[slug] ?? "#1a7a8c";
+
+// ============================================
+// STYLES PARTAGÉS (indépendants de l'accent)
+// ============================================
+const s = StyleSheet.create({
   page: {
     fontFamily: PDF_FONT_FAMILY,
     fontSize: 10,
     color: PDF_COLORS.text,
     backgroundColor: "#ffffff",
-    padding: 32,
-    paddingBottom: 50,
+    padding: 0,
   },
-
-  // Header avec numéro de page
+  accentBar: {
+    height: 5,
+    width: "100%",
+  },
+  content: {
+    padding: 28,
+    paddingBottom: 52,
+  },
+  // Header
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 16,
-    paddingBottom: 12,
-    borderBottomWidth: 3,
-    borderBottomColor: PDF_COLORS.primary,
+    marginBottom: 14,
+    paddingBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: PDF_COLORS.border,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 700,
-    color: PDF_COLORS.primary,
+    color: PDF_COLORS.text,
   },
-  headerSubtitle: {
-    fontSize: 10,
+  headerSub: {
+    fontSize: 9,
     color: PDF_COLORS.textMuted,
     marginTop: 2,
   },
-  headerRight: {
-    alignItems: "flex-end",
-  },
   brand: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 700,
-    color: PDF_COLORS.primary,
     letterSpacing: 1,
   },
-  brandSub: {
-    fontSize: 8,
-    color: PDF_COLORS.textMuted,
-  },
-
-  // Section avec picto
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 16,
-    marginBottom: 10,
-  },
-  sectionIcon: {
-    fontSize: 16,
-    width: 24,
-    marginRight: 8,
-  },
+  // Section titles
   sectionTitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 700,
-    color: PDF_COLORS.primary,
-  },
-
-  // Sous-section
-  subSection: {
-    marginTop: 12,
+    marginTop: 14,
     marginBottom: 8,
   },
-  subSectionTitle: {
-    fontSize: 12,
+  subTitle: {
+    fontSize: 11,
     fontWeight: 700,
-    color: PDF_COLORS.secondary,
     marginBottom: 6,
   },
-
-  // Layout
-  twoColumns: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  column: {
-    width: "48%",
-  },
-
-  // Box styles
+  // Boxes
   boxPrimary: {
-    backgroundColor: PDF_COLORS.primaryLight,
-    borderRadius: 8,
-    padding: 14,
-    borderLeftWidth: 5,
-    borderLeftColor: PDF_COLORS.primary,
+    borderRadius: 6,
+    padding: 12,
+    marginBottom: 10,
+    borderLeftWidth: 4,
   },
   boxNeutral: {
     backgroundColor: PDF_COLORS.muted,
-    borderRadius: 8,
-    padding: 12,
+    borderRadius: 6,
+    padding: 10,
+    marginBottom: 10,
   },
   boxGreen: {
     backgroundColor: "#e8f5ef",
-    borderRadius: 8,
-    padding: 12,
-    borderWidth: 2,
+    borderRadius: 6,
+    padding: 10,
+    marginBottom: 10,
+    borderWidth: 1.5,
     borderColor: PDF_COLORS.secondary,
   },
   boxDanger: {
     backgroundColor: "#fce8ea",
-    borderRadius: 8,
-    padding: 14,
-    borderLeftWidth: 5,
+    borderRadius: 6,
+    padding: 12,
+    marginBottom: 10,
+    borderLeftWidth: 4,
     borderLeftColor: PDF_COLORS.danger,
   },
-  boxAccent: {
+  boxAccentYellow: {
     backgroundColor: "#fdf6e9",
-    borderRadius: 8,
-    padding: 12,
-    borderLeftWidth: 4,
-    borderLeftColor: PDF_COLORS.accent,
+    borderRadius: 6,
+    padding: 10,
+    marginBottom: 10,
+    borderLeftWidth: 3,
+    borderLeftColor: "#d4a24c",
   },
-
-  // Listes
-  bulletItem: {
+  // Two columns
+  twoCol: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  col48: {
+    width: "48%",
+  },
+  // Bullets
+  bulletRow: {
     flexDirection: "row",
     marginBottom: 6,
   },
-  bulletIcon: {
-    width: 16,
-    fontSize: 11,
+  bulletDot: {
+    width: 14,
+    fontSize: 10,
     color: PDF_COLORS.primary,
   },
   bulletText: {
@@ -151,138 +163,83 @@ const styles = StyleSheet.create({
     lineHeight: 1.4,
     color: PDF_COLORS.text,
   },
-  numberedItem: {
-    flexDirection: "row",
-    marginBottom: 8,
-  },
-  numberBadge: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: PDF_COLORS.secondaryLight,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 10,
-  },
-  numberText: {
-    fontSize: 10,
-    fontWeight: 700,
-    color: PDF_COLORS.secondary,
-  },
-
-  // Plan 7 jours
+  // Day plan
   dayCard: {
     backgroundColor: "#ffffff",
-    borderRadius: 6,
-    padding: 8,
-    marginBottom: 6,
+    borderRadius: 4,
+    padding: 7,
+    marginBottom: 5,
     borderWidth: 1,
     borderColor: PDF_COLORS.border,
   },
-  dayHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 4,
-  },
   dayLabel: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: 700,
     color: PDF_COLORS.primary,
-    width: 55,
+    marginBottom: 2,
   },
   dayAction: {
-    fontSize: 9,
+    fontSize: 8,
     color: PDF_COLORS.text,
     lineHeight: 1.3,
-    paddingLeft: 4,
   },
-
-  // Programme 8 semaines
-  weekCard: {
-    marginBottom: 10,
-    paddingBottom: 8,
+  // Week program
+  weekRow: {
+    marginBottom: 8,
+    paddingBottom: 6,
     borderBottomWidth: 1,
     borderBottomColor: PDF_COLORS.border,
   },
   weekHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 4,
+    marginBottom: 3,
   },
   weekLabel: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: 700,
     color: PDF_COLORS.primary,
   },
   weekFocus: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: 600,
-    color: PDF_COLORS.accent,
+    color: "#d4a24c",
   },
   weekExercise: {
-    fontSize: 9,
+    fontSize: 8,
     color: PDF_COLORS.text,
     paddingLeft: 8,
-    marginBottom: 2,
+    marginBottom: 1,
   },
-
-  // Checklist
-  checklistRow: {
+  // Habits
+  checkRow: {
     flexDirection: "row",
-    marginBottom: 6,
+    marginBottom: 5,
     alignItems: "flex-start",
   },
   checkbox: {
-    width: 14,
-    height: 14,
+    width: 12,
+    height: 12,
     borderWidth: 1.5,
     borderColor: PDF_COLORS.primary,
-    borderRadius: 3,
-    marginRight: 10,
+    borderRadius: 2,
+    marginRight: 8,
+    marginTop: 1,
   },
-  checklistText: {
+  checkText: {
     flex: 1,
-    fontSize: 10,
-    color: PDF_COLORS.text,
-    lineHeight: 1.4,
-  },
-
-  // Tableau jours
-  weekTable: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 12,
-    padding: 10,
-    backgroundColor: PDF_COLORS.muted,
-    borderRadius: 6,
-  },
-  weekDay: {
-    alignItems: "center",
-  },
-  weekDayLabel: {
     fontSize: 9,
-    fontWeight: 600,
-    color: PDF_COLORS.textMuted,
-    marginBottom: 4,
+    color: PDF_COLORS.text,
+    lineHeight: 1.35,
   },
-  weekDayBox: {
-    width: 28,
-    height: 28,
-    borderRadius: 4,
-    borderWidth: 1.5,
-    borderColor: PDF_COLORS.border,
-    backgroundColor: "#ffffff",
-  },
-
   // Red flags
-  alertItem: {
+  alertRow: {
     flexDirection: "row",
-    marginBottom: 8,
+    marginBottom: 7,
   },
   alertBullet: {
-    width: 18,
-    fontSize: 12,
+    width: 16,
+    fontSize: 11,
     color: PDF_COLORS.danger,
     fontWeight: 700,
   },
@@ -292,380 +249,457 @@ const styles = StyleSheet.create({
     color: PDF_COLORS.danger,
     lineHeight: 1.4,
   },
-
   // Sources
   sourceItem: {
-    marginBottom: 10,
-    paddingBottom: 8,
+    marginBottom: 8,
+    paddingBottom: 6,
     borderBottomWidth: 1,
     borderBottomColor: PDF_COLORS.border,
   },
   sourceTitle: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: 600,
     color: PDF_COLORS.text,
     marginBottom: 2,
   },
   sourceOrg: {
-    fontSize: 9,
+    fontSize: 8,
     color: PDF_COLORS.textMuted,
   },
   sourceUrl: {
-    fontSize: 8,
+    fontSize: 7,
     color: PDF_COLORS.primary,
-    marginTop: 2,
+    marginTop: 1,
   },
-
-  // Footer
+  // Footer absolute
   footer: {
     position: "absolute",
-    bottom: 20,
-    left: 32,
-    right: 32,
+    bottom: 16,
+    left: 28,
+    right: 28,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: 10,
+    paddingTop: 8,
     borderTopWidth: 1,
     borderTopColor: PDF_COLORS.border,
   },
   footerText: {
-    fontSize: 8,
+    fontSize: 7,
     color: PDF_COLORS.textMuted,
   },
   footerPage: {
-    fontSize: 9,
-    fontWeight: 600,
-    color: PDF_COLORS.primary,
-  },
-
-  // Message final
-  finalBox: {
-    marginTop: 20,
-    padding: 16,
-    backgroundColor: PDF_COLORS.primaryLight,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  finalText: {
-    fontSize: 13,
+    fontSize: 8,
     fontWeight: 700,
     color: PDF_COLORS.primary,
-    textAlign: "center",
+  },
+  // Paragraph text
+  para: {
+    fontSize: 10,
+    lineHeight: 1.5,
+    color: PDF_COLORS.text,
     marginBottom: 6,
   },
-  finalSubtext: {
+  paraSmall: {
     fontSize: 9,
+    lineHeight: 1.4,
+    color: PDF_COLORS.text,
+    marginBottom: 4,
+  },
+  // QR code
+  qrRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 12,
+    padding: 10,
+    backgroundColor: PDF_COLORS.muted,
+    borderRadius: 6,
+  },
+  qrImage: {
+    width: 55,
+    height: 55,
+    marginRight: 12,
+  },
+  qrInfo: {
+    flex: 1,
+  },
+  qrTitle: {
+    fontSize: 9,
+    fontWeight: 700,
+    color: PDF_COLORS.text,
+    marginBottom: 3,
+  },
+  qrUrl: {
+    fontSize: 8,
+    color: PDF_COLORS.primary,
+    marginBottom: 3,
+  },
+  qrDisclaimer: {
+    fontSize: 7,
     color: PDF_COLORS.textMuted,
-    textAlign: "center",
+    lineHeight: 1.3,
   },
 });
 
+// ============================================
+// HABITUDES PAR PATHOLOGIE (contenu S30A)
+// ============================================
+type HabitCategory = { title: string; items: string[] };
+const habitsByPathology: Record<string, HabitCategory[]> = {
+  arthrose: [
+    {
+      title: "Mouvement",
+      items: [
+        "Se lever toutes les 30-45 min est plus important que 1h de sport puis 8h assis.",
+        "Alterner assis, debout et marche tout au long de la journée.",
+        "La marche quotidienne, même 10 min, nourrit le cartilage.",
+      ],
+    },
+    {
+      title: "Poids",
+      items: [
+        "Chaque kilo perdu enlève 4 kg de contrainte sur le genou à chaque pas.",
+        "Objectif réaliste : -5% du poids en 6 mois (-250 kcal/jour suffit).",
+      ],
+    },
+    {
+      title: "Chaleur & Froid",
+      items: [
+        "Chaleur le matin (douche chaude, bouillotte 10 min) pour déverrouiller les raideurs.",
+        "Froid après effort (poche de glace enveloppée 15 min) pour réduire l'inflammation.",
+      ],
+    },
+  ],
+  "lombalgie-chronique": [
+    {
+      title: "Activité",
+      items: [
+        "Le repos est le PIRE traitement du mal de dos chronique. Restez actif.",
+        "La douleur n'est PAS le signe d'un dommage — c'est un signal d'alarme déréglé.",
+        "Objectif : plus d'activité malgré la douleur, pas zéro douleur.",
+      ],
+    },
+    {
+      title: "Posture",
+      items: [
+        "Il n'existe pas de « mauvaise posture » qui cause la lombalgie chronique.",
+        "La meilleure posture est la prochaine — bougez toutes les 30 min.",
+      ],
+    },
+    {
+      title: "Sommeil",
+      items: [
+        "Oreiller entre les genoux en position latérale.",
+        "Matelas ferme mais pas dur, heure de coucher régulière.",
+        "Améliorer le sommeil contribue significativement à réduire la douleur.",
+      ],
+    },
+  ],
+  "insuffisance-veineuse-chronique": [
+    {
+      title: "Compression",
+      items: [
+        "Bas de compression dès le matin, retirer le soir au coucher.",
+        "Renouveler tous les 6 mois.",
+      ],
+    },
+    {
+      title: "Mouvement",
+      items: [
+        "Marche 30 min/jour minimum.",
+        "Évitez de rester debout immobile.",
+        "Exercices mollets au bureau.",
+      ],
+    },
+    {
+      title: "Élévation",
+      items: [
+        "Jambes surélevées 15 min le soir.",
+        "Coussin sous les pieds au lit.",
+        "Douche fraîche sur les jambes.",
+      ],
+    },
+  ],
+  bpco: [
+    {
+      title: "Tabac",
+      items: [
+        "Arrêt du tabac = action n°1.",
+        "Aide disponible (patch, suivi médical).",
+        "Gain immédiat sur les symptômes dès les premiers jours.",
+      ],
+    },
+    {
+      title: "Respiration",
+      items: [
+        "Lèvres pincées pour mieux expirer (inspirer par le nez, expirer lentement par la bouche).",
+        "Prendre son temps, ne pas se presser.",
+      ],
+    },
+    {
+      title: "Activité",
+      items: [
+        "Marche fractionnée : 2 min + 1 min de repos × 5.",
+        "Réhabilitation respiratoire recommandée.",
+        "Renforcement doux des bras.",
+      ],
+    },
+  ],
+  "otites-a-repetition-enfant": [
+    {
+      title: "Hygiène",
+      items: [
+        "Lavage de nez au sérum physiologique matin et soir.",
+        "Lavage des mains 4x/jour.",
+        "Jouets nettoyés régulièrement.",
+      ],
+    },
+    {
+      title: "Environnement",
+      items: [
+        "Zéro tabagisme passif.",
+        "Aérer la maison 2x/jour.",
+        "Éviter les lieux enfumés.",
+      ],
+    },
+    {
+      title: "Alimentation",
+      items: [
+        "Allaitement protecteur si possible.",
+        "Biberon en position semi-assise.",
+        "Éviter la crèche si possible avant 1 an.",
+      ],
+    },
+  ],
+};
+
+const getHabits = (slug: string): HabitCategory[] =>
+  habitsByPathology[slug] ?? [
+    {
+      title: "Activité",
+      items: ["Rester actif au quotidien.", "Adapter l'intensité à votre état."],
+    },
+    {
+      title: "Mode de vie",
+      items: ["Sommeil régulier.", "Alimentation équilibrée."],
+    },
+    {
+      title: "Suivi",
+      items: ["Consulter votre médecin régulièrement.", "Tenir un journal des symptômes."],
+    },
+  ];
+
+// ============================================
+// COMPOSANT PRINCIPAL
+// ============================================
 interface PdfEvidence4PagesProps {
   evidence: EvidenceData;
+  qrCodeUrl?: string;
 }
 
 export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
   evidence,
+  qrCodeUrl,
 }) => {
-  // Données
-  const sevenDayPlanLevel0 = evidence.sevenDayPlans?.find((p) => p.level === 0);
-  const sevenDayPlanLevel1 = evidence.sevenDayPlans?.find((p) => p.level === 1);
-  const eightWeekLevel0 = evidence.eightWeekPrograms?.find(
-    (p) => p.level === 0,
-  );
-  const eightWeekLevel1 = evidence.eightWeekPrograms?.find(
-    (p) => p.level === 1,
-  );
+  const accent = getAccentColor(evidence.slug);
+  const accentLight = accent + "15";
 
-  // Conseils pratiques par pathologie
-  const habitsByPathology: Record<
-    string,
-    { title: string; items: string[] }[]
-  > = {
-    arthrose: [
-      {
-        title: "Bouger",
-        items: [
-          "Marche quotidienne, même 10 min",
-          "Changez de position chaque heure",
-          "Préférez escaliers si possible",
-        ],
-      },
-      {
-        title: "Poids",
-        items: [
-          "Chaque kilo perdu = 4 kg de moins sur les genoux",
-          "Objectif réaliste : -5% sur 6 mois",
-        ],
-      },
-      {
-        title: "Confort",
-        items: [
-          "Chaleur le matin pour les raideurs",
-          "Glace si gonflement après effort",
-        ],
-      },
-    ],
-    "lombalgie-chronique": [
-      {
-        title: "Activité",
-        items: [
-          "Évitez le repos prolongé",
-          "Marche, natation ou vélo",
-          "Reprise progressive",
-        ],
-      },
-      {
-        title: "Posture",
-        items: [
-          "Écran à hauteur des yeux",
-          "Pause debout toutes les heures",
-          "Chaise adaptée au bureau",
-        ],
-      },
-      {
-        title: "Stress",
-        items: [
-          "Le stress contracte les muscles du dos",
-          "Respiration lente aide",
-          "Sommeil régulier",
-        ],
-      },
-    ],
-    "insuffisance-veineuse-chronique": [
-      {
-        title: "Compression",
-        items: [
-          "Bas de compression dès le matin",
-          "Retirer le soir au coucher",
-          "Renouveler tous les 6 mois",
-        ],
-      },
-      {
-        title: "Mouvement",
-        items: [
-          "Marche 30 min/jour minimum",
-          "Évitez de rester debout immobile",
-          "Exercices mollets au bureau",
-        ],
-      },
-      {
-        title: "Élévation",
-        items: [
-          "Jambes surélevées 15 min le soir",
-          "Coussin sous les pieds au lit",
-          "Douche fraîche sur les jambes",
-        ],
-      },
-    ],
-    bpco: [
-      {
-        title: "Tabac",
-        items: [
-          "Arrêt du tabac = action n°1",
-          "Aide disponible (patch, suivi)",
-          "Gain immédiat sur les symptômes",
-        ],
-      },
-      {
-        title: "Respiration",
-        items: [
-          "Lèvres pincées pour mieux expirer",
-          "Inspirer par le nez, expirer par la bouche",
-          "Prendre son temps",
-        ],
-      },
-      {
-        title: "Activité",
-        items: [
-          "Marche fractionnée : 5 min + pause",
-          "Réhabilitation respiratoire recommandée",
-          "Renforcement doux des bras",
-        ],
-      },
-    ],
-    "otites-a-repetition-enfant": [
-      {
-        title: "Hygiène",
-        items: [
-          "Lavage des mains régulier",
-          "Nez propre (sérum physiologique)",
-          "Jouets nettoyés souvent",
-        ],
-      },
-      {
-        title: "Environnement",
-        items: [
-          "Zéro tabagisme passif",
-          "Aérer la maison 2x/jour",
-          "Éviter les lieux enfumés",
-        ],
-      },
-      {
-        title: "Alimentation",
-        items: [
-          "Allaitement protecteur si possible",
-          "Biberon position semi-assise",
-          "Éviter la crèche si possible avant 1 an",
-        ],
-      },
-    ],
-  };
+  // Plans
+  const plan7J0 = evidence.sevenDayPlans?.find((p) => p.level === 0);
+  const plan7J1 = evidence.sevenDayPlans?.find((p) => p.level === 1);
+  const prog8S0 = evidence.eightWeekPrograms?.find((p) => p.level === 0);
+  const prog8S1 = evidence.eightWeekPrograms?.find((p) => p.level === 1);
 
-  const habits = habitsByPathology[evidence.slug] || [];
+  // Habitudes
+  const habits = getHabits(evidence.slug);
 
-  // Résumé en puces courtes
+  // "En 2 minutes" bullets depuis summary
   const summaryBullets = evidence.summary
     .split("\n")
-    .filter((line) => line.trim())
-    .slice(0, 3)
-    .flatMap((p) =>
-      p
-        .split(/(?<=[.!?])\s+/)
-        .filter((s) => s.trim())
-        .slice(0, 2),
-    )
-    .slice(0, 5)
-    .map((s) => s.trim().replace(/\.$/, ""));
+    .filter((l) => l.trim())
+    .slice(0, 4);
+
+  // Parcours slug pour QR
+  const slugMap: Record<string, string> = {
+    arthrose: "gonarthrose",
+    "insuffisance-veineuse-chronique": "insuffisance-veineuse",
+    "otites-a-repetition-enfant": "otites-repetition-enfant",
+  };
+  const parcoursSlug = slugMap[evidence.slug] ?? evidence.slug;
+
+  // Shared accent-colored elements style builder
+  const accentStyle = (extra?: object) => ({
+    backgroundColor: accentLight,
+    borderLeftColor: accent,
+    ...extra,
+  });
 
   return (
     <Document>
-      {/* ============================================ */}
-      {/* PAGE 1 : Résumé + Ce qui se passe */}
-      {/* ============================================ */}
-      <Page size="A4" style={styles.page}>
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.headerTitle}>{evidence.name}</Text>
-            <Text style={styles.headerSubtitle}>
-              Guide complet • Basé sur les preuves scientifiques
-            </Text>
-          </View>
-          <View style={styles.headerRight}>
-            <Text style={styles.brand}>ÉTUVE</Text>
-            <Text style={styles.brandSub}>Dr Audric Bugnard</Text>
-          </View>
-        </View>
+      {/* ================================================ */}
+      {/* PAGE 1 — COMPRENDRE */}
+      {/* ================================================ */}
+      <Page size="A4" style={s.page}>
+        <View style={[s.accentBar, { backgroundColor: accent }]} />
+        <View style={s.content}>
 
-        {/* En 2 minutes */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>En 2 minutes</Text>
-        </View>
-        <View style={styles.boxPrimary}>
-          {summaryBullets.map((bullet, idx) => (
-            <View key={idx} style={styles.bulletItem}>
-              <Text style={styles.bulletIcon}>•</Text>
-              <Text style={styles.bulletText}>{bullet}</Text>
+          {/* Header */}
+          <View style={s.header}>
+            <View>
+              <Text style={s.headerTitle}>{evidence.name}</Text>
+              <Text style={s.headerSub}>
+                Guide complet • Basé sur les preuves scientifiques
+              </Text>
             </View>
-          ))}
-        </View>
+            <View style={{ alignItems: "flex-end" }}>
+              <Text style={[s.brand, { color: accent }]}>ÉTUVE</Text>
+              <Text style={{ fontSize: 8, color: PDF_COLORS.textMuted }}>
+                Dr Audric Bugnard
+              </Text>
+            </View>
+          </View>
 
-        {/* Ce qui se passe dans votre corps */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
+          {/* En 2 minutes */}
+          <Text style={[s.sectionTitle, { color: accent }]}>En 2 minutes</Text>
+          <View style={[s.boxPrimary, accentStyle()]}>
+            {summaryBullets.map((bullet, idx) => (
+              <View key={idx} style={s.bulletRow}>
+                <Text style={[s.bulletDot, { color: accent }]}>•</Text>
+                <Text style={s.bulletText}>{bullet.trim()}</Text>
+              </View>
+            ))}
+          </View>
+
+          {/* Ce qui se passe */}
+          <Text style={[s.sectionTitle, { color: accent }]}>
             Ce qui se passe dans votre corps
           </Text>
-        </View>
-        <View style={styles.twoColumns}>
-          <View style={styles.column}>
-            <PdfBodySchema slug={evidence.slug} width={240} height={165} />
-          </View>
-          <View style={styles.column}>
-            <View style={styles.boxNeutral}>
+          {evidence.bodyExplanation ? (
+            // Texte explicatif (nouveau contenu arthrose/lombalgie)
+            <View style={s.boxNeutral}>
+              {evidence.bodyExplanation
+                .split("\n")
+                .filter((l) => l.trim())
+                .map((para, idx) => (
+                  <Text key={idx} style={s.para}>
+                    {para.trim()}
+                  </Text>
+                ))}
+            </View>
+          ) : (
+            // Fallback : schéma SVG + "Ce qui aide vraiment"
+            <View style={s.twoCol}>
+              <View style={s.col48}>
+                <PdfBodySchema slug={evidence.slug} width={220} height={155} />
+              </View>
+              <View style={s.col48}>
+                <View style={s.boxNeutral}>
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: PDF_COLORS.primary,
+                      marginBottom: 8,
+                    }}
+                  >
+                    Ce qui aide vraiment
+                  </Text>
+                  {evidence.recommendations.slice(0, 4).map((rec, idx) => (
+                    <View key={idx} style={s.bulletRow}>
+                      <Text
+                        style={{
+                          width: 18,
+                          fontSize: 9,
+                          fontWeight: 700,
+                          color: PDF_COLORS.secondary,
+                        }}
+                      >
+                        {idx + 1}.
+                      </Text>
+                      <Text
+                        style={{
+                          flex: 1,
+                          fontSize: 9,
+                          color: PDF_COLORS.text,
+                          lineHeight: 1.35,
+                        }}
+                      >
+                        {rec.text}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            </View>
+          )}
+
+          {/* Le saviez-vous ? (si disponible) */}
+          {evidence.didYouKnow?.[0] && (
+            <View style={s.boxAccentYellow}>
               <Text
                 style={{
-                  fontSize: 11,
+                  fontSize: 9,
                   fontWeight: 700,
-                  color: PDF_COLORS.primary,
-                  marginBottom: 10,
+                  color: "#d4a24c",
+                  marginBottom: 4,
                 }}
               >
-                Ce qui aide vraiment
+                Le saviez-vous ?
               </Text>
-              {evidence.recommendations.slice(0, 5).map((rec, idx) => {
-                const shortText = rec.text.split(":")[0].trim();
-                const displayText =
-                  shortText.length > 65
-                    ? shortText.substring(0, 62) + "..."
-                    : shortText;
-                return (
-                  <View key={idx} style={styles.numberedItem}>
-                    <View style={styles.numberBadge}>
-                      <Text style={styles.numberText}>{idx + 1}</Text>
-                    </View>
-                    <Text
-                      style={{
-                        flex: 1,
-                        fontSize: 9,
-                        color: PDF_COLORS.text,
-                        lineHeight: 1.4,
-                      }}
-                    >
-                      {displayText}
-                    </Text>
-                  </View>
-                );
-              })}
+              <Text style={s.paraSmall}>{evidence.didYouKnow[0]}</Text>
             </View>
-          </View>
+          )}
+
         </View>
 
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
+        {/* Footer absolu */}
+        <View style={s.footer}>
+          <Text style={s.footerText}>
             Information éducative — ne remplace pas un avis médical
           </Text>
-          <Text style={styles.footerPage}>1 / 4</Text>
+          <Text style={s.footerPage}>1 / 4</Text>
         </View>
       </Page>
 
-      {/* ============================================ */}
-      {/* PAGE 2 : Exercices niveaux + schémas */}
-      {/* ============================================ */}
-      <Page size="A4" style={styles.page}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Exercices & Progression</Text>
-          <Text style={styles.brand}>ÉTUVE</Text>
-        </View>
+      {/* ================================================ */}
+      {/* PAGE 2 — AGIR (exercices + plans 7 jours) */}
+      {/* ================================================ */}
+      <Page size="A4" style={s.page}>
+        <View style={[s.accentBar, { backgroundColor: accent }]} />
+        <View style={s.content}>
 
-        {/* Titre section exercices */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
+          <View style={s.header}>
+            <Text style={[s.headerTitle, { fontSize: 16 }]}>
+              Exercices & Progression
+            </Text>
+            <Text style={[s.brand, { color: accent }]}>ÉTUVE</Text>
+          </View>
+
+          {/* Schémas d'exercices */}
+          <Text style={[s.sectionTitle, { color: accent }]}>
             Exercices adaptés — 3 niveaux au choix
           </Text>
-        </View>
-
-        {/* 3 schémas d'exercices par niveau */}
-        <View style={{ marginBottom: 8 }}>
           {(() => {
             const diagramInfo = getDiagramsBySlug(evidence.slug);
             if (!diagramInfo) return null;
-
-            const Level0Component =
+            const L0 =
               ExerciseDiagramsByLevel[
                 diagramInfo.exerciseLevels
                   .level0 as keyof typeof ExerciseDiagramsByLevel
               ];
-            const Level1Component =
+            const L1 =
               ExerciseDiagramsByLevel[
                 diagramInfo.exerciseLevels
                   .level1 as keyof typeof ExerciseDiagramsByLevel
               ];
-            const Level2Component =
+            const L2 =
               ExerciseDiagramsByLevel[
                 diagramInfo.exerciseLevels
                   .level2 as keyof typeof ExerciseDiagramsByLevel
               ];
-            const Level3Component =
-              ExerciseDiagramsByLevel[
-                diagramInfo.exerciseLevels
-                  .level3 as keyof typeof ExerciseDiagramsByLevel
-              ];
-
             return (
-              <View>
-                {/* Niveau 0 - Vert */}
-                {Level0Component && (
+              <View style={{ marginBottom: 8 }}>
+                {L0 && (
                   <View
                     style={{
                       alignItems: "center",
@@ -675,402 +709,522 @@ export const PdfEvidence4Pages: React.FC<PdfEvidence4PagesProps> = ({
                       marginBottom: 2,
                     }}
                   >
-                    <Level0Component width={350} height={45} />
+                    <L0 width={340} height={44} />
                   </View>
                 )}
-                {/* Niveau 1 - Bleu */}
-                {Level1Component && (
+                {L1 && (
                   <View
                     style={{
                       alignItems: "center",
                       padding: 2,
-                      backgroundColor: PDF_COLORS.primaryLight,
+                      backgroundColor: accentLight,
                       borderRadius: 4,
                       marginBottom: 2,
                     }}
                   >
-                    <Level1Component width={350} height={45} />
+                    <L1 width={340} height={44} />
                   </View>
                 )}
-                {/* Niveau 2 - Orange */}
-                {Level2Component && (
+                {L2 && (
                   <View
                     style={{
                       alignItems: "center",
                       padding: 2,
                       backgroundColor: "#fdf6e9",
                       borderRadius: 4,
-                      marginBottom: 2,
                     }}
                   >
-                    <Level2Component width={350} height={45} />
-                  </View>
-                )}
-                {/* Niveau 3 - Violet */}
-                {Level3Component && (
-                  <View
-                    style={{
-                      alignItems: "center",
-                      padding: 2,
-                      backgroundColor: "#f3e8ff",
-                      borderRadius: 4,
-                    }}
-                  >
-                    <Level3Component width={350} height={45} />
+                    <L2 width={340} height={44} />
                   </View>
                 )}
               </View>
             );
           })()}
-        </View>
 
-        {/* Plans 7 jours par niveau */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
-            Plan 7 jours — Choisissez votre niveau
+          {/* Plans 7 jours */}
+          <Text style={[s.sectionTitle, { color: accent }]}>
+            Plan 7 jours
           </Text>
-        </View>
-
-        <View style={styles.twoColumns}>
-          {/* Niveau 0 */}
-          <View style={styles.column}>
-            {sevenDayPlanLevel0 && (
-              <View style={styles.boxGreen}>
-                <Text
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: PDF_COLORS.secondary,
-                    marginBottom: 8,
-                  }}
-                >
-                  {sevenDayPlanLevel0.levelName}
-                </Text>
-                {sevenDayPlanLevel0.days.slice(0, 5).map((day, idx) => (
-                  <View key={idx} style={styles.dayCard}>
-                    <Text style={styles.dayLabel}>{day.day}</Text>
-                    {day.actions.slice(0, 1).map((action, aIdx) => (
-                      <Text key={aIdx} style={styles.dayAction}>
-                        • {action}
-                      </Text>
-                    ))}
-                  </View>
-                ))}
-                <Text
-                  style={{
-                    fontSize: 8,
-                    color: PDF_COLORS.textMuted,
-                    fontStyle: "italic",
-                    marginTop: 4,
-                  }}
-                >
-                  + Jours 6-7 : progression similaire
-                </Text>
-              </View>
-            )}
-          </View>
-
-          {/* Niveau 1 */}
-          <View style={styles.column}>
-            {sevenDayPlanLevel1 && (
-              <View style={styles.boxNeutral}>
-                <Text
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: PDF_COLORS.primary,
-                    marginBottom: 8,
-                  }}
-                >
-                  {sevenDayPlanLevel1.levelName}
-                </Text>
-                {sevenDayPlanLevel1.days.slice(0, 5).map((day, idx) => (
-                  <View key={idx} style={styles.dayCard}>
-                    <Text style={styles.dayLabel}>{day.day}</Text>
-                    {day.actions.slice(0, 1).map((action, aIdx) => (
-                      <Text key={aIdx} style={styles.dayAction}>
-                        • {action}
-                      </Text>
-                    ))}
-                  </View>
-                ))}
-                <Text
-                  style={{
-                    fontSize: 8,
-                    color: PDF_COLORS.textMuted,
-                    fontStyle: "italic",
-                    marginTop: 4,
-                  }}
-                >
-                  + Jours 6-7 : progression similaire
-                </Text>
-              </View>
-            )}
-          </View>
-        </View>
-
-        {/* Conseil */}
-        <View style={[styles.boxAccent, { marginTop: 8 }]}>
-          <Text
-            style={{
-              fontSize: 9,
-              fontWeight: 600,
-              color: PDF_COLORS.accent,
-              textAlign: "center",
-            }}
-          >
-            Commencez par "Très facile". Même 5 minutes par jour, c'est un grand
-            pas !
-          </Text>
-        </View>
-
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
-            Information éducative — ne remplace pas un avis médical
-          </Text>
-          <Text style={styles.footerPage}>2 / 4</Text>
-        </View>
-      </Page>
-
-      {/* ============================================ */}
-      {/* PAGE 3 : Habitudes + Plan simple */}
-      {/* ============================================ */}
-      <Page size="A4" style={styles.page}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Habitudes du quotidien</Text>
-          <Text style={styles.brand}>ÉTUVE</Text>
-        </View>
-
-        {/* Habitudes par catégorie */}
-        <View style={styles.twoColumns}>
-          <View style={styles.column}>
-            {habits.slice(0, 2).map((category, idx) => (
-              <View key={idx} style={[styles.boxNeutral, { marginBottom: 12 }]}>
-                <Text
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: PDF_COLORS.primary,
-                    marginBottom: 8,
-                  }}
-                >
-                  {category.title}
-                </Text>
-                {category.items.map((item, iIdx) => (
-                  <View key={iIdx} style={styles.checklistRow}>
-                    <View style={styles.checkbox} />
-                    <Text style={styles.checklistText}>{item}</Text>
-                  </View>
-                ))}
-              </View>
-            ))}
-          </View>
-          <View style={styles.column}>
-            {habits.slice(2, 3).map((category, idx) => (
-              <View key={idx} style={[styles.boxNeutral, { marginBottom: 12 }]}>
-                <Text
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: PDF_COLORS.primary,
-                    marginBottom: 8,
-                  }}
-                >
-                  {category.title}
-                </Text>
-                {category.items.map((item, iIdx) => (
-                  <View key={iIdx} style={styles.checklistRow}>
-                    <View style={styles.checkbox} />
-                    <Text style={styles.checklistText}>{item}</Text>
-                  </View>
-                ))}
-              </View>
-            ))}
-          </View>
-        </View>
-
-        {/* Programme 8 semaines */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Programme 8 semaines</Text>
-        </View>
-
-        <View style={styles.twoColumns}>
-          <View style={styles.column}>
-            {eightWeekLevel0 && (
-              <View style={styles.boxGreen}>
-                <Text
-                  style={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    color: PDF_COLORS.secondary,
-                    marginBottom: 8,
-                  }}
-                >
-                  {eightWeekLevel0.levelName}
-                </Text>
-                {eightWeekLevel0.weeks.slice(0, 4).map((week, idx) => (
-                  <View key={idx} style={styles.weekCard}>
-                    <View style={styles.weekHeader}>
-                      <Text style={styles.weekLabel}>{week.week}</Text>
-                      <Text style={styles.weekFocus}>{week.focus}</Text>
+          <View style={s.twoCol}>
+            <View style={s.col48}>
+              {plan7J0 && (
+                <View style={s.boxGreen}>
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: PDF_COLORS.secondary,
+                      marginBottom: 7,
+                    }}
+                  >
+                    {plan7J0.levelName}
+                  </Text>
+                  {plan7J0.days.slice(0, 5).map((day, idx) => (
+                    <View key={idx} style={s.dayCard}>
+                      <Text style={s.dayLabel}>{day.day}</Text>
+                      {day.actions.slice(0, 2).map((action, aIdx) => (
+                        <Text key={aIdx} style={s.dayAction}>
+                          • {action}
+                        </Text>
+                      ))}
                     </View>
-                    {week.exercises.slice(0, 2).map((ex, eIdx) => (
-                      <Text key={eIdx} style={styles.weekExercise}>
-                        • {ex}
-                      </Text>
-                    ))}
-                  </View>
-                ))}
-              </View>
-            )}
-          </View>
-          <View style={styles.column}>
-            {eightWeekLevel1 && (
-              <View style={styles.boxNeutral}>
-                <Text
-                  style={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    color: PDF_COLORS.primary,
-                    marginBottom: 8,
-                  }}
-                >
-                  {eightWeekLevel1.levelName}
-                </Text>
-                {eightWeekLevel1.weeks.slice(0, 4).map((week, idx) => (
-                  <View key={idx} style={styles.weekCard}>
-                    <View style={styles.weekHeader}>
-                      <Text style={styles.weekLabel}>{week.week}</Text>
-                      <Text style={styles.weekFocus}>{week.focus}</Text>
+                  ))}
+                  <Text
+                    style={{
+                      fontSize: 7,
+                      color: PDF_COLORS.textMuted,
+                      fontStyle: "italic",
+                      marginTop: 3,
+                    }}
+                  >
+                    + Jours 6-7 : progression similaire
+                  </Text>
+                </View>
+              )}
+            </View>
+            <View style={s.col48}>
+              {plan7J1 && (
+                <View style={s.boxNeutral}>
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: accent,
+                      marginBottom: 7,
+                    }}
+                  >
+                    {plan7J1.levelName}
+                  </Text>
+                  {plan7J1.days.slice(0, 5).map((day, idx) => (
+                    <View key={idx} style={s.dayCard}>
+                      <Text style={s.dayLabel}>{day.day}</Text>
+                      {day.actions.slice(0, 2).map((action, aIdx) => (
+                        <Text key={aIdx} style={s.dayAction}>
+                          • {action}
+                        </Text>
+                      ))}
                     </View>
-                    {week.exercises.slice(0, 2).map((ex, eIdx) => (
-                      <Text key={eIdx} style={styles.weekExercise}>
-                        • {ex}
-                      </Text>
-                    ))}
-                  </View>
-                ))}
-              </View>
-            )}
+                  ))}
+                  <Text
+                    style={{
+                      fontSize: 7,
+                      color: PDF_COLORS.textMuted,
+                      fontStyle: "italic",
+                      marginTop: 3,
+                    }}
+                  >
+                    + Jours 6-7 : progression similaire
+                  </Text>
+                </View>
+              )}
+            </View>
           </View>
-        </View>
 
-        {/* Checklist semaine */}
-        <View style={styles.weekTable}>
-          {["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].map((day, idx) => (
-            <View key={idx} style={styles.weekDay}>
-              <Text style={styles.weekDayLabel}>{day}</Text>
-              <View style={styles.weekDayBox} />
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
-            Information éducative — ne remplace pas un avis médical
-          </Text>
-          <Text style={styles.footerPage}>3 / 4</Text>
-        </View>
-      </Page>
-
-      {/* ============================================ */}
-      {/* PAGE 4 : Red flags + Sources */}
-      {/* ============================================ */}
-      <Page size="A4" style={styles.page}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Alertes & Sources</Text>
-          <Text style={styles.brand}>ÉTUVE</Text>
-        </View>
-
-        {/* Red Flags */}
-        <View style={styles.sectionHeader}>
-          <Text style={[styles.sectionTitle, { color: PDF_COLORS.danger }]}>
-            Consultez rapidement si...
-          </Text>
-        </View>
-        <View style={styles.boxDanger}>
-          {evidence.red_flags.map((flag, idx) => (
-            <View key={idx} style={styles.alertItem}>
-              <Text style={styles.alertBullet}>!</Text>
-              <Text style={styles.alertText}>{flag}</Text>
-            </View>
-          ))}
+          {/* Conseil */}
           <View
             style={{
-              marginTop: 10,
-              paddingTop: 10,
-              borderTopWidth: 1,
-              borderTopColor: PDF_COLORS.danger + "40",
+              marginTop: 6,
+              padding: 9,
+              backgroundColor: "#fdf6e9",
+              borderRadius: 5,
+              borderLeftWidth: 3,
+              borderLeftColor: "#d4a24c",
             }}
           >
             <Text
               style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: PDF_COLORS.danger,
+                fontSize: 9,
+                fontWeight: 600,
+                color: "#d4a24c",
                 textAlign: "center",
               }}
             >
-              En cas d'urgence : 15 ou 112
+              Commencez par "Très facile". Même 5 minutes par jour, c'est un
+              grand pas !
             </Text>
           </View>
+
         </View>
 
-        {/* Sources */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Sources scientifiques</Text>
-        </View>
-        <View style={styles.boxNeutral}>
-          {evidence.sources.map((source, idx) => (
-            <View key={idx} style={styles.sourceItem}>
-              <Text style={styles.sourceTitle}>
-                {idx + 1}. {source.title}
-              </Text>
-              <Text style={styles.sourceOrg}>
-                {source.org}, {source.year}
-              </Text>
-              {source.url && <Text style={styles.sourceUrl}>{source.url}</Text>}
-            </View>
-          ))}
-        </View>
-
-        {/* Note méthodologique */}
-        <View style={[styles.boxAccent, { marginTop: 12 }]}>
-          <Text
-            style={{
-              fontSize: 9,
-              fontWeight: 600,
-              color: PDF_COLORS.accent,
-              marginBottom: 4,
-            }}
-          >
-            A propos des niveaux de preuve
-          </Text>
-          <Text
-            style={{ fontSize: 8, color: PDF_COLORS.text, lineHeight: 1.4 }}
-          >
-            "Élevé" = recommandation forte basée sur des études de qualité.
-            "Modéré" = bonne pratique clinique. Si besoin, parlez-en à un
-            professionnel de santé.
-          </Text>
-        </View>
-
-        {/* Message final */}
-        <View style={styles.finalBox}>
-          <Text style={styles.finalText}>
-            Des plans simples, pour reprendre la main sur votre santé.
-          </Text>
-          <Text style={styles.finalSubtext}>
-            etuve.fr • Dr Audric Bugnard • Mise à jour :{" "}
-            {evidence.lastUpdated}
-          </Text>
-        </View>
-
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
+        <View style={s.footer}>
+          <Text style={s.footerText}>
             Information éducative — ne remplace pas un avis médical
           </Text>
-          <Text style={styles.footerPage}>4 / 4</Text>
+          <Text style={s.footerPage}>2 / 4</Text>
+        </View>
+      </Page>
+
+      {/* ================================================ */}
+      {/* PAGE 3 — HABITUDES + PROGRAMME 8 SEMAINES */}
+      {/* ================================================ */}
+      <Page size="A4" style={s.page}>
+        <View style={[s.accentBar, { backgroundColor: accent }]} />
+        <View style={s.content}>
+
+          <View style={s.header}>
+            <Text style={[s.headerTitle, { fontSize: 16 }]}>
+              Habitudes du quotidien
+            </Text>
+            <Text style={[s.brand, { color: accent }]}>ÉTUVE</Text>
+          </View>
+
+          {/* 3 colonnes habitudes */}
+          <Text style={[s.sectionTitle, { color: accent }]}>
+            3 habitudes clés
+          </Text>
+          <View style={s.twoCol}>
+            <View style={s.col48}>
+              {habits.slice(0, 2).map((cat, idx) => (
+                <View key={idx} style={[s.boxNeutral, { marginBottom: 10 }]}>
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: accent,
+                      marginBottom: 7,
+                    }}
+                  >
+                    {cat.title}
+                  </Text>
+                  {cat.items.map((item, iIdx) => (
+                    <View key={iIdx} style={s.checkRow}>
+                      <View style={[s.checkbox, { borderColor: accent }]} />
+                      <Text style={s.checkText}>{item}</Text>
+                    </View>
+                  ))}
+                </View>
+              ))}
+            </View>
+            <View style={s.col48}>
+              {habits.slice(2, 3).map((cat, idx) => (
+                <View key={idx} style={[s.boxNeutral, { marginBottom: 10 }]}>
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: accent,
+                      marginBottom: 7,
+                    }}
+                  >
+                    {cat.title}
+                  </Text>
+                  {cat.items.map((item, iIdx) => (
+                    <View key={iIdx} style={s.checkRow}>
+                      <View style={[s.checkbox, { borderColor: accent }]} />
+                      <Text style={s.checkText}>{item}</Text>
+                    </View>
+                  ))}
+                </View>
+              ))}
+
+              {/* Le saviez-vous #2 */}
+              {evidence.didYouKnow?.[1] && (
+                <View style={s.boxAccentYellow}>
+                  <Text
+                    style={{
+                      fontSize: 8,
+                      fontWeight: 700,
+                      color: "#d4a24c",
+                      marginBottom: 3,
+                    }}
+                  >
+                    Le saviez-vous ?
+                  </Text>
+                  <Text style={{ fontSize: 8, lineHeight: 1.35, color: PDF_COLORS.text }}>
+                    {evidence.didYouKnow[1]}
+                  </Text>
+                </View>
+              )}
+            </View>
+          </View>
+
+          {/* Programme 8 semaines */}
+          <Text style={[s.sectionTitle, { color: accent }]}>
+            Programme 8 semaines
+          </Text>
+          <View style={s.twoCol}>
+            <View style={s.col48}>
+              {prog8S0 && (
+                <View style={s.boxGreen}>
+                  <Text
+                    style={{
+                      fontSize: 9,
+                      fontWeight: 700,
+                      color: PDF_COLORS.secondary,
+                      marginBottom: 6,
+                    }}
+                  >
+                    {prog8S0.levelName}
+                  </Text>
+                  {prog8S0.weeks.slice(0, 4).map((week, idx) => (
+                    <View key={idx} style={s.weekRow}>
+                      <View style={s.weekHeader}>
+                        <Text style={s.weekLabel}>{week.week}</Text>
+                        <Text style={s.weekFocus}>{week.focus}</Text>
+                      </View>
+                      {week.exercises.slice(0, 2).map((ex, eIdx) => (
+                        <Text key={eIdx} style={s.weekExercise}>
+                          • {ex}
+                        </Text>
+                      ))}
+                    </View>
+                  ))}
+                </View>
+              )}
+            </View>
+            <View style={s.col48}>
+              {prog8S1 && (
+                <View style={s.boxNeutral}>
+                  <Text
+                    style={{
+                      fontSize: 9,
+                      fontWeight: 700,
+                      color: accent,
+                      marginBottom: 6,
+                    }}
+                  >
+                    {prog8S1.levelName}
+                  </Text>
+                  {prog8S1.weeks.slice(0, 4).map((week, idx) => (
+                    <View key={idx} style={s.weekRow}>
+                      <View style={s.weekHeader}>
+                        <Text style={s.weekLabel}>{week.week}</Text>
+                        <Text style={s.weekFocus}>{week.focus}</Text>
+                      </View>
+                      {week.exercises.slice(0, 2).map((ex, eIdx) => (
+                        <Text key={eIdx} style={s.weekExercise}>
+                          • {ex}
+                        </Text>
+                      ))}
+                    </View>
+                  ))}
+                </View>
+              )}
+            </View>
+          </View>
+
+          {/* Grille de la semaine */}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 8,
+              padding: 8,
+              backgroundColor: PDF_COLORS.muted,
+              borderRadius: 5,
+            }}
+          >
+            {["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].map(
+              (day, idx) => (
+                <View key={idx} style={{ alignItems: "center" }}>
+                  <Text
+                    style={{
+                      fontSize: 8,
+                      color: PDF_COLORS.textMuted,
+                      marginBottom: 3,
+                    }}
+                  >
+                    {day}
+                  </Text>
+                  <View
+                    style={{
+                      width: 26,
+                      height: 26,
+                      borderRadius: 4,
+                      borderWidth: 1.5,
+                      borderColor: PDF_COLORS.border,
+                      backgroundColor: "#ffffff",
+                    }}
+                  />
+                </View>
+              ),
+            )}
+          </View>
+
+        </View>
+
+        <View style={s.footer}>
+          <Text style={s.footerText}>
+            Information éducative — ne remplace pas un avis médical
+          </Text>
+          <Text style={s.footerPage}>3 / 4</Text>
+        </View>
+      </Page>
+
+      {/* ================================================ */}
+      {/* PAGE 4 — ALERTES + SOURCES + QR */}
+      {/* STRICTEMENT 1 page — pas de finalBox overflow */}
+      {/* ================================================ */}
+      <Page size="A4" style={s.page}>
+        <View style={[s.accentBar, { backgroundColor: accent }]} />
+        <View style={s.content}>
+
+          <View style={s.header}>
+            <Text style={[s.headerTitle, { fontSize: 16 }]}>
+              Alertes & Sources
+            </Text>
+            <Text style={[s.brand, { color: accent }]}>ÉTUVE</Text>
+          </View>
+
+          {/* Red Flags */}
+          <Text
+            style={[
+              s.sectionTitle,
+              { color: PDF_COLORS.danger, marginTop: 6 },
+            ]}
+          >
+            Consultez rapidement si...
+          </Text>
+          <View style={s.boxDanger}>
+            {evidence.red_flags.map((flag, idx) => (
+              <View key={idx} style={s.alertRow}>
+                <Text style={s.alertBullet}>!</Text>
+                <Text style={s.alertText}>{flag}</Text>
+              </View>
+            ))}
+            <View
+              style={{
+                marginTop: 8,
+                paddingTop: 8,
+                borderTopWidth: 1,
+                borderTopColor: PDF_COLORS.danger + "40",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  color: PDF_COLORS.danger,
+                  textAlign: "center",
+                }}
+              >
+                En cas d'urgence : 15 ou 112
+              </Text>
+            </View>
+          </View>
+
+          {/* Sources */}
+          <Text style={[s.sectionTitle, { color: accent, marginTop: 10 }]}>
+            Sources scientifiques
+          </Text>
+          <View style={s.twoCol}>
+            <View style={{ width: "65%" }}>
+              <View style={s.boxNeutral}>
+                {evidence.sources.slice(0, 6).map((src, idx) => (
+                  <View key={idx} style={s.sourceItem}>
+                    <Text style={s.sourceTitle}>
+                      {idx + 1}. {src.title}
+                    </Text>
+                    <Text style={s.sourceOrg}>
+                      {src.org}, {src.year}
+                    </Text>
+                    {src.url && (
+                      <Text style={s.sourceUrl}>{src.url}</Text>
+                    )}
+                  </View>
+                ))}
+              </View>
+            </View>
+
+            {/* QR code + info */}
+            <View style={{ width: "32%" }}>
+              {qrCodeUrl ? (
+                <View
+                  style={{
+                    backgroundColor: PDF_COLORS.muted,
+                    borderRadius: 6,
+                    padding: 10,
+                    alignItems: "center",
+                  }}
+                >
+                  <Image src={qrCodeUrl} style={s.qrImage} />
+                  <Text
+                    style={{
+                      fontSize: 7,
+                      fontWeight: 700,
+                      color: PDF_COLORS.text,
+                      textAlign: "center",
+                      marginTop: 6,
+                      marginBottom: 4,
+                    }}
+                  >
+                    Continuez en ligne
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 7,
+                      color: accent,
+                      textAlign: "center",
+                      marginBottom: 6,
+                    }}
+                  >
+                    etuve.fr/parcours/{parcoursSlug}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 6,
+                      color: PDF_COLORS.textMuted,
+                      textAlign: "center",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    Parcours interactif gratuit : exercices guidés, suivi de la
+                    douleur, rappels quotidiens.
+                  </Text>
+                </View>
+              ) : (
+                <View
+                  style={{
+                    backgroundColor: PDF_COLORS.muted,
+                    borderRadius: 6,
+                    padding: 10,
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: 8, fontWeight: 700, color: accent, marginBottom: 4 }}
+                  >
+                    Continuez en ligne
+                  </Text>
+                  <Text
+                    style={{ fontSize: 8, color: accent }}
+                  >
+                    etuve.fr/parcours/{parcoursSlug}
+                  </Text>
+                </View>
+              )}
+
+              {/* Note méthodologique */}
+              <View
+                style={{
+                  marginTop: 8,
+                  padding: 8,
+                  backgroundColor: "#fdf6e9",
+                  borderRadius: 5,
+                  borderLeftWidth: 3,
+                  borderLeftColor: "#d4a24c",
+                }}
+              >
+                <Text
+                  style={{ fontSize: 7, fontWeight: 700, color: "#d4a24c", marginBottom: 3 }}
+                >
+                  Niveaux de preuve
+                </Text>
+                <Text style={{ fontSize: 6.5, color: PDF_COLORS.text, lineHeight: 1.35 }}>
+                  "Élevé" = recommandation forte. "Modéré" = bonne pratique.
+                  Parlez-en à votre médecin.
+                </Text>
+              </View>
+            </View>
+          </View>
+
+        </View>
+
+        {/* Footer avec date et disclaimer */}
+        <View style={s.footer}>
+          <Text style={s.footerText}>
+            etuve.fr • Dr Audric Bugnard • {evidence.lastUpdated} — Information éducative
+          </Text>
+          <Text style={s.footerPage}>4 / 4</Text>
         </View>
       </Page>
     </Document>

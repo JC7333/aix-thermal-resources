@@ -11,6 +11,30 @@ import { getEvidenceBySlug, type EvidenceData } from '@/data/evidence';
 import { logEvent } from './analytics';
 
 // ============================================
+// QR CODE — généré avant le rendu PDF
+// ============================================
+
+// Map evidence slugs → parcours slugs
+const PARCOURS_SLUG_MAP: Record<string, string> = {
+  'arthrose': 'gonarthrose',
+  'insuffisance-veineuse-chronique': 'insuffisance-veineuse',
+  'otites-a-repetition-enfant': 'otites-repetition-enfant',
+};
+
+const generateQrDataUrl = async (slug: string): Promise<string | undefined> => {
+  try {
+    const parcoursSlug = PARCOURS_SLUG_MAP[slug] || slug;
+    const QRCode = await import('qrcode');
+    return await QRCode.default.toDataURL(
+      `https://etuve.fr/parcours/${parcoursSlug}`,
+      { width: 80, margin: 1, color: { dark: '#1a2a3a', light: '#ffffff' } }
+    );
+  } catch {
+    return undefined;
+  }
+};
+
+// ============================================
 // ERREURS (INSTRUMENTATION)
 // ============================================
 
@@ -160,13 +184,15 @@ export interface PdfGenerationResult {
  * Génère un PDF 1 page pour une pathologie (evidence-based)
  */
 export const generatePdf1Page = async (evidence: EvidenceData): Promise<Blob> => {
-  // Import dynamique : évite tout exécution/chargement inattendu hors navigateur
   const [{ pdf }, { PdfEvidence1Page }] = await Promise.all([
     import('@react-pdf/renderer'),
     import('@/components/pdf/PdfEvidence1Page'),
   ]);
 
-  const doc = <PdfEvidence1Page evidence={evidence} />;
+  // QR code généré AVANT le rendu PDF (pas de hooks dans @react-pdf)
+  const qrCodeUrl = await generateQrDataUrl(evidence.slug);
+
+  const doc = <PdfEvidence1Page evidence={evidence} qrCodeUrl={qrCodeUrl} />;
   const blob = await pdf(doc).toBlob();
 
   if (!blob || blob.size === 0) {
@@ -185,7 +211,10 @@ export const generatePdf4Pages = async (evidence: EvidenceData): Promise<Blob> =
     import('@/components/pdf/PdfEvidence4Pages'),
   ]);
 
-  const doc = <PdfEvidence4Pages evidence={evidence} />;
+  // QR code généré AVANT le rendu PDF (pas de hooks dans @react-pdf)
+  const qrCodeUrl = await generateQrDataUrl(evidence.slug);
+
+  const doc = <PdfEvidence4Pages evidence={evidence} qrCodeUrl={qrCodeUrl} />;
   const blob = await pdf(doc).toBlob();
 
   if (!blob || blob.size === 0) {

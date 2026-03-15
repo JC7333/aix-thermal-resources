@@ -47,6 +47,11 @@ export interface EvidenceData {
   // Programmes (optionnels)
   sevenDayPlans?: SevenDayPlan[];
   eightWeekPrograms?: EightWeekProgram[];
+  // Champs premium S30A (optionnels — backward compatible)
+  essentiels?: { title: string; text: string }[];   // 3 bullets "L'essentiel" pour fiche 1-page
+  actionDuJour?: string;                             // "Votre action du jour" pour fiche 1-page
+  didYouKnow?: string[];                             // "Le saviez-vous ?" pages 1 et 3 du guide
+  bodyExplanation?: string;                          // "Ce qui se passe" texte page 1 du guide
 }
 
 const evidenceData: EvidenceData[] = evidencePack as EvidenceData[];
